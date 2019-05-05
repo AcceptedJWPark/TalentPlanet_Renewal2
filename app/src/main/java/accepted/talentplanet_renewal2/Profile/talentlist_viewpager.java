@@ -11,6 +11,7 @@ import android.view.View;
 
 public class talentlist_viewpager extends ViewPager {
     public talentlist_viewpager(Context context) {
+
         super(context);
     }
 
