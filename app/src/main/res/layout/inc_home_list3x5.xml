@@ -29,7 +29,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_career"
+                    android:id="@+id/iv_home_main_bg_0"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -80,7 +80,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_study"
+                    android:id="@+id/iv_home_main_bg_1"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -130,7 +130,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_money"
+                    android:id="@+id/iv_home_main_bg_2"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -186,7 +186,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_it"
+                    android:id="@+id/iv_home_main_bg_3"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -236,7 +236,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_camera"
+                    android:id="@+id/iv_home_main_bg_4"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -283,7 +283,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_music"
+                    android:id="@+id/iv_home_main_bg_5"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -339,7 +339,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_design"
+                    android:id="@+id/iv_home_main_bg_6"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -389,7 +389,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_sports"
+                    android:id="@+id/iv_home_main_bg_7"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -436,7 +436,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_living"
+                    android:id="@+id/iv_home_main_bg_8"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -492,7 +492,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_beauty"
+                    android:id="@+id/iv_home_main_bg_9"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -542,7 +542,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_volunteer"
+                    android:id="@+id/iv_home_main_bg_10"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -589,7 +589,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_travel"
+                    android:id="@+id/iv_home_main_bg_11"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -644,7 +644,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_culture"
+                    android:id="@+id/iv_home_main_bg_12"
                     android:scaleType="fitXY">
                 </ImageView>
 
@@ -694,7 +694,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:src="@drawable/pic_game"
+                    android:id="@+id/iv_home_main_bg_13"
                     android:scaleType="fitXY">
                 </ImageView>
 
