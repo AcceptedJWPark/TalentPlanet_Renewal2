@@ -8,11 +8,12 @@
     android:orientation="vertical">
 
 
-    <android.support.v4.view.ViewPager
+    <accepted.talentplanet_renewal2.Profile.talentlist_viewpager
         android:id="@+id/vp_profile_mentor"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </android.support.v4.view.ViewPager>
+        android:layout_height="wrap_content"
+        >
+    </accepted.talentplanet_renewal2.Profile.talentlist_viewpager>
 
 
         <LinearLayout
@@ -25,12 +26,40 @@
             >
 
             <LinearLayout
-                android:layout_width="170dp"
+                android:id="@+id/ll_totalshow_profile_mentor"
+                android:layout_width="0dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
                 android:background="@drawable/bgr_reqbutton"
                 android:gravity="center"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp"
+                android:layout_marginLeft="20dp"
+                >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_launcher_round"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="전체보기"
+                    android:textColor="#fff"
+                    android:textSize="18dp"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/bgr_reqbutton"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 >
 
                 <ImageView
@@ -49,6 +78,8 @@
                     />
 
             </LinearLayout>
+
+
 
     </LinearLayout>
 
