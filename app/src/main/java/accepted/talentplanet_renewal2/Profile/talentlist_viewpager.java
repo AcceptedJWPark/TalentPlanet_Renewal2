@@ -11,12 +11,14 @@ import android.view.View;
 
 public class talentlist_viewpager extends ViewPager {
     public talentlist_viewpager(Context context) {
+
         super(context);
     }
 
     public talentlist_viewpager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -34,5 +36,7 @@ public class talentlist_viewpager extends ViewPager {
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
+
+
 
 }

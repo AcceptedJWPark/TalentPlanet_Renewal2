@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class talentlist_pagerAdapter extends FragmentStatePagerAdapter {
     public talentlist_pagerAdapter(FragmentManager fm) {
+
         super(fm);
     }
 

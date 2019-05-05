@@ -17,7 +17,7 @@
 
 
     <TextView
-        android:id="@+id/tv_series_profile_mentor"
+        android:id="@+id/tv_series_profile_mentee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#cacaca"
@@ -26,7 +26,7 @@
         />
 
         <LinearLayout
-            android:id="@+id/ll_firstpage_profile_mentor"
+            android:id="@+id/ll_firstpage_profile_mentee"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -37,7 +37,7 @@
             >
 
             <LinearLayout
-                android:id="@+id/ll_totalshow_profile_mentor"
+                android:id="@+id/ll_totalshow_profile_mentee"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
@@ -64,7 +64,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_request_profile_mentor"
+                android:id="@+id/ll_request_profile_mentee"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
