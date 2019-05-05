@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawerlayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout android:id="@+id/SharingList_WholeLL"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="#ffffff"
+        android:focusableInTouchMode="true"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:contentInsetStart="0dp"
+                android:contentInsetLeft="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                android:layout_margin="0dp"
+                android:padding="0dp"
+                android:fitsSystemWindows="true"
+                >
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    layout="@layout/toolbarlayout"/>
+
+            </android.support.v7.widget.Toolbar>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bgr_edittxt_home"
+                    android:hint="원하는 재능을 검색하세요"
+                    android:paddingLeft="5dp"
+                    android:textSize="12dp"
+                    />
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                >
+
+                <Button
+                    android:id="@+id/btn_mentor_home"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/bgr_mainColor"
+                    android:text="Mentor"
+                    android:textAllCaps="false"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="13dp"
+                    />
+
+                <Button
+                    android:id="@+id/btn_mentee_home"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/bgr_gray"
+                    android:text="Mentee"
+                    android:textAllCaps="false"
+                    android:textColor="#b4b4b4"
+                    android:textSize="13dp"
+                    />
+
+
+
+
+            </LinearLayout>
+
+
+            <include
+                android:id="@+id/inc_list3x5_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/inc_home_list3x5"/>
+
+            <include
+                android:id="@+id/inc_list1x15_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/inc_home_list1x15"
+                android:visibility="gone"
+                />
+
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/view_drawerlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start">
+
+        <include
+            layout="@layout/drawerlayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+
+</android.support.v4.widget.DrawerLayout>
+

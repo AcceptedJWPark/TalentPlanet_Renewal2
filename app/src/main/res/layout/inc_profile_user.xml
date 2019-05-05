@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        >
+
+
+        <View
+            android:id="@+id/trashView1"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@color/bgr_subColor"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:textSize="13dp"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="음악, 스포츠, 디자인 재능 기부하는 민권홍입니다.\n만나서 반갑습니다.함께 재능공유 해요."
+            android:lineSpacingExtra="2dp"
+            android:textColor="#fff"
+            />
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/cimg_pic_profile"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/pic_sample"
+            android:layout_centerInParent="true"
+            app:civ_border_color="#2f3070"
+            app:civ_border_width="4dp"
+            android:scaleType="centerInside"
+            />
+
+        <View
+            android:id="@+id/trashView2"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_below="@+id/trashView1"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
+            >
+
+
+            <RelativeLayout
+                android:id="@+id/trashView3"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+                <ImageView
+                    android:id="@+id/img_gender_profile"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/icon_male"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_name_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/bgr_subColor"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="28dp"
+                    android:text="민권홍" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/trashView4"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/trashView3"
+                >
+
+                <TextView
+                    android:id="@+id/tv_birth_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerVertical="true"
+                    android:text="1990.12.27"
+                    android:letterSpacing="0.07"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/tv_age_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="28세"
+                    android:layout_marginTop="5dp"
+                    android:letterSpacing="0.07"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="13dp" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+        <LinearLayout
+            android:id="@id/trashView4"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_alignParentTop="true"
+            >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_location"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="경기도 고양시 일산동구 장항동868 T3 814호"
+                android:textSize="13dp"
+                android:layout_marginLeft="5dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#eee"
+            android:layout_below="@id/trashView4"
+            android:layout_marginTop="5dp"
+            >
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bgr_subbutton"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/icon_addfriend"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="친구 추가"
+                    android:textColor="#fff"
+                    android:textSize="18dp"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bgr_subbutton2"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/icon_message"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="메시지"
+                    android:textColor="@color/bgr_subColor"
+                    android:textSize="18dp"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>
+
