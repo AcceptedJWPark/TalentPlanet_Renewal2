@@ -98,17 +98,37 @@
             </LinearLayout>
 
            <include
+               android:id="@+id/inc_user_profile"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
                layout="@layout/inc_profile_user"
-               android:visibility="gone"
+               android:visibility="visible"
                />
 
             <include
+                android:id="@+id/inc_mentor_profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 layout="@layout/inc_profile_mentor"
-                android:visibility="visible"
+                android:visibility="gone"
+                />
+
+
+            <include
+                android:id="@+id/inc_mentee_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/inc_profile_mentee"
+                android:visibility="gone"
+                />
+
+
+            <include
+                android:id="@+id/inc_point_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/inc_profile_point"
+                android:visibility="gone"
                 />
 
 

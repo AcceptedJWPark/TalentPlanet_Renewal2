@@ -19,6 +19,7 @@ public class talentlist_viewpager extends ViewPager {
         super(context, attrs);
     }
 
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int mode = MeasureSpec.getMode(heightMeasureSpec);
@@ -35,5 +36,7 @@ public class talentlist_viewpager extends ViewPager {
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
+
+
 
 }
