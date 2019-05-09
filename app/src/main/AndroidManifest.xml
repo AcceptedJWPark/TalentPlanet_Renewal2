@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
+        android:largeHeap="true"
         >
         <activity
-            android:name=".Profile.MainActivity_Profile"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme_Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +21,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Profile.MainActivity_Profile"
             android:theme="@style/AppTheme_Home">
         </activity>
 

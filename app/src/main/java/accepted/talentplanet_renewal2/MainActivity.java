@@ -1,18 +1,37 @@
 package accepted.talentplanet_renewal2;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.ViewTarget;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+
+import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
+import accepted.talentplanet_renewal2.Classes.TalentObject_Profile;
 
 import static android.graphics.Color.WHITE;
+import static android.view.Gravity.BOTTOM;
+import static android.view.Gravity.CENTER;
+import static android.view.View.GONE;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class MainActivity extends AppCompatActivity {
     ScrollView sv1x15;
@@ -29,14 +48,22 @@ public class MainActivity extends AppCompatActivity {
 
     boolean mentorClicked;
 
+    private ArrayList<TalentObject_Home> arrTalent;
+    LinearLayout ll_container_home;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+
         sv1x15 = findViewById(R.id.sv_show1x15);
-        ll3x5 = findViewById(R.id.ll_container);
+        ll3x5 = findViewById(R.id.ll_container_home);
+
+
+
         img3x5 = findViewById(R.id.img_show3x5);
         img1x15 = findViewById(R.id.img_show1x15);
         img_open_dl = findViewById(R.id.img_open_dl);
@@ -45,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
         btn_mentor_home = findViewById(R.id.btn_mentor_home);
         btn_mentee_home = findViewById(R.id.btn_mentee_home);
+
+        makeTestTalentArr();
+        makeLayout(ll3x5);
 
 
         //기본 값
@@ -139,6 +169,108 @@ public class MainActivity extends AppCompatActivity {
             btn_mentor_home.setTypeface(null, Typeface.NORMAL);
         }
     }
+
+    private void makeLayout(LinearLayout layout){
+        LinearLayout root = (LinearLayout)layout.findViewById(R.id.ll_container_home);
+        LinearLayout row = null;
+        layout.setMinimumWidth(MATCH_PARENT);
+        layout.setMinimumHeight(MATCH_PARENT);
+
+        // row layout 의 Parameter 정의
+        LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(MATCH_PARENT, 0);
+        rowParams.weight = 1;
+        rowParams.bottomMargin = (int) getResources().getDimension(R.dimen.size_5dp);
+
+        // 하나의 객체의 Layout Parameter 정의
+        LinearLayout.LayoutParams objectParams = new LinearLayout.LayoutParams(0, MATCH_PARENT);
+        objectParams.weight = 1;
+        objectParams.rightMargin = (int) getResources().getDimension(R.dimen.size_5dp);
+
+        // 객체 background image 의 Parameter 정의
+        LinearLayout.LayoutParams bgImgParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+        bgImgParams.gravity = CENTER;
+
+        // 텍스트 및 돌출 이미지에 대한 LinearLayout Parameter 정의
+        LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+
+        // 돌출 텍스트에 대한 Parameter 정의
+        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
+
+        int rowNum = 0;
+
+        for (int i = 0; i < arrTalent.size(); i++){
+            if(i % 3 == 0){
+                row = new LinearLayout(getApplicationContext());
+                row.setOrientation(LinearLayout.HORIZONTAL);
+            }
+
+            TalentObject_Home obj = arrTalent.get(i);
+            RelativeLayout rl = new RelativeLayout(getApplicationContext());
+
+            ImageView bgImgView = new ImageView(getApplicationContext());
+            bgImgView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            Glide.with(this).load(obj.getBackgroundResourceID()).into(bgImgView);
+
+
+
+            LinearLayout linear = new LinearLayout(getApplicationContext());
+            TextView textView = new TextView(getApplicationContext());
+            View basicView = new View(getApplicationContext());
+
+
+            linear.addView(textView, textParams);
+
+            rl.addView(bgImgView, bgImgParams);
+            rl.addView(linear, linearParams);
+
+            row.addView(rl, objectParams);
+            if(i == arrTalent.size() - 1 || i % 3 == 2){
+                layout.addView(row, rowParams);
+                rowNum++;
+            }
+        }
+
+    }
+
+    private void makeTestTalentArr(){
+        arrTalent = new ArrayList<>();
+
+        TalentObject_Home career = new TalentObject_Home("취업", R.drawable.pic_career,R.drawable.icon_career);
+        TalentObject_Home study = new TalentObject_Home("학습", R.drawable.pic_study,R.drawable.icon_study);
+        TalentObject_Home money = new TalentObject_Home("재테크", R.drawable.pic_money,R.drawable.icon_money);
+        TalentObject_Home it = new TalentObject_Home("IT", R.drawable.pic_it,R.drawable.icon_it);
+        TalentObject_Home camera = new TalentObject_Home("사진", R.drawable.pic_camera,R.drawable.icon_camera);
+        TalentObject_Home music = new TalentObject_Home("음악", R.drawable.pic_music,R.drawable.icon_music);
+        TalentObject_Home design = new TalentObject_Home("미술/디자인", R.drawable.pic_design,R.drawable.icon_design);
+        TalentObject_Home sports = new TalentObject_Home("운동", R.drawable.pic_sports,R.drawable.icon_sports);
+        TalentObject_Home living = new TalentObject_Home("생활", R.drawable.pic_living,R.drawable.icon_living);
+        TalentObject_Home beauty = new TalentObject_Home("뷰티/패션", R.drawable.pic_beauty,R.drawable.icon_beauty);
+        TalentObject_Home volunteer = new TalentObject_Home("사회봉사", R.drawable.pic_volunteer,R.drawable.icon_volunteer);
+        TalentObject_Home travel = new TalentObject_Home("여행", R.drawable.pic_travel,R.drawable.icon_travel);
+        TalentObject_Home culture = new TalentObject_Home("문화", R.drawable.pic_culture,R.drawable.icon_culture);
+        TalentObject_Home game = new TalentObject_Home("게임", R.drawable.pic_game,R.drawable.icon_game);
+
+        arrTalent.add(career);
+        arrTalent.add(study);
+        arrTalent.add(money);
+        arrTalent.add(it);
+        arrTalent.add(camera);
+        arrTalent.add(music);
+        arrTalent.add(design);
+        arrTalent.add(sports);
+        arrTalent.add(living);
+        arrTalent.add(beauty);
+        arrTalent.add(volunteer);
+        arrTalent.add(travel);
+        arrTalent.add(culture);
+        arrTalent.add(game);
+
+        long seed = System.nanoTime();
+        Collections.shuffle(arrTalent, new Random(seed));
+    }
+
+
 
 
 
