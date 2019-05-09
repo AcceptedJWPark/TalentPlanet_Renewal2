@@ -16,6 +16,96 @@
         android:gravity="center"
         >
 
+        <TextView
+            android:id="@+id/tv_profile_dl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="프로필"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/tv_mymentor_dl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="My mentor"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/tv_mymentee_dl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="My Mentee"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/tv_sendprofile_dl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="보낸 프로필"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/tv_getprofile_dl"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="받은 프로필"
+        android:gravity="center_vertical"
+        />
+
+        <TextView
+            android:id="@+id/tv_message_dl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="메시지"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/tv_friend_dl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="친구목록"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/tv_alarm_dl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="알람"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/tv_cs_dl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="고객센터"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:id="@+id/tv_system_dl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="설정"
+            android:gravity="center_vertical"
+            />
+
     </LinearLayout>
 
 </LinearLayout>

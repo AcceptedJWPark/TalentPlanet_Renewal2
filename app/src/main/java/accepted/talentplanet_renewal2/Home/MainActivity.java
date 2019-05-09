@@ -1,11 +1,11 @@
-package accepted.talentplanet_renewal2;
+package accepted.talentplanet_renewal2.Home;
 
-import android.graphics.Color;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,25 +15,25 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.ViewTarget;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
-import accepted.talentplanet_renewal2.Classes.TalentObject_Profile;
+import accepted.talentplanet_renewal2.Condition.MainActivity_Condition;
+import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
+import accepted.talentplanet_renewal2.R;
 
 import static android.graphics.Color.WHITE;
-import static android.view.Gravity.BOTTOM;
 import static android.view.Gravity.CENTER;
-import static android.view.View.GONE;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class MainActivity extends AppCompatActivity {
+
+    Context mContext;
+
     ScrollView sv1x15;
     LinearLayout ll3x5;
     ImageView img3x5;
@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     boolean mentorClicked;
 
     private ArrayList<TalentObject_Home> arrTalent;
-    LinearLayout ll_container_home;
 
 
     @Override
@@ -57,11 +56,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        mContext=getApplicationContext();
 
         sv1x15 = findViewById(R.id.sv_show1x15);
         ll3x5 = findViewById(R.id.ll_container_home);
-
 
 
         img3x5 = findViewById(R.id.img_show3x5);
@@ -72,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
         btn_mentor_home = findViewById(R.id.btn_mentor_home);
         btn_mentee_home = findViewById(R.id.btn_mentee_home);
+
+        drawerlayoutEvent(mContext);
+
 
         makeTestTalentArr();
         makeLayout(ll3x5);
@@ -268,6 +269,51 @@ public class MainActivity extends AppCompatActivity {
 
         long seed = System.nanoTime();
         Collections.shuffle(arrTalent, new Random(seed));
+    }
+
+    private void drawerlayoutEvent(final Context context)
+    {
+        ((TextView)findViewById(R.id.tv_profile_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MainActivity_Profile.class);
+                startActivity(intent);
+            }
+        });
+        ((TextView)findViewById(R.id.tv_mymentor_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MainActivity_Condition.class);
+                intent.putExtra("ismyMentor",true);
+                startActivity(intent);
+            }
+        });
+        ((TextView)findViewById(R.id.tv_mymentee_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MainActivity_Condition.class);
+                intent.putExtra("ismyMentor",false);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+        ((TextView)findViewById(R.id.tv_sendprofile_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        ((TextView)findViewById(R.id.tv_getprofile_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
 

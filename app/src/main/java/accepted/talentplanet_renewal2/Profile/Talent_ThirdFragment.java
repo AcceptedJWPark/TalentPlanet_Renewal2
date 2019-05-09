@@ -1,12 +1,10 @@
 package accepted.talentplanet_renewal2.Profile;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import accepted.talentplanet_renewal2.R;
 
@@ -28,7 +26,7 @@ public class Talent_ThirdFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_third, container, false);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.activity_profile_fragment3, container, false);
         return layout;
     }
 
