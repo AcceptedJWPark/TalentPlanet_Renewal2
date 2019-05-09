@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         sv1x15 = findViewById(R.id.sv_show1x15);
-        ll3x5 = findViewById(R.id.ll_show3x5);
+        ll3x5 = findViewById(R.id.ll_container);
         img3x5 = findViewById(R.id.img_show3x5);
         img1x15 = findViewById(R.id.img_show1x15);
         img_open_dl = findViewById(R.id.img_open_dl);
