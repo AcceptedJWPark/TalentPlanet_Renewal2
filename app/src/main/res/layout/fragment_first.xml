@@ -5,9 +5,9 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/inc_list3x5_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        layout="@layout/inc_home_list3x5"/>
+        layout="@layout/inc_profile_list3x5"
+        />
 
 </LinearLayout>

@@ -1,2 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <dimen name="isTalent_Txt">16dp</dimen>
+
+    <dimen name="isTalent_pic">50dp</dimen>
+    <dimen name="isnotTalent_pic">40dp</dimen>
+
+
+    <dimen name="size_5dp">5dp</dimen>
+</resources>

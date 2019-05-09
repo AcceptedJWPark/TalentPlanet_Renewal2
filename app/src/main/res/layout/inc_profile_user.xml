@@ -5,52 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/trashView1"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
         >
 
-
-        <View
-            android:id="@+id/trashView1"
+        <LinearLayout
+            android:id="@+id/trashView3"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="160dp"
             android:background="@color/bgr_subColor"
-            />
+            android:orientation="vertical"
+            android:gravity="top">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
             android:textSize="13dp"
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:layout_marginTop="20dp"
             android:text="음악, 스포츠, 디자인 재능 기부하는 민권홍입니다.\n만나서 반갑습니다.함께 재능공유 해요."
             android:lineSpacingExtra="2dp"
             android:textColor="#fff"
             />
+        </LinearLayout>
 
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/cimg_pic_profile"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:src="@drawable/pic_sample"
-            android:layout_centerInParent="true"
-            app:civ_border_color="#2f3070"
-            app:civ_border_width="4dp"
-            android:scaleType="centerInside"
-            />
 
-        <View
-            android:id="@+id/trashView2"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:layout_below="@+id/trashView1"
-            />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/cimg_pic_profile"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:src="@drawable/pic_sample"
+                android:layout_centerInParent="true"
+                app:civ_border_color="#2f3070"
+                app:civ_border_width="4dp"
+                android:scaleType="centerInside"
+                />
+
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -58,12 +58,13 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:orientation="vertical"
-            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/cimg_pic_profile"
+            android:paddingTop="10dp"
             >
 
 
             <RelativeLayout
-                android:id="@+id/trashView3"
+                android:id="@+id/trashView2"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -93,7 +94,7 @@
                 android:id="@+id/trashView4"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/trashView3"
+                android:layout_below="@id/trashView2"
                 >
 
                 <TextView
@@ -122,23 +123,26 @@
 
         </RelativeLayout>
 
-    </RelativeLayout>
 
+        </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        android:orientation="vertical"
+        android:gravity="center"
         >
 
         <LinearLayout
             android:id="@id/trashView4"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_alignParentTop="true"
+            android:gravity="center_vertical|bottom"
             >
 
             <ImageView
@@ -149,7 +153,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="경기도 고양시 일산동구 장항동868 T3 814호"
                 android:textSize="13dp"
@@ -160,25 +164,29 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="0dp"
+            android:layout_weight="5"
             android:background="#eee"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_below="@id/trashView4"
-            android:layout_marginTop="5dp"
             >
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:paddingBottom="5dp"
+            android:gravity="center"
             >
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/bgr_subbutton"
                 android:gravity="center"
@@ -203,7 +211,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/bgr_subbutton2"
                 android:gravity="center"
@@ -230,7 +238,7 @@
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 
