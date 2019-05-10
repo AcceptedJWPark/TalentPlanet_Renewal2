@@ -36,6 +36,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 public class MainActivity extends AppCompatActivity {
     ScrollView sv1x15;
     LinearLayout ll3x5;
+    LinearLayout ll1x15;
     ImageView img3x5;
     ImageView img1x15;
     ImageView img_open_dl;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         sv1x15 = findViewById(R.id.sv_show1x15);
         ll3x5 = findViewById(R.id.ll_container_home);
-
+        ll1x15 = findViewById(R.id.ll_container_home_15);
 
 
         img3x5 = findViewById(R.id.img_show3x5);
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         makeTestTalentArr();
         makeLayout(ll3x5);
-
+        make15Layout(ll1x15);
 
         //기본 값
         mentorClicked = true;
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void makeLayout(LinearLayout layout){
         LinearLayout root = (LinearLayout)layout.findViewById(R.id.ll_container_home);
+
         LinearLayout row = null;
         layout.setMinimumWidth(MATCH_PARENT);
         layout.setMinimumHeight(MATCH_PARENT);
@@ -231,6 +233,74 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private void make15Layout(LinearLayout layout){
+        LinearLayout root = (LinearLayout)layout.findViewById(R.id.ll_container_home_15);
+
+        LinearLayout row = null;
+        layout.setMinimumWidth(MATCH_PARENT);
+        layout.setMinimumHeight(MATCH_PARENT);
+
+        // 하나의 객체의 Layout Parameter 정의
+        LinearLayout.LayoutParams objectParams = new LinearLayout.LayoutParams(MATCH_PARENT, (int) getResources().getDimension(R.dimen.size_120dp));
+
+        // 객체 background image 의 Parameter 정의
+        LinearLayout.LayoutParams bgImgParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+        bgImgParams.gravity = CENTER;
+
+        // 객체 opacity background 의 Parameter 정의
+        LinearLayout.LayoutParams viewParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+
+        // 텍스트 및 돌출 이미지에 대한 LinearLayout Parameter 정의
+        RelativeLayout.LayoutParams linearParams = new RelativeLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+        linearParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+
+        // 돌출 텍스트에 대한 Parameter 정의
+        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+        textParams.topMargin = (int)getResources().getDimension(R.dimen.size_10dp);
+
+        // 돌출 아이콘에 대한 Parameter 정의
+        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.isTalent_pic), (int) getResources().getDimension(R.dimen.isTalent_pic));
+
+        int rowNum = 0;
+
+        for (int i = 0; i < arrTalent.size(); i++){
+
+            TalentObject_Home obj = arrTalent.get(i);
+            RelativeLayout rl = new RelativeLayout(getApplicationContext());
+
+            ImageView bgImgView = new ImageView(getApplicationContext());
+            bgImgView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            Glide.with(this).load(obj.getBackgroundResourceID()).into(bgImgView);
+
+            View opacityView = new View(getApplicationContext());
+            opacityView.setBackgroundColor(Color.parseColor("#68000000"));
+
+            LinearLayout linear = new LinearLayout(getApplicationContext());
+            linear.setGravity(CENTER);
+            linear.setOrientation(LinearLayout.VERTICAL);
+
+            ImageView iconView = new ImageView(getApplicationContext());
+            iconView.setScaleType(ImageView.ScaleType.FIT_XY);
+            Glide.with(this).load(obj.getIconResourceID()).into(iconView);
+
+            TextView textView = new TextView(getApplicationContext());
+            textView.setText(obj.getTitle());
+            textView.setTextColor(WHITE);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.isTalent_Txt));
+            textView.setTypeface(Typeface.DEFAULT_BOLD);
+
+            linear.addView(iconView, iconParams);
+            linear.addView(textView, textParams);
+
+            rl.addView(bgImgView, bgImgParams);
+            rl.addView(opacityView, viewParams);
+            rl.addView(linear, linearParams);
+
+            root.addView(rl, objectParams);
+        }
     }
 
     private void makeTestTalentArr(){
