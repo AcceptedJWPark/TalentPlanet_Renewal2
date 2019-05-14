@@ -26,9 +26,26 @@
         </activity>
 
         <activity
+            android:name=".Friend.MainActivity_Friend"
+            android:theme="@style/AppTheme_Home">
+        </activity>
+
+        <activity
             android:name=".Condition.MainActivity_Condition"
             android:theme="@style/AppTheme_Home">
         </activity>
+
+        <activity
+            android:name=".System.MainActivity_System"
+            android:theme="@style/AppTheme_Home">
+        </activity>
+
+        <activity
+            android:name=".Cs.MainActivity_Cs"
+            android:theme="@style/AppTheme_Home">
+        </activity>
+
+
 
         <activity
             android:name=".JoinLogin.MainActivity_Join"

@@ -38,7 +38,7 @@ public class MainActivity_Friend extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_friend);
 
         mContext = getApplicationContext();
         ((TextView)findViewById(R.id.tv_toolbar)).setText("친구 목록");
@@ -46,6 +46,12 @@ public class MainActivity_Friend extends AppCompatActivity {
         findViewById(R.id.img_show1x15).setVisibility(View.GONE);
         findViewById(R.id.img_show3x5).setVisibility(View.GONE);
 
+        ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
 

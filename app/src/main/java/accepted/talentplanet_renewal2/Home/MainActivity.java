@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +25,11 @@ import java.util.Random;
 
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.Condition.MainActivity_Condition;
+import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
+import accepted.talentplanet_renewal2.Friend.MainActivity_Friend;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
+import accepted.talentplanet_renewal2.System.MainActivity_System;
 
 import static android.graphics.Color.WHITE;
 import static android.view.Gravity.CENTER;
@@ -356,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MainActivity_Condition.class);
-                intent.putExtra("ismyMentor",true);
+                intent.putExtra("ismyMentor","1");
                 startActivity(intent);
             }
         });
@@ -364,13 +368,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MainActivity_Condition.class);
-                intent.putExtra("ismyMentor",false);
+                intent.putExtra("ismyMentor","2");
                 startActivity(intent);
             }
         });
 
-
-
+        ((TextView)findViewById(R.id.tv_friend_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MainActivity_Friend.class);
+                startActivity(intent);
+            }
+        });
 
         ((TextView)findViewById(R.id.tv_sendprofile_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -379,10 +388,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         ((TextView)findViewById(R.id.tv_getprofile_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+
+
+
+        ((TextView)findViewById(R.id.tv_cs_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MainActivity_Cs.class);
+                startActivity(intent);
+            }
+        });
+
+        ((TextView)findViewById(R.id.tv_system_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MainActivity_System.class);
+                startActivity(intent);
             }
         });
 
