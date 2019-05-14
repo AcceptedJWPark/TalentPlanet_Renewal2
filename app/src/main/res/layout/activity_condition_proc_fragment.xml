@@ -30,7 +30,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/tv_mentor_condition"
+                    android:id="@+id/tv_mentor_proc_condition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/bgr_mainColor"
@@ -43,9 +43,9 @@
 
 
                 <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/cimg_pic_mentor_condition"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
+                    android:id="@+id/cimg_pic_mentor_proc_condition"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:scaleType="centerInside"
                     android:layout_centerInParent="true"
                     android:src="@drawable/pic_sample"
@@ -71,7 +71,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/img_gender_mentor_condition"
+                        android:id="@+id/img_gender_mentor_proc_condition"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
@@ -79,7 +79,7 @@
                         android:tint="@color/bgr_mainColor" />
 
                     <TextView
-                        android:id="@+id/tv_name_mentor_condition"
+                        android:id="@+id/tv_name_mentor_proc_condition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -96,7 +96,7 @@
                     android:layout_below="@id/trashView2_mentor">
 
                     <TextView
-                        android:id="@+id/tv_birth_mentor_condition"
+                        android:id="@+id/tv_birth_mentor_proc_condition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -104,13 +104,14 @@
                         android:textSize="13dp" />
 
                     <TextView
-                        android:id="@+id/tv_age_mentor_condition"
+                        android:id="@+id/tv_age_mentor_proc_condition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:text="28세"
-                        android:textSize="13dp" />
+                        android:textSize="13dp"
+                        />
 
                 </RelativeLayout>
 
@@ -121,29 +122,30 @@
             <LinearLayout
                 android:layout_width="300dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:gravity="center"
                 >
+
+
                 <Button
-                    android:id="@+id/btn_cancel_mentor_condition"
+                    android:id="@+id/btn_cancel_mentor_proc_condition"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
                     android:background="@drawable/bgr_subbutton2"
-                    android:text="삭제"
+                    android:text="신고하기"
                     android:textSize="14dp"
                     android:textColor="@color/bgr_mainColor"
                     android:layout_marginRight="10dp"
                     />
 
-
                 <Button
-                    android:id="@+id/btn_next_mentor_condition"
+                    android:id="@+id/btn_next_mentor_proc_condition"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
                     android:background="@drawable/bgr_clickedbtn"
-                    android:text="진행"
+                    android:text="완료"
                     android:textStyle="bold"
                     android:textSize="14dp"
                     android:textColor="#fff"
@@ -153,7 +155,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="1dp"
             android:background="@color/bgr_mainColor"/>
 
         <LinearLayout
@@ -175,7 +177,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/tv_mentee_condition"
+                    android:id="@+id/tv_mentee_proc_condition"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/bgr_mainColor"
@@ -188,9 +190,9 @@
 
 
                 <com.mikhaellopez.circularimageview.CircularImageView
-                    android:id="@+id/cimg_pic_mentee_condition"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
+                    android:id="@+id/cimg_pic_mentee_proc_condition"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:scaleType="centerInside"
                     android:layout_centerInParent="true"
                     android:src="@drawable/pic_sample"
@@ -216,7 +218,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/img_gender_mentee_condition"
+                        android:id="@+id/img_gender_mentee_proc_condition"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_centerVertical="true"
@@ -224,7 +226,7 @@
                         android:tint="@color/bgr_mainColor" />
 
                     <TextView
-                        android:id="@+id/tv_name_mentee_condition"
+                        android:id="@+id/tv_name_mentee_proc_condition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -241,7 +243,7 @@
                     android:layout_below="@id/trashView2_mentor">
 
                     <TextView
-                        android:id="@+id/tv_birth_mentee_condition"
+                        android:id="@+id/tv_birth_mentee_proc_condition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -249,7 +251,7 @@
                         android:textSize="13dp" />
 
                     <TextView
-                        android:id="@+id/tv_age_mentee_condition"
+                        android:id="@+id/tv_age_mentee_proc_condition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -266,17 +268,17 @@
             <LinearLayout
                 android:layout_width="300dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:gravity="center"
                 android:orientation="horizontal"
                 >
                 <Button
-                    android:id="@+id/btn_cancel_mentee_condition"
+                    android:id="@+id/btn_cancel_mentee_proc_condition"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"
                     android:background="@drawable/bgr_subbutton2"
-                    android:text="삭제"
+                    android:text="신고하기"
                     android:textSize="14dp"
                     android:textColor="@color/bgr_mainColor"
                     android:layout_marginRight="10dp"
@@ -284,7 +286,7 @@
 
 
                 <Button
-                    android:id="@+id/btn_next_mentee_condition"
+                    android:id="@+id/btn_next_mentee_proc_condition"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="40dp"

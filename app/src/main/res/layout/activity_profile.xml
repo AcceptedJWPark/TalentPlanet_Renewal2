@@ -14,36 +14,32 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:contentInsetStart="0dp"
-                android:contentInsetLeft="0dp"
-                app:contentInsetLeft="0dp"
-                app:contentInsetStart="0dp"
                 android:layout_margin="0dp"
-                android:padding="0dp"
+                android:contentInsetLeft="0dp"
+                android:contentInsetStart="0dp"
                 android:fitsSystemWindows="true"
-                >
+                android:padding="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp">
+
                 <include
+                    layout="@layout/toolbarlayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    layout="@layout/toolbarlayout"/>
+                    android:layout_height="match_parent" />
 
             </android.support.v7.widget.Toolbar>
-
-
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_profile_profile"
@@ -54,9 +50,8 @@
                     android:text="User"
                     android:textAllCaps="false"
                     android:textColor="#fff"
-                    android:textStyle="bold"
                     android:textSize="13dp"
-                    />
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btn_mentor_profile"
@@ -65,10 +60,9 @@
                     android:layout_weight="1"
                     android:background="@color/bgr_gray"
                     android:text="Mentor"
-                    android:textColor="#b4b4b4"
                     android:textAllCaps="false"
-                    android:textSize="13dp"
-                    />
+                    android:textColor="#b4b4b4"
+                    android:textSize="13dp" />
 
 
                 <Button
@@ -80,8 +74,7 @@
                     android:text="Mentee"
                     android:textAllCaps="false"
                     android:textColor="#b4b4b4"
-                    android:textSize="13dp"
-                    />
+                    android:textSize="13dp" />
 
                 <Button
                     android:id="@+id/btn_point_profile"
@@ -92,35 +85,31 @@
                     android:text="Point"
                     android:textAllCaps="false"
                     android:textColor="#b4b4b4"
-                    android:textSize="13dp"
-                    />
+                    android:textSize="13dp" />
 
             </LinearLayout>
 
-           <include
-               android:id="@+id/inc_user_profile"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               layout="@layout/inc_profile_user"
-               android:visibility="visible"
-               />
+            <include
+                android:id="@+id/inc_user_profile"
+                layout="@layout/inc_profile_user"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
 
             <include
                 android:id="@+id/inc_mentor_profile"
+                layout="@layout/inc_profile_mentor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                layout="@layout/inc_profile_mentor"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
 
             <include
                 android:id="@+id/inc_mentee_profile"
+                layout="@layout/inc_profile_mentee"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                layout="@layout/inc_profile_mentee"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
 
             <include
@@ -128,10 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 layout="@layout/inc_profile_point"
-                android:visibility="gone"
-                />
-
-
+                android:visibility="gone" />
 
 
         </LinearLayout>

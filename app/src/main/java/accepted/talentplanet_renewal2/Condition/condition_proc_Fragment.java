@@ -2,6 +2,7 @@ package accepted.talentplanet_renewal2.Condition;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +17,12 @@ import accepted.talentplanet_renewal2.R;
  * Created by Accepted on 2019-05-05.
  */
 
-public class condition_Fragment2 extends android.support.v4.app.Fragment {
+public class condition_proc_Fragment extends android.support.v4.app.Fragment {
     boolean ismymentor;
     int condition;
-    boolean ismentorComplete = false;
+    boolean ismentorComplete;
 
-    public condition_Fragment2() {
+    public condition_proc_Fragment() {
     }
 
 
@@ -33,21 +34,20 @@ public class condition_Fragment2 extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.activity_condition_fragment, container, false);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.activity_condition_proc_fragment, container, false);
 
-        Button btn_cancel_mentor = ((Button)layout.findViewById(R.id.btn_cancel_mentor_condition));
-        Button btn_next_mentor = ((Button)layout.findViewById(R.id.btn_next_mentor_condition));
-        Button btn_cancel_mentee = ((Button)layout.findViewById(R.id.btn_cancel_mentee_condition));
-        Button btn_next_mentee = ((Button)layout.findViewById(R.id.btn_next_mentee_condition));
-        TextView tv_mentor = ((TextView)layout.findViewById(R.id.tv_mentor_condition));
-        TextView tv_mentee = ((TextView)layout.findViewById(R.id.tv_mentee_condition));
+        Button btn_next_mentor = ((Button)layout.findViewById(R.id.btn_next_mentor_proc_condition));
+        Button btn_cancel_mentor = ((Button)layout.findViewById(R.id.btn_cancel_mentor_proc_condition));
+        Button btn_next_mentee = ((Button)layout.findViewById(R.id.btn_next_mentee_proc_condition));
+        Button btn_cancel_mentee = ((Button)layout.findViewById(R.id.btn_cancel_mentee_proc_condition));
+        TextView tv_mentor = ((TextView)layout.findViewById(R.id.tv_mentor_proc_condition));
+        TextView tv_mentee = ((TextView)layout.findViewById(R.id.tv_mentee_proc_condition));
 
-        conditionbtnBgr(tv_mentor, tv_mentee, btn_cancel_mentor,btn_next_mentor,btn_cancel_mentee,btn_next_mentee);
+        conditionbtnBgr(tv_mentor, tv_mentee ,btn_cancel_mentor, btn_next_mentor,btn_cancel_mentee,btn_next_mentee);
 
+        Log.d("condition", String.valueOf(getCondition()));
         return layout;
     }
-
-
 
     public boolean ismymentor() {
         return ismymentor;
@@ -75,60 +75,43 @@ public class condition_Fragment2 extends android.support.v4.app.Fragment {
     }
 
     public void conditionbtnBgr(TextView tvmentor, TextView tvmentee, final Button btnmentorCancel, final Button btnmentorNext, final Button btnmenteeCancel, final Button btnmenteeNext) {
-        if (ismymentor) {
-
+        if (ismymentor()) {
             tvmentor.setText("Mentor (상대방)");
             tvmentee.setText("Mentee (나)");
-            btnmentorCancel.setVisibility(View.GONE);
-            unactivebgr(btnmentorNext);
 
-            if (condition == 0) {
-                btnmenteeCancel.setVisibility(View.GONE);
+            if (!ismentorComplete) {
+                unactivebgr(btnmentorNext);
                 unactivebgr(btnmenteeNext);
-                btnmentorNext.setText("진행 대기 중...");
-                btnmenteeNext.setText("19/05/13 17:00PM 자동 삭제");
-            } else
-                {
-                if (!ismentorComplete) {
-                    btnmenteeCancel.setVisibility(View.VISIBLE);
-                    subbgr(btnmenteeCancel);
-                    unactivebgr(btnmenteeNext);
-                    btnmenteeNext.setText("완료");
-                    btnmenteeCancel.setText("신고하기");
-                    btnmentorNext.setText("상대방 완료를 기다립니다.");
+                btnmentorCancel.setVisibility(View.GONE);
+                btnmenteeCancel.setVisibility(View.GONE);
+                btnmentorNext.setText("상대방 완료를 기다립니다.");
+                btnmenteeNext.setText("완료");
 
-                } else {
-                    activebgr(btnmenteeNext);
-                    btnmentorNext.setText("회원님의 완료를 기다립니다.");
-                    btnmenteeNext.setText("완료");
-                    btnmenteeCancel.setText("신고하기");
-                }
+            } else {
+                unactivebgr(btnmentorNext);
+                activebgr(btnmenteeNext);
+                subbgr(btnmentorCancel);
+
+                btnmentorCancel.setVisibility(View.VISIBLE);
+                btnmenteeCancel.setVisibility(View.GONE);
+
+                btnmentorNext.setText("완료 대기 중...");
+                btnmentorCancel.setText("신고하기");
+                btnmenteeNext.setText("완료");
             }
         }
         else
         {
-            tvmentor.setText("Mentor (나)");
-            tvmentee.setText("Mentee (상대방)");
-            unactivebgr(btnmenteeNext);
-
-            if(condition==0) {
-                btnmenteeCancel.setVisibility(View.GONE);
-                btnmentorCancel.setVisibility(View.VISIBLE);
-                subbgr(btnmentorCancel);
-                activebgr(btnmentorNext);
-                btnmentorNext.setText("진행");
-                btnmentorCancel.setText("삭제");
-                btnmenteeNext.setText("19/05/13 17:00PM 자동 삭제");
-            }
-            else
-            {
-                btnmenteeCancel.setVisibility(View.GONE);
+                tvmentor.setText("Mentor (나)");
+                tvmentee.setText("Mentee (상대방)");
                 btnmentorCancel.setVisibility(View.GONE);
+                btnmenteeCancel.setVisibility(View.GONE);
                 activebgr(btnmentorNext);
+                unactivebgr(btnmenteeNext);
                 btnmentorNext.setText("완료");
                 btnmenteeNext.setText("회원님의 완료를 기다립니다.");
 
-            btnmentorNext.setOnClickListener(new View.OnClickListener() {
+                btnmentorNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -140,7 +123,6 @@ public class condition_Fragment2 extends android.support.v4.app.Fragment {
                     btnmenteeNext.setText("완료 대기 중...");
                 }
             });
-            }
         }
     }
 
