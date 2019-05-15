@@ -12,13 +12,26 @@
         android:largeHeap="true"
         >
         <activity
-            android:name=".Home.MainActivity"
-            android:theme="@style/AppTheme_Home">
+            android:name=".JoinLogin.MainActivity_Login"
+            android:theme="@style/AppThemeLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name=".JoinLogin.MainActivity_Join"
+            android:theme="@style/AppTheme_Home">
+        </activity>
+
+
+        <activity
+            android:name=".Home.MainActivity"
+            android:theme="@style/AppTheme_Home">
+        </activity>
+
 
         <activity
             android:name=".Profile.MainActivity_Profile"
@@ -35,10 +48,6 @@
             android:theme="@style/AppTheme_Home">
         </activity>
 
-        <activity
-            android:name=".System.MainActivity_System"
-            android:theme="@style/AppTheme_Home">
-        </activity>
 
         <activity
             android:name=".Cs.MainActivity_Cs"
