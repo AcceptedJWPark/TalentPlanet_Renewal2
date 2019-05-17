@@ -3,6 +3,7 @@ package accepted.talentplanet_renewal2.Friend;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -93,9 +94,13 @@ public class MainActivity_Friend extends AppCompatActivity {
                 // 토스트 테스트 성공
                 //Toast.makeText(MainActivity_Friend.this , oData.get(position).strUserName,Toast.LENGTH_SHORT).show();
                 // 테스트 데이터 전송
-                Intent intent = new Intent(MainActivity_Friend.this, SubActivity_Friend.class);
+                Intent intent = new Intent(MainActivity_Friend.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
+
+                String userInfo = oData.get(position).strUserInfo;
+                String[] temp = userInfo.split(" / ");
+
                 intent.putExtra("userName", oData.get(position).strUserName);
-                intent.putExtra("userInfo", oData.get(position).strUserInfo);
+                intent.putExtra("userInfo", temp[1]);
                 startActivity(intent);
             }
         });

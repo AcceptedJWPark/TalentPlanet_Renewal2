@@ -1,14 +1,18 @@
 package accepted.talentplanet_renewal2.Classes;
 
-public class TalentObject_Home {
+import android.support.annotation.NonNull;
+
+public class TalentObject_Home implements Comparable<TalentObject_Home> {
     private String title;
     private int backgroundResourceID;
     private int iconResourceID;
+    private int talentCount;
 
-    public TalentObject_Home(String title, int backgroundResourceID, int iconResourceID) {
+    public TalentObject_Home(String title, int backgroundResourceID, int iconResourceID, int talentCount) {
         this.title = title;
         this.backgroundResourceID = backgroundResourceID;
         this.iconResourceID = iconResourceID;
+        this.talentCount = talentCount;
     }
 
     public String getTitle() {
@@ -33,5 +37,23 @@ public class TalentObject_Home {
 
     public void setIconResourceID(int iconResourceID) {
         this.iconResourceID = iconResourceID;
+    }
+
+    public int getTalentCount() {
+        return this.talentCount;
+    }
+
+    public void setTalentCount(int talentCount) {
+        this.talentCount = talentCount;
+    }
+
+    @Override
+    public int compareTo(TalentObject_Home o) {
+        if (this.talentCount < o.getTalentCount()) {
+            return 1;
+        } else if (this.talentCount > o.getTalentCount()) {
+            return -1;
+        }
+        return 0;
     }
 }

@@ -1,6 +1,7 @@
 package accepted.talentplanet_renewal2.Profile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -18,8 +19,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
+import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.R;
 
 import static android.graphics.Color.WHITE;
@@ -33,9 +37,11 @@ public class MainActivity_Profile extends AppCompatActivity {
     ViewPager.OnPageChangeListener onPageChangeListener;
     Button btn_clickedTap[] = new Button[4];
     Button btn_clicked_profile;
-    Button btn_clicked_mentor;
-    Button btn_clicked_mentee;
+    Button  btn_clicked_mentor;
+    Button  btn_clicked_mentee;
     Button btn_clicked_point;
+    ImageView iv_mentor_plus;
+    ImageView iv_mentee_plus;
     View v_inc_profile[] = new View[4];
 
     ListView lv_point;
@@ -55,6 +61,12 @@ public class MainActivity_Profile extends AppCompatActivity {
         findViewById(R.id.img_show1x15).setVisibility(View.GONE);
         findViewById(R.id.img_show3x5).setVisibility(View.GONE);
 
+        // 받은 값 구현
+        Intent intent = new Intent(this.getIntent());
+        if (intent.getStringExtra("userName") != null) {
+            ((TextView)findViewById(R.id.tv_name_profile)).setText(intent.getStringExtra("userName"));
+            ((TextView)findViewById(R.id.tv_birth_profile)).setText(intent.getStringExtra("userInfo"));
+        }
 
         Point pt = new Point();
         getWindowManager().getDefaultDisplay().getSize(pt);
@@ -62,36 +74,57 @@ public class MainActivity_Profile extends AppCompatActivity {
         int height = pt.y;
         Log.d("height", String.valueOf(height));
         View trash;
-        trash = findViewById(R.id.trashView3);
-        trash.getLayoutParams().height = (int) ((height - convertDpToPixel(125, mContext)) / 4);
+//        trash = findViewById(R.id.trashView3);
+//        trash.getLayoutParams().height = (int) ((height - convertDpToPixel(125, mContext)) / 4);
 
 
-        btn_clicked_profile = findViewById(R.id.btn_profile_profile);
-        btn_clicked_mentor = findViewById(R.id.btn_mentor_profile);
-        btn_clicked_mentee = findViewById(R.id.btn_mentee_profile);
-        btn_clicked_point = findViewById(R.id.btn_point_profile);
+//        btn_clicked_profile = findViewById(R.id.btn_profile_profile);
+//        btn_clicked_mentor = findViewById(R.id.btn_mentor_profile);
+//        btn_clicked_mentee = findViewById(R.id.btn_mentee_profile);
+//        btn_clicked_point = findViewById(R.id.btn_point_profile);
 
         lv_point = findViewById(R.id.lv_point_profile);
 
-        btn_clickedTap[0] = btn_clicked_profile;
-        btn_clickedTap[1] = btn_clicked_mentor;
-        btn_clickedTap[2] = btn_clicked_mentee;
-        btn_clickedTap[3] = btn_clicked_point;
+//        btn_clickedTap[0] = btn_clicked_profile;
+//        btn_clickedTap[1] = btn_clicked_mentor;
+//        btn_clickedTap[2] = btn_clicked_mentee;
+//        btn_clickedTap[3] = btn_clicked_point;
 
-        v_inc_profile[0] = findViewById(R.id.inc_user_profile);
-        v_inc_profile[1] = findViewById(R.id.inc_mentor_profile);
-        v_inc_profile[2] = findViewById(R.id.inc_mentee_profile);
-        v_inc_profile[3] = findViewById(R.id.inc_point_profile);
+//        v_inc_profile[0] = findViewById(R.id.inc_user_profile);
+//        v_inc_profile[1] = findViewById(R.id.inc_mentor_profile);
+//        v_inc_profile[2] = findViewById(R.id.inc_mentee_profile);
+//        v_inc_profile[3] = findViewById(R.id.inc_point_profile);
 
-        for (int i = 0; i < btn_clickedTap.length; i++) {
-            final int finalI = i;
-            btn_clickedTap[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickTapbtn(finalI);
-                }
-            });
-        }
+        // click go to edit mentor
+        iv_mentor_plus = (ImageView)findViewById(R.id.iv_mentor_plus);
+        iv_mentor_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(MainActivity_Profile.this, MainActivity_TalentEdit.class);
+                intent1.putExtra("type","MENTOR");
+                startActivity(intent1);
+            }
+        });
+
+        // click go to edit mentee
+        iv_mentee_plus = (ImageView)findViewById(R.id.iv_mentee_plus);
+        iv_mentee_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(MainActivity_Profile.this, MainActivity_TalentEdit.class);
+                intent1.putExtra("type","MENTEE");
+                startActivity(intent1);
+            }
+        });
+//        for (int i = 0; i < btn_clickedTap.length; i++) {
+//            final int finalI = i;
+//            btn_clickedTap[i].setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    clickTapbtn(finalI);
+//                }
+//            });
+//        }
 
         vp = findViewById(R.id.vp_profile_mentor);
         vp.setAdapter(new talentlist_pagerAdapter(getSupportFragmentManager()));
@@ -139,6 +172,14 @@ public class MainActivity_Profile extends AppCompatActivity {
 
         adapter = new ListAdapter_Point(userDate);
         lv_point.setAdapter(adapter);
+
+        // 뒤로가기 이벤트
+        ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
@@ -150,15 +191,15 @@ public class MainActivity_Profile extends AppCompatActivity {
             if(i==index)
             {
                 btn_clickedTap[i].setBackgroundColor(getResources().getColor(R.color.bgr_mainColor));
-                btn_clickedTap[i].setTextColor(WHITE);
-                btn_clickedTap[i].setTypeface(null, Typeface.BOLD);
+                // btn_clickedTap[i].setTextColor(WHITE);
+                // btn_clickedTap[i].setTypeface(null, Typeface.BOLD);
                 v_inc_profile[i].setVisibility(View.VISIBLE);
             }
             else
             {
                 btn_clickedTap[i].setBackgroundColor(getResources().getColor(R.color.bgr_gray));
-                btn_clickedTap[i].setTextColor(getResources().getColor(R.color.txt_gray));
-                btn_clickedTap[i].setTypeface(null, Typeface.NORMAL);
+                // [i].setTextColor(getResources().getColor(R.color.txt_gray));
+                // btn_clickedTap[i].setTypeface(null, Typeface.NORMAL);
                 v_inc_profile[i].setVisibility(View.GONE);
             }
         }

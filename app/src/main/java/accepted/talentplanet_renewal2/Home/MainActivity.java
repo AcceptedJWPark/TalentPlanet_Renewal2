@@ -33,7 +33,9 @@ import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
 import accepted.talentplanet_renewal2.Friend.MainActivity_Friend;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
+import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
 
+import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
 import static android.view.Gravity.CENTER;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -82,9 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         btn_mentor_home = findViewById(R.id.btn_mentor_home);
         btn_mentee_home = findViewById(R.id.btn_mentee_home);
-
-
-
 
         drawerlayoutEvent(mContext);
         isAlaram = true;
@@ -208,6 +207,9 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout.LayoutParams bgImgParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
         bgImgParams.gravity = CENTER;
 
+        // 객체 opacity background 의 Parameter 정의
+        LinearLayout.LayoutParams viewParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+
         // 텍스트 및 돌출 이미지에 대한 LinearLayout Parameter 정의
         LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
 
@@ -230,17 +232,37 @@ public class MainActivity extends AppCompatActivity {
 
             Glide.with(this).load(obj.getBackgroundResourceID()).into(bgImgView);
 
-
-
-
             LinearLayout linear = new LinearLayout(getApplicationContext());
-            TextView textView = new TextView(getApplicationContext());
+            View opacityView = new View(getApplicationContext());
+            final TextView textView = new TextView(getApplicationContext());
             View basicView = new View(getApplicationContext());
 
+            linear.setGravity(CENTER);
+            linear.setOrientation(LinearLayout.VERTICAL);
+
+            opacityView.setBackgroundColor(Color.parseColor("#68000000"));
+
+            textView.setText(obj.getTitle() + "\n" + obj.getTalentCount());
+            textView.setTextColor(WHITE);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.isTalent_Txt));
+            textView.setTypeface(Typeface.DEFAULT_BOLD);
+            textView.setGravity(CENTER);
 
             linear.addView(textView, textParams);
 
+            linear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity_TalentList.class);
+                    String talentName = (String) textView.getText();
+                    intent.putExtra("talentName", talentName.split("\n")[0]);
+
+                    startActivity(intent);
+                }
+            });
+
             rl.addView(bgImgView, bgImgParams);
+            rl.addView(opacityView, viewParams);
             rl.addView(linear, linearParams);
 
             row.addView(rl, objectParams);
@@ -303,14 +325,25 @@ public class MainActivity extends AppCompatActivity {
             iconView.setScaleType(ImageView.ScaleType.FIT_XY);
             Glide.with(this).load(obj.getIconResourceID()).into(iconView);
 
-            TextView textView = new TextView(getApplicationContext());
-            textView.setText(obj.getTitle());
+            final TextView textView = new TextView(getApplicationContext());
+            textView.setText(obj.getTitle() + " " + obj.getTalentCount());
             textView.setTextColor(WHITE);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.isTalent_Txt));
             textView.setTypeface(Typeface.DEFAULT_BOLD);
 
             linear.addView(iconView, iconParams);
             linear.addView(textView, textParams);
+
+            linear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity_TalentList.class);
+                    String talentName = (String) textView.getText();
+                    intent.putExtra("talentName", talentName.split("\n")[0]);
+
+                    startActivity(intent);
+                }
+            });
 
             rl.addView(bgImgView, bgImgParams);
             rl.addView(opacityView, viewParams);
@@ -323,20 +356,20 @@ public class MainActivity extends AppCompatActivity {
     private void makeTestTalentArr(){
         arrTalent = new ArrayList<>();
 
-        TalentObject_Home career = new TalentObject_Home("취업", R.drawable.pic_career,R.drawable.icon_career);
-        TalentObject_Home study = new TalentObject_Home("학습", R.drawable.pic_study,R.drawable.icon_study);
-        TalentObject_Home money = new TalentObject_Home("재테크", R.drawable.pic_money,R.drawable.icon_money);
-        TalentObject_Home it = new TalentObject_Home("IT", R.drawable.pic_it,R.drawable.icon_it);
-        TalentObject_Home camera = new TalentObject_Home("사진", R.drawable.pic_camera,R.drawable.icon_camera);
-        TalentObject_Home music = new TalentObject_Home("음악", R.drawable.pic_music,R.drawable.icon_music);
-        TalentObject_Home design = new TalentObject_Home("미술/디자인", R.drawable.pic_design,R.drawable.icon_design);
-        TalentObject_Home sports = new TalentObject_Home("운동", R.drawable.pic_sports,R.drawable.icon_sports);
-        TalentObject_Home living = new TalentObject_Home("생활", R.drawable.pic_living,R.drawable.icon_living);
-        TalentObject_Home beauty = new TalentObject_Home("뷰티/패션", R.drawable.pic_beauty,R.drawable.icon_beauty);
-        TalentObject_Home volunteer = new TalentObject_Home("사회봉사", R.drawable.pic_volunteer,R.drawable.icon_volunteer);
-        TalentObject_Home travel = new TalentObject_Home("여행", R.drawable.pic_travel,R.drawable.icon_travel);
-        TalentObject_Home culture = new TalentObject_Home("문화", R.drawable.pic_culture,R.drawable.icon_culture);
-        TalentObject_Home game = new TalentObject_Home("게임", R.drawable.pic_game,R.drawable.icon_game);
+        TalentObject_Home career = new TalentObject_Home("취업", R.drawable.pic_career,R.drawable.icon_career, 495);
+        TalentObject_Home study = new TalentObject_Home("학습", R.drawable.pic_study,R.drawable.icon_study, 485);
+        TalentObject_Home money = new TalentObject_Home("재테크", R.drawable.pic_money,R.drawable.icon_money, 410);
+        TalentObject_Home it = new TalentObject_Home("IT", R.drawable.pic_it,R.drawable.icon_it, 379);
+        TalentObject_Home camera = new TalentObject_Home("사진", R.drawable.pic_camera,R.drawable.icon_camera, 338);
+        TalentObject_Home music = new TalentObject_Home("음악", R.drawable.pic_music,R.drawable.icon_music, 230);
+        TalentObject_Home design = new TalentObject_Home("미술/디자인", R.drawable.pic_design,R.drawable.icon_design, 202);
+        TalentObject_Home sports = new TalentObject_Home("운동", R.drawable.pic_sports,R.drawable.icon_sports, 192);
+        TalentObject_Home living = new TalentObject_Home("생활", R.drawable.pic_living,R.drawable.icon_living, 172);
+        TalentObject_Home beauty = new TalentObject_Home("뷰티/패션", R.drawable.pic_beauty,R.drawable.icon_beauty, 135);
+        TalentObject_Home volunteer = new TalentObject_Home("사회봉사", R.drawable.pic_volunteer,R.drawable.icon_volunteer, 519);
+        TalentObject_Home travel = new TalentObject_Home("여행", R.drawable.pic_travel,R.drawable.icon_travel, 118);
+        TalentObject_Home culture = new TalentObject_Home("문화", R.drawable.pic_culture,R.drawable.icon_culture, 49);
+        TalentObject_Home game = new TalentObject_Home("게임", R.drawable.pic_game,R.drawable.icon_game, 41);
 
         arrTalent.add(career);
         arrTalent.add(study);
@@ -353,8 +386,10 @@ public class MainActivity extends AppCompatActivity {
         arrTalent.add(culture);
         arrTalent.add(game);
 
-        long seed = System.nanoTime();
-        Collections.shuffle(arrTalent, new Random(seed));
+        Collections.sort(arrTalent);
+
+//        long seed = System.nanoTime();
+//        Collections.shuffle(arrTalent, new Random(seed));
     }
 
     private void drawerlayoutEvent(final Context context)
@@ -460,9 +495,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         //재능상태 클릭했을 때 Mymentor,Mymentee 노출 기능
         ((ImageView)findViewById(R.id.iv_closecondition_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -479,15 +511,5 @@ public class MainActivity extends AppCompatActivity {
                 ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.GONE);
             }
         });
-
-
-
-
-
     }
-
-
-
-
-
 }

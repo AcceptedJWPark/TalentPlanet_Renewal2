@@ -37,9 +37,12 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_profile_btn_box"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                >
 
                 <Button
                     android:id="@+id/btn_profile_profile"

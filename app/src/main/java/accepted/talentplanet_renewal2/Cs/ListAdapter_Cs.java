@@ -1,5 +1,6 @@
 package accepted.talentplanet_renewal2.Cs;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +10,18 @@ import android.widget.TextView;
 
 import accepted.talentplanet_renewal2.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
-public class ListAdapter extends BaseAdapter {
+public class ListAdapter_Cs extends BaseAdapter {
 
     LayoutInflater inflater = null;
-    private ArrayList<NoticeData> _listData;
+    private ArrayList<String> _listData = new ArrayList<String >(Arrays.asList("공지사항", "개인정보 이용동의", "텔런트플레넷 정보 이용동의", "신고 리스트", "질문과 답변"));
     private int _dataLeng = 0;
 
-    public ListAdapter(ArrayList<NoticeData> _listData) {
-        this._listData = _listData;
+    public ListAdapter_Cs() {
         this._dataLeng = this._listData.size();
     }
 
@@ -30,7 +32,8 @@ public class ListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        Object result = _listData.get(position);
+        return result;
     }
 
     @Override
@@ -38,6 +41,7 @@ public class ListAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null)  {
@@ -49,8 +53,8 @@ public class ListAdapter extends BaseAdapter {
         }
 
         TextView oTextTitle = (TextView) convertView.findViewById(R.id.tv_ctgrName);
-
-        oTextTitle.setText(this._listData.get(position).title);
+        oTextTitle.setTextColor(R.color.colorPrimaryDark);
+        oTextTitle.setText(this._listData.get(position));
 
         return convertView;
     }

@@ -3,14 +3,16 @@ package accepted.talentplanet_renewal2.Profile;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by Accepted on 2019-05-05.
  */
 
 public class talentlist_pagerAdapter extends FragmentStatePagerAdapter {
-    public talentlist_pagerAdapter(FragmentManager fm) {
 
+    public talentlist_pagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

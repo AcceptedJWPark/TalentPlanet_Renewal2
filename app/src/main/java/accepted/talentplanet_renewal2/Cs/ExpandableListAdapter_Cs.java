@@ -13,13 +13,12 @@ import java.util.HashMap;
 
 import accepted.talentplanet_renewal2.R;
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class ExpandableListAdapter_Cs extends BaseExpandableListAdapter {
 
     LayoutInflater inflater = null;
-    private Context mContext;
-    private ArrayList<HashMap<String, Object>> _listData;
+    private ArrayList<NoticeData> _listData;
 
-    public ExpandableListAdapter(ArrayList<HashMap<String,Object>> commandMap) {
+    public ExpandableListAdapter_Cs(ArrayList<NoticeData> commandMap) {
         _listData = commandMap;
     }
 
@@ -30,27 +29,27 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return 1;
+        return _listData.get(groupPosition).text.size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return _listData.get(groupPosition).get("title");
+        return _listData.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return _listData.get(groupPosition).get("text");
+        return _listData.get(groupPosition).text;
     }
 
     @Override
     public long getGroupId(int groupPosition) {
-        return 0;
+        return groupPosition;
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
+        return groupPosition;
     }
 
     @Override
@@ -66,12 +65,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             if (inflater == null) {
                 inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             }
-            convertView = inflater.inflate(R.layout.list_cs, null);
+            convertView = inflater.inflate(R.layout.list_cs, parent, false);
         }
 
         // ParentList의 Layout 연결 후, 해당 layout 내 TextView를 연결
         TextView parentText = (TextView)convertView.findViewById(R.id.tv_ctgrName);
-        parentText.setText(_listData.get(groupPosition).get("title").toString());
+        TextView regDateText = (TextView)convertView.findViewById(R.id.tv_regDate);
+        parentText.setText(_listData.get(groupPosition).title);
+        regDateText.setVisibility(View.VISIBLE);
+        regDateText.setText(_listData.get(groupPosition).regDate);
         return convertView;
     }
 
@@ -87,14 +89,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         // ParentList의 Layout 연결 후, 해당 layout 내 TextView를 연결
-        TextView parentText = (TextView)convertView.findViewById(R.id.tv_ctgrName);
-        parentText.setText(_listData.get(groupPosition).get("title").toString());
+        TextView parentText = (TextView)convertView.findViewById(R.id.tv_noticeText);
+        parentText.setText(_listData.get(groupPosition).text.get(childPosition));
         return convertView;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
-
 }
