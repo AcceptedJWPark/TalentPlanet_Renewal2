@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <LinearLayout android:id="@+id/SharingList_WholeLL"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="#ffffff"
+        android:focusableInTouchMode="true"
+    >
+
+    <RelativeLayout
+        android:id="@+id/rl_container_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="60dp"
+        android:paddingRight="60dp"
+        >
+
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/pic_logintxt"
+                android:layout_marginBottom="40dp"
+                android:layout_above="@+id/ll_idpw_login"
+                android:adjustViewBounds="true"
+                />
+
+        <LinearLayout
+            android:id="@+id/ll_idpw_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bgr_login_edittxt"
+                android:hint="E-mail"
+                android:textColor="#fff"
+                android:textColorHint="#fff" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bgr_login_edittxt"
+                android:hint="Password"
+                android:textColor="#fff"
+                android:textColorHint="#fff" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:gravity="right|center_vertical"
+                android:text="비밀번호 찾기"
+                android:textColor="#fff"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/ll_idpw_login"
+            >
+            <Button
+                android:id="@+id/btn_login_login"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/bgr_loginbtn"
+                android:text="Login"
+                android:textAllCaps="false"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/btn_join_login"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bgr_loginbtn2"
+                android:text="Join-Us"
+                android:textAllCaps="false"
+                android:textColor="@color/bgr_mainColor"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    </LinearLayout>
+
+
