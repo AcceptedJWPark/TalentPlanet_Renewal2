@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -29,14 +28,12 @@ public class MainActivity_Condition extends AppCompatActivity {
     condition_proc_pagerAdapter adapter_proc;
 
 
-    ViewPager.OnPageChangeListener onPageChangeListener;
 
 
     boolean ismymentor;
 
     Button btn_req_condition;
     Button btn_proc_condition;
-    Button btn_comp_condition;
 
     Intent intent;
 
@@ -75,7 +72,6 @@ public class MainActivity_Condition extends AppCompatActivity {
 
         btn_req_condition = findViewById(R.id.btn_req_condition);
         btn_proc_condition = findViewById(R.id.btn_proc_condition);
-        btn_comp_condition = findViewById(R.id.btn_comp_condition);
 
 
         vp_req_condition = findViewById(R.id.vp_req_condition);
@@ -101,7 +97,6 @@ public class MainActivity_Condition extends AppCompatActivity {
             public void onClick(View v) {
                 btnClickedbgr(btn_req_condition);
                 btnUnClickedbgr(btn_proc_condition);
-                btnUnClickedbgr(btn_comp_condition);
                 vp_req_condition.setVisibility(View.VISIBLE);
                 vp_proc_condition.setVisibility(View.GONE);
             }
@@ -112,7 +107,6 @@ public class MainActivity_Condition extends AppCompatActivity {
             public void onClick(View v) {
                 btnClickedbgr(btn_proc_condition);
                 btnUnClickedbgr(btn_req_condition);
-                btnUnClickedbgr(btn_comp_condition);
                 vp_proc_condition.setVisibility(View.VISIBLE);
                 vp_req_condition.setVisibility(View.GONE);
             }

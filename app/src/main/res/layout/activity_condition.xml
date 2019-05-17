@@ -62,18 +62,6 @@
             />
 
 
-        <Button
-            android:id="@+id/btn_comp_condition"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/bgr_gray"
-            android:text="완료"
-            android:textAllCaps="false"
-            android:textColor="#b4b4b4"
-            android:textSize="13dp"
-            />
-
 
     </LinearLayout>
 
