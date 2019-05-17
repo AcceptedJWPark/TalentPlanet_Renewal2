@@ -31,7 +31,17 @@
     </android.support.v7.widget.Toolbar>
 
 
+    <ListView
+        android:id="@+id/lv_cs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
 
+    <ExpandableListView
+        android:id="@+id/elv_cs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ExpandableListView>
 
 
     </LinearLayout>

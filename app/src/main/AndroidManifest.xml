@@ -58,9 +58,9 @@
 
         <activity
             android:name=".JoinLogin.MainActivity_Join"
-            android:theme="@style/AppTheme_Home">
-        </activity>
-
+            android:theme="@style/AppTheme_Home" />
+        <activity android:name=".Friend.SubActivity_Friend" />
+        <activity android:name=".Cs.SubActivity_notice"></activity>
     </application>
 
 </manifest>
