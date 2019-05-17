@@ -19,4 +19,6 @@
     <color name="bgr">#000</color>
 
 
+    <color name="txt_minus">#ff9797</color>
+
 </resources>
