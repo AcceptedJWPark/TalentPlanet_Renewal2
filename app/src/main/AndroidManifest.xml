@@ -12,13 +12,26 @@
         android:largeHeap="true"
         >
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme_Home">
+            android:name=".JoinLogin.MainActivity_Login"
+            android:theme="@style/AppThemeLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name=".JoinLogin.MainActivity_Join"
+            android:theme="@style/AppTheme_Home">
+        </activity>
+
+
+        <activity
+            android:name=".Home.MainActivity"
+            android:theme="@style/AppTheme_Home">
+        </activity>
+
 
         <activity
             android:name=".Profile.MainActivity_Profile"
@@ -26,10 +39,28 @@
         </activity>
 
         <activity
-            android:name=".MainActivity_Join"
+            android:name=".Friend.MainActivity_Friend"
             android:theme="@style/AppTheme_Home">
         </activity>
 
+        <activity
+            android:name=".Condition.MainActivity_Condition"
+            android:theme="@style/AppTheme_Home">
+        </activity>
+
+
+        <activity
+            android:name=".Cs.MainActivity_Cs"
+            android:theme="@style/AppTheme_Home">
+        </activity>
+
+
+
+        <activity
+            android:name=".JoinLogin.MainActivity_Join"
+            android:theme="@style/AppTheme_Home" />
+        <activity android:name=".Friend.SubActivity_Friend" />
+        <activity android:name=".Cs.SubActivity_notice"></activity>
     </application>
 
 </manifest>

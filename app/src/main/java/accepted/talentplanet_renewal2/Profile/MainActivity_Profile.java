@@ -2,26 +2,23 @@ package accepted.talentplanet_renewal2.Profile;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+
+import java.util.ArrayList;
 
 import accepted.talentplanet_renewal2.R;
 
@@ -40,6 +37,10 @@ public class MainActivity_Profile extends AppCompatActivity {
     Button btn_clicked_mentee;
     Button btn_clicked_point;
     View v_inc_profile[] = new View[4];
+
+    ListView lv_point;
+    private ArrayList<ItemData_Profile> userDate = new ArrayList<>();
+    ListAdapter_Point adapter;
 
 
     @Override
@@ -69,6 +70,8 @@ public class MainActivity_Profile extends AppCompatActivity {
         btn_clicked_mentor = findViewById(R.id.btn_mentor_profile);
         btn_clicked_mentee = findViewById(R.id.btn_mentee_profile);
         btn_clicked_point = findViewById(R.id.btn_point_profile);
+
+        lv_point = findViewById(R.id.lv_point_profile);
 
         btn_clickedTap[0] = btn_clicked_profile;
         btn_clickedTap[1] = btn_clicked_mentor;
@@ -125,6 +128,17 @@ public class MainActivity_Profile extends AppCompatActivity {
                 vp.setCurrentItem(0);
             }
         });
+
+
+        //point 부분
+        userDate.add(new ItemData_Profile(true,"박종우","남성 / 29세", "2019/05/17 16:48PM 완료","+50"));
+        userDate.add(new ItemData_Profile(false,"민권홍","남성 / 30세", "2019/05/14 16:48PM 완료","-50"));
+        userDate.add(new ItemData_Profile(true,"이태훈","남성 / 29세", "2019/05/12 18:48PM 완료","+50"));
+        userDate.add(new ItemData_Profile(false,"문건우","남성 / 25세", "2019/05/11 11:48AM 완료","-50"));
+        userDate.add(new ItemData_Profile(true,"조현배","남성 / 27세", "2019/05/04 10:48PM 완료","+50"));
+
+        adapter = new ListAdapter_Point(userDate);
+        lv_point.setAdapter(adapter);
     }
 
 

@@ -48,7 +48,7 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fragment_first, container, false);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.activity_profile_fragment1, container, false);
         makeTestTalentArr();
 
         makeLayout(layout);

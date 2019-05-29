@@ -1,4 +1,4 @@
-package accepted.talentplanet_renewal2;
+package accepted.talentplanet_renewal2.JoinLogin;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import accepted.talentplanet_renewal2.R;
 
 
 public class MainActivity_Join extends AppCompatActivity {

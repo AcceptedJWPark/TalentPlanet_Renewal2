@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    >
+
+    <RelativeLayout
+        android:id="@+id/ll_container_point_profile"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:padding="15dp"
+        >
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/user_profile_point_profile"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/pic_sample"
+            android:layout_centerInParent="true"
+            app:civ_border_color="#2f3070"
+            app:civ_border_width="4dp"
+            android:scaleType="centerInside"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/user_profile_point_profile"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                android:id="@+id/tv_name_point_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="20dp"
+                android:text="문건우"
+                android:textColor="@color/bgr"
+                />
+
+                <TextView
+                    android:id="@+id/tv_userinfo_point_profile"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textSize="16dp"
+                    android:text="남성 / 25세"
+                    android:textColor="#000"
+                    />
+            </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_date_point_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:textSize="16dp"
+                    android:text="19/05/17 16:25pm 완료"
+                    android:textColor="@color/txt_gray"
+                    />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical|right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            >
+
+
+                <TextView
+                    android:id="@+id/tv_mentormentee_point_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="16dp"
+                    android:text="Mentor"
+                    android:textColor="@color/bgr_mainColor"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_point_point_profile"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textSize="16dp"
+                    android:text="+50P"
+                    android:textColor="@color/bgr_mainColor"
+                    />
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

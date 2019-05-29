@@ -1,10 +1,16 @@
-package accepted.talentplanet_renewal2;
+package accepted.talentplanet_renewal2.Home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -13,27 +19,30 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.ViewTarget;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
-import accepted.talentplanet_renewal2.Classes.TalentObject_Profile;
+import accepted.talentplanet_renewal2.Condition.MainActivity_Condition;
+import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
+import accepted.talentplanet_renewal2.Friend.MainActivity_Friend;
+import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
+import accepted.talentplanet_renewal2.R;
 
 import static android.graphics.Color.WHITE;
-import static android.view.Gravity.BOTTOM;
 import static android.view.Gravity.CENTER;
-import static android.view.View.GONE;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class MainActivity extends AppCompatActivity {
+
+    Context mContext;
+
     ScrollView sv1x15;
     LinearLayout ll3x5;
     LinearLayout ll1x15;
@@ -49,8 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
     boolean mentorClicked;
 
+    boolean isAlaram;
+
     private ArrayList<TalentObject_Home> arrTalent;
-    LinearLayout ll_container_home;
 
 
     @Override
@@ -58,12 +68,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        mContext=getApplicationContext();
 
         sv1x15 = findViewById(R.id.sv_show1x15);
         ll3x5 = findViewById(R.id.ll_container_home);
         ll1x15 = findViewById(R.id.ll_container_home_15);
-
 
         img3x5 = findViewById(R.id.img_show3x5);
         img1x15 = findViewById(R.id.img_show1x15);
@@ -73,6 +82,12 @@ public class MainActivity extends AppCompatActivity {
 
         btn_mentor_home = findViewById(R.id.btn_mentor_home);
         btn_mentee_home = findViewById(R.id.btn_mentee_home);
+
+
+
+
+        drawerlayoutEvent(mContext);
+        isAlaram = true;
 
         makeTestTalentArr();
         makeLayout(ll3x5);
@@ -182,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(MATCH_PARENT, 0);
         rowParams.weight = 1;
         rowParams.bottomMargin = (int) getResources().getDimension(R.dimen.size_5dp);
+        rowParams.leftMargin = (int) getResources().getDimension(R.dimen.size_5dp);
 
         // 하나의 객체의 Layout Parameter 정의
         LinearLayout.LayoutParams objectParams = new LinearLayout.LayoutParams(0, MATCH_PARENT);
@@ -213,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
             bgImgView.setScaleType(ImageView.ScaleType.FIT_XY);
 
             Glide.with(this).load(obj.getBackgroundResourceID()).into(bgImgView);
+
 
 
 
@@ -338,6 +355,135 @@ public class MainActivity extends AppCompatActivity {
 
         long seed = System.nanoTime();
         Collections.shuffle(arrTalent, new Random(seed));
+    }
+
+    private void drawerlayoutEvent(final Context context)
+    {
+
+        ((ImageView)findViewById(R.id.cimg_pic_dl)).setBackground(new ShapeDrawable((new OvalShape())));
+        if(Build.VERSION.SDK_INT >= 21) {
+            ((ImageView)findViewById(R.id.cimg_pic_dl)).setClipToOutline(true);
+        }
+
+
+        ((LinearLayout)findViewById(R.id.ll_myprofile_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.closeDrawers();
+                Intent intent = new Intent(context, MainActivity_Profile.class);
+                startActivity(intent);
+            }
+        });
+
+
+        ((LinearLayout)findViewById(R.id.ll_mymentor_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.closeDrawers();
+                ((LinearLayout)findViewById(R.id.ll_click_condition_dl)).setVisibility(View.GONE);
+                ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.VISIBLE);
+                Intent intent = new Intent(context, MainActivity_Condition.class);
+                intent.putExtra("ismyMentor","1");
+                startActivity(intent);
+            }
+        });
+
+
+        ((LinearLayout)findViewById(R.id.ll_mymentee_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.closeDrawers();
+                ((LinearLayout)findViewById(R.id.ll_click_condition_dl)).setVisibility(View.GONE);
+                ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.VISIBLE);
+                Intent intent = new Intent(context, MainActivity_Condition.class);
+                intent.putExtra("ismyMentor","2");
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+        ((LinearLayout)findViewById(R.id.ll_talentbox_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+
+
+        ((LinearLayout)findViewById(R.id.ll_message_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        ((LinearLayout)findViewById(R.id.ll_friend_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.closeDrawers();
+                Intent intent = new Intent(context, MainActivity_Friend.class);
+                startActivity(intent);
+            }
+        });
+
+        ((LinearLayout)findViewById(R.id.ll_cs_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dl.closeDrawers();
+                Intent intent = new Intent(context, MainActivity_Cs.class);
+                startActivity(intent);
+            }
+        });
+
+
+        //알람 On Off
+
+        ((ImageView)findViewById(R.id.iv_alarm_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isAlaram)
+                {
+                    isAlaram=false;
+                    Toast.makeText(mContext,"알람이 비활성화되었습니다.",Toast.LENGTH_SHORT).show();
+                    ((ImageView)findViewById(R.id.iv_alarm_dl)).setImageResource(R.drawable.icon_dl_alarmoff);
+                }else
+                {
+                    isAlaram=true;
+                    Toast.makeText(mContext,"알람이 활성화되었습니다.",Toast.LENGTH_SHORT).show();
+                    ((ImageView)findViewById(R.id.iv_alarm_dl)).setImageResource(R.drawable.icon_dl_alarmon);
+                }
+            }
+        });
+
+
+
+
+        //재능상태 클릭했을 때 Mymentor,Mymentee 노출 기능
+        ((ImageView)findViewById(R.id.iv_closecondition_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((LinearLayout)findViewById(R.id.ll_click_condition_dl)).setVisibility(View.GONE);
+                ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.VISIBLE);
+            }
+        });
+
+        ((LinearLayout)findViewById(R.id.ll_condition_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((LinearLayout)findViewById(R.id.ll_click_condition_dl)).setVisibility(View.VISIBLE);
+                ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.GONE);
+            }
+        });
+
+
+
+
+
     }
 
 

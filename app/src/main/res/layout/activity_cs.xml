@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="#ffffff"
+        android:focusableInTouchMode="true"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:fitsSystemWindows="true"
+        >
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/toolbarlayout"/>
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <ListView
+        android:id="@+id/lv_cs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+    <ExpandableListView
+        android:id="@+id/elv_cs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ExpandableListView>
+
+
+    </LinearLayout>
+
+
