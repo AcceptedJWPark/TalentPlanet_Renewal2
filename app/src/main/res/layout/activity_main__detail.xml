@@ -53,6 +53,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:text="완료"
+            android:id="@+id/btn_save_detail"
             />
 
     </LinearLayout>

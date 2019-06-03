@@ -2,50 +2,26 @@ package accepted.talentplanet_renewal2;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.text.TextUtils.isEmpty;
 
 /**
  * Created by kwonhong on 2017-10-14.
@@ -56,9 +32,9 @@ public class SaveSharedPreference{
     static final String PREF_USER_ID = "userid";
     static final String PREF_USER_PW = "userpw";
     static final String SERVER_IP2 = "https://13.209.191.97/Accepted/";
-    static final String SERVER_IP = "https://172.30.1.1:8443/Accepted/";
+    static final String SERVER_IP = "https://175.213.4.39/Accepted/";
     static final String IMAGE_URI = "http://13.209.191.97/Accepted/";
-    static final String IMAGE_URI2 = "http://119.193.35.130:8080/Accepted/";
+    static final String IMAGE_URI2 = "http://175.213.4.39/Accepted/";
     static final String PREF_GIVE_DATA = "giveData";
     static final String PREF_TAKE_DATA = "takeData";
     static final String PREF_GEO_POINT = "geoPoint";
