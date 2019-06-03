@@ -28,9 +28,7 @@
         <activity
             android:name=".Profile.MainActivity_Profile"
             android:theme="@style/AppTheme_Home" />
-        <activity
-            android:name=".Friend.MainActivity_Friend"
-            android:theme="@style/AppTheme_Home" />
+
         <activity
             android:name=".Condition.MainActivity_Condition"
             android:theme="@style/AppTheme_Home" />
@@ -43,6 +41,8 @@
             android:theme="@style/AppTheme_Home" />
         <activity android:name=".Profile.MainActivity_TalentEdit" />
         <activity android:name=".Profile.MainActivity_Detail"></activity>
+        <activity android:name=".FriendList.SubActivity_Friend" />
+        <activity android:name=".Cs.SubActivity_notice"></activity>
     </application>
 
 </manifest>

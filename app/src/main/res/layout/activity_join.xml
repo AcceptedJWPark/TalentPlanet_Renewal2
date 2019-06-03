@@ -129,6 +129,7 @@
                     android:textSize="13dp"
                     android:textColor="@color/bgr_mainColor"
                     android:background="@drawable/bgr_joinbtn1"
+                    android:id="@+id/btn_emailcheck_join"
                     />
 
                 </LinearLayout>
@@ -150,18 +151,17 @@
                     >
 
 
-
                     <EditText
                         android:id="@+id/et_pw_join"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginRight="10dp"
-                        android:hint="비밀번호"
                         android:background="@drawable/bgr_edittxt_join"
-                        android:textSize="14dp"
-                        android:textColorHint="#bebcd4"
+                        android:hint="비밀번호"
                         android:paddingLeft="3dp"
-                        />
+                        android:inputType="textPassword"
+                        android:textColorHint="#bebcd4"
+                        android:textSize="14dp" />
 
 
                 </LinearLayout>
@@ -191,6 +191,7 @@
                         android:hint="비밀번호 확인"
                         android:background="@drawable/bgr_edittxt_join"
                         android:textSize="14dp"
+                        android:inputType="textPassword"
                         android:textColorHint="#bebcd4"
                         android:paddingLeft="3dp"
                         />
@@ -303,6 +304,7 @@
                         android:textColor="@color/bgr_mainColor"
                         android:background="@drawable/bgr_joinbtn1"
                         android:textSize="13dp"
+                        android:id="@+id/btn_sendsms_join"
                         />
 
                 </LinearLayout>
@@ -352,6 +354,7 @@
                             android:textColor="@color/bgr_mainColor"
                             android:background="@drawable/bgr_joinbtn1"
                             android:textSize="13dp"
+                            android:id="@+id/btn_chkcertnum_join"
                             />
 
                     </LinearLayout>
@@ -415,10 +418,11 @@
                     >
 
                     <EditText
+                        android:id="@+id/et_birthdate_join"
                         android:layout_width="0dp"
                         android:layout_weight="3"
                         android:layout_height="match_parent"
-                        android:hint="인증번호 입력"
+                        android:hint="생년월일(190101)"
                         android:background="@drawable/bgr_edittxt_join"
                         android:textSize="14dp"
                         android:textColorHint="#bebcd4"
@@ -432,6 +436,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:text="비공개"
+                        android:id="@+id/cb_hide_birth"
                         />
 
                 </LinearLayout>
@@ -471,7 +476,7 @@
                                 android:id="@+id/img_malecheck_join"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/icon_check1on"
+                                android:src="@drawable/icon_check1off"
                                 />
 
                             <TextView
@@ -522,6 +527,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:text="비공개"
+                        android:id="@+id/cb_hide_gender"
                         />
 
                 </LinearLayout>
@@ -583,6 +589,7 @@
                         android:text="서비스 이용약관에 동의합니다."
                         android:textSize="12dp"
                         android:textColor="@color/bgr_mainColor"
+                        android:id="@+id/cb_agree_service"
                         />
 
                     <Button
@@ -612,6 +619,7 @@
                         android:text="개인정보 수집이용에 동의합니다."
                         android:textSize="12dp"
                         android:textColor="@color/bgr_mainColor"
+                        android:id="@+id/cb_agree_privacy"
                         />
 
                     <Button
@@ -657,6 +665,7 @@
                    android:textAllCaps="false"
                    android:textColor="#fff"
                    android:textSize="16dp"
+                   android:id="@+id/btn_submit_join"
                    />
 
             </LinearLayout>

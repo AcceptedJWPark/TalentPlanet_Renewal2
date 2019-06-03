@@ -42,8 +42,10 @@
                 android:layout_height="50dp"
                 android:background="@drawable/bgr_login_edittxt"
                 android:hint="E-mail"
+                android:id="@+id/et_email_login"
                 android:textColor="#fff"
                 android:textColorHint="#fff" />
+
 
             <EditText
                 android:layout_width="match_parent"
@@ -51,6 +53,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bgr_login_edittxt"
                 android:hint="Password"
+                android:id="@+id/et_pw_login"
                 android:textColor="#fff"
                 android:textColorHint="#fff" />
 
