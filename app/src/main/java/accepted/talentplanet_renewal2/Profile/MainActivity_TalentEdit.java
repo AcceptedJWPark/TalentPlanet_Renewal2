@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
+import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +41,8 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     ViewPager.OnPageChangeListener onPageChangeListener;
     talentlist_viewpager vp;
 
+    HashTagHelper mHashtagHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
 
         Intent intent = getIntent();
         String requestType = intent.getStringExtra("type");
+        mHashtagHelper = HashTagHelper.Creator.create(getResources().getColor(R.color.colorPrimary), null);
 
         ((TextView)findViewById(R.id.tv_toolbar)).setText(requestType);
         ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
@@ -106,5 +110,16 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == RESULT_OK){
+            String ProfileText = data.getStringExtra("ProfileText");
+            vp.getCurrentItem();
+            TextView profile_talent = (TextView)findViewById(R.id.tv_profile_talant);
+            profile_talent.setText(ProfileText);
+            mHashtagHelper.handle(profile_talent);
+        }
     }
 }
