@@ -37,7 +37,7 @@ public class Talent_ThirdFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity() , MainActivity_Detail.class);
-                startActivity(intent);
+                startActivityForResult(intent, 3000);
             }
         });
 
@@ -45,6 +45,4 @@ public class Talent_ThirdFragment extends android.support.v4.app.Fragment {
 
         return layout;
     }
-
-
 }
