@@ -39,7 +39,7 @@
         </activity>
 
         <activity
-            android:name=".Friend.MainActivity_Friend"
+            android:name=".FriendList.MainActivity_Friend"
             android:theme="@style/AppTheme_Home">
         </activity>
 
@@ -59,7 +59,7 @@
         <activity
             android:name=".JoinLogin.MainActivity_Join"
             android:theme="@style/AppTheme_Home" />
-        <activity android:name=".Friend.SubActivity_Friend" />
+        <activity android:name=".FriendList.SubActivity_Friend" />
         <activity android:name=".Cs.SubActivity_notice"></activity>
     </application>
 

@@ -1,4 +1,4 @@
-package accepted.talentplanet_renewal2.Friend;
+package accepted.talentplanet_renewal2.FriendList;
 
 import accepted.talentplanet_renewal2.R;
 
