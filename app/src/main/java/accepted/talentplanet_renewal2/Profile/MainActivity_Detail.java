@@ -55,7 +55,7 @@ public class MainActivity_Detail extends AppCompatActivity {
         setContentView(R.layout.activity_main__detail);
 
         // 기본 변수 선언
-        hashTextView = (TextView) findViewById(R.id.et_detail);
+        hashTextView = (EditText) findViewById(R.id.et_detail);
         btn_save_detail = (Button) findViewById(R.id.btn_save_detail);
         mContext = getApplicationContext();
 
