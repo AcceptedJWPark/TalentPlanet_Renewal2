@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.volokh.danylo.hashtaghelper.HashTagHelper;
+
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.VolleySingleton;
@@ -43,6 +45,7 @@ public class MainActivity_Detail extends AppCompatActivity {
 
     // 저장용 해시테그
     private int talentID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +92,7 @@ public class MainActivity_Detail extends AppCompatActivity {
             }
         });
     }
-    
+
     private void saveTalent(){
         // to-do 저장 로직
         // 유저가 작성한 텍스트
@@ -111,7 +114,7 @@ public class MainActivity_Detail extends AppCompatActivity {
         // 태그 3개 이상으로 하게 끔 유도하겠끔 유효성 검사
         List<String> allHashTags = mEditTextHashTagHelper.getAllHashTags();
         for (int i=0;i<allHashTags.size(); i++ ) {
-            
+
         }
 
         // 저장 성공 시

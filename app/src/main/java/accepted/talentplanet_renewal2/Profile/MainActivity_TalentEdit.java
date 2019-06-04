@@ -114,6 +114,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        Log.d("asdf", "asdfasdf" + resultCode);
         if(resultCode == RESULT_OK){
             String ProfileText = data.getStringExtra("ProfileText");
             vp.getCurrentItem();
