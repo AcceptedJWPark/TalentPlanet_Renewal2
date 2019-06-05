@@ -111,7 +111,7 @@ public class MainActivity_Detail extends AppCompatActivity {
         commandMap.put("UserID",userId);
         commandMap.put("TalentFlag",talentFlag);
         commandMap.put("TalentCateCode",talentCate);
-        commandMap.put("TalentDescripton",talentTxt);
+        commandMap.put("TalentDescription",talentTxt);
 
         editUserTalent(commandMap);
 
@@ -134,7 +134,7 @@ public class MainActivity_Detail extends AppCompatActivity {
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
-                SaveSharedPreference.getServerIp() +"/Hashtag/editUserTalent.do",
+                SaveSharedPreference.getServerIp() +"Hashtag/editUserTalent.do",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -156,7 +156,7 @@ public class MainActivity_Detail extends AppCompatActivity {
                     params.put("UserID", commandMap.get("UserID").toString());
                     params.put("TalentFlag", commandMap.get("TalentFlag").toString());
                     params.put("TalentCateCode", commandMap.get("TalentCateCode").toString());
-                    params.put("TalentDescripton", commandMap.get("TalentDescripton").toString());
+                    params.put("TalentDescription", commandMap.get("TalentDescription").toString());
                     return params;
                 }
         };

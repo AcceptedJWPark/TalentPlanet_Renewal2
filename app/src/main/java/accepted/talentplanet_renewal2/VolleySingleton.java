@@ -159,7 +159,7 @@ public class VolleySingleton {
             SSLContext context = SSLContext.getInstance("TLS");
             context.init(null, tmf.getTrustManagers(), null);
 
-            URL url = new URL("https://221.162.94.43:8443/Accepted");
+            URL url = new URL("https://175.213.4.39/Accepted");
             HttpsURLConnection urlConnection = (HttpsURLConnection)url.openConnection();
             urlConnection.setSSLSocketFactory(context.getSocketFactory());
             InputStream in2 = urlConnection.getInputStream();

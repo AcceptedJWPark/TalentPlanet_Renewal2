@@ -32,7 +32,7 @@ public class SaveSharedPreference{
     static final String PREF_USER_ID = "userid";
     static final String PREF_USER_PW = "userpw";
     static final String SERVER_IP2 = "https://13.209.191.97/Accepted/";
-    static final String SERVER_IP = "https://175.213.4.39/Accepted/";
+    static final String SERVER_IP = "http://175.213.4.39/Accepted/";
     static final String IMAGE_URI = "http://13.209.191.97/Accepted/";
     static final String IMAGE_URI2 = "http://175.213.4.39/Accepted/";
     static final String PREF_GIVE_DATA = "giveData";
