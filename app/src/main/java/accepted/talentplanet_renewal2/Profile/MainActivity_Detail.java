@@ -33,6 +33,8 @@ import java.util.Map;
 
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
+import com.volokh.danylo.hashtaghelper.HashTagHelper;
+
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.VolleySingleton;
@@ -53,6 +55,9 @@ public class MainActivity_Detail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__detail);
 
+        // 기본 변수 선언
+        hashTextView = (EditText) findViewById(R.id.et_detail);
+        btn_save_detail = (Button) findViewById(R.id.btn_save_detail);
         mContext = getApplicationContext();
 
         // 기본 변수 선언
