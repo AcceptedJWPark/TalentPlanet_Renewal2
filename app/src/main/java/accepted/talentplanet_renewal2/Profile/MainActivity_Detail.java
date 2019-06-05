@@ -26,6 +26,7 @@ import com.volokh.danylo.hashtaghelper.HashTagHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +47,8 @@ public class MainActivity_Detail extends AppCompatActivity {
     Context mContext;
 
     // 저장용 해시테그
-    private int talentID;
-
+    private String talentID;
+    private ArrayList<String> tagArr = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +105,8 @@ public class MainActivity_Detail extends AppCompatActivity {
         // TB_TALENT_NEW  - 유저 요청 저장
         Editable talentTxt = hashTextView.getText();
         String userId = "ansrjsdn7@naver.com";
-        String talentFlag = "";
-        String talentCate = "";
+        String talentFlag = "Y";
+        String talentCate = "1";
 
         HashMap<String, Object> commandMap = new HashMap<String, Object>();
         commandMap.put("UserID",userId);
@@ -116,10 +117,16 @@ public class MainActivity_Detail extends AppCompatActivity {
         editUserTalent(commandMap);
 
         // 모든 해쉬테그
-        // 태그 3개 이상으로 하게 끔 유도하겠끔 유효성 검사
+        // 태그 3개 이상으로 하게 끔 유도하겠끔 유효성 검사 필요
+        // tagArr 만드는 부분
         List<String> allHashTags = mEditTextHashTagHelper.getAllHashTags();
         for (int i=0;i<allHashTags.size(); i++ ) {
+            getHashValue(allHashTags.get(i));
+        }
 
+        Log.d("test [tagArr]", tagArr.toString());
+        for (int i=0;i<tagArr.size();i++) {
+            joinTalentAndTag(tagArr.get(i));
         }
 
         // 저장 성공 시
@@ -129,23 +136,23 @@ public class MainActivity_Detail extends AppCompatActivity {
         finish();
     }
 
+    // 요청 저장 후 TalentID 를 반환
     private void editUserTalent(final Map<String,Object> commandMap) {
         final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
-                SaveSharedPreference.getServerIp() +"Hashtag/editUserTalent.do",
+                SaveSharedPreference.getServerIp() + "Hashtag/editUserTalent.do",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Do something with response string
                         Log.d(this.getClass().getName(), "test 1 : " +response);
+                        talentID = response;
                         requestQueue.stop();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Do something when get error
                         Log.d(this.getClass().getName(), "test 1 [error]: " +error);
                         requestQueue.stop();
                     }
@@ -162,6 +169,116 @@ public class MainActivity_Detail extends AppCompatActivity {
         };
 
         // Add StringRequest to the RequestQueue
+        requestQueue.add(stringRequest);
+    }
+
+    private void getHashValue(final String aTag) {
+        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                SaveSharedPreference.getServerIp() + "Hashtag/getHashValue.do",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Do something with response string
+                        Log.d(this.getClass().getName(), "test 2 : " +response);
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            String result = obj.getString("HAVE_FLAG");
+                            if (result.equals("0")) {
+                                // 태그가 없는 경우 이므로 태그를 생성
+                                updateHashCode(aTag);
+                            } else {
+                                tagArr.add(obj.getString("TagID"));
+                            }
+                            requestQueue.stop();
+                        }
+                        catch(JSONException e){
+                            e.printStackTrace();
+                        }
+                        catch(Exception e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Do something when get error
+                Log.d(this.getClass().getName(), "test 2 [error]: " +error);
+                requestQueue.stop();
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("hashvalue", aTag);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    private void updateHashCode(final String aTag) {
+        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                SaveSharedPreference.getServerIp() + "Hashtag/updateHashCode.do",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Do something with response string
+                        Log.d(this.getClass().getName(), "test 3 [해쉬태그 업데이트]: " +response);
+                        tagArr.add(response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Do something when get error
+                Log.d(this.getClass().getName(), "test 3 [해쉬태그 업데이트 error]: " +error);
+                requestQueue.stop();
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("hashvalue", aTag);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    private void joinTalentAndTag(final String aTag) {
+        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                SaveSharedPreference.getServerIp() + "Hashtag/joinTalentAndTag.do",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Do something with response string
+                        Log.d(this.getClass().getName(), "test 4 [태그와 재능연결]: " +response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Do something when get error
+                Log.d(this.getClass().getName(), "test 4 [태그와 재능연결 error]: " +error);
+                requestQueue.stop();
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("TalentID", talentID);
+                params.put("TagID", aTag);
+                return params;
+            }
+        };
         requestQueue.add(stringRequest);
     }
 }
