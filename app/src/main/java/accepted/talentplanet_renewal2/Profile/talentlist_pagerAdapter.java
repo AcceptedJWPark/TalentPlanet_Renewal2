@@ -6,34 +6,37 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Accepted on 2019-05-05.
  */
 
 public class talentlist_pagerAdapter extends FragmentStatePagerAdapter {
 
+    private ArrayList<Fragment> views;
+
     public talentlist_pagerAdapter(FragmentManager fm) {
         super(fm);
+        views = new ArrayList<>();
+        views.add(new Talent_FirstFragment());
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch(position)
-        {
-            case 0:
-                return new Talent_FirstFragment();
-            case 1:
-                return new Talent_SecondFragment();
-            case 2:
-                return new Talent_ThirdFragment();
-            default:
-                return null;
+        try {
+            return views.get(position);
+        }catch (IndexOutOfBoundsException e){
+            return null;
         }
+    }
 
+    public void addViews(Fragment fg){
+        views.add(fg);
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return views.size();
     }
 }

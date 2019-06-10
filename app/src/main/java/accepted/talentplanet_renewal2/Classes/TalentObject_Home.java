@@ -7,6 +7,7 @@ public class TalentObject_Home implements Comparable<TalentObject_Home> {
     private int backgroundResourceID;
     private int iconResourceID;
     private int talentCount;
+    private int cateCode;
 
     public TalentObject_Home(String title, int backgroundResourceID, int iconResourceID, int talentCount) {
         this.title = title;
@@ -55,5 +56,13 @@ public class TalentObject_Home implements Comparable<TalentObject_Home> {
             return -1;
         }
         return 0;
+    }
+
+    public int getCateCode() {
+        return cateCode;
+    }
+
+    public void setCateCode(int cateCode) {
+        this.cateCode = cateCode;
     }
 }

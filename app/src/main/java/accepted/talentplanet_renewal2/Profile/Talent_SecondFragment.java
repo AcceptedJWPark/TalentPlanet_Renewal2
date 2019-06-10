@@ -17,7 +17,6 @@ import accepted.talentplanet_renewal2.R;
 
 public class Talent_SecondFragment extends android.support.v4.app.Fragment {
 
-
     public Talent_SecondFragment() {
     }
 
@@ -31,7 +30,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.activity_profile_fragment2, container, false);
-
+        ((TextView) layout.findViewById(R.id.tv_profile_talant)).setText(getArguments().getString("profileText"));
         TextView editBtn = (TextView) layout.findViewById(R.id.tv_user_data_edit);
         editBtn.setOnClickListener(new View.OnClickListener() {
             // 유저의 정보 수정 이벤트 부여

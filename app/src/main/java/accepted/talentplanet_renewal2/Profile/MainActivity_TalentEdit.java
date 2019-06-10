@@ -1,38 +1,35 @@
 package accepted.talentplanet_renewal2.Profile;
 
-import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.ViewTarget;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
 import accepted.talentplanet_renewal2.Classes.TalentObject_Profile;
 import accepted.talentplanet_renewal2.R;
-
-import static android.view.Gravity.BOTTOM;
-import static android.view.Gravity.CENTER;
-import static android.view.View.GONE;
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import accepted.talentplanet_renewal2.SaveSharedPreference;
 
 public class MainActivity_TalentEdit extends AppCompatActivity {
 
@@ -40,13 +37,14 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     View v_inc_profile[] = new View[2];
     ViewPager.OnPageChangeListener onPageChangeListener;
     talentlist_viewpager vp;
-
+    Context mContext;
     HashTagHelper mHashtagHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__talent_edit);
+        mContext = getApplicationContext();
 
         Intent intent = getIntent();
         String requestType = intent.getStringExtra("type");
@@ -61,48 +59,6 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         // 선택 재능 리스트
         findViewById(R.id.inc_mentor_profile).setVisibility(View.VISIBLE);
 
-        // VeiwPager 시작
-        vp = findViewById(R.id.vp_profile_mentor);
-        vp.setAdapter(new talentlist_pagerAdapter(getSupportFragmentManager()));
-        vp.setCurrentItem(0);
-
-        // 이벤트 내용 정의
-        onPageChangeListener = new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.GONE);
-                    ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.GONE);
-                } else if (position == 1) {
-                    ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.VISIBLE);
-                    ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.VISIBLE);
-                    ((TextView) findViewById(R.id.tv_series_profile_mentor)).setText("2");
-                } else {
-                    ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.VISIBLE);
-                    ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.VISIBLE);
-                    ((TextView) findViewById(R.id.tv_series_profile_mentor)).setText("3");
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        };
-
-        // 해당 viewpager에 이벤트 부여
-        vp.addOnPageChangeListener(onPageChangeListener);
-
-        findViewById(R.id.ll_totalshow_profile_mentor).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                vp.setCurrentItem(0);
-            }
-        });
-
         // 뒤로가기 이벤트
         ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,11 +66,13 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                 finish();
             }
         });
+
+        getAllMyTalent();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        Log.d("asdf", "asdfasdf" + resultCode);
+
         if(resultCode == RESULT_OK){
             String ProfileText = data.getStringExtra("ProfileText");
             vp.getCurrentItem();
@@ -122,5 +80,89 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
             profile_talent.setText(ProfileText);
             mHashtagHelper.handle(profile_talent);
         }
+    }
+
+    private void getAllMyTalent() {
+        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                SaveSharedPreference.getServerIp() + "Profile/getAllMyTalent.do",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray talentArr = new JSONArray(response);
+                            // VeiwPager 시작
+                            vp = findViewById(R.id.vp_profile_mentor);
+                            talentlist_pagerAdapter adapter = new talentlist_pagerAdapter(getSupportFragmentManager());
+                            for(int i = 0; i < talentArr.length(); i++){
+                                JSONObject obj = talentArr.getJSONObject(i);
+                                Talent_SecondFragment fragment = new Talent_SecondFragment();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("profileText", obj.getString("TalentDescription"));
+                                fragment.setArguments(bundle);
+                                adapter.addViews(fragment);
+                            }
+
+                            vp.setAdapter(adapter);
+                            vp.setCurrentItem(0);
+
+                            // 이벤트 내용 정의
+                            onPageChangeListener = new ViewPager.OnPageChangeListener() {
+                                @Override
+                                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                }
+
+                                @Override
+                                public void onPageSelected(int position) {
+                                    if (position == 0) {
+                                        ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.GONE);
+                                        ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.GONE);
+                                    } else {
+                                        ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.VISIBLE);
+                                        ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.VISIBLE);
+                                        // ((TextView) findViewById(R.id.tv_series_profile_mentor)).setText(position + 1);
+                                    }
+                                }
+
+                                @Override
+                                public void onPageScrollStateChanged(int state) {
+                                }
+                            };
+
+                            // 해당 viewpager에 이벤트 부여
+                            vp.addOnPageChangeListener(onPageChangeListener);
+
+                            findViewById(R.id.ll_totalshow_profile_mentor).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    vp.setCurrentItem(0);
+                                }
+                            });
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
+                requestQueue.stop();
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("UserID", "mkh9012@naver.com");
+                params.put("TalentFlag", "Y");
+                return params;
+            }
+        };
+
+        // Add StringRequest to the RequestQueue
+        requestQueue.add(stringRequest);
     }
 }

@@ -20,10 +20,21 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
@@ -32,6 +43,7 @@ import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
 import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
+import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
 
 import static android.graphics.Color.BLACK;
@@ -60,9 +72,10 @@ public class MainActivity extends AppCompatActivity {
     boolean mentorClicked;
 
     boolean isAlaram;
+    String talentFlag;
 
     private ArrayList<TalentObject_Home> arrTalent;
-
+    private Map<String, TalentObject_Home> talentMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +101,8 @@ public class MainActivity extends AppCompatActivity {
         isAlaram = true;
 
         makeTestTalentArr();
-        makeLayout(ll3x5);
-        make15Layout(ll1x15);
-
+        getCateList();
+        talentFlag = "Y";
         //기본 값
         mentorClicked = true;
         findViewById(R.id.inc_list3x5_home).setVisibility(View.VISIBLE);
@@ -172,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
             btn_mentee_home.setBackgroundColor(getResources().getColor(R.color.bgr_gray));
             btn_mentee_home.setTextColor(getResources().getColor(R.color.txt_gray));
             btn_mentee_home.setTypeface(null, Typeface.NORMAL);
+            talentFlag = "Y";
+            getCateList();
         }
         else
         {
@@ -181,11 +195,14 @@ public class MainActivity extends AppCompatActivity {
             btn_mentor_home.setBackgroundColor(getResources().getColor(R.color.bgr_gray));
             btn_mentor_home.setTextColor(getResources().getColor(R.color.txt_gray));
             btn_mentor_home.setTypeface(null, Typeface.NORMAL);
+            talentFlag = "N";
+            getCateList();
         }
     }
 
     private void makeLayout(LinearLayout layout){
         LinearLayout root = (LinearLayout)layout.findViewById(R.id.ll_container_home);
+        root.removeAllViews();
 
         LinearLayout row = null;
         layout.setMinimumWidth(MATCH_PARENT);
@@ -223,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                 row.setOrientation(LinearLayout.HORIZONTAL);
             }
 
-            TalentObject_Home obj = arrTalent.get(i);
+            final TalentObject_Home obj = arrTalent.get(i);
             RelativeLayout rl = new RelativeLayout(getApplicationContext());
 
             ImageView bgImgView = new ImageView(getApplicationContext());
@@ -254,8 +271,9 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), MainActivity_TalentList.class);
                     String talentName = (String) textView.getText();
-                    intent.putExtra("talentName", talentName.split("\n")[0]);
-
+                    intent.putExtra("talentName", obj.getTitle());
+                    intent.putExtra("cateCode", obj.getCateCode());
+                    intent.putExtra("talentFlag", talentFlag);
                     startActivity(intent);
                 }
             });
@@ -275,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void make15Layout(LinearLayout layout){
         LinearLayout root = (LinearLayout)layout.findViewById(R.id.ll_container_home_15);
+        root.removeAllViews();
 
         LinearLayout row = null;
         layout.setMinimumWidth(MATCH_PARENT);
@@ -305,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < arrTalent.size(); i++){
 
-            TalentObject_Home obj = arrTalent.get(i);
+            final TalentObject_Home obj = arrTalent.get(i);
             RelativeLayout rl = new RelativeLayout(getApplicationContext());
 
             ImageView bgImgView = new ImageView(getApplicationContext());
@@ -338,7 +357,9 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), MainActivity_TalentList.class);
                     String talentName = (String) textView.getText();
-                    intent.putExtra("talentName", talentName.split("\n")[0]);
+                    intent.putExtra("talentName", obj.getTitle());
+                    intent.putExtra("cateCode", obj.getCateCode());
+                    intent.putExtra("talentFlag", talentFlag);
 
                     startActivity(intent);
                 }
@@ -352,43 +373,75 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void makeTestTalentArr(){
-        arrTalent = new ArrayList<>();
+    private void makeTestTalentArr() {
+        talentMap = new HashMap();
 
-        TalentObject_Home career = new TalentObject_Home("취업", R.drawable.pic_career,R.drawable.icon_career, 495);
-        TalentObject_Home study = new TalentObject_Home("학습", R.drawable.pic_study,R.drawable.icon_study, 485);
-        TalentObject_Home money = new TalentObject_Home("재테크", R.drawable.pic_money,R.drawable.icon_money, 410);
-        TalentObject_Home it = new TalentObject_Home("IT", R.drawable.pic_it,R.drawable.icon_it, 379);
-        TalentObject_Home camera = new TalentObject_Home("사진", R.drawable.pic_camera,R.drawable.icon_camera, 338);
-        TalentObject_Home music = new TalentObject_Home("음악", R.drawable.pic_music,R.drawable.icon_music, 230);
-        TalentObject_Home design = new TalentObject_Home("미술/디자인", R.drawable.pic_design,R.drawable.icon_design, 202);
-        TalentObject_Home sports = new TalentObject_Home("운동", R.drawable.pic_sports,R.drawable.icon_sports, 192);
-        TalentObject_Home living = new TalentObject_Home("생활", R.drawable.pic_living,R.drawable.icon_living, 172);
-        TalentObject_Home beauty = new TalentObject_Home("뷰티/패션", R.drawable.pic_beauty,R.drawable.icon_beauty, 135);
-        TalentObject_Home volunteer = new TalentObject_Home("사회봉사", R.drawable.pic_volunteer,R.drawable.icon_volunteer, 519);
-        TalentObject_Home travel = new TalentObject_Home("여행", R.drawable.pic_travel,R.drawable.icon_travel, 118);
-        TalentObject_Home culture = new TalentObject_Home("문화", R.drawable.pic_culture,R.drawable.icon_culture, 49);
-        TalentObject_Home game = new TalentObject_Home("게임", R.drawable.pic_game,R.drawable.icon_game, 41);
+        TalentObject_Home career = new TalentObject_Home("취업", R.drawable.pic_career,R.drawable.icon_career, 0);
+        TalentObject_Home study = new TalentObject_Home("학습", R.drawable.pic_study,R.drawable.icon_study, 0);
+        TalentObject_Home money = new TalentObject_Home("재테크", R.drawable.pic_money,R.drawable.icon_money, 0);
+        TalentObject_Home it = new TalentObject_Home("IT", R.drawable.pic_it,R.drawable.icon_it, 0);
+        TalentObject_Home camera = new TalentObject_Home("사진", R.drawable.pic_camera,R.drawable.icon_camera, 0);
+        TalentObject_Home music = new TalentObject_Home("음악", R.drawable.pic_music,R.drawable.icon_music, 0);
+        TalentObject_Home design = new TalentObject_Home("미술/디자인", R.drawable.pic_design,R.drawable.icon_design, 0);
+        TalentObject_Home sports = new TalentObject_Home("운동", R.drawable.pic_sports,R.drawable.icon_sports, 0);
+        TalentObject_Home living = new TalentObject_Home("생활", R.drawable.pic_living,R.drawable.icon_living, 0);
+        TalentObject_Home beauty = new TalentObject_Home("뷰티/패션", R.drawable.pic_beauty,R.drawable.icon_beauty, 0);
+        TalentObject_Home volunteer = new TalentObject_Home("사회봉사", R.drawable.pic_volunteer,R.drawable.icon_volunteer, 0);
+        TalentObject_Home travel = new TalentObject_Home("여행", R.drawable.pic_travel,R.drawable.icon_travel, 0);
+        TalentObject_Home culture = new TalentObject_Home("문화", R.drawable.pic_culture,R.drawable.icon_culture, 0);
+        TalentObject_Home game = new TalentObject_Home("게임", R.drawable.pic_game,R.drawable.icon_game, 0);
 
-        arrTalent.add(career);
-        arrTalent.add(study);
-        arrTalent.add(money);
-        arrTalent.add(it);
-        arrTalent.add(camera);
-        arrTalent.add(music);
-        arrTalent.add(design);
-        arrTalent.add(sports);
-        arrTalent.add(living);
-        arrTalent.add(beauty);
-        arrTalent.add(volunteer);
-        arrTalent.add(travel);
-        arrTalent.add(culture);
-        arrTalent.add(game);
-
-        Collections.sort(arrTalent);
+        talentMap.put(career.getTitle(), career);
+        talentMap.put(study.getTitle(), study);
+        talentMap.put(money.getTitle(), money);
+        talentMap.put(it.getTitle(), it);
+        talentMap.put(camera.getTitle(), camera);
+        talentMap.put(music.getTitle(), music);
+        talentMap.put(design.getTitle(), design);
+        talentMap.put(sports.getTitle(), sports);
+        talentMap.put(living.getTitle(), living);
+        talentMap.put(beauty.getTitle(), beauty);
+        talentMap.put(volunteer.getTitle(), volunteer);
+        talentMap.put(travel.getTitle(), travel);
+        talentMap.put(culture.getTitle(), culture);
+        talentMap.put(game.getTitle(), game);
 
 //        long seed = System.nanoTime();
 //        Collections.shuffle(arrTalent, new Random(seed));
+    }
+
+    private void getCateList(){
+        arrTalent = new ArrayList<>();
+        RequestQueue postRequestQueue = Volley.newRequestQueue(mContext);
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/getTalentCateList.do", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray array = new JSONArray(response);
+                    for(int i = 0; i < array.length(); i++){
+                        JSONObject obj = array.getJSONObject(i);
+                        TalentObject_Home talentObject = talentMap.get(obj.getString("CateName"));
+                        talentObject.setCateCode((int)obj.getLong("CateCode"));
+                        talentObject.setTalentCount((int)obj.getLong("RegistCount"));
+                        arrTalent.add(talentObject);
+                    }
+
+                    makeLayout(ll3x5);
+                    make15Layout(ll1x15);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+                params.put("TalentFlag", talentFlag);
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
     }
 
     private void drawerlayoutEvent(final Context context)

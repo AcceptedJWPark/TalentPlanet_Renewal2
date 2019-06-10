@@ -19,12 +19,25 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.R;
+import accepted.talentplanet_renewal2.SaveSharedPreference;
 
 import static android.graphics.Color.WHITE;
 
@@ -212,5 +225,42 @@ public class MainActivity_Profile extends AppCompatActivity {
         return px;
     }
 
+    private void getAllTalent() {
+        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
 
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                SaveSharedPreference.getServerIp() + "Profile/getAllTalent.do",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray talentArr = new JSONArray(response);
+                            for(int i = 0; i < talentArr.length(); i++){
+                                JSONObject obj = talentArr.getJSONObject(i);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
+                requestQueue.stop();
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("UserID", "mkh9012@naver.com");
+                params.put("TalentFlag", "Y");
+                return params;
+            }
+        };
+
+        // Add StringRequest to the RequestQueue
+        requestQueue.add(stringRequest);
+    }
 }
