@@ -96,13 +96,21 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                             // VeiwPager 시작
                             vp = findViewById(R.id.vp_profile_mentor);
                             talentlist_pagerAdapter adapter = new talentlist_pagerAdapter(getSupportFragmentManager());
-                            for(int i = 0; i < talentArr.length(); i++){
-                                JSONObject obj = talentArr.getJSONObject(i);
-                                Talent_SecondFragment fragment = new Talent_SecondFragment();
+
+                            if (talentArr.length() == 0) {
+                                Talent_ThirdFragment fragment = new Talent_ThirdFragment();
                                 Bundle bundle = new Bundle();
-                                bundle.putString("profileText", obj.getString("TalentDescription"));
                                 fragment.setArguments(bundle);
                                 adapter.addViews(fragment);
+                            } else {
+                                for(int i = 0; i < talentArr.length(); i++){
+                                    JSONObject obj = talentArr.getJSONObject(i);
+                                    Talent_SecondFragment fragment = new Talent_SecondFragment();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("profileText", obj.getString("TalentDescription"));
+                                    fragment.setArguments(bundle);
+                                    adapter.addViews(fragment);
+                                }
                             }
 
                             vp.setAdapter(adapter);
@@ -156,7 +164,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
             @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("UserID", "mkh9012@naver.com");
+                params.put("UserID", "ansrjsdn7@naver.com");
                 params.put("TalentFlag", "Y");
                 return params;
             }

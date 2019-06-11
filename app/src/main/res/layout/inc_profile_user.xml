@@ -218,28 +218,35 @@
         android:paddingLeft="20dp"
         />
     <!-- 멘토 리스트 -->
-    <ScrollView
+    <HorizontalScrollView
         android:id="@+id/sv_mentor"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:orientation="horizontal"
-            >
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="150dp"-->
+            <!--android:orientation="horizontal"-->
+            <!--&gt;-->
 
-            <ImageView
-                android:id="@+id/iv_mentor_plus"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/icon_profile_plus"
-                android:scaleType="fitXY"
-                />
-        </LinearLayout>
-    </ScrollView>
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_mentor_plus"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:src="@drawable/icon_profile_plus"-->
+                <!--android:scaleType="fitXY"-->
+                <!--/>-->
+        <!--</LinearLayout>-->
+
+        <RecyclerView
+            android:id="@+id/lv_mentor_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </RecyclerView>
+    </HorizontalScrollView>
 
 
     <TextView

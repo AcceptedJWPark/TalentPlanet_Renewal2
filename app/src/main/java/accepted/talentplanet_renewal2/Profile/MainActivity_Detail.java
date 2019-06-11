@@ -23,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -100,7 +101,6 @@ public class MainActivity_Detail extends AppCompatActivity {
     }
 
     private void saveTalent(){
-        // to-do 저장 로직
         // 유저가 작성한 텍스트
         // TB_TALENT_NEW  - 유저 요청 저장
         Editable talentTxt = hashTextView.getText();
@@ -120,14 +120,14 @@ public class MainActivity_Detail extends AppCompatActivity {
         // 태그 3개 이상으로 하게 끔 유도하겠끔 유효성 검사 필요
         // tagArr 만드는 부분
         List<String> allHashTags = mEditTextHashTagHelper.getAllHashTags();
+        Log.d(this.getClass().getName(), "[HashTag Test] : " +allHashTags.toString());
         for (int i=0;i<allHashTags.size(); i++ ) {
             getHashValue(allHashTags.get(i));
         }
 
-        Log.d("test [tagArr]", tagArr.toString());
-        for (int i=0;i<tagArr.size();i++) {
-            joinTalentAndTag(tagArr.get(i));
-        }
+//        for (int i=0;i<tagArr.size();i++) {
+//            joinTalentAndTag(tagArr.get(i));
+//        }
 
         // 저장 성공 시
         Intent resultIntent = new Intent();
@@ -173,6 +173,8 @@ public class MainActivity_Detail extends AppCompatActivity {
     }
 
     private void getHashValue(final String aTag) {
+        Log.d(this.getClass().getName(), "[getHashValue] : " + aTag);
+
         final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
 
         StringRequest stringRequest = new StringRequest(
@@ -182,10 +184,11 @@ public class MainActivity_Detail extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Do something with response string
-                        Log.d(this.getClass().getName(), "test 2 : " +response);
+
                         try {
                             JSONObject obj = new JSONObject(response);
                             String result = obj.getString("HAVE_FLAG");
+                            Log.d(this.getClass().getName(), "test 2 : " +result);
                             if (result.equals("0")) {
                                 // 태그가 없는 경우 이므로 태그를 생성
                                 updateHashCode(aTag);
@@ -230,8 +233,13 @@ public class MainActivity_Detail extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Do something with response string
-                        Log.d(this.getClass().getName(), "test 3 [해쉬태그 업데이트]: " +response);
-                        tagArr.add(response.toString());
+                        try {
+                            JSONArray talentArr = new JSONArray(response);
+                            Log.d(this.getClass().getName(), talentArr.toString());
+                            tagArr.add(talentArr.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

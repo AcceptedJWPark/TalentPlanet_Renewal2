@@ -106,33 +106,28 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
             TextView textView = new TextView(getActivity().getApplicationContext());
             View basicView = new View(getActivity().getApplicationContext());
 
+            textView.setVisibility(GONE);
+            bgImgView.setAlpha(0.1f);
+
             //등록된 재능
-            if(i % 4 == 0)
-            {
-
-                linear.setGravity(BOTTOM);
-                linear.setOrientation(LinearLayout.VERTICAL);
-
-
-                textView.setText(obj.getTitle());
-                textView.setTextColor(Color.WHITE);
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,getResources().getDimension(R.dimen.isTalent_Txt));
-                textView.setPadding(0,(int) getResources().getDimension(R.dimen.size_5dp),0, (int) getResources().getDimension(R.dimen.size_5dp));
-                textView.setTypeface(Typeface.DEFAULT_BOLD);
-                textView.setBackgroundColor(Color.argb(200,27,27,99));
-                textView.setGravity(CENTER);
-            }
-            //등록이 안된 재능
-            else
-            {
+            if(i % 4 == 0) {
+//                linear.setGravity(BOTTOM);
+//                linear.setOrientation(LinearLayout.VERTICAL);
+//
+//                textView.setText(obj.getTitle());
+//                textView.setTextColor(Color.WHITE);
+//                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,getResources().getDimension(R.dimen.isTalent_Txt));
+//                textView.setPadding(0,(int) getResources().getDimension(R.dimen.size_5dp),0, (int) getResources().getDimension(R.dimen.size_5dp));
+//                textView.setTypeface(Typeface.DEFAULT_BOLD);
+//                textView.setBackgroundColor(Color.argb(200,27,27,99));
+//                textView.setGravity(CENTER);
+            } else {
+                //등록이 안된 재능
                 textView.setVisibility(GONE);
                 bgImgView.setAlpha(0.1f);
             }
 
-
-
             linear.addView(textView, textParams);
-
             rl.addView(bgImgView, bgImgParams);
             rl.addView(linear, linearParams);
 
@@ -142,7 +137,6 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
                 rowNum++;
             }
         }
-
     }
 
 
