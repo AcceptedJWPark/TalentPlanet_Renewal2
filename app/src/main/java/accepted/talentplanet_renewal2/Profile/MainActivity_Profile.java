@@ -57,14 +57,18 @@ public class MainActivity_Profile extends AppCompatActivity {
 
     ListView lv_point;
     RecyclerView lv_mentor_profile;
+    RecyclerView lv_mentee_profile;
     private ArrayList<ItemData_Profile> userDate = new ArrayList<>();
-    private ArrayList<TalentObject_Home> arrTalent;
-    private ArrayList<TalentObject_Home> talentList;
+
+    private ArrayList<TalentObject_Home> mentorTalentList;
+    private ArrayList<TalentObject_Home> menteeTalentList;
 
     ListAdapter_Point adapter;
-    ListAdapter_Talent adapter2;
+    ListAdapter_Talent mentorAdapter;
+    ListAdapter_Talent menteeAdapter;
 
-    RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView.LayoutManager mLayoutManagerMentor;
+    RecyclerView.LayoutManager mLayoutManagerMentee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +78,8 @@ public class MainActivity_Profile extends AppCompatActivity {
         mContext = getApplicationContext();
 
        // makeTestTalentArr();
-        talentList = new ArrayList<>();
+        mentorTalentList = new ArrayList<>();
+        menteeTalentList = new ArrayList<>();
 
         tv_toolbar = findViewById(R.id.tv_toolbar);
         tv_toolbar.setText("Profile");
@@ -96,33 +101,18 @@ public class MainActivity_Profile extends AppCompatActivity {
 
         View trash;
         lv_point = findViewById(R.id.lv_point_profile);
+
         lv_mentor_profile = findViewById(R.id.lv_mentor_profile);
+        lv_mentee_profile = findViewById(R.id.lv_mentee_profile);
+        
+        mLayoutManagerMentor = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mLayoutManagerMentee = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
-        lv_mentor_profile.setLayoutManager(mLayoutManager);
-
+        lv_mentor_profile.setLayoutManager(mLayoutManagerMentor);
+        lv_mentee_profile.setLayoutManager(mLayoutManagerMentee);
+        
         getAllTalent("Y");
-        // click go to edit mentor
-//        iv_mentor_plus = (ImageView)findViewById(R.id.iv_mentor_plus);
-//        iv_mentor_plus.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent1 = new Intent(MainActivity_Profile.this, MainActivity_TalentEdit.class);
-//                intent1.putExtra("type","MENTOR");
-//                startActivity(intent1);
-//            }
-//        });
-        // click go to edit mentee
-        iv_mentee_plus = (ImageView)findViewById(R.id.iv_mentee_plus);
-        iv_mentee_plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(MainActivity_Profile.this, MainActivity_TalentEdit.class);
-                intent1.putExtra("type","MENTEE");
-                startActivity(intent1);
-            }
-        });
+        getAllTalent("N");
 
         vp = findViewById(R.id.vp_profile_mentor);
         vp.setAdapter(new talentlist_pagerAdapter(getSupportFragmentManager()));
@@ -201,15 +191,22 @@ public class MainActivity_Profile extends AppCompatActivity {
                                 JSONObject obj = talentArr.getJSONObject(i);
                                 TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0);
                                 item.setCateCode((int)obj.getLong("Code"));
-                                talentList.add(item);
+                                if(talentFlag.equals("Y")) {
+                                    mentorTalentList.add(item);
+                                }else if(talentFlag.equals("N")){
+                                    menteeTalentList.add(item);
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                         if(talentFlag.equals("Y")){
-                            adapter2 = new ListAdapter_Talent(talentList);
-                            lv_mentor_profile.setAdapter(adapter2);
+                            mentorAdapter = new ListAdapter_Talent(mentorTalentList);
+                            lv_mentor_profile.setAdapter(mentorAdapter);
+                        }else if(talentFlag.equals("N")){
+                            menteeAdapter = new ListAdapter_Talent(menteeTalentList);
+                            lv_mentee_profile.setAdapter(menteeAdapter);
                         }
 
                     }

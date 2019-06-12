@@ -269,28 +269,22 @@
         android:paddingLeft="20dp"
         />
     <!-- 멘티 리스트 -->
-    <ScrollView
+    <HorizontalScrollView
         android:id="@+id/sv_mentee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            android:orientation="horizontal"
-            >
 
-            <ImageView
-                android:id="@+id/iv_mentee_plus"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/icon_profile_plus"
-                android:scaleType="fitXY"
-                />
-        </LinearLayout>
-    </ScrollView>
+        <android.support.v7.widget.RecyclerView
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            android:id="@+id/lv_mentee_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </HorizontalScrollView>
 
     <TextView
         android:layout_width="wrap_content"
