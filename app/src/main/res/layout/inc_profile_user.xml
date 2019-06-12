@@ -240,12 +240,13 @@
                 <!--/>-->
         <!--</LinearLayout>-->
 
-        <RecyclerView
+        <android.support.v7.widget.RecyclerView
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             android:id="@+id/lv_mentor_profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-        </RecyclerView>
+        </android.support.v7.widget.RecyclerView>
     </HorizontalScrollView>
 
 

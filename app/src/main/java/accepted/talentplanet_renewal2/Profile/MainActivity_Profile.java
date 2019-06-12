@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -59,8 +60,11 @@ public class MainActivity_Profile extends AppCompatActivity {
     private ArrayList<ItemData_Profile> userDate = new ArrayList<>();
     private ArrayList<TalentObject_Home> arrTalent;
     private ArrayList<TalentObject_Home> talentList;
+
     ListAdapter_Point adapter;
     ListAdapter_Talent adapter2;
+
+    RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,8 @@ public class MainActivity_Profile extends AppCompatActivity {
 
         mContext = getApplicationContext();
 
-        makeTestTalentArr();
+       // makeTestTalentArr();
+        talentList = new ArrayList<>();
 
         tv_toolbar = findViewById(R.id.tv_toolbar);
         tv_toolbar.setText("Profile");
@@ -88,11 +93,16 @@ public class MainActivity_Profile extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getSize(pt);
         ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getSize(pt);
         int height = pt.y;
-        Log.d("height", String.valueOf(height));
+
         View trash;
         lv_point = findViewById(R.id.lv_point_profile);
         lv_mentor_profile = findViewById(R.id.lv_mentor_profile);
 
+        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        lv_mentor_profile.setLayoutManager(mLayoutManager);
+
+        getAllTalent("Y");
         // click go to edit mentor
 //        iv_mentor_plus = (ImageView)findViewById(R.id.iv_mentor_plus);
 //        iv_mentor_plus.setOnClickListener(new View.OnClickListener() {
@@ -159,8 +169,6 @@ public class MainActivity_Profile extends AppCompatActivity {
 
         adapter = new ListAdapter_Point(userDate);
         lv_point.setAdapter(adapter);
-        adapter2 = new ListAdapter_Talent(talentList);
-        lv_mentor_profile.setAdapter(adapter2);
 
         // 뒤로가기 이벤트
         ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
@@ -178,12 +186,12 @@ public class MainActivity_Profile extends AppCompatActivity {
         return px;
     }
 
-    private void getAllTalent() {
+    private void getAllTalent(final String talentFlag) {
         final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
-                SaveSharedPreference.getServerIp() + "Profile/getAllTalent.do",
+                SaveSharedPreference.getServerIp() + "Profile/getAllMyTalent.do",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -191,10 +199,17 @@ public class MainActivity_Profile extends AppCompatActivity {
                             JSONArray talentArr = new JSONArray(response);
                             for(int i = 0; i < talentArr.length(); i++){
                                 JSONObject obj = talentArr.getJSONObject(i);
-                                Log.d("get this", obj.toString());
+                                TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0);
+                                item.setCateCode((int)obj.getLong("Code"));
+                                talentList.add(item);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        }
+
+                        if(talentFlag.equals("Y")){
+                            adapter2 = new ListAdapter_Talent(talentList);
+                            lv_mentor_profile.setAdapter(adapter2);
                         }
 
                     }
@@ -209,7 +224,7 @@ public class MainActivity_Profile extends AppCompatActivity {
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("UserID", "ansrjsdn7@naver.com");
-                params.put("TalentFlag", "Y");
+                params.put("TalentFlag", talentFlag);
                 return params;
             }
         };
@@ -218,40 +233,5 @@ public class MainActivity_Profile extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void makeTestTalentArr() {
-        talentList = new ArrayList<TalentObject_Home>();
-        TalentObject_Home career = new TalentObject_Home("취업", R.drawable.pic_career,R.drawable.icon_career, 0);
-        TalentObject_Home study = new TalentObject_Home("학습", R.drawable.pic_study,R.drawable.icon_study, 0);
-        TalentObject_Home money = new TalentObject_Home("재테크", R.drawable.pic_money,R.drawable.icon_money, 0);
-        TalentObject_Home it = new TalentObject_Home("IT", R.drawable.pic_it,R.drawable.icon_it, 0);
-        TalentObject_Home camera = new TalentObject_Home("사진", R.drawable.pic_camera,R.drawable.icon_camera, 0);
-        TalentObject_Home music = new TalentObject_Home("음악", R.drawable.pic_music,R.drawable.icon_music, 0);
-        TalentObject_Home design = new TalentObject_Home("미술/디자인", R.drawable.pic_design,R.drawable.icon_design, 0);
-        TalentObject_Home sports = new TalentObject_Home("운동", R.drawable.pic_sports,R.drawable.icon_sports, 0);
-        TalentObject_Home living = new TalentObject_Home("생활", R.drawable.pic_living,R.drawable.icon_living, 0);
-        TalentObject_Home beauty = new TalentObject_Home("뷰티/패션", R.drawable.pic_beauty,R.drawable.icon_beauty, 0);
-        TalentObject_Home volunteer = new TalentObject_Home("사회봉사", R.drawable.pic_volunteer,R.drawable.icon_volunteer, 0);
-        TalentObject_Home travel = new TalentObject_Home("여행", R.drawable.pic_travel,R.drawable.icon_travel, 0);
-        TalentObject_Home culture = new TalentObject_Home("문화", R.drawable.pic_culture,R.drawable.icon_culture, 0);
-        TalentObject_Home game = new TalentObject_Home("게임", R.drawable.pic_game,R.drawable.icon_game, 0);
-
-        talentList.add(career);
-        talentList.add(study);
-        talentList.add(money);
-        talentList.add(it);
-        talentList.add(camera);
-        talentList.add(music);
-        talentList.add(design);
-        talentList.add(sports);
-        talentList.add(living);
-        talentList.add(beauty);
-        talentList.add(volunteer);
-        talentList.add(travel);
-        talentList.add(culture);
-        talentList.add(game);
-
-//        long seed = System.nanoTime();
-//        Collections.shuffle(arrTalent, new Random(seed));
-    }
 
 }

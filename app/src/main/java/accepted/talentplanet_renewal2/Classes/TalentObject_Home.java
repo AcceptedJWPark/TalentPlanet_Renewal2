@@ -1,7 +1,5 @@
 package accepted.talentplanet_renewal2.Classes;
 
-import android.support.annotation.NonNull;
-
 public class TalentObject_Home implements Comparable<TalentObject_Home> {
     private String title;
     private int backgroundResourceID;
