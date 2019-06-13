@@ -298,9 +298,27 @@
         />
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="300dp"
+        android:orientation="vertical"
         >
+        <fragment
+            android:id="@+id/frg_AutoComplete_TalentRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+            />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bgr_subColor"
+            />
+
+        <fragment
+            android:id="@+id/frg_Map_TalentRegister"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.MapFragment"/>
     </LinearLayout>
 </LinearLayout>
 
