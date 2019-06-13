@@ -211,4 +211,20 @@ public class SaveSharedPreference{
         InputMethodManager inputMethodManager =(InputMethodManager)context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+    public static void setMyPicturePath(String path, String thumbPath){
+        myPicturePath = path;
+        myThumbPicturePath = thumbPath;
+    }
+
+    public static String getMyPicturePath(){
+        return myPicturePath;
+    }
+    public static String getMyThumbPicturePath(){
+        return myThumbPicturePath;
+    }
+
+    public static String getImageUri(){
+        return IMAGE_URI2;
+    }
 }

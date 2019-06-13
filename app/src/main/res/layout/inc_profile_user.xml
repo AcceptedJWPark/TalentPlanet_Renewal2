@@ -218,10 +218,10 @@
         android:paddingLeft="20dp"
         />
     <!-- 멘토 리스트 -->
-    <HorizontalScrollView
+    <ScrollView
         android:id="@+id/sv_mentor"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         >
@@ -247,7 +247,7 @@
             android:layout_height="match_parent"
             >
         </android.support.v7.widget.RecyclerView>
-    </HorizontalScrollView>
+    </ScrollView>
 
 
     <TextView
@@ -269,7 +269,7 @@
         android:paddingLeft="20dp"
         />
     <!-- 멘티 리스트 -->
-    <HorizontalScrollView
+    <ScrollView
         android:id="@+id/sv_mentee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -284,7 +284,7 @@
             android:layout_height="match_parent"
             >
         </android.support.v7.widget.RecyclerView>
-    </HorizontalScrollView>
+    </ScrollView>
 
     <TextView
         android:layout_width="wrap_content"

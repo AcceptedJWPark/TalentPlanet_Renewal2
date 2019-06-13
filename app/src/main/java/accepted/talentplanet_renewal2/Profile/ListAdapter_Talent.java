@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,9 @@ import accepted.talentplanet_renewal2.R;
 public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.ViewHolder> {
 
     private ArrayList<TalentObject_Home> userTalent = null;
-    private int nListCnt = 0;
 
     public ListAdapter_Talent(ArrayList<TalentObject_Home> userTalentList) {
         userTalent = userTalentList;
-        userTalent.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0));
-        nListCnt = userTalent.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -50,13 +48,14 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
     @Override
     public void onBindViewHolder(ListAdapter_Talent.ViewHolder holder, final int position) {
         Glide.with(holder.itemView.getContext()).load(userTalent.get(position).getBackgroundResourceID()).into(holder.iv);
+        Log.d("position", userTalent.get(position).getTitle());
 
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(v.getContext(), MainActivity_TalentEdit.class);
                 intent1.putExtra("type","MENTOR");
-                if(position < nListCnt - 1){
+                if(position < getItemCount() - 1){
                     TalentObject_Home item = userTalent.get(position);
                     intent1.putExtra("CateCode", item.getCateCode());
                 }
@@ -67,6 +66,6 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
 
     @Override
     public int getItemCount() {
-        return nListCnt;
+        return userTalent.size();
     }
 }
