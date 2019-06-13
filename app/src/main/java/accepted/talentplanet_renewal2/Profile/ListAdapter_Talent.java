@@ -48,7 +48,6 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
     @Override
     public void onBindViewHolder(ListAdapter_Talent.ViewHolder holder, final int position) {
         Glide.with(holder.itemView.getContext()).load(userTalent.get(position).getBackgroundResourceID()).into(holder.iv);
-        Log.d("position", userTalent.get(position).getTitle());
 
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override

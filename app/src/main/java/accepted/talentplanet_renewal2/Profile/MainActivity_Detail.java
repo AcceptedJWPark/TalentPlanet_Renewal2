@@ -49,6 +49,7 @@ public class MainActivity_Detail extends AppCompatActivity {
 
     // 저장용 해시테그
     private String talentID;
+    private String cateCode;
     private ArrayList<String> tagArr = null;
 
     @Override
@@ -56,12 +57,11 @@ public class MainActivity_Detail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__detail);
 
+        Intent intent = getIntent();
+        cateCode = intent.getStringExtra("cateCode");
+        Log.d("NowCateCode" , cateCode);
         // 기본 변수 선언
-        hashTextView = (EditText) findViewById(R.id.et_detail);
-        btn_save_detail = (Button) findViewById(R.id.btn_save_detail);
         mContext = getApplicationContext();
-
-        // 기본 변수 선언
         hashTextView = (EditText) findViewById(R.id.et_detail);
         btn_save_detail = (Button) findViewById(R.id.btn_save_detail);
         ((TextView)findViewById(R.id.tv_toolbar)).setText("상세정보");
@@ -106,7 +106,7 @@ public class MainActivity_Detail extends AppCompatActivity {
         Editable talentTxt = hashTextView.getText();
         String userId = "ansrjsdn7@naver.com";
         String talentFlag = "Y";
-        String talentCate = "1";
+        String talentCate = cateCode;
 
         HashMap<String, Object> commandMap = new HashMap<String, Object>();
         commandMap.put("UserID",userId);

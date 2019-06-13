@@ -9,15 +9,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/iv_profile_fragment2"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/pic_career"
             android:scaleType="fitXY"
-            />
+            android:src="@drawable/pic_career" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,64 +27,63 @@
             android:paddingTop="20dp">
 
             <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:orientation="horizontal">-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal">-->
 
-                <!--<ImageView-->
-                    <!--android:layout_width="20dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:src="@drawable/icon_profile_tag" />-->
+            <!--<ImageView-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:src="@drawable/icon_profile_tag" />-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:text="취업 키워드"-->
-                    <!--android:textColor="@color/colorPrimaryDark"-->
-                    <!--android:textSize="14dp"-->
-                    <!--android:textStyle="bold" />-->
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:text="취업 키워드"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:textSize="14dp"-->
+            <!--android:textStyle="bold" />-->
             <!--</LinearLayout>-->
 
             <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="45dp"-->
-                <!--android:orientation="horizontal"-->
-                <!--&gt;-->
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="#career1"-->
-                    <!--android:textColor="@color/colorPrimaryDark"-->
-                    <!--android:textSize="15dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="45dp"-->
+            <!--android:orientation="horizontal"-->
+            <!--&gt;-->
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:text="#career1"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:textSize="15dp"-->
 
-                    <!--/>-->
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="#career2"-->
-                    <!--android:textColor="@color/colorPrimaryDark"-->
-                    <!--android:textSize="15dp"-->
-                    <!--/>-->
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:gravity="center"-->
-                    <!--android:text="#career3"-->
-                    <!--android:textColor="@color/colorPrimaryDark"-->
-                    <!--android:textSize="15dp"-->
-                    <!--/>-->
+            <!--/>-->
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:text="#career2"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:textSize="15dp"-->
+            <!--/>-->
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:text="#career3"-->
+            <!--android:textColor="@color/colorPrimaryDark"-->
+            <!--android:textSize="15dp"-->
+            <!--/>-->
             <!--</LinearLayout>-->
-
 
 
             <LinearLayout
@@ -102,9 +100,9 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
                     android:text="상세정보추가(키워드)"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14dp"
@@ -113,12 +111,11 @@
                 <TextView
                     android:id="@+id/tv_user_data_edit"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="right"
                     android:text="수정"
-                    android:visibility="visible"
-                    />
+                    android:visibility="visible" />
             </LinearLayout>
 
             <TextView
@@ -132,14 +129,13 @@
 
             <ImageView
                 android:id="@+id/iv_edit_user_info"
-                android:layout_marginTop="20dp"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/icon_profile_plus"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:scaleType="fitXY"
-                android:visibility="gone"
-                />
+                android:src="@drawable/icon_profile_plus"
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>
