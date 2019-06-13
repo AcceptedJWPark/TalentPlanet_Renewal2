@@ -49,19 +49,21 @@ public class MainActivity_Detail extends AppCompatActivity {
 
     // 저장용 해시테그
     private String talentID;
-    private ArrayList<String> tagArr = null;
+    private String cateCode;
+    private String isMentor;
+    private ArrayList<String> tagArr = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__detail);
 
+        Intent intent = getIntent();
+        cateCode = intent.getStringExtra("cateCode");
+        isMentor = intent.getStringExtra("isMentor");
+        Log.d("NowCateCode" , cateCode);
         // 기본 변수 선언
-        hashTextView = (EditText) findViewById(R.id.et_detail);
-        btn_save_detail = (Button) findViewById(R.id.btn_save_detail);
         mContext = getApplicationContext();
-
-        // 기본 변수 선언
         hashTextView = (EditText) findViewById(R.id.et_detail);
         btn_save_detail = (Button) findViewById(R.id.btn_save_detail);
         ((TextView)findViewById(R.id.tv_toolbar)).setText("상세정보");
@@ -105,8 +107,9 @@ public class MainActivity_Detail extends AppCompatActivity {
         // TB_TALENT_NEW  - 유저 요청 저장
         Editable talentTxt = hashTextView.getText();
         String userId = "ansrjsdn7@naver.com";
-        String talentFlag = "Y";
-        String talentCate = "1";
+        // 사용자가 멘토인지 멘티인지.
+        String talentFlag = isMentor;
+        String talentCate = cateCode;
 
         HashMap<String, Object> commandMap = new HashMap<String, Object>();
         commandMap.put("UserID",userId);
@@ -131,8 +134,14 @@ public class MainActivity_Detail extends AppCompatActivity {
 
         // 저장 성공 시
         Intent resultIntent = new Intent();
+
+        // 키보드 종료
+        InputMethodManager immhide = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
         resultIntent.putExtra("ProfileText", hashTextView.getText().toString());
         setResult(RESULT_OK, resultIntent);
+
         finish();
     }
 
@@ -193,6 +202,7 @@ public class MainActivity_Detail extends AppCompatActivity {
                                 // 태그가 없는 경우 이므로 태그를 생성
                                 updateHashCode(aTag);
                             } else {
+                                Log.d("TagID [test]", obj.getString("TagID"));
                                 tagArr.add(obj.getString("TagID"));
                             }
                             requestQueue.stop();
@@ -233,8 +243,9 @@ public class MainActivity_Detail extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Do something with response string
+                        Log.d("response", response.toString());
                         try {
-                            JSONArray talentArr = new JSONArray(response);
+                            JSONObject talentArr = new JSONObject(response);
                             Log.d(this.getClass().getName(), talentArr.toString());
                             tagArr.add(talentArr.toString());
                         } catch (JSONException e) {
