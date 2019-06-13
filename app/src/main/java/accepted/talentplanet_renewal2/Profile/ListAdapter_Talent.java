@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
     @Override
     public void onBindViewHolder(ListAdapter_Talent.ViewHolder holder, final int position) {
         Glide.with(holder.itemView.getContext()).load(userTalent.get(position).getBackgroundResourceID()).into(holder.iv);
-
+        Log.d("ADAPTER", "success");
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +60,9 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
                 if(position < nListCnt - 1){
                     TalentObject_Home item = userTalent.get(position);
                     intent1.putExtra("CateCode", item.getCateCode());
+                    if (position != 0) {
+                        intent1.putExtra("position", position);
+                    }
                 }
                 ((Activity)v.getContext()).startActivity(intent1);
             }

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
@@ -39,6 +40,9 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     talentlist_viewpager vp;
     Context mContext;
     HashTagHelper mHashtagHelper;
+    private Map<String, TalentObject_Home> talentMap;
+    int CateCode;
+    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +50,16 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         setContentView(R.layout.activity_main__talent_edit);
         mContext = getApplicationContext();
 
+        // VeiwPager 시작
+        vp = findViewById(R.id.vp_profile_mentor);
+
         Intent intent = getIntent();
         String requestType = intent.getStringExtra("type");
+        CateCode = intent.getIntExtra("CateCode",0);
+        // 이벤트를 위한 변수
+        position = intent.getIntExtra("position",0) + 1;
+        Log.d("position", Integer.toString(position));
+
         mHashtagHelper = HashTagHelper.Creator.create(getResources().getColor(R.color.colorPrimary), null);
 
         ((TextView)findViewById(R.id.tv_toolbar)).setText(requestType);
@@ -68,6 +80,9 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         });
 
         getAllMyTalent();
+        if (position > 0) {
+            vp.setCurrentItem(position);
+        }
     }
 
     @Override
@@ -93,28 +108,40 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray talentArr = new JSONArray(response);
-                            // VeiwPager 시작
-                            vp = findViewById(R.id.vp_profile_mentor);
+
+                            // 어뎁터 선언
                             talentlist_pagerAdapter adapter = new talentlist_pagerAdapter(getSupportFragmentManager());
+                            // 전체 재능 리스트
+                            ArrayList<String> CateCodeArr = new ArrayList<String>();
 
                             if (talentArr.length() == 0) {
-                                Talent_ThirdFragment fragment = new Talent_ThirdFragment();
-                                Bundle bundle = new Bundle();
-                                fragment.setArguments(bundle);
-                                adapter.addViews(fragment);
+
                             } else {
+                                // 재능수만큼 프레그먼트 생성
                                 for(int i = 0; i < talentArr.length(); i++){
                                     JSONObject obj = talentArr.getJSONObject(i);
                                     Talent_SecondFragment fragment = new Talent_SecondFragment();
                                     Bundle bundle = new Bundle();
                                     bundle.putString("profileText", obj.getString("TalentDescription"));
+
+                                    // 사용할 프레그먼트에 재능 코드 추가
+                                    String CateCode = obj.getString("TalentCateCode");
+                                    bundle.putString("CateCode", CateCode);
+
+                                    // 첫번째 프레그먼트에 재능 코드 추가
+                                    CateCodeArr.add(CateCode);
+
                                     fragment.setArguments(bundle);
                                     adapter.addViews(fragment);
                                 }
                             }
 
+                            adapter.startPager();
                             vp.setAdapter(adapter);
                             vp.setCurrentItem(0);
+//                            if (position != 0) {
+//                                vp.setCurrentItem(position);
+//                            }
 
                             // 이벤트 내용 정의
                             onPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -130,7 +157,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                     } else {
                                         ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.VISIBLE);
                                         ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.VISIBLE);
-                                        // ((TextView) findViewById(R.id.tv_series_profile_mentor)).setText(position + 1);
+//                                         ((TextView) findViewById(R.id.tv_series_profile_mentor)).setText(position + 1);
                                     }
                                 }
 
@@ -157,7 +184,6 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
                 requestQueue.stop();
             }
         }){
@@ -172,5 +198,43 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
 
         // Add StringRequest to the RequestQueue
         requestQueue.add(stringRequest);
+    }
+
+    // 테스트용 배열 생성 함수
+    private void makeTestTalentArr(){
+        talentMap = new HashMap();
+
+        TalentObject_Home career = new TalentObject_Home("취업", R.drawable.pic_career,R.drawable.icon_career, 0);
+        TalentObject_Home study = new TalentObject_Home("학습", R.drawable.pic_study,R.drawable.icon_study, 0);
+        TalentObject_Home money = new TalentObject_Home("재테크", R.drawable.pic_money,R.drawable.icon_money, 0);
+        TalentObject_Home it = new TalentObject_Home("IT", R.drawable.pic_it,R.drawable.icon_it, 0);
+        TalentObject_Home camera = new TalentObject_Home("사진", R.drawable.pic_camera,R.drawable.icon_camera, 0);
+        TalentObject_Home music = new TalentObject_Home("음악", R.drawable.pic_music,R.drawable.icon_music, 0);
+        TalentObject_Home design = new TalentObject_Home("미술/디자인", R.drawable.pic_design,R.drawable.icon_design, 0);
+        TalentObject_Home sports = new TalentObject_Home("운동", R.drawable.pic_sports,R.drawable.icon_sports, 0);
+        TalentObject_Home living = new TalentObject_Home("생활", R.drawable.pic_living,R.drawable.icon_living, 0);
+        TalentObject_Home beauty = new TalentObject_Home("뷰티/패션", R.drawable.pic_beauty,R.drawable.icon_beauty, 0);
+        TalentObject_Home volunteer = new TalentObject_Home("사회봉사", R.drawable.pic_volunteer,R.drawable.icon_volunteer, 0);
+        TalentObject_Home travel = new TalentObject_Home("여행", R.drawable.pic_travel,R.drawable.icon_travel, 0);
+        TalentObject_Home culture = new TalentObject_Home("문화", R.drawable.pic_culture,R.drawable.icon_culture, 0);
+        TalentObject_Home game = new TalentObject_Home("게임", R.drawable.pic_game,R.drawable.icon_game, 0);
+
+        talentMap.put(career.getTitle(), career);
+        talentMap.put(study.getTitle(), study);
+        talentMap.put(money.getTitle(), money);
+        talentMap.put(it.getTitle(), it);
+        talentMap.put(camera.getTitle(), camera);
+        talentMap.put(music.getTitle(), music);
+        talentMap.put(design.getTitle(), design);
+        talentMap.put(sports.getTitle(), sports);
+        talentMap.put(living.getTitle(), living);
+        talentMap.put(beauty.getTitle(), beauty);
+        talentMap.put(volunteer.getTitle(), volunteer);
+        talentMap.put(travel.getTitle(), travel);
+        talentMap.put(culture.getTitle(), culture);
+        talentMap.put(game.getTitle(), game);
+
+//        long seed = System.nanoTime();
+//        Collections.shuffle(arrTalent, new Random(seed));
     }
 }
