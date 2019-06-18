@@ -77,15 +77,21 @@ public class MainActivity_TalentList extends AppCompatActivity {
 
         // 필요정보 생성
         makeTestTalentArr();
-        getTalentListNew();
+        if(intent.hasExtra("isSearch")){
+            // 뷰 정보 인텐트 정보로 변경
+            title.setText("#" + titleTxt);
+            searchTalentListByHashtag();
+        }else {
+            // 뷰 정보 인텐트 정보로 변경
+            title.setText(titleTxt);
+            getTalentListNew();
+        }
 
         // 필요한 뷰만을 표시 R.drawable.icon_back
         leftBtn.setImageResource(R.drawable.icon_back);
         img3x5.setVisibility(View.GONE);
         rightBtn.setVisibility(View.GONE);
 
-        // 뷰 정보 인텐트 정보로 변경
-        title.setText(titleTxt);
 
         // 뒤로가기 이벤트
         leftBtn.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +140,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
 //        Collections.shuffle(arrTalent, new Random(seed));
     }
 
+
     private void getTalentListNew(){
         talentList = new ArrayList<>();
         RequestQueue postRequestQueue = Volley.newRequestQueue(mContext);
@@ -150,6 +157,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         UserData_TalentList aUser = new UserData_TalentList();
                         aUser.setUserName(obj.getString("USER_NAME"));
                         aUser.setUserGender(obj.getString("GENDER"));
+                        aUser.setHashtag(obj.has("HASHTAG") ? obj.getString("HASHTAG") : "");
                         aUser.setUserAge(Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(obj.getString("USER_BIRTH").split("-")[0]) + 1 + "");
 
                         userList.add(aUser);
@@ -193,6 +201,74 @@ public class MainActivity_TalentList extends AppCompatActivity {
                 Map<String, String> params = new HashMap();
                 params.put("TalentFlag", talentFlag);
                 params.put("CateCode", String.valueOf(cateCode));
+                params.put("UserID", "mkh9012@naver.com");
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
+
+    private void searchTalentListByHashtag(){
+        talentList = new ArrayList<>();
+        RequestQueue postRequestQueue = Volley.newRequestQueue(mContext);
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/searchTalentListByHashtag.do", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    userList = new ArrayList<UserData_TalentList>();
+                    JSONArray array = new JSONArray(response);
+                    for(int i = 0; i < array.length(); i++){
+                        JSONObject obj = array.getJSONObject(i);
+                        SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+
+                        UserData_TalentList aUser = new UserData_TalentList();
+                        aUser.setUserName(obj.getString("USER_NAME"));
+                        aUser.setUserGender(obj.getString("GENDER"));
+                        aUser.setHashtag(obj.has("HASHTAG") ? obj.getString("HASHTAG") : "");
+                        aUser.setUserAge(Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(obj.getString("USER_BIRTH").split("-")[0]) + 1 + "");
+
+                        userList.add(aUser);
+                    }
+
+                    for (int i=0;i<talentList.size();i++) {
+                        TextView tv = new TextView(getApplicationContext());
+                        tv.setText(talentList.get(i).getTitle());
+                        Log.d(this.getClass().getName(), titleTxt.toString() + ":" +talentList.get(i).getTitle().toString());
+                        if (titleTxt.toString().equals(talentList.get(i).getTitle().toString())) {
+                            tv.setTextColor(getResources().getColor(R.color.bgr_mainColor));
+                        }
+                        tv.setPadding(10,10,10,10);
+                        hsv.addView(tv);
+                    }
+                    // 리스트 뷰
+                    ListAdapter_TalentList oAdapter = new ListAdapter_TalentList(mContext, userList);
+                    userListView.setAdapter(oAdapter);
+
+                    // 리스트 뷰 프로필 이동 이벤트
+                    userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(MainActivity_TalentList.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
+
+                            String userInfo = userList.get(position).getUserGender() + " / " + userList.get(position).getUserAge() + "세";
+
+                            intent.putExtra("userName", userList.get(position).getUserName());
+                            intent.putExtra("userInfo", userInfo);
+                            startActivity(intent);
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+                params.put("TalentFlag", talentFlag);
+                params.put("Hashtag", titleTxt);
                 params.put("UserID", "mkh9012@naver.com");
                 return params;
             }
