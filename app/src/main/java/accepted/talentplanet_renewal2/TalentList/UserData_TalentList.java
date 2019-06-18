@@ -4,7 +4,7 @@ public class UserData_TalentList {
     private String userName;
     private String userGender;
     private String userAge;
-
+    private String hashtag;
 
     public String getUserName() {
         return userName;
@@ -28,5 +28,13 @@ public class UserData_TalentList {
 
     public void setUserAge(String userAge) {
         this.userAge = userAge;
+    }
+
+    public String getHashtag() {
+        return hashtag;
+    }
+
+    public void setHashtag(String hashtag) {
+        this.hashtag = hashtag;
     }
 }

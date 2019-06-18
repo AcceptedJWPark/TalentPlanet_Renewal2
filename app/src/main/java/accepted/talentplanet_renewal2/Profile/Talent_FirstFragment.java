@@ -135,7 +135,6 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
 
             // 유저 등록 재능 카테고리 리스트
             ArrayList<String> cateCodeArr = getArguments().getStringArrayList("cateCodeArr");
-
             if (cateCodeArr.contains(Integer.toString(obj.getCateCode()))) {
                 //등록된 재능
                 linear.setGravity(BOTTOM);

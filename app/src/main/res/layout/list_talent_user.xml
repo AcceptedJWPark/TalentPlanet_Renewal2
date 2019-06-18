@@ -71,29 +71,11 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:text="#테그1"
+                    android:text=""
+                    android:ellipsize="end"
                     android:textColor="@color/bgr"
                     android:textSize="16dp" />
 
-                <TextView
-                    android:id="@+id/tv_talentTag_2"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="#테그2"
-                    android:textColor="@color/bgr"
-                    android:textSize="16dp" />
-
-                <TextView
-                    android:id="@+id/tv_talentTag_3"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="#테그3"
-                    android:textColor="@color/bgr"
-                    android:textSize="16dp" />
             </LinearLayout>
 
         </LinearLayout>

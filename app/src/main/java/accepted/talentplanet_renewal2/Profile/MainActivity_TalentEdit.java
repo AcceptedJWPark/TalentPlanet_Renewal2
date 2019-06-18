@@ -27,6 +27,8 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -95,8 +97,9 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent resultIntent = new Intent(v.getContext(), MainActivity_Profile.class);
-//                resultIntent.putExtra("talentFlag", isMentor);
-//                resultIntent.putStringArrayListExtra("cateCodeArr", CateCodeArr);
+                resultIntent.putExtra("talentFlag", isMentor);
+                resultIntent.putStringArrayListExtra("cateCodeArr", CateCodeArr);
+                resultIntent.putExtra("inPerson", inPerson);
 //                setResult(3000, resultIntent);
                 startActivity(resultIntent);
                 finish();
@@ -143,33 +146,39 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
 
                             } else {
                                 // 재능수만큼 프레그먼트 생성
+                                ArrayList<Bundle> bundleArr = new ArrayList<Bundle>();
                                 for(int i = 0; i < talentArr.length(); i++){
                                     JSONObject obj = talentArr.getJSONObject(i);
                                     Talent_SecondFragment fragment = new Talent_SecondFragment();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("profileText", obj.getString("TalentDescription"));
 
                                     // 사용할 프레그먼트에 재능 코드 추가
                                     String CateCode = obj.getString("TalentCateCode");
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("profileText", obj.getString("TalentDescription"));
                                     bundle.putString("CateCode", CateCode);
                                     bundle.putString("isMentor", isMentor);
                                     bundle.putBoolean("inPerson", inPerson);
 
+                                    bundleArr.add(bundle);
                                     CateCodeArr.add(CateCode);
 
                                     fragment.setArguments(bundle);
                                     adapter.addViews(fragment);
                                 }
+                                Collections.sort(CateCodeArr);
+
+                                Log.d("CateCodeArr", CateCodeArr.toString());
                             }
 
                             adapter.startPager(isMentor);
                             vp.setAdapter(adapter);
-                            vp.setCurrentItem(0);
-//                            if (clickPosition > 0) {
-//                                vp.setCurrentItem(clickPosition);
-//                            } else {
-//                                vp.setCurrentItem(0);
-//                            }
+//                            vp.setCurrentItem(0);
+                            if (clickPosition > 0) {
+                                vp.setCurrentItem(clickPosition);
+                            } else {
+                                vp.setCurrentItem(0);
+                            }
 
                             // 이벤트 내용 정의
                             onPageChangeListener = new ViewPager.OnPageChangeListener() {

@@ -60,12 +60,17 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
             public void onClick(View v) {
                 Intent intent1 = new Intent(v.getContext(), MainActivity_TalentEdit.class);
                 intent1.putExtra("type", requestType);
+                intent1.putExtra("inPerson", inPerson);
                 if(position < getItemCount() - 1) {
                     TalentObject_Home item = userTalent.get(position);
                     intent1.putExtra("CateCode", item.getCateCode());
                     intent1.putExtra("type", requestType);
                     intent1.putExtra("position", position);
-                    intent1.putExtra("inPerson", inPerson);
+                    if (!inPerson) {
+                        Intent parentIntent = ((Activity) v.getContext()).getIntent();
+                        intent1.putExtra("userName", parentIntent.getStringExtra("userName"));
+                        intent1.putExtra("userInfo", parentIntent.getStringExtra("userInfo"));
+                    }
                 }
                 ((Activity)v.getContext()).startActivity(intent1);
 //                ((Activity)v.getContext()).startActivityForResult(intent1, 3000);

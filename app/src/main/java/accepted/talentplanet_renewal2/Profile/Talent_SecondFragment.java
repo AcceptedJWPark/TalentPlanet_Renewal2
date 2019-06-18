@@ -44,7 +44,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
     private ArrayList<TalentObject_Home> arrTalent;
     private String talentFlag;
     private String talentName;
-    private boolean inPerson;
+    private boolean inPerson = false;
     private int imgSrc;
 
     public Talent_SecondFragment() {
@@ -61,7 +61,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
         if (getArguments() != null) {
             CateCode = getArguments().getString("CateCode");
             isMentor = getArguments().getString("isMentor");
-            inPerson = getArguments().getBoolean("isMentor");
+            inPerson = getArguments().getBoolean("inPerson");
         }
 
         // 카테고리 정보
@@ -72,7 +72,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
         ((TextView) layout.findViewById(R.id.tv_profile_talant)).setText(getArguments().getString("profileText"));
 
         Log.d("inPerson", String.valueOf(inPerson));
-        if (!inPerson) {
+        if (inPerson == false) {
             ((TextView) layout.findViewById(R.id.tv_user_data_edit)).setVisibility(View.GONE);
         }
 
