@@ -24,6 +24,7 @@ import com.volokh.danylo.hashtaghelper.HashTagHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,23 +44,23 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     private Map<String, TalentObject_Home> talentMap;
     private ArrayList<String> CateCodeArr;
     private String isMentor;
+    private boolean inPerson;
 
     ViewPager.OnPageChangeListener onPageChangeListener;
     talentlist_viewpager vp;
 
     int CateCode;
-    int position;
+    int clickPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__talent_edit);
+
         mContext = getApplicationContext();
 
-        // VeiwPager 시작
-        vp = findViewById(R.id.vp_profile_mentor);
-
         Intent intent = getIntent();
+        inPerson = intent.getBooleanExtra("inPerson", false);
         String requestType = intent.getStringExtra("type");
 
         if (requestType.equals("MENTOR")) {
@@ -69,11 +70,11 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         }
         CateCode = intent.getIntExtra("CateCode",0);
         // 이벤트를 위한 변수
-        position = intent.getIntExtra("position",0) + 1;
+        clickPosition = intent.getIntExtra("position",0) + 1;
 
         mHashtagHelper = HashTagHelper.Creator.create(getResources().getColor(R.color.colorPrimary), null);
 
-        ((TextView)findViewById(R.id.tv_toolbar)).setText(requestType);
+        ((TextView) findViewById(R.id.tv_toolbar)).setText(requestType);
         ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
 
         findViewById(R.id.img_show1x15).setVisibility(View.GONE);
@@ -81,37 +82,40 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
 
         // 선택 재능 리스트
         findViewById(R.id.inc_mentor_profile).setVisibility(View.VISIBLE);
+        if (inPerson) {
+            // 유저 본인인 경우
+            ((TextView)findViewById(R.id.tv_talentprofile_profile)).setText("삭제하기");
+        } else {
+            // 다른 유저일 경우
+            //findViewById(R.id.tv_user_data_edit).setVisibility(View.GONE);
+        }
 
         // 뒤로가기 이벤트
         ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("talentFlag", isMentor);
-                resultIntent.putStringArrayListExtra("cateCodeArr", CateCodeArr);
-                setResult(RESULT_OK, resultIntent);
-
+                Intent resultIntent = new Intent(v.getContext(), MainActivity_Profile.class);
+//                resultIntent.putExtra("talentFlag", isMentor);
+//                resultIntent.putStringArrayListExtra("cateCodeArr", CateCodeArr);
+//                setResult(3000, resultIntent);
+                startActivity(resultIntent);
                 finish();
             }
         });
 
         getAllMyTalent();
-        if (position > 0) {
-            vp.setCurrentItem(position);
-        }
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
 
         if(resultCode == RESULT_OK){
-//            String ProfileText = data.getStringExtra("ProfileText");
-//            vp.getCurrentItem();
-//            TextView profile_talent = (TextView)findViewById(R.id.tv_profile_talant);
-//            profile_talent.setText(ProfileText);
-//            mHashtagHelper.handle(profile_talent);
-
             Intent intent = getIntent();
+            intent.putExtra("talentFlag", isMentor);
+            intent.putExtra("cateCodeArr", CateCodeArr);
+            intent.putExtra("type", intent.getStringExtra("type"));
+
             finish();
             startActivity(intent);
         }
@@ -133,7 +137,8 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                             talentlist_pagerAdapter adapter = new talentlist_pagerAdapter(getSupportFragmentManager());
                             // 전체 재능 리스트
                             CateCodeArr = new ArrayList<String>();
-
+                            // VeiwPager 시작
+                            vp = findViewById(R.id.vp_profile_mentor);
                             if (talentArr.length() == 0) {
 
                             } else {
@@ -148,6 +153,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                     String CateCode = obj.getString("TalentCateCode");
                                     bundle.putString("CateCode", CateCode);
                                     bundle.putString("isMentor", isMentor);
+                                    bundle.putBoolean("inPerson", inPerson);
 
                                     CateCodeArr.add(CateCode);
 
@@ -159,8 +165,10 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                             adapter.startPager(isMentor);
                             vp.setAdapter(adapter);
                             vp.setCurrentItem(0);
-//                            if (position != 0) {
-//                                vp.setCurrentItem(position);
+//                            if (clickPosition > 0) {
+//                                vp.setCurrentItem(clickPosition);
+//                            } else {
+//                                vp.setCurrentItem(0);
 //                            }
 
                             // 이벤트 내용 정의

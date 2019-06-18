@@ -99,6 +99,7 @@ import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.VolleyMultipartRequest;
 import accepted.talentplanet_renewal2.VolleySingleton;
 
+
 import static android.graphics.Color.WHITE;
 
 
@@ -154,8 +155,12 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     private Uri photoUri;
     private String currentPhotoPath;
     private String mImageCaptureName;
+    private boolean inPerson;
     private final int CAMERA_CODE = 1111;
     private final int GALLERY_CODE = 1112;
+
+    // 리스트 뷰를 초기화 하기 위한 변수
+    private String listReset;
 
     private static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider";
 
@@ -178,9 +183,23 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         // 받은 값 구현
         Intent intent = new Intent(this.getIntent());
+        inPerson = intent.getBooleanExtra("inPerson", false);
         if (intent.getStringExtra("userName") != null) {
             ((TextView)findViewById(R.id.tv_name_profile)).setText(intent.getStringExtra("userName"));
             ((TextView)findViewById(R.id.tv_birth_profile)).setText(intent.getStringExtra("userInfo"));
+        }
+
+        if (inPerson) {
+            // 유저가 로그인했을 경우
+            String userName = SaveSharedPreference.getUserName(mContext);
+            String userid = SaveSharedPreference.getUserId(mContext);
+
+            ((TextView)findViewById(R.id.tv_name_profile)).setText(userName);
+            // 본인의 아이디에서 숨겨야할 요소
+            ((Button)findViewById(R.id.btn_profile_btn)).setVisibility(View.GONE);
+            //((LinearLayout)findViewById(R.id.ll_pointbox_profile)).setVisibility(View.GONE);
+        } else  {
+            ((LinearLayout)findViewById(R.id.ll_pointbox_profile)).setVisibility(View.GONE);
         }
 
         Point pt = new Point();
@@ -199,7 +218,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         lv_mentor_profile.setLayoutManager(mLayoutManagerMentor);
         lv_mentee_profile.setLayoutManager(mLayoutManagerMentee);
-        
+
         getAllTalent("Y");
         getAllTalent("N");
 
@@ -324,13 +343,15 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     public void onResponse(String response) {
                         try {
                             JSONArray talentArr = new JSONArray(response);
+                            mentorTalentList = new ArrayList<TalentObject_Home>();
+                            menteeTalentList = new ArrayList<TalentObject_Home>();
                             for(int i = 0; i < talentArr.length(); i++){
                                 JSONObject obj = talentArr.getJSONObject(i);
                                 TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0);
                                 item.setCateCode((int)obj.getLong("Code"));
                                 if(talentFlag.equals("Y")) {
                                     mentorTalentList.add(item);
-                                }else if(talentFlag.equals("N")){
+                                }else if(talentFlag.equals("N")) {
                                     menteeTalentList.add(item);
                                 }
                             }
@@ -339,21 +360,23 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         }
 
                         if(talentFlag.equals("Y")){
-                            mentorTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0));
-                            mentorAdapter = new ListAdapter_Talent(mentorTalentList, "MENTOR");
+                            if (inPerson) {
+                                mentorTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0));
+                            }
+                            mentorAdapter = new ListAdapter_Talent(mentorTalentList, "MENTOR", inPerson);
                             lv_mentor_profile.setAdapter(mentorAdapter);
                         }else if(talentFlag.equals("N")){
-                            menteeTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0));
-                            menteeAdapter = new ListAdapter_Talent(menteeTalentList, "MENTEE");
+                            if (inPerson) {
+                                menteeTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0));
+                            }
+                            menteeAdapter = new ListAdapter_Talent(menteeTalentList, "MENTEE", inPerson);
                             lv_mentee_profile.setAdapter(menteeAdapter);
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(this.getClass().getName(), "test 1 [error]: " +error);
-                requestQueue.stop();
             }
         }){
             @Override
@@ -702,11 +725,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     break;
                 case CAMERA_CODE:
                     getPictureForPhoto();
-                    break;
-                case 3000:
-                    String talentFlag = data.getStringExtra("talentFlag");
-                    Log.d("talentFlag", talentFlag);
-                    getAllTalent(talentFlag);
                     break;
                 default:
                     break;

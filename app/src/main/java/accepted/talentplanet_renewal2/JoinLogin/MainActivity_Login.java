@@ -50,6 +50,9 @@ public class MainActivity_Login extends AppCompatActivity {
 
         mContext = getApplicationContext();
 
+        SaveSharedPreference.setPrefUsrName(mContext, "문건우");
+        SaveSharedPreference.setPrefUsrId(mContext, "ansrjsdn7@naver.com");
+
         if(getIntent().hasExtra("dupFlag")){
             Toast.makeText(mContext, "다른 기기에서 로그인되어 접속이 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
@@ -75,7 +78,7 @@ public class MainActivity_Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MainActivity.class);
-                SaveSharedPreference.setPrefUsrId(mContext, et_email_login.getText().toString());
+                //SaveSharedPreference.setPrefUsrId(mContext, et_email_login.getText().toString());
                 startActivity(intent);
                 // loginClicked();
             }
@@ -125,8 +128,10 @@ public class MainActivity_Login extends AppCompatActivity {
                     String result = obj.getString("result");
                     if(result.equals("success")){
                         String userName = obj.getString("userName");
-                        SaveSharedPreference.setPrefUsrName(mContext, userName);
-                        SaveSharedPreference.setPrefUsrId(mContext, userID);
+//                        SaveSharedPreference.setPrefUsrName(mContext, userName);
+//                        SaveSharedPreference.setPrefUsrId(mContext, userID);
+                        SaveSharedPreference.setPrefUsrName(mContext, "문건우");
+                        SaveSharedPreference.setPrefUsrId(mContext, "ansrjsdn7@naver.com");
                        // getMyTalent();
                        // getMyTalentPoint();
                        // getMyPicture();

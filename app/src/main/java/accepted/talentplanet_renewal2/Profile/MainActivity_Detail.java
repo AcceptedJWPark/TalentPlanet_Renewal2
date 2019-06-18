@@ -51,6 +51,7 @@ public class MainActivity_Detail extends AppCompatActivity {
     private String talentID;
     private String cateCode;
     private String isMentor;
+    private String tagStr = "";
     private ArrayList<String> tagArr = new ArrayList<String>();
 
     @Override
@@ -96,7 +97,6 @@ public class MainActivity_Detail extends AppCompatActivity {
                 InputMethodManager immhide = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
 
                 immhide.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-
                 finish();
             }
         });
@@ -123,14 +123,13 @@ public class MainActivity_Detail extends AppCompatActivity {
         // 태그 3개 이상으로 하게 끔 유도하겠끔 유효성 검사 필요
         // tagArr 만드는 부분
         List<String> allHashTags = mEditTextHashTagHelper.getAllHashTags();
-        Log.d(this.getClass().getName(), "[HashTag Test] : " +allHashTags.toString());
-        for (int i=0;i<allHashTags.size(); i++ ) {
-            getHashValue(allHashTags.get(i));
-        }
 
-//        for (int i=0;i<tagArr.size();i++) {
-//            joinTalentAndTag(tagArr.get(i));
-//        }
+        for (int i=0;i<allHashTags.size(); i++ ) {
+            tagStr += (allHashTags.get(i)) + "||";
+        }
+        Log.d(this.getClass().getName(), tagStr.toString());
+
+
 
         // 저장 성공 시
         Intent resultIntent = new Intent();
@@ -157,13 +156,12 @@ public class MainActivity_Detail extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d(this.getClass().getName(), "test 1 : " +response);
                         talentID = response;
-                        requestQueue.stop();
+                        insertHashValue();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d(this.getClass().getName(), "test 1 [error]: " +error);
-                        requestQueue.stop();
                     }
                 }){
                 @Override
@@ -203,9 +201,8 @@ public class MainActivity_Detail extends AppCompatActivity {
                                 updateHashCode(aTag);
                             } else {
                                 Log.d("TagID [test]", obj.getString("TagID"));
-                                tagArr.add(obj.getString("TagID"));
+                                tagStr += (obj.getString("TagID")) + "||";
                             }
-                            requestQueue.stop();
                         }
                         catch(JSONException e){
                             e.printStackTrace();
@@ -220,7 +217,6 @@ public class MainActivity_Detail extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 // Do something when get error
                 Log.d(this.getClass().getName(), "test 2 [error]: " +error);
-                requestQueue.stop();
             }
         }){
             @Override
@@ -257,7 +253,6 @@ public class MainActivity_Detail extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 // Do something when get error
                 Log.d(this.getClass().getName(), "test 3 [해쉬태그 업데이트 error]: " +error);
-                requestQueue.stop();
             }
         }){
             @Override
@@ -270,12 +265,12 @@ public class MainActivity_Detail extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void joinTalentAndTag(final String aTag) {
+    private void insertHashValue() {
         final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
-                SaveSharedPreference.getServerIp() + "Hashtag/joinTalentAndTag.do",
+                SaveSharedPreference.getServerIp() + "/Hashtag/insertHashValue.do",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -287,17 +282,17 @@ public class MainActivity_Detail extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 // Do something when get error
                 Log.d(this.getClass().getName(), "test 4 [태그와 재능연결 error]: " +error);
-                requestQueue.stop();
             }
         }){
             @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("TalentID", talentID);
-                params.put("TagID", aTag);
+                params.put("talentID", talentID);
+                params.put("hashvalues", tagStr);
                 return params;
             }
         };
         requestQueue.add(stringRequest);
     }
+
 }

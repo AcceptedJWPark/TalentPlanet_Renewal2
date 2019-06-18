@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
     private ArrayList<TalentObject_Home> arrTalent;
     private String talentFlag;
     private String talentName;
+    private boolean inPerson;
     private int imgSrc;
 
     public Talent_SecondFragment() {
@@ -59,7 +61,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
         if (getArguments() != null) {
             CateCode = getArguments().getString("CateCode");
             isMentor = getArguments().getString("isMentor");
-            Log.d("isMentor[Second]",isMentor + " : " +  CateCode);
+            inPerson = getArguments().getBoolean("isMentor");
         }
 
         // 카테고리 정보
@@ -69,6 +71,10 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
         layout = (LinearLayout) inflater.inflate(R.layout.activity_profile_fragment2, container, false);
         ((TextView) layout.findViewById(R.id.tv_profile_talant)).setText(getArguments().getString("profileText"));
 
+        Log.d("inPerson", String.valueOf(inPerson));
+        if (!inPerson) {
+            ((TextView) layout.findViewById(R.id.tv_user_data_edit)).setVisibility(View.GONE);
+        }
 
         TextView editBtn = (TextView) layout.findViewById(R.id.tv_user_data_edit);
         editBtn.setOnClickListener(new View.OnClickListener() {

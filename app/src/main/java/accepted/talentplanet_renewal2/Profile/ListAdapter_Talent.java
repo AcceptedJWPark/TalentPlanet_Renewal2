@@ -25,10 +25,12 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
 
     private ArrayList<TalentObject_Home> userTalent = null;
     private String requestType;
+    private boolean inPerson;
 
-    public ListAdapter_Talent(ArrayList<TalentObject_Home> userTalentList, String request) {
+    public ListAdapter_Talent(ArrayList<TalentObject_Home> userTalentList, String request, boolean state) {
         userTalent = userTalentList;
         requestType = request;
+        inPerson = state;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -51,18 +53,25 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
     public void onBindViewHolder(ListAdapter_Talent.ViewHolder holder, final int position) {
         Glide.with(holder.itemView.getContext()).load(userTalent.get(position).getBackgroundResourceID()).into(holder.iv);
 
+
+
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(v.getContext(), MainActivity_TalentEdit.class);
                 intent1.putExtra("type", requestType);
-                if(position < getItemCount() - 1){
+                if(position < getItemCount() - 1) {
                     TalentObject_Home item = userTalent.get(position);
                     intent1.putExtra("CateCode", item.getCateCode());
                     intent1.putExtra("type", requestType);
+                    intent1.putExtra("position", position);
+                    intent1.putExtra("inPerson", inPerson);
                 }
-                ((Activity)v.getContext()).startActivityForResult(intent1, 3000);
+                ((Activity)v.getContext()).startActivity(intent1);
+//                ((Activity)v.getContext()).startActivityForResult(intent1, 3000);
+                ((Activity)v.getContext()).finish();
             }
+
         });
     }
 

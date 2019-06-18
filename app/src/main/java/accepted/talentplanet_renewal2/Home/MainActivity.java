@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView img3x5;
     ImageView img1x15;
     ImageView img_open_dl;
+    TextView tv_user_dl;
+    TextView tv_email_dl;
 
     DrawerLayout dl;
     View v_drawerlayout;
@@ -97,6 +99,14 @@ public class MainActivity extends AppCompatActivity {
         btn_mentor_home = findViewById(R.id.btn_mentor_home);
         btn_mentee_home = findViewById(R.id.btn_mentee_home);
 
+        tv_user_dl = findViewById(R.id.tv_user_dl);
+        tv_email_dl = findViewById(R.id.tv_email_dl);
+
+        String userName = SaveSharedPreference.getUserName(mContext);
+        String userId = SaveSharedPreference.getUserId(mContext);
+        tv_user_dl.setText(userName);
+        tv_email_dl.setText(userId);
+
         drawerlayoutEvent(mContext);
         isAlaram = true;
 
@@ -107,8 +117,6 @@ public class MainActivity extends AppCompatActivity {
         mentorClicked = true;
         findViewById(R.id.inc_list3x5_home).setVisibility(View.VISIBLE);
         findViewById(R.id.inc_list1x15_home).setVisibility(View.GONE);
-
-        //
 
         img_open_dl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -458,6 +466,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dl.closeDrawers();
                 Intent intent = new Intent(context, MainActivity_Profile.class);
+                intent.putExtra ("inPerson", true);
                 startActivity(intent);
             }
         });

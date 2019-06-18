@@ -64,6 +64,7 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         if (getArguments() != null) {
             isMentor = getArguments().getString("isMentor");
         }
@@ -161,6 +162,7 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
                 rl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.d("talentIdx", String.valueOf(talentIdx) );
                         vp.setCurrentItem(talentIdx);
                     }
                 });

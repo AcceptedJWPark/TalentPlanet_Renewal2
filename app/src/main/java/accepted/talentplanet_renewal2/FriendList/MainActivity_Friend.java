@@ -44,7 +44,6 @@ public class MainActivity_Friend extends AppCompatActivity {
             oItem.strUserInfo = infoArr[i];
             oData.add(oItem);
         }
-        Log.d(this.getClass().getName(), oData.toString());
 
         // ListView, Adapter 생성 및 연결 ------------------------
         friendList = (ListView)findViewById(R.id.lv_friend);
@@ -98,7 +97,6 @@ public class MainActivity_Friend extends AppCompatActivity {
 
                 String userInfo = oData.get(position).strUserInfo;
                 String[] temp = userInfo.split(" / ");
-
                 intent.putExtra("userName", oData.get(position).strUserName);
                 intent.putExtra("userInfo", temp[1]);
                 startActivity(intent);

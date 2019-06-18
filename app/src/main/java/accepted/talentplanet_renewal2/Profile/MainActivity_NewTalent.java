@@ -80,7 +80,7 @@ public class MainActivity_NewTalent extends AppCompatActivity {
         ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+            finish();
             }
         });
     }
