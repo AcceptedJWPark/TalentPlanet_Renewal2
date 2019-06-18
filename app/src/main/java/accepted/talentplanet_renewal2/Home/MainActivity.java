@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -63,11 +64,14 @@ public class MainActivity extends AppCompatActivity {
     ImageView img1x15;
     ImageView img_open_dl;
 
+    EditText et_search_home;
+
     DrawerLayout dl;
     View v_drawerlayout;
 
     Button btn_mentor_home;
     Button btn_mentee_home;
+    Button btn_search_home;
 
     boolean mentorClicked;
 
@@ -96,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
         btn_mentor_home = findViewById(R.id.btn_mentor_home);
         btn_mentee_home = findViewById(R.id.btn_mentee_home);
+        btn_search_home = findViewById(R.id.btn_search_home);
+
+        et_search_home = findViewById(R.id.et_search_home);
 
         drawerlayoutEvent(mContext);
         isAlaram = true;
@@ -146,6 +153,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btn_search_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity_TalentList.class);
+                String talentName = et_search_home.getText().toString();
+                intent.putExtra("talentName", talentName);
+                intent.putExtra("talentFlag", talentFlag);
+                intent.putExtra("isSearch", true);
+                startActivity(intent);
+            }
+        });
 
     }
 
