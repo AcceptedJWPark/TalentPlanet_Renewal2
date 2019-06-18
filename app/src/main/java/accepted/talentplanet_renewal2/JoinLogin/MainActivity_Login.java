@@ -75,6 +75,7 @@ public class MainActivity_Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MainActivity.class);
+                SaveSharedPreference.setPrefUsrId(mContext, et_email_login.getText().toString());
                 startActivity(intent);
                 // loginClicked();
             }

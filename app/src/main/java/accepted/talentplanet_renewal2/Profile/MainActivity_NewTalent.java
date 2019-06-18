@@ -1,5 +1,6 @@
 package accepted.talentplanet_renewal2.Profile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import accepted.talentplanet_renewal2.R;
 public class MainActivity_NewTalent extends AppCompatActivity {
 
     private String cateCode;
+    private String isMentor;
     private int imgSrc;
     TextView tv_toolbar;
     TextView tv_user_data_edit;
@@ -38,6 +41,7 @@ public class MainActivity_NewTalent extends AppCompatActivity {
         // intent
         Intent intent = getIntent();
         String talentTitle = intent.getStringExtra("talentName");
+        isMentor = intent.getStringExtra("isMentor");
         cateCode = intent.getStringExtra("cateCode");
         imgSrc = intent.getIntExtra("imgSrc", 0);
 
@@ -63,8 +67,8 @@ public class MainActivity_NewTalent extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity_NewTalent.this, MainActivity_Detail.class);
-                Log.d("NowCateCode" , cateCode);
                 intent.putExtra("cateCode", cateCode);
+                intent.putExtra("isMentor", isMentor);
                 startActivityForResult(intent, 3000);
             }
         };
@@ -79,5 +83,15 @@ public class MainActivity_NewTalent extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK){
+            Intent resultIntent = new Intent();
+            setResult(RESULT_OK, resultIntent);
+
+            finish();
+        }
     }
 }

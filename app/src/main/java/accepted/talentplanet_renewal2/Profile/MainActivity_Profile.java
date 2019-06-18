@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -202,42 +203,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         getAllTalent("Y");
         getAllTalent("N");
 
-        vp = findViewById(R.id.vp_profile_mentor);
-        vp.setAdapter(new talentlist_pagerAdapter(getSupportFragmentManager()));
-        vp.setCurrentItem(0);
-        onPageChangeListener = new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.GONE);
-                    ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.GONE);
-                } else if (position == 1) {
-                    ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.VISIBLE);
-                    ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.VISIBLE);
-                    ((TextView) findViewById(R.id.tv_series_profile_mentor)).setText("2");
-                } else {
-                    ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.VISIBLE);
-                    ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.VISIBLE);
-                    ((TextView) findViewById(R.id.tv_series_profile_mentor)).setText("3");
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        };
-        vp.addOnPageChangeListener(onPageChangeListener);
-        findViewById(R.id.ll_totalshow_profile_mentor).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                vp.setCurrentItem(0);
-            }
-        });
-
         //point 부분
         userDate.add(new ItemData_Profile(true,"박종우","남성 / 29세", "2019/05/17 16:48PM 완료","+50"));
         userDate.add(new ItemData_Profile(false,"민권홍","남성 / 30세", "2019/05/14 16:48PM 완료","-50"));
@@ -264,9 +229,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-
-
-
 
         fragmentManager = getFragmentManager();
         mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.frg_Map_TalentRegister);
@@ -295,12 +257,10 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
         });
 
-
         Intent i = getIntent();
         keyword1 = i.getStringExtra("talent1");
         keyword2 = i.getStringExtra("talent2");
         keyword3 = i.getStringExtra("talent3");
-
 
         isRegisted = i.getBooleanExtra("talentFlag", true);
         isHavingData = i.getBooleanExtra("isHavingData", false);
@@ -308,7 +268,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         if(isHavingData) {
             data = (MyTalent)i.getSerializableExtra("data");
             location = data.getLocation();
-
         }
 
         // 프로필 사진 관련
@@ -340,6 +299,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 alertDialog.show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public static float convertDpToPixel(float dp, Context context){
@@ -375,13 +339,12 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         }
 
                         if(talentFlag.equals("Y")){
-
                             mentorTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0));
-                            mentorAdapter = new ListAdapter_Talent(mentorTalentList);
+                            mentorAdapter = new ListAdapter_Talent(mentorTalentList, "MENTOR");
                             lv_mentor_profile.setAdapter(mentorAdapter);
                         }else if(talentFlag.equals("N")){
                             menteeTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0));
-                            menteeAdapter = new ListAdapter_Talent(menteeTalentList);
+                            menteeAdapter = new ListAdapter_Talent(menteeTalentList, "MENTEE");
                             lv_mentee_profile.setAdapter(menteeAdapter);
                         }
 
@@ -732,13 +695,18 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK){
+            Log.d("requestCode", String.valueOf(requestCode));
             switch(requestCode){
                 case GALLERY_CODE:
                     sendPicture(data.getData());
                     break;
-
                 case CAMERA_CODE:
                     getPictureForPhoto();
+                    break;
+                case 3000:
+                    String talentFlag = data.getStringExtra("talentFlag");
+                    Log.d("talentFlag", talentFlag);
+                    getAllTalent(talentFlag);
                     break;
                 default:
                     break;

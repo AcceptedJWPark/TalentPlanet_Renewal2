@@ -48,7 +48,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class Talent_FirstFragment extends android.support.v4.app.Fragment {
 
-    String talentFlag;
+    String isMentor;
     private ArrayList<TalentObject_Home> arrTalent;
     private Map<String, TalentObject_Home> talentMap;
     private LinearLayout layout;
@@ -64,9 +64,13 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            isMentor = getArguments().getString("isMentor");
+        }
+
         layout = (LinearLayout) inflater.inflate(R.layout.activity_profile_fragment1, container, false);
         vp = container.findViewById(R.id.vp_profile_mentor);
-        talentFlag = "Y";
+
         // 가상 데이터
         makeTestTalentArr();
         // 위의 데이터 재정렬
@@ -157,7 +161,6 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
                 rl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("talentIdx", Integer.toString(talentIdx));
                         vp.setCurrentItem(talentIdx);
                     }
                 });
@@ -169,9 +172,10 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
                         Intent intent = new Intent(getActivity(), MainActivity_NewTalent.class);
                         intent.putExtra("talentName", obj.getTitle());
                         intent.putExtra("cateCode", Integer.toString(obj.getCateCode()));
-                        intent.putExtra("talentFlag", talentFlag);
+                        intent.putExtra("talentFlag", isMentor);
                         intent.putExtra("imgSrc", obj.getBackgroundResourceID());
-                        startActivity(intent);
+                        intent.putExtra("isMentor", isMentor);
+                        startActivityForResult(intent, 3000);
                     }
                 });
             }
@@ -249,7 +253,7 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
-                params.put("TalentFlag", talentFlag);
+                params.put("TalentFlag", isMentor);
                 return params;
             }
         };

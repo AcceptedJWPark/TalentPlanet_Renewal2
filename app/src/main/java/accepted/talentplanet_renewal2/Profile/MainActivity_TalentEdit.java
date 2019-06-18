@@ -1,5 +1,6 @@
 package accepted.talentplanet_renewal2.Profile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,13 +36,17 @@ import accepted.talentplanet_renewal2.SaveSharedPreference;
 
 public class MainActivity_TalentEdit extends AppCompatActivity {
 
-    private ArrayList<TalentObject_Profile> arrTalent;
-    View v_inc_profile[] = new View[2];
-    ViewPager.OnPageChangeListener onPageChangeListener;
-    talentlist_viewpager vp;
     Context mContext;
     HashTagHelper mHashtagHelper;
+
+    private ArrayList<TalentObject_Profile> arrTalent;
     private Map<String, TalentObject_Home> talentMap;
+    private ArrayList<String> CateCodeArr;
+    private String isMentor;
+
+    ViewPager.OnPageChangeListener onPageChangeListener;
+    talentlist_viewpager vp;
+
     int CateCode;
     int position;
 
@@ -55,10 +61,15 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
 
         Intent intent = getIntent();
         String requestType = intent.getStringExtra("type");
+
+        if (requestType.equals("MENTOR")) {
+            isMentor = "Y";
+        } else if (requestType.equals("MENTEE")) {
+            isMentor = "N";
+        }
         CateCode = intent.getIntExtra("CateCode",0);
         // 이벤트를 위한 변수
         position = intent.getIntExtra("position",0) + 1;
-        Log.d("position", Integer.toString(position));
 
         mHashtagHelper = HashTagHelper.Creator.create(getResources().getColor(R.color.colorPrimary), null);
 
@@ -75,6 +86,11 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("talentFlag", isMentor);
+                resultIntent.putStringArrayListExtra("cateCodeArr", CateCodeArr);
+                setResult(RESULT_OK, resultIntent);
+
                 finish();
             }
         });
@@ -89,11 +105,15 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
 
         if(resultCode == RESULT_OK){
-            String ProfileText = data.getStringExtra("ProfileText");
-            vp.getCurrentItem();
-            TextView profile_talent = (TextView)findViewById(R.id.tv_profile_talant);
-            profile_talent.setText(ProfileText);
-            mHashtagHelper.handle(profile_talent);
+//            String ProfileText = data.getStringExtra("ProfileText");
+//            vp.getCurrentItem();
+//            TextView profile_talent = (TextView)findViewById(R.id.tv_profile_talant);
+//            profile_talent.setText(ProfileText);
+//            mHashtagHelper.handle(profile_talent);
+
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
         }
     }
 
@@ -112,7 +132,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                             // 어뎁터 선언
                             talentlist_pagerAdapter adapter = new talentlist_pagerAdapter(getSupportFragmentManager());
                             // 전체 재능 리스트
-                            ArrayList<String> CateCodeArr = new ArrayList<String>();
+                            CateCodeArr = new ArrayList<String>();
 
                             if (talentArr.length() == 0) {
 
@@ -127,8 +147,8 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                     // 사용할 프레그먼트에 재능 코드 추가
                                     String CateCode = obj.getString("TalentCateCode");
                                     bundle.putString("CateCode", CateCode);
+                                    bundle.putString("isMentor", isMentor);
 
-                                    // 첫번째 프레그먼트에 재능 코드 추가
                                     CateCodeArr.add(CateCode);
 
                                     fragment.setArguments(bundle);
@@ -136,7 +156,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                 }
                             }
 
-                            adapter.startPager();
+                            adapter.startPager(isMentor);
                             vp.setAdapter(adapter);
                             vp.setCurrentItem(0);
 //                            if (position != 0) {
@@ -189,15 +209,21 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         }){
             @Override
             public Map<String, String> getParams() {
+
                 Map<String, String> params = new HashMap<>();
                 params.put("UserID", "ansrjsdn7@naver.com");
-                params.put("TalentFlag", "Y");
+                params.put("TalentFlag",  isMentor);
                 return params;
             }
         };
 
         // Add StringRequest to the RequestQueue
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     // 테스트용 배열 생성 함수

@@ -58,6 +58,9 @@
             android:name=".Profile.MainActivity_Profile"
             android:theme="@style/AppTheme_Home" />
         <activity
+            android:name=".Profile.MainActivity_NewTalent"
+            android:theme="@style/AppTheme_Home" />
+        <activity
             android:name=".FriendList.MainActivity_Friend"
             android:theme="@style/AppTheme_Home" />
         <activity

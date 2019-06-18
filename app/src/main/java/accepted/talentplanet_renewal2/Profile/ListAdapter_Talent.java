@@ -24,9 +24,11 @@ import accepted.talentplanet_renewal2.R;
 public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.ViewHolder> {
 
     private ArrayList<TalentObject_Home> userTalent = null;
+    private String requestType;
 
-    public ListAdapter_Talent(ArrayList<TalentObject_Home> userTalentList) {
+    public ListAdapter_Talent(ArrayList<TalentObject_Home> userTalentList, String request) {
         userTalent = userTalentList;
+        requestType = request;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,12 +55,13 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(v.getContext(), MainActivity_TalentEdit.class);
-                intent1.putExtra("type","MENTOR");
+                intent1.putExtra("type", requestType);
                 if(position < getItemCount() - 1){
                     TalentObject_Home item = userTalent.get(position);
                     intent1.putExtra("CateCode", item.getCateCode());
+                    intent1.putExtra("type", requestType);
                 }
-                ((Activity)v.getContext()).startActivity(intent1);
+                ((Activity)v.getContext()).startActivityForResult(intent1, 3000);
             }
         });
     }

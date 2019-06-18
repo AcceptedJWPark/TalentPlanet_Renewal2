@@ -38,6 +38,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
     LinearLayout layout;
 
     private String CateCode;
+    private String isMentor;
     private Map<String, TalentObject_Home> talentMap;
     private ArrayList<TalentObject_Home> arrTalent;
     private String talentFlag;
@@ -57,13 +58,13 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getArguments() != null) {
             CateCode = getArguments().getString("CateCode");
+            isMentor = getArguments().getString("isMentor");
+            Log.d("isMentor[Second]",isMentor + " : " +  CateCode);
         }
 
         // 카테고리 정보
         makeTestTalentArr();
         getCateList();
-
-        talentFlag = "Y";
 
         layout = (LinearLayout) inflater.inflate(R.layout.activity_profile_fragment2, container, false);
         ((TextView) layout.findViewById(R.id.tv_profile_talant)).setText(getArguments().getString("profileText"));
@@ -76,6 +77,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity() , MainActivity_Detail.class);
                 intent.putExtra("cateCode", CateCode);
+                intent.putExtra("isMentor", isMentor);
                 startActivityForResult(intent, 3000);
             }
         });
@@ -152,7 +154,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
-                params.put("TalentFlag", talentFlag);
+                params.put("TalentFlag", isMentor);
                 return params;
             }
         };
