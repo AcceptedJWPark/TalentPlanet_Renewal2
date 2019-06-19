@@ -1,5 +1,6 @@
 package accepted.talentplanet_renewal2.Profile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +47,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
     private String talentName;
     private boolean inPerson = false;
     private int imgSrc;
+    private Context mContext;
 
     public Talent_SecondFragment() {
     }
@@ -64,10 +66,12 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
             inPerson = getArguments().getBoolean("inPerson");
         }
 
+        mContext = getActivity().getApplicationContext();
         // 카테고리 정보
         makeTestTalentArr();
-        getCateList();
-
+        if(isAdded()) {
+            getCateList();
+        }
         layout = (LinearLayout) inflater.inflate(R.layout.activity_profile_fragment2, container, false);
         ((TextView) layout.findViewById(R.id.tv_profile_talant)).setText(getArguments().getString("profileText"));
 
@@ -129,7 +133,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
     }
     private void getCateList(){
         arrTalent = new ArrayList<>();
-        RequestQueue postRequestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        RequestQueue postRequestQueue = Volley.newRequestQueue(mContext);
         StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/getTalentCateList.do", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -149,7 +153,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
                             imgSrc = arrTalent.get(i).getBackgroundResourceID();
                             // 재능별 백그라운드 이미지 변경
                             ImageView iv_profile_fragment2 = (ImageView) layout.findViewById(R.id.iv_profile_fragment2);
-                            Glide.with(getActivity().getApplicationContext()).load(imgSrc).into(iv_profile_fragment2);
+                            Glide.with(mContext).load(imgSrc).into(iv_profile_fragment2);
                         }
                     }
                 } catch (JSONException e) {

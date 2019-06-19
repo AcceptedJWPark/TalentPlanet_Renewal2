@@ -244,8 +244,9 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
                         talentObject.setTalentCount((int)obj.getLong("RegistCount"));
                         arrTalent.add(talentObject);
                     }
-
-                    makeLayout(layout);
+                    if(isAdded()) {
+                        makeLayout(layout);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
