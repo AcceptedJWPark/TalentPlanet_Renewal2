@@ -51,7 +51,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     ViewPager.OnPageChangeListener onPageChangeListener;
     talentlist_viewpager vp;
 
-    int CateCode;
+    int clickCateCode;
     int clickPosition;
 
     @Override
@@ -70,7 +70,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         } else if (requestType.equals("MENTEE")) {
             isMentor = "N";
         }
-        CateCode = intent.getIntExtra("CateCode",0);
+        clickCateCode = intent.getIntExtra("CateCode",0);
         // 이벤트를 위한 변수
         clickPosition = intent.getIntExtra("position",0) + 1;
 
@@ -154,6 +154,9 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                     // 사용할 프레그먼트에 재능 코드 추가
                                     String CateCode = obj.getString("TalentCateCode");
 
+                                    if(clickCateCode == Integer.parseInt(CateCode)){
+                                        clickPosition = i + 1;
+                                    }
                                     Bundle bundle = new Bundle();
                                     bundle.putString("profileText", obj.getString("TalentDescription"));
                                     bundle.putString("CateCode", CateCode);
@@ -166,7 +169,6 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                     fragment.setArguments(bundle);
                                     adapter.addViews(fragment);
                                 }
-                                Collections.sort(CateCodeArr);
 
                                 Log.d("CateCodeArr", CateCodeArr.toString());
                             }
@@ -175,6 +177,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                             vp.setAdapter(adapter);
 //                            vp.setCurrentItem(0);
                             if (clickPosition > 0) {
+                                Log.d("position", clickPosition + "");
                                 vp.setCurrentItem(clickPosition);
                             } else {
                                 vp.setCurrentItem(0);

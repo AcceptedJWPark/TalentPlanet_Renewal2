@@ -276,17 +276,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
         });
 
-        Intent i = getIntent();
-        keyword1 = i.getStringExtra("talent1");
-        keyword2 = i.getStringExtra("talent2");
-        keyword3 = i.getStringExtra("talent3");
-
-        isRegisted = i.getBooleanExtra("talentFlag", true);
-        isHavingData = i.getBooleanExtra("isHavingData", false);
-
-        if(isHavingData) {
-            data = (MyTalent)i.getSerializableExtra("data");
-            location = data.getLocation();
+        if(!inPerson){
+               autocompleteFragment.getView().setVisibility(View.GONE);
+               mapFragment.getView().setOnClickListener(null);
         }
 
         // 프로필 사진 관련
@@ -474,6 +466,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(final GoogleMap map){
         gMap = map;
+
+        if(!inPerson) return;
+
         gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
             public boolean onMyLocationButtonClick() {
@@ -562,30 +557,32 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         markerOptions.title(name);
         markerOptions.snippet(addr);
         Marker marker = gMap.addMarker(markerOptions);
-        gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                final AlertDialog.Builder ProgressorCancelPopup = new AlertDialog.Builder(MainActivity_Profile.this);
-                Log.d("geo icon_point", mCurrentLocation.getLatitude() +", "+ mCurrentLocation.getLongitude());
+        if (inPerson){
+            gMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    final AlertDialog.Builder ProgressorCancelPopup = new AlertDialog.Builder(MainActivity_Profile.this);
+                    Log.d("geo icon_point", mCurrentLocation.getLatitude() +", "+ mCurrentLocation.getLongitude());
 
-                ProgressorCancelPopup.setMessage("선택한 위치가 \"" + marker.getSnippet() + "\"가 맞습니까?")
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        })
-                        .setNegativeButton("닫기", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
+                    ProgressorCancelPopup.setMessage("선택한 위치가 \"" + marker.getSnippet() + "\"가 맞습니까?")
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setNegativeButton("닫기", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
 
-                AlertDialog alertDialog = ProgressorCancelPopup.create();
-                alertDialog.show();
-            }
-        });
+                    AlertDialog alertDialog = ProgressorCancelPopup.create();
+                    alertDialog.show();
+                }
+            });
+        }
         marker.showInfoWindow();
         Log.d("Current Loc", location.getLatitude()+", "+location.getLongitude());
 

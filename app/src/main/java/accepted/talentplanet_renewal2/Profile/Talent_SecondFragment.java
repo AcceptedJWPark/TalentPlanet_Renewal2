@@ -151,6 +151,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
                         if(aCateCode == CateCode) {
                             talentName = arrTalent.get(i).getTitle();
                             imgSrc = arrTalent.get(i).getBackgroundResourceID();
+                            Log.d("cateName", arrTalent.get(i).getTitle() + ", " + CateCode);
                             // 재능별 백그라운드 이미지 변경
                             ImageView iv_profile_fragment2 = (ImageView) layout.findViewById(R.id.iv_profile_fragment2);
                             Glide.with(mContext).load(imgSrc).into(iv_profile_fragment2);

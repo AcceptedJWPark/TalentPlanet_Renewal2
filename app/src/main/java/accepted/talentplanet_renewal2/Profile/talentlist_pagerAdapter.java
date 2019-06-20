@@ -51,7 +51,7 @@ public class talentlist_pagerAdapter extends FragmentStatePagerAdapter {
                     Bundle codeP = o2.getArguments();
                     if (codeP != null) {
                         String code2 = codeP.getString("CateCode");
-                        return code1.compareTo(code2);
+                        return Integer.parseInt(code1) - Integer.parseInt(code2);
                     }
                     return 0;
                 }
