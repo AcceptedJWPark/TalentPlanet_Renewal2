@@ -70,24 +70,24 @@ public class VolleySingleton {
     }
 
     public RequestQueue getRequestQueue(){
-        HurlStack hurlStack = new HurlStack(){
-            @Override
-            protected HttpURLConnection createConnection(URL url) throws IOException{
-                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) super.createConnection(url);
-                try{
-                    httpsURLConnection.setSSLSocketFactory(newSslSocketFactory());
-                    httpsURLConnection.setHostnameVerifier(getHostnameVerifier());
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-                return httpsURLConnection;
-            }
-        };
+//        HurlStack hurlStack = new HurlStack(){
+//            @Override
+//            protected HttpURLConnection createConnection(URL url) throws IOException{
+//                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) super.createConnection(url);
+//                try{
+//                    httpsURLConnection.setSSLSocketFactory(newSslSocketFactory());
+//                    httpsURLConnection.setHostnameVerifier(getHostnameVerifier());
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//
+//                return httpsURLConnection;
+//            }
+//        };
 
         if(mRequestQueue == null){
-
-            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext(), hurlStack);
+            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+            //mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext(), hurlStack);
         }
 
         return mRequestQueue;

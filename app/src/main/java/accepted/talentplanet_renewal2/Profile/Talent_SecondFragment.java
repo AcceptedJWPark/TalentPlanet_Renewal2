@@ -69,9 +69,9 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
         mContext = getActivity().getApplicationContext();
         // 카테고리 정보
         makeTestTalentArr();
-        if(isAdded()) {
-            getCateList();
-        }
+
+        getCateList();
+
         layout = (LinearLayout) inflater.inflate(R.layout.activity_profile_fragment2, container, false);
         ((TextView) layout.findViewById(R.id.tv_profile_talant)).setText(getArguments().getString("profileText"));
 
