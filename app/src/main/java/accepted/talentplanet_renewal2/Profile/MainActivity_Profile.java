@@ -184,6 +184,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         tv_profile_description = findViewById(R.id.tv_profile_description);
         tv_birth_profile = findViewById(R.id.tv_birth_profile);
+        tv_addr_profile = findViewById(R.id.tv_addr_profile);
+
+        img_gender_profile = findViewById(R.id.img_gender_profile);
 
         mentorTalentList = new ArrayList<>();
         menteeTalentList = new ArrayList<>();
@@ -354,14 +357,15 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                             tv_profile_description.setText(profileData.getString("PROFILE_DESCRIPTION"));
 
                             if(profileData.getString("GENDER").equals("남")){
-                                img_gender_profile.setImageResource(R.drawable.icon_male);
+                                img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
                             }else{
-                                img_gender_profile.setImageResource(R.drawable.icon_female);
+                                img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
                             }
 
                             tv_birth_profile.setText(profileData.getString("USER_BIRTH"));
 
                             Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+                            mCurrentLocation = new Location("");
                             mCurrentLocation.setLatitude(Double.parseDouble(profileData.getString("GP_LAT")));
                             mCurrentLocation.setLongitude(Double.parseDouble(profileData.getString("GP_LNG")));
                             List<Address> list = null;
@@ -375,6 +379,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 Log.d("주소찾기", "실패");
                             }else if(list.size() > 0){
                                 Address addr = list.get(0);
+                                tv_addr_profile.setText(addr.getAddressLine(0));
 
                                 Log.d("MyLocation", "location: " + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude() + ", " + addr.getAddressLine(0) + "," + addr.toString());
                                 setCurrentLocation(mCurrentLocation,"기존위치" , addr.getAddressLine(0));
@@ -526,7 +531,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
             mLocationPermissionGranted = true;
         }
-        if(!isHavingData)
+        if(mCurrentLocation == null)
             getCurrentLocation();
         updateLocationUI();
     }
@@ -549,7 +554,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     public void onMapReady(final GoogleMap map){
         gMap = map;
 
-        if(!inPerson) return;
+        //if(!inPerson) return;
 
         gMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
