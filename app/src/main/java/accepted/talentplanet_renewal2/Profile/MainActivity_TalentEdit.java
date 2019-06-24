@@ -47,6 +47,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     private ArrayList<String> CateCodeArr;
     private String isMentor;
     private boolean inPerson;
+    private String targetUserID;
 
     ViewPager.OnPageChangeListener onPageChangeListener;
     talentlist_viewpager vp;
@@ -124,6 +125,10 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         }
     }
 
+    private void getProfileData(){
+
+    }
+
     private void getAllMyTalent() {
         final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
 
@@ -162,6 +167,9 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                     bundle.putString("CateCode", CateCode);
                                     bundle.putString("isMentor", isMentor);
                                     bundle.putBoolean("inPerson", inPerson);
+                                    bundle.putString("targetUserID", obj.getString("UserID"));
+
+                                    targetUserID = obj.getString("UserID");
 
                                     bundleArr.add(bundle);
                                     CateCodeArr.add(CateCode);
@@ -275,9 +283,43 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
-                params.put("masterID", talentID);
+                params.put("MentorTalentID", talentID);
                 //String senderID = (sendFlag)? SaveSharedPreference.getTakeTalentData(mContext).getTalentID() : SaveSharedPreference.getGiveTalentData(mContext).getTalentID();
                 //params.put("senderID", senderID);
+                return params;
+            }
+        };
+
+
+        postRequestQueue.add(postJsonRequest);
+
+    }
+
+    public void sendProfile() {
+
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/newSendInterest.do", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    String result = obj.getString("result");
+                    if(result.equals("success")){
+                        Toast.makeText(getApplicationContext(), "프로필이 전달되었습니다.", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getApplicationContext(), "프로필이 전달이 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+                params.put("ReceiverID", targetUserID);
+                params.put("SenderID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }
         };

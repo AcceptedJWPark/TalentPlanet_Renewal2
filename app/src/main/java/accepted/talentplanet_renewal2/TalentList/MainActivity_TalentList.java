@@ -159,6 +159,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         aUser.setUserGender(obj.getString("GENDER"));
                         aUser.setHashtag(obj.has("HASHTAG") ? obj.getString("HASHTAG") : "");
                         aUser.setUserAge(Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(obj.getString("USER_BIRTH").split("-")[0]) + 1 + "");
+                        aUser.setUserID(obj.getString("UserID"));
 
                         userList.add(aUser);
                     }
@@ -187,6 +188,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
 
                             intent.putExtra("userName", userList.get(position).getUserName());
                             intent.putExtra("userInfo", userInfo);
+                            intent.putExtra("targetUserID", userList.get(position).getUserID());
                             startActivity(intent);
                         }
                     });
