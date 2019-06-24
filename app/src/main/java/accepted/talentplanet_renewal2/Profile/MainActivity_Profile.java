@@ -162,6 +162,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     // 리스트 뷰를 초기화 하기 위한 변수
     private String listReset;
 
+    private String userID;
+
     private static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider";
 
     @Override
@@ -192,7 +194,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         if (inPerson) {
             // 유저가 로그인했을 경우
             String userName = SaveSharedPreference.getUserName(mContext);
-            String userid = SaveSharedPreference.getUserId(mContext);
+            userID = SaveSharedPreference.getUserId(mContext);
 
             ((TextView)findViewById(R.id.tv_name_profile)).setText(userName);
             // 본인의 아이디에서 숨겨야할 요소
@@ -200,6 +202,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             //((LinearLayout)findViewById(R.id.ll_pointbox_profile)).setVisibility(View.GONE);
         } else  {
             ((LinearLayout)findViewById(R.id.ll_pointbox_profile)).setVisibility(View.GONE);
+            userID = intent.getStringExtra("userID");
         }
 
         Point pt = new Point();
@@ -339,7 +342,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                             menteeTalentList = new ArrayList<TalentObject_Home>();
                             for(int i = 0; i < talentArr.length(); i++){
                                 JSONObject obj = talentArr.getJSONObject(i);
-                                TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0);
+                                TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0, obj.getString("TalentID"));
                                 item.setCateCode((int)obj.getLong("Code"));
                                 if(talentFlag.equals("Y")) {
                                     mentorTalentList.add(item);
@@ -353,13 +356,13 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
                         if(talentFlag.equals("Y")){
                             if (inPerson) {
-                                mentorTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0));
+                                mentorTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0, ""));
                             }
                             mentorAdapter = new ListAdapter_Talent(mentorTalentList, "MENTOR", inPerson);
                             lv_mentor_profile.setAdapter(mentorAdapter);
                         }else if(talentFlag.equals("N")){
                             if (inPerson) {
-                                menteeTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0));
+                                menteeTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0, ""));
                             }
                             menteeAdapter = new ListAdapter_Talent(menteeTalentList, "MENTEE", inPerson);
                             lv_mentee_profile.setAdapter(menteeAdapter);
@@ -374,7 +377,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("UserID", "ansrjsdn7@naver.com");
+                params.put("UserID", userID);
                 params.put("TalentFlag", talentFlag);
                 return params;
             }

@@ -1,7 +1,9 @@
 package accepted.talentplanet_renewal2.Profile;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -47,6 +49,8 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     private ArrayList<String> CateCodeArr;
     private String isMentor;
     private boolean inPerson;
+    private String userID;
+    private String talentID;
 
     ViewPager.OnPageChangeListener onPageChangeListener;
     talentlist_viewpager vp;
@@ -63,6 +67,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
 
         Intent intent = getIntent();
         inPerson = intent.getBooleanExtra("inPerson", false);
+        talentID = intent.getStringExtra("talentID");
         String requestType = intent.getStringExtra("type");
 
         if (requestType.equals("MENTOR")) {
@@ -90,6 +95,18 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         } else {
             // 다른 유저일 경우
             //findViewById(R.id.tv_user_data_edit).setVisibility(View.GONE);
+            LinearLayout ll_request_profile_mentor = (LinearLayout)findViewById(R.id.ll_request_profile_mentor);
+            ll_request_profile_mentor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isMentor.equals("Y")) {
+                        // 멘토일 경우
+                        sendInterest();
+                    } else if (isMentor.equals("N")) {
+                        // 멘티일 경우
+                    }
+                }
+            });
         }
 
         // 뒤로가기 이벤트
@@ -134,7 +151,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONArray talentArr = new JSONArray(response);
+                            final JSONArray talentArr = new JSONArray(response);
 
                             // 어뎁터 선언
                             talentlist_pagerAdapter adapter = new talentlist_pagerAdapter(getSupportFragmentManager());
@@ -170,14 +187,12 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                     adapter.addViews(fragment);
                                 }
 
-                                Log.d("CateCodeArr", CateCodeArr.toString());
                             }
 
                             adapter.startPager(isMentor);
                             vp.setAdapter(adapter);
 //                            vp.setCurrentItem(0);
                             if (clickPosition > 0) {
-                                Log.d("position", clickPosition + "");
                                 vp.setCurrentItem(clickPosition);
                                 ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.VISIBLE);
                                 ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.VISIBLE);
@@ -199,6 +214,11 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                     } else {
                                         ((LinearLayout) findViewById(R.id.ll_firstpage_profile_mentor)).setVisibility(View.VISIBLE);
                                         ((TextView) findViewById(R.id.tv_series_profile_mentor)).setVisibility(View.VISIBLE);
+                                        try {
+                                            talentID = talentArr.getJSONObject(position).getString("talentID");
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
 //                                         ((TextView) findViewById(R.id.tv_series_profile_mentor)).setText(position + 1);
                                     }
                                 }
@@ -233,7 +253,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
             public Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("UserID", "ansrjsdn7@naver.com");
+                params.put("UserID", SaveSharedPreference.getUserId(mContext));
                 params.put("TalentFlag",  isMentor);
                 return params;
             }
@@ -248,9 +268,8 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         super.onResume();
     }
 
-    public void sendInterest(final String talentID) {
-
-        final String TalentID = talentID;
+    public void sendInterest() {
+        Log.d("talentID", talentID);
         RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
         StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/newSendInterest.do", new Response.Listener<String>() {
             @Override
@@ -259,14 +278,8 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                     JSONObject obj = new JSONObject(response);
                     String result = obj.getString("result");
                     if(result.equals("success")){
-                        Toast.makeText(getApplicationContext(), "Shall we가 전달되었습니다.", Toast.LENGTH_SHORT).show();
-//                        Intent intent = new Intent(mContext, );
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                        startActivity(intent);
-//                        finish();
-                    }else {
+                        Toast.makeText(getApplicationContext(), "요청이 전달되었습니다.", Toast.LENGTH_SHORT).show();
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -275,9 +288,8 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
-                params.put("masterID", talentID);
-                //String senderID = (sendFlag)? SaveSharedPreference.getTakeTalentData(mContext).getTalentID() : SaveSharedPreference.getGiveTalentData(mContext).getTalentID();
-                //params.put("senderID", senderID);
+                params.put("MentorTalentID", talentID);
+                params.put("MenteeID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }
         };
