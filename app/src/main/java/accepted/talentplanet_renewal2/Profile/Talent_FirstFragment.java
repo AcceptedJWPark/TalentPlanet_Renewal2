@@ -1,5 +1,6 @@
 package accepted.talentplanet_renewal2.Profile;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -49,6 +50,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 public class Talent_FirstFragment extends android.support.v4.app.Fragment {
 
     String isMentor;
+    Context mContext;
     private ArrayList<TalentObject_Home> arrTalent;
     private Map<String, TalentObject_Home> talentMap;
     private LinearLayout layout;
@@ -68,6 +70,8 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
         if (getArguments() != null) {
             isMentor = getArguments().getString("isMentor");
         }
+
+        mContext = getActivity().getApplicationContext();
 
         layout = (LinearLayout) inflater.inflate(R.layout.activity_profile_fragment1, container, false);
         vp = container.findViewById(R.id.vp_profile_mentor);
@@ -231,7 +235,7 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
 
     private void getCateList(){
         arrTalent = new ArrayList<>();
-        RequestQueue postRequestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        RequestQueue postRequestQueue = Volley.newRequestQueue(mContext);
         StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/getTalentCateList.do", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -256,6 +260,7 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
                 params.put("TalentFlag", isMentor);
+                params.put("UserID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }
         };

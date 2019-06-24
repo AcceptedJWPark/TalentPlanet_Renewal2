@@ -463,6 +463,7 @@ public class MainActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
                 params.put("TalentFlag", talentFlag);
+                params.put("UserID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }
         };

@@ -166,6 +166,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
                 params.put("TalentFlag", isMentor);
+                params.put("UserID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }
         };
