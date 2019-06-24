@@ -188,6 +188,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
 
                             intent.putExtra("userName", userList.get(position).getUserName());
                             intent.putExtra("userInfo", userInfo);
+                            intent.putExtra("targetUserID", userList.get(position).getUserID());
                             intent.putExtra("userID", userList.get(position).getUserID());
                             startActivity(intent);
                         }

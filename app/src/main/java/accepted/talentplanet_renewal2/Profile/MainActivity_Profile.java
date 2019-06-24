@@ -131,6 +131,12 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     RecyclerView.LayoutManager mLayoutManagerMentor;
     RecyclerView.LayoutManager mLayoutManagerMentee;
 
+    private String targetUserID;
+    private TextView tv_profile_mentor_count, tv_profile_mentee_count;
+    private TextView tv_profile_description;
+    private TextView tv_birth_profile;
+    private TextView tv_addr_profile;
+
     // 지도 관련 변수
     private String keyword1, keyword2, keyword3;
     private String location;
@@ -149,6 +155,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     private GoogleApiClient mGoogleApiClient = null;
 
     private Activity mActivity;
+
+    private ImageView img_gender_profile;
 
     // 프로필 사진 관련 변수
     private ImageView iv_cimg_pic_profile;
@@ -173,7 +181,12 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         mContext = getApplicationContext();
 
-       // makeTestTalentArr();
+        tv_profile_mentor_count = findViewById(R.id.tv_profile_mentor_count);
+        tv_profile_mentee_count = findViewById(R.id.tv_profile_mentee_count);
+
+        tv_profile_description = findViewById(R.id.tv_profile_description);
+        tv_birth_profile = findViewById(R.id.tv_birth_profile);
+
         mentorTalentList = new ArrayList<>();
         menteeTalentList = new ArrayList<>();
 
@@ -189,6 +202,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         if (intent.getStringExtra("userName") != null) {
             ((TextView)findViewById(R.id.tv_name_profile)).setText(intent.getStringExtra("userName"));
             ((TextView)findViewById(R.id.tv_birth_profile)).setText(intent.getStringExtra("userInfo"));
+            targetUserID = intent.getStringExtra("targetUserID");
         }
 
         if (inPerson) {
@@ -313,6 +327,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 alertDialog.show();
             }
         });
+
+        getProfileData();
     }
 
     @Override
@@ -325,6 +341,69 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return px;
+    }
+
+    private void getProfileData(){
+        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                SaveSharedPreference.getServerIp() + "Profile/getMyProfileInfo_new.do",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject profileData = new JSONObject(response);
+                            tv_profile_description.setText(profileData.getString("PROFILE_DESCRIPTION"));
+
+                            if(profileData.getString("GENDER").equals("남")){
+                                img_gender_profile.setImageResource(R.drawable.icon_male);
+                            }else{
+                                img_gender_profile.setImageResource(R.drawable.icon_female);
+                            }
+
+                            tv_birth_profile.setText(profileData.getString("USER_BIRTH"));
+
+                            Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+                            mCurrentLocation.setLatitude(Double.parseDouble(profileData.getString("GP_LAT")));
+                            mCurrentLocation.setLongitude(Double.parseDouble(profileData.getString("GP_LNG")));
+                            List<Address> list = null;
+                            try{
+                                list = geocoder.getFromLocation(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude() , 1);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+
+                            if(list == null){
+                                Log.d("주소찾기", "실패");
+                            }else if(list.size() > 0){
+                                Address addr = list.get(0);
+
+                                Log.d("MyLocation", "location: " + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude() + ", " + addr.getAddressLine(0) + "," + addr.toString());
+                                setCurrentLocation(mCurrentLocation,"기존위치" , addr.getAddressLine(0));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("userID", targetUserID);
+                return params;
+            }
+        };
+
+        // Add StringRequest to the RequestQueue
+        requestQueue.add(stringRequest);
     }
 
     private void getAllTalent(final String talentFlag) {
@@ -344,6 +423,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 JSONObject obj = talentArr.getJSONObject(i);
                                 TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0, obj.getString("TalentID"));
                                 item.setCateCode((int)obj.getLong("Code"));
+
                                 if(talentFlag.equals("Y")) {
                                     mentorTalentList.add(item);
                                 }else if(talentFlag.equals("N")) {
@@ -360,12 +440,14 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                             }
                             mentorAdapter = new ListAdapter_Talent(mentorTalentList, "MENTOR", inPerson);
                             lv_mentor_profile.setAdapter(mentorAdapter);
+                            tv_profile_mentor_count.setText(mentorTalentList.size() + "");
                         }else if(talentFlag.equals("N")){
                             if (inPerson) {
                                 menteeTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0, ""));
                             }
                             menteeAdapter = new ListAdapter_Talent(menteeTalentList, "MENTEE", inPerson);
                             lv_mentee_profile.setAdapter(menteeAdapter);
+                            tv_profile_mentee_count.setText(menteeTalentList.size() + "");
                         }
                     }
                 }, new Response.ErrorListener() {

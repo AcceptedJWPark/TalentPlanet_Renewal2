@@ -5,8 +5,8 @@ public class UserData_TalentList {
     private String userGender;
     private String userAge;
     private String hashtag;
-    private String userID;
     private String talentID;
+    private String userID;
 
     public String getUserName() {
         return userName;

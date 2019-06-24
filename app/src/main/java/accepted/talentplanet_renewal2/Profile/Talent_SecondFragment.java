@@ -45,6 +45,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
     private ArrayList<TalentObject_Home> arrTalent;
     private String talentFlag;
     private String talentName;
+    private String targetUserID;
     private boolean inPerson = false;
     private int imgSrc;
     private Context mContext;
@@ -64,6 +65,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
             CateCode = getArguments().getString("CateCode");
             isMentor = getArguments().getString("isMentor");
             inPerson = getArguments().getBoolean("inPerson");
+            targetUserID = getArguments().getString("targetUserID");
         }
 
         mContext = getActivity().getApplicationContext();
