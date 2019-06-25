@@ -96,6 +96,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
 
         // 선택 재능 리스트
         findViewById(R.id.inc_mentor_profile).setVisibility(View.VISIBLE);
+        Log.d("FlagTest", String.valueOf(inPerson));
         if (inPerson) {
             // 유저 본인인 경우
             ((TextView)findViewById(R.id.tv_talentprofile_profile)).setText("삭제하기");
@@ -108,10 +109,14 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                 public void onClick(View v) {
                     if (isMentor.equals("Y")) {
                         // 멘토일 경우
-                        sendInterest();
+                        if (MatchingFlag.equals("0")) {
+                            sendInterest();
+                        }
                     } else if (isMentor.equals("N")) {
                         // 멘티일 경우
-                        sendProfile();
+                        if (ProfileSendFlag.equals("0")) {
+                            sendProfile();
+                        }
                     }
                 }
             });
@@ -206,23 +211,24 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                     adapter.addViews(fragment);
                                 }
 
-                                if  (isMentor.equals("Y")) {
-                                    // 현재 카테고리가 멘토리스트
-                                    if (MatchingFlag.equals("0")) {
-                                        // 모든 재능에 멘티들이 요청할 수 있음
-                                        ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("요청하기");
-                                    } else if (MatchingFlag.equals("1")) {
-                                        ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("취소하기");
-                                    }
-                                } else if (isMentor.equals("N")) {
-                                    // 현재 카테고리가 멘티리스트
-                                    if (ProfileSendFlag.equals("0")) {
-                                        ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("프로필 보내기");
-                                    } else if (ProfileSendFlag.equals("1")) {
-                                        ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("취소하기");
+                                if (!inPerson) {
+                                    if  (isMentor.equals("Y")) {
+                                        // 현재 카테고리가 멘토리스트
+                                        if (MatchingFlag.equals("0")) {
+                                            // 모든 재능에 멘티들이 요청할 수 있음
+                                            ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("요청하기");
+                                        } else if (MatchingFlag.equals("1")) {
+                                            ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("취소하기");
+                                        }
+                                    } else if (isMentor.equals("N")) {
+                                        // 현재 카테고리가 멘티리스트
+                                        if (ProfileSendFlag.equals("0")) {
+                                            ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("프로필 보내기");
+                                        } else if (ProfileSendFlag.equals("1")) {
+                                            ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("취소하기");
+                                        }
                                     }
                                 }
-
                             }
 
                             adapter.startPager(isMentor);
@@ -328,6 +334,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                             JSONObject obj = new JSONObject(response);
                             String result = obj.getString("result");
                             if(result.equals("success")){
+                                updateTalentPoint(point);
                                 Toast.makeText(getApplicationContext(), "요청이 전달되었습니다.", Toast.LENGTH_SHORT).show();
                                 ((TextView)findViewById(R.id.tv_talentprofile_profile)).setText("취소하기");
                             }
@@ -387,6 +394,40 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                 Map<String, String> params = new HashMap();
                 params.put("ReceiverID", targetUserID);
                 params.put("SenderID", SaveSharedPreference.getUserId(mContext));
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
+
+    public void updateTalentPoint(String point) {
+        final String pointVal = Integer.toString(SaveSharedPreference.getTalentPoint(mContext) - Integer.parseInt(point));
+
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/updateTalentPoint.do", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    String result = obj.getString("result");
+                    if(result.equals("success")){
+                        Log.d("updateTalentPoint", "success");
+                        SaveSharedPreference.setPrefTalentPoint(mContext, Integer.parseInt(pointVal));
+                    }else {
+                        Log.d("updateTalentPoint", "fail");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+                params.put("USER_ID", SaveSharedPreference.getUserId(mContext));
+                params.put("TALENT_POINT", pointVal);
                 return params;
             }
         };

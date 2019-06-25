@@ -36,6 +36,7 @@ public class SaveSharedPreference{
     static final String PREF_USER_BIRTH= "userbirth";
     static final String PREF_USER_GP_LAT= "userGP_LAT";
     static final String PREF_USER_GP_LNG= "userGP_LNG";
+    static final String PREF_USER_DESCRIPTION= "userdescription";
 
     static final String SERVER_IP2 = "https://13.209.191.97/Accepted/";
     static final String SERVER_IP = "http://175.213.4.39/Accepted/";
@@ -127,6 +128,12 @@ public class SaveSharedPreference{
         editor.commit();
     }
 
+    public static void setPrefUserDescription(Context ctx, String txt){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_DESCRIPTION, txt);
+        editor.commit();
+    }
+
     public static void setPrefFcmToken(Context ctx, String token){
 //        SQLiteDatabase sqliteDatabase;
 //        String dbName = "/accepted.db";
@@ -212,6 +219,10 @@ public class SaveSharedPreference{
 
     public static String getPrefUserGender(Context ctx){
         return getSharedPreferences(ctx).getString(PREF_USER_GENDER, "");
+    }
+
+    public static String getPrefUserDescription(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_DESCRIPTION, "");
     }
 
     public static void clearUserInfo(Context ctx){

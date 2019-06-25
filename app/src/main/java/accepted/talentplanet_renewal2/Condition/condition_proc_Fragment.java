@@ -81,6 +81,7 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
             }
         }
 
+        Log.d("FragmentTest", MentorID + "_" + MenteeID);
         conditionbtnBgr(tv_mentor, tv_mentee, btn_cancel_mentor,btn_next_mentor,btn_cancel_mentee,btn_next_mentee, layout);
 
         Log.d("condition", String.valueOf(getCondition()));
@@ -113,6 +114,9 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
     }
 
     public void conditionbtnBgr(TextView tvmentor, TextView tvmentee, final Button btnmentorCancel, final Button btnmentorNext, final Button btnmenteeCancel, final Button btnmenteeNext, LinearLayout layout) {
+        Date nowYear = new Date();
+        int thisYear = nowYear.getYear() + 1900;
+
         if (ismymentor()) {
             tvmentor.setText("Mentor (상대방)");
             tvmentee.setText("Mentee (나)");
@@ -122,7 +126,15 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
             }else{
                 ((ImageView) layout.findViewById(R.id.img_gender_mentor_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
             }
+
+            String[] test = MentorBirth.split("-");
+            String otherBornYear = test[0];
+
+            int otherAge = thisYear - Integer.parseInt(otherBornYear) + 1;
+
             ((TextView)layout.findViewById(R.id.tv_birth_mentor_proc_condition)).setText(MentorBirth);
+            ((TextView)layout.findViewById(R.id.tv_age_mentor_proc_condition)).setText(otherAge + "세");
+
 
             ((ImageView)layout.findViewById(R.id.cimg_pic_mentor_proc_condition)).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -166,6 +178,21 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
                     }
                 });
             }
+
+            // 내 정보
+            ((TextView)layout.findViewById(R.id.tv_name_mentee_proc_condition)).setText(SaveSharedPreference.getPrefUserBirth(getActivity()));
+            if(MenteeGender.equals("남")) {
+                ((ImageView) layout.findViewById(R.id.img_gender_mentee_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
+            }else{
+                ((ImageView) layout.findViewById(R.id.img_gender_mentee_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
+            }
+            ((TextView)layout.findViewById(R.id.tv_birth_mentee_proc_condition)).setText(SaveSharedPreference.getPrefUserBirth(getContext()).replace(".", "-"));
+
+            String[] myYear = SaveSharedPreference.getPrefUserBirth(getContext()).split("\\.");
+            String myBornYear = myYear[0];
+
+            int getAge = thisYear - Integer.parseInt(myBornYear) + 1;
+            ((TextView)layout.findViewById(R.id.tv_age_mentee_proc_condition)).setText(String.valueOf(getAge) + "세");
         }
         else
         {
@@ -175,7 +202,14 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
             }else{
                 ((ImageView) layout.findViewById(R.id.img_gender_mentee_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
             }
+
+            String[] test = MenteeBirth.split("-");
+            String otherBornYear = test[0];
+
+            int otherAge = thisYear - Integer.parseInt(otherBornYear) + 1;
+
             ((TextView)layout.findViewById(R.id.tv_birth_mentee_proc_condition)).setText(MenteeBirth);
+            ((TextView)layout.findViewById(R.id.tv_age_mentee_proc_condition)).setText(otherAge + "세");
 
             ((ImageView)layout.findViewById(R.id.cimg_pic_mentee_proc_condition)).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -214,6 +248,21 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
                     btnmenteeNext.setText("완료 대기 중...");
                 }
             });
+
+            // 내 정보
+            ((TextView)layout.findViewById(R.id.tv_name_mentor_proc_condition)).setText(SaveSharedPreference.getUserName(getActivity()));
+            if(MenteeGender.equals("남")) {
+                ((ImageView) layout.findViewById(R.id.img_gender_mentor_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
+            }else{
+                ((ImageView) layout.findViewById(R.id.img_gender_mentor_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
+            }
+            ((TextView)layout.findViewById(R.id.tv_birth_mentor_proc_condition)).setText(SaveSharedPreference.getPrefUserBirth(getContext()).replace(".", "-"));
+
+            String[] myYear = SaveSharedPreference.getPrefUserBirth(getContext()).split("\\.");
+            String myBornYear = myYear[0];
+
+            int getAge = thisYear - Integer.parseInt(myBornYear) + 1;
+            ((TextView)layout.findViewById(R.id.tv_age_mentor_proc_condition)).setText(String.valueOf(getAge) + "세");
         }
     }
 

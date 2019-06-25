@@ -476,6 +476,9 @@ public class MainActivity extends AppCompatActivity {
     {
 
         ((ImageView)findViewById(R.id.cimg_pic_dl)).setBackground(new ShapeDrawable((new OvalShape())));
+        // 본인이미지
+        Glide.with(mContext).load(SaveSharedPreference.getServerIp()+SaveSharedPreference.getMyPicturePath()).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
+
         if(Build.VERSION.SDK_INT >= 21) {
             ((ImageView)findViewById(R.id.cimg_pic_dl)).setClipToOutline(true);
         }

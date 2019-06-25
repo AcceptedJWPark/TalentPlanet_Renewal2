@@ -51,6 +51,7 @@ public class MainActivity_Detail extends AppCompatActivity {
     private String talentID;
     private String cateCode;
     private String isMentor;
+    private String profileText;
     private String tagStr = "";
     private ArrayList<String> tagArr = new ArrayList<String>();
 
@@ -62,6 +63,7 @@ public class MainActivity_Detail extends AppCompatActivity {
         Intent intent = getIntent();
         cateCode = intent.getStringExtra("cateCode");
         isMentor = intent.getStringExtra("isMentor");
+        profileText = intent.getStringExtra("profileText");
         Log.d("NowCateCode" , cateCode);
         // 기본 변수 선언
         mContext = getApplicationContext();
@@ -69,6 +71,7 @@ public class MainActivity_Detail extends AppCompatActivity {
         btn_save_detail = (Button) findViewById(R.id.btn_save_detail);
         ((TextView)findViewById(R.id.tv_toolbar)).setText("상세정보");
         ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
+        ((EditText)findViewById(R.id.et_detail)).setText(profileText);
 
         hashTextView.requestFocus();
         // Hashtag Helper

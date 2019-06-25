@@ -55,6 +55,7 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
     private Map<String, TalentObject_Home> talentMap;
     private LinearLayout layout;
     talentlist_viewpager vp;
+    private int talentIdx = 1;
 
     public Talent_FirstFragment() {
     }
@@ -113,6 +114,7 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
         int rowNum = 0;
 
         for (int i = 0; i < arrTalent.size(); i++){
+
             if(i % 3 == 0){
                 row = new LinearLayout(getContext());
                 row.setOrientation(LinearLayout.HORIZONTAL);
@@ -160,15 +162,15 @@ public class Talent_FirstFragment extends android.support.v4.app.Fragment {
             linear.addView(textView, textParams);
             rl.addView(bgImgView, bgImgParams);
             rl.addView(linear, linearParams);
-            final int talentIdx = i + 1;
+
             if (cateCodeArr.contains(Integer.toString(obj.getCateCode()))) {
                 rl.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("talentIdx", String.valueOf(talentIdx) );
                         vp.setCurrentItem(talentIdx);
                     }
                 });
+                talentIdx++;
             } else {
                 rl.setOnClickListener(new View.OnClickListener() {
                     @Override

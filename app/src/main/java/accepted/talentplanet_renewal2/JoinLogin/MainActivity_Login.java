@@ -181,6 +181,9 @@ public class MainActivity_Login extends AppCompatActivity {
                     SaveSharedPreference.setPrefUserBirth(mContext, obj.getString("USER_BIRTH"));
                     SaveSharedPreference.setPrefUserGpLng(mContext, obj.getString("GP_LNG"));
                     SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
+                    SaveSharedPreference.setPrefUserDescription(mContext, obj.getString("PROFILE_DESCRIPTION"));
+                    SaveSharedPreference.setPrefTalentPoint(mContext, obj.getInt("TALENT_POINT"));
+                    SaveSharedPreference.setMyPicturePath(obj.getString("FILE_PATH"), obj.getString("S_FILE_PATH"));
                 }
                 catch(JSONException e){
                     e.printStackTrace();

@@ -101,6 +101,7 @@ public class Talent_SecondFragment extends android.support.v4.app.Fragment {
                 Intent intent = new Intent(getActivity() , MainActivity_Detail.class);
                 intent.putExtra("cateCode", CateCode);
                 intent.putExtra("isMentor", isMentor);
+                intent.putExtra("profileText", profileText);
                 startActivityForResult(intent, 3000);
             }
         });
