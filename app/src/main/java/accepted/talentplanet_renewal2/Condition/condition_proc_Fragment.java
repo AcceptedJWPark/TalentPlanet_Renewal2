@@ -1,5 +1,6 @@
 package accepted.talentplanet_renewal2.Condition;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,8 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import accepted.talentplanet_renewal2.R;
 
@@ -21,6 +26,8 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
     boolean ismymentor;
     int condition;
     boolean ismentorComplete;
+    String MentorID, MentorName, MentorBirth, MentorGender;
+    String MenteeID, MenteeName, MenteeBirth, MenteeGender;
 
     public condition_proc_Fragment() {
     }
@@ -43,7 +50,21 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
         TextView tv_mentor = ((TextView)layout.findViewById(R.id.tv_mentor_proc_condition));
         TextView tv_mentee = ((TextView)layout.findViewById(R.id.tv_mentee_proc_condition));
 
-        conditionbtnBgr(tv_mentor, tv_mentee ,btn_cancel_mentor, btn_next_mentor,btn_cancel_mentee,btn_next_mentee);
+        if(getArguments() != null) {
+            if (ismymentor) {
+                MentorID = getArguments().getString("MentorID");
+                MentorName = getArguments().getString("MentorName");
+                MentorBirth = getArguments().getString("MentorBirth");
+                MentorGender = getArguments().getString("MentorGender");
+            } else {
+                MenteeID = getArguments().getString("MenteeID");
+                MenteeName = getArguments().getString("MenteeName");
+                MenteeBirth = getArguments().getString("MenteeBirth");
+                MenteeGender = getArguments().getString("MenteeGender");
+            }
+        }
+
+        conditionbtnBgr(tv_mentor, tv_mentee, btn_cancel_mentor,btn_next_mentor,btn_cancel_mentee,btn_next_mentee, layout);
 
         Log.d("condition", String.valueOf(getCondition()));
         return layout;
@@ -74,10 +95,33 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
         this.ismentorComplete = ismentorComplete;
     }
 
-    public void conditionbtnBgr(TextView tvmentor, TextView tvmentee, final Button btnmentorCancel, final Button btnmentorNext, final Button btnmenteeCancel, final Button btnmenteeNext) {
+    public void conditionbtnBgr(TextView tvmentor, TextView tvmentee, final Button btnmentorCancel, final Button btnmentorNext, final Button btnmenteeCancel, final Button btnmenteeNext, LinearLayout layout) {
         if (ismymentor()) {
             tvmentor.setText("Mentor (상대방)");
             tvmentee.setText("Mentee (나)");
+            ((TextView)layout.findViewById(R.id.tv_name_mentor_proc_condition)).setText(MentorName);
+            if(MentorGender.equals("남")) {
+                ((ImageView) layout.findViewById(R.id.img_gender_mentor_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
+            }else{
+                ((ImageView) layout.findViewById(R.id.img_gender_mentor_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
+            }
+            ((TextView)layout.findViewById(R.id.tv_birth_mentor_proc_condition)).setText(MentorBirth);
+
+            ((ImageView)layout.findViewById(R.id.cimg_pic_mentor_proc_condition)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
+                    SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+                    int age = Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(MentorBirth.split("-")[0]) + 1;
+                    String userInfo = MentorBirth + " / " + age + "세";
+
+                    intent.putExtra("userName", MentorName);
+                    intent.putExtra("userInfo", userInfo);
+                    intent.putExtra("targetUserID", MentorID);
+                    intent.putExtra("userID", MentorID);
+                    startActivity(intent);
+                }
+            });
 
             if (!ismentorComplete) {
                 unactivebgr(btnmentorNext);
@@ -102,25 +146,49 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
         }
         else
         {
-                tvmentor.setText("Mentor (나)");
-                tvmentee.setText("Mentee (상대방)");
-                btnmentorCancel.setVisibility(View.GONE);
-                btnmenteeCancel.setVisibility(View.GONE);
-                activebgr(btnmentorNext);
-                unactivebgr(btnmenteeNext);
-                btnmentorNext.setText("완료");
-                btnmenteeNext.setText("회원님의 완료를 기다립니다.");
+            ((TextView)layout.findViewById(R.id.tv_name_mentee_proc_condition)).setText(MenteeName);
+            if(MenteeGender.equals("남")) {
+                ((ImageView) layout.findViewById(R.id.img_gender_mentee_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
+            }else{
+                ((ImageView) layout.findViewById(R.id.img_gender_mentee_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
+            }
+            ((TextView)layout.findViewById(R.id.tv_birth_mentee_proc_condition)).setText(MenteeBirth);
 
-                btnmentorNext.setOnClickListener(new View.OnClickListener() {
+            ((ImageView)layout.findViewById(R.id.cimg_pic_mentee_proc_condition)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
+                    SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+                    int age = Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(MenteeBirth.split("-")[0]) + 1;
+                    String userInfo = MenteeBirth + " / " + age + "세";
+
+                    intent.putExtra("userName", MenteeName);
+                    intent.putExtra("userInfo", userInfo);
+                    intent.putExtra("targetUserID", MenteeID);
+                    intent.putExtra("userID", MenteeID);
+                    startActivity(intent);
+                }
+            });
+
+            tvmentor.setText("Mentor (나)");
+            tvmentee.setText("Mentee (상대방)");
+            btnmentorCancel.setVisibility(View.GONE);
+            btnmenteeCancel.setVisibility(View.GONE);
+            activebgr(btnmentorNext);
+            unactivebgr(btnmenteeNext);
+            btnmentorNext.setText("완료");
+            btnmenteeNext.setText("회원님의 완료를 기다립니다.");
+
+            btnmentorNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    btnmenteeCancel.setVisibility(View.VISIBLE);
-                    unactivebgr(btnmentorNext);
-                    subbgr(btnmenteeCancel);
-                    btnmenteeCancel.setText("신고하기");
-                    btnmentorNext.setText("완료");
-                    btnmenteeNext.setText("완료 대기 중...");
+                        btnmenteeCancel.setVisibility(View.VISIBLE);
+                        unactivebgr(btnmentorNext);
+                        subbgr(btnmenteeCancel);
+                        btnmenteeCancel.setText("신고하기");
+                        btnmentorNext.setText("완료");
+                        btnmenteeNext.setText("완료 대기 중...");
                 }
             });
         }

@@ -11,9 +11,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import accepted.talentplanet_renewal2.R;
+import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.VolleySingleton;
 
 import static android.graphics.Color.WHITE;
 
@@ -24,11 +40,12 @@ public class MainActivity_Condition extends AppCompatActivity {
     Context mContext;
     ViewPager vp_req_condition;
     ViewPager vp_proc_condition;
+
     condition_req_pagerAdapter adapter_req;
     condition_proc_pagerAdapter adapter_proc;
 
-
-
+    ArrayList<condition_req_Fragment> arr_req_fragment;
+    ArrayList<condition_proc_Fragment> arr_proc_fragment;
 
     boolean ismymentor;
 
@@ -76,19 +93,17 @@ public class MainActivity_Condition extends AppCompatActivity {
 
         vp_req_condition = findViewById(R.id.vp_req_condition);
         vp_proc_condition = findViewById(R.id.vp_proc_condition);
-        adapter_req = new condition_req_pagerAdapter(getSupportFragmentManager(),ismymentor);
-        adapter_proc = new condition_proc_pagerAdapter(getSupportFragmentManager(),ismymentor);
-        vp_req_condition.setAdapter(adapter_req);
-        vp_proc_condition.setAdapter(adapter_proc);
 
         if(ismymentor)
         {
             tv_toolbar.setText("My Mentor");
+            getMyMentor();
         }
 
         else
         {
             tv_toolbar.setText("My Mentee");
+            getMyMentee();
         }
 
 
@@ -111,9 +126,6 @@ public class MainActivity_Condition extends AppCompatActivity {
                 vp_req_condition.setVisibility(View.GONE);
             }
         });
-
-        vp_req_condition.setOnPageChangeListener(new viewpagerChangeListener(adapter_req,(TextView)findViewById(R.id.tv_series_condition)));
-        vp_proc_condition.setOnPageChangeListener(new viewpagerChangeListener(adapter_proc,(TextView)findViewById(R.id.tv_series_condition)));
 
     }
 
@@ -154,5 +166,121 @@ public class MainActivity_Condition extends AppCompatActivity {
         public void onPageScrollStateChanged(int state) {
 
         }
+    }
+
+    public void getMyMentor() {
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentCondition/getMyMentor.do", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+
+                    arr_proc_fragment = new ArrayList<>();
+                    arr_req_fragment = new ArrayList<>();
+
+                    JSONArray array = new JSONArray(response);
+                    for(int i = 0; i < array.length(); i++){
+                        JSONObject obj = array.getJSONObject(i);
+                        Bundle bundle = new Bundle();
+
+                        bundle.putString("MATCHED_FLAG", obj.getString("MATCHED_FLAG"));
+                        bundle.putString("MentorID", obj.getString("MentorID"));
+                        bundle.putString("MentorName", obj.getString("MentorName"));
+                        bundle.putString("MentorBirth", obj.getString("MentorBirth"));
+                        bundle.putString("MentorGender", obj.getString("MentorGender"));
+                        bundle.putString("CREATION_DATE", obj.getString("CREATION_DATE"));
+
+                        if(obj.getString("MATCHED_FLAG").equals("N")){
+                            condition_req_Fragment fragment = new condition_req_Fragment();
+                            fragment.setArguments(bundle);
+                            arr_req_fragment.add(fragment);
+                        }else if(obj.getString("MATCHED_FLAG").equals("Y")){
+                            condition_proc_Fragment fragment = new condition_proc_Fragment();
+                            fragment.setArguments(bundle);
+                            arr_proc_fragment.add(fragment);
+                        }
+                    }
+
+                    adapter_req = new condition_req_pagerAdapter(getSupportFragmentManager(),ismymentor, arr_req_fragment);
+                    adapter_proc = new condition_proc_pagerAdapter(getSupportFragmentManager(),ismymentor, arr_proc_fragment);
+                    vp_req_condition.setAdapter(adapter_req);
+                    vp_proc_condition.setAdapter(adapter_proc);
+
+                    if(arr_req_fragment.size() > 0) {
+                        ((TextView) findViewById(R.id.tv_series_condition)).setText("1/"+arr_req_fragment.size());
+                    }
+
+                    vp_req_condition.setOnPageChangeListener(new viewpagerChangeListener(adapter_req,(TextView)findViewById(R.id.tv_series_condition)));
+                    vp_proc_condition.setOnPageChangeListener(new viewpagerChangeListener(adapter_proc,(TextView)findViewById(R.id.tv_series_condition)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+                params.put("UserID", SaveSharedPreference.getUserId(mContext));
+                return params;
+            }
+        };
+        postRequestQueue.add(postJsonRequest);
+    }
+
+    public void getMyMentee() {
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentCondition/getMyMentee.do", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    arr_proc_fragment = new ArrayList<>();
+                    arr_req_fragment = new ArrayList<>();
+
+                    JSONArray array = new JSONArray(response);
+                    for(int i = 0; i < array.length(); i++){
+                        JSONObject obj = array.getJSONObject(i);
+                        Bundle bundle = new Bundle();
+
+                        bundle.putString("MATCHED_FLAG", obj.getString("MATCHED_FLAG"));
+                        bundle.putString("MenteeID", obj.getString("MenteeID"));
+                        bundle.putString("MenteeName", obj.getString("MenteeName"));
+                        bundle.putString("MenteeBirth", obj.getString("MenteeBirth"));
+                        bundle.putString("MenteeGender", obj.getString("MenteeGender"));
+                        bundle.putString("CREATION_DATE", obj.getString("CREATION_DATE"));
+
+                        if(obj.getString("MATCHED_FLAG").equals("N")){
+                            condition_req_Fragment fragment = new condition_req_Fragment();
+                            fragment.setArguments(bundle);
+                            arr_req_fragment.add(fragment);
+                        }else if(obj.getString("MATCHED_FLAG").equals("Y")){
+                            condition_proc_Fragment fragment = new condition_proc_Fragment();
+                            fragment.setArguments(bundle);
+                            arr_proc_fragment.add(fragment);
+                        }
+                    }
+
+                    adapter_req = new condition_req_pagerAdapter(getSupportFragmentManager(),ismymentor, arr_req_fragment);
+                    adapter_proc = new condition_proc_pagerAdapter(getSupportFragmentManager(),ismymentor, arr_proc_fragment);
+                    vp_req_condition.setAdapter(adapter_req);
+                    vp_proc_condition.setAdapter(adapter_proc);
+                    if(arr_req_fragment.size() > 0) {
+                        ((TextView) findViewById(R.id.tv_series_condition)).setText("1/"+arr_req_fragment.size());
+                    }
+                    vp_req_condition.setOnPageChangeListener(new viewpagerChangeListener(adapter_req,(TextView)findViewById(R.id.tv_series_condition)));
+                    vp_proc_condition.setOnPageChangeListener(new viewpagerChangeListener(adapter_proc,(TextView)findViewById(R.id.tv_series_condition)));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+                params.put("UserID", SaveSharedPreference.getUserId(mContext));
+                return params;
+            }
+        };
+        postRequestQueue.add(postJsonRequest);
     }
 }

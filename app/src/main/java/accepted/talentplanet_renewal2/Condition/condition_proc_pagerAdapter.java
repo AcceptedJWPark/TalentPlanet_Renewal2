@@ -5,34 +5,32 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by Accepted on 2019-05-05.
  */
 
 public class condition_proc_pagerAdapter extends FragmentStatePagerAdapter {
 
-    condition_proc_Fragment[] condition_proc_fragment = new condition_proc_Fragment[2];
+    ArrayList<condition_proc_Fragment> arr_fragment;
 
 
-    public condition_proc_pagerAdapter(FragmentManager fm, boolean ismentor) {
+    public condition_proc_pagerAdapter(FragmentManager fm, boolean ismentor, ArrayList<condition_proc_Fragment> arr_fragment) {
         super(fm);
 
-        condition_proc_fragment[0] = new condition_proc_Fragment();
-        condition_proc_fragment[1] = new condition_proc_Fragment();
+        this.arr_fragment = arr_fragment;
 
-        condition_proc_fragment[0].setIsmentorComplete(false);
-        condition_proc_fragment[1].setIsmentorComplete(true);
-
-        for(int i = 0; i< condition_proc_fragment.length; i++)
+        for(int i = 0; i< this.arr_fragment.size(); i++)
         {
-            condition_proc_fragment[i].setIsmymentor(ismentor);
+            this.arr_fragment.get(i).setIsmymentor(ismentor);
         }
     }
 
 
     @Override
     public int getCount() {
-        return 2;
+        return arr_fragment.size();
     }
 
     @Override
@@ -43,16 +41,7 @@ public class condition_proc_pagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
-        switch(position)
-        {
-            case 0:
-                return condition_proc_fragment[0];
-            case 1:
-                return condition_proc_fragment[1];
-            default:
-                return null;
-        }
+        return arr_fragment.get(position);
     }
 
 

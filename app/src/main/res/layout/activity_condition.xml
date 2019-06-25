@@ -101,7 +101,6 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:background="#7f000000"
-            android:text="1/2"
             android:textColor="#fff"
             android:textStyle="bold"
             />

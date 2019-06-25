@@ -5,46 +5,38 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * Created by Accepted on 2019-05-05.
  */
 
 public class condition_req_pagerAdapter extends FragmentStatePagerAdapter {
 
-    condition_req_Fragment[] condition_req_fragment = new condition_req_Fragment[2];
+    ArrayList<condition_req_Fragment> arr_fragment;
 
 
-    public condition_req_pagerAdapter(FragmentManager fm, boolean ismentor) {
+    public condition_req_pagerAdapter(FragmentManager fm, boolean ismentor, ArrayList<condition_req_Fragment> arr_fragment) {
         super(fm);
 
-        condition_req_fragment[0] = new condition_req_Fragment();
-        condition_req_fragment[1] = new condition_req_Fragment();
+        this.arr_fragment = arr_fragment;
 
-        for(int i = 0; i< condition_req_fragment.length; i++)
+        for(int i = 0; i< this.arr_fragment.size(); i++)
         {
-            condition_req_fragment[i].setIsmymentor(ismentor);
+            this.arr_fragment.get(i).setIsmymentor(ismentor);
         }
     }
 
 
     @Override
     public int getCount() {
-        return 2;
+        return arr_fragment.size();
     }
 
 
     @Override
     public Fragment getItem(int position) {
-
-        switch(position)
-        {
-            case 0:
-                return condition_req_fragment[0];
-            case 1:
-                return condition_req_fragment[1];
-            default:
-                return null;
-        }
+        return arr_fragment.get(position);
     }
 
 

@@ -310,7 +310,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     public void sendProfile() {
 
         RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
-        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/newSendInterest.do", new Response.Listener<String>() {
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/sendProfile.do", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
