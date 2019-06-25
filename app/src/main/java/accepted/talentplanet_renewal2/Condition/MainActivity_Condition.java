@@ -198,6 +198,7 @@ public class MainActivity_Condition extends AppCompatActivity {
                         }else if(obj.getString("MATCHED_FLAG").equals("Y") || obj.getString("MATCHED_FLAG").equals("H")){
                             condition_proc_Fragment fragment = new condition_proc_Fragment();
                             fragment.setArguments(bundle);
+                            fragment.setIsmentorComplete(obj.getString("MATCHED_FLAG").equals("H"));
                             arr_proc_fragment.add(fragment);
                         }
                     }
