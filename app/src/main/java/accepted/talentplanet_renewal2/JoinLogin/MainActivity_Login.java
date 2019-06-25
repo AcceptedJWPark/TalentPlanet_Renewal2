@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -50,9 +52,6 @@ public class MainActivity_Login extends AppCompatActivity {
 
         mContext = getApplicationContext();
 
-        SaveSharedPreference.setPrefUsrName(mContext, "문건우");
-        SaveSharedPreference.setPrefUsrId(mContext, "ansrjsdn7@naver.com");
-
         if(getIntent().hasExtra("dupFlag")){
             Toast.makeText(mContext, "다른 기기에서 로그인되어 접속이 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
@@ -73,6 +72,8 @@ public class MainActivity_Login extends AppCompatActivity {
         // 기본 변수 정의
         et_email_login = findViewById(R.id.et_email_login);
         et_pw_login = findViewById(R.id.et_pw_login);
+        et_pw_login.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        et_pw_login.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
         ((Button)findViewById(R.id.btn_login_login)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +81,7 @@ public class MainActivity_Login extends AppCompatActivity {
                 Intent intent = new Intent(mContext, MainActivity.class);
                 //SaveSharedPreference.setPrefUsrId(mContext, et_email_login.getText().toString());
                 startActivity(intent);
-                // loginClicked();
+                loginClicked();
             }
         });
 
@@ -128,14 +129,11 @@ public class MainActivity_Login extends AppCompatActivity {
                     String result = obj.getString("result");
                     if(result.equals("success")){
                         String userName = obj.getString("userName");
-//                        SaveSharedPreference.setPrefUsrName(mContext, userName);
-//                        SaveSharedPreference.setPrefUsrId(mContext, userID);
-                        SaveSharedPreference.setPrefUsrName(mContext, "문건우");
-                        SaveSharedPreference.setPrefUsrId(mContext, "ansrjsdn7@naver.com");
-                       // getMyTalent();
-                       // getMyTalentPoint();
-                       // getMyPicture();
-                       // getFriendList();
+                        SaveSharedPreference.setPrefUsrName(mContext, userName);
+                        SaveSharedPreference.setPrefUsrId(mContext, userID);
+
+                        getMyProfileInfo_new();
+
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -172,7 +170,33 @@ public class MainActivity_Login extends AppCompatActivity {
 
     }
 
+    private void getMyProfileInfo_new() {
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "/Profile/getMyProfileInfo_new.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    SaveSharedPreference.setPrefGender(mContext, obj.getString("GENDER"));
+                    SaveSharedPreference.setPrefUserBirth(mContext, obj.getString("USER_BIRTH"));
+                    SaveSharedPreference.setPrefUserGpLng(mContext, obj.getString("GP_LNG"));
+                    SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
+                return params;
+            }
+        };
 
+        postRequestQueue.add(postJsonRequest);
+    }
 
 
 }
