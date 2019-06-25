@@ -31,6 +31,12 @@ public class SaveSharedPreference{
     static final String PREF_USER_NAME = "username";
     static final String PREF_USER_ID = "userid";
     static final String PREF_USER_PW = "userpw";
+
+    static final String PREF_USER_GENDER = "usergender";
+    static final String PREF_USER_BIRTH= "userbirth";
+    static final String PREF_USER_GP_LAT= "userGP_LAT";
+    static final String PREF_USER_GP_LNG= "userGP_LNG";
+
     static final String SERVER_IP2 = "https://13.209.191.97/Accepted/";
     static final String SERVER_IP = "http://175.213.4.39/Accepted/";
     static final String IMAGE_URI = "http://13.209.191.97/Accepted/";
@@ -63,6 +69,8 @@ public class SaveSharedPreference{
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
+
+
     public static void setPrefUsrName(Context ctx, String userName){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PREF_USER_NAME, userName);
@@ -92,6 +100,30 @@ public class SaveSharedPreference{
     public static void setFirstLoadingFlag(Context ctx, boolean flag){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putBoolean(PREF_FIRST_LOADING, flag);
+        editor.commit();
+    }
+
+    public static void setPrefUserBirth(Context ctx, String birth){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_BIRTH, birth);
+        editor.commit();
+    }
+
+    public static void setPrefGender(Context ctx, String gender){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_GENDER, gender);
+        editor.commit();
+    }
+
+    public static void setPrefUserGpLng(Context ctx, String lng){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_GP_LNG, lng);
+        editor.commit();
+    }
+
+    public static void setPrefUserGpLat(Context ctx, String lat){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_GP_LAT, lat);
         editor.commit();
     }
 
@@ -164,6 +196,22 @@ public class SaveSharedPreference{
 
     public static String getUserId(Context ctx){
         return getSharedPreferences(ctx).getString(PREF_USER_ID, "");
+    }
+
+    public static String getPrefUserGpLng(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_GP_LNG, "");
+    }
+
+    public static String getPrefUserGpLat(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_GP_LAT, "");
+    }
+
+    public static String getPrefUserBirth(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_BIRTH, "");
+    }
+
+    public static String getPrefUserGender(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_GENDER, "");
     }
 
     public static void clearUserInfo(Context ctx){

@@ -184,6 +184,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         tv_profile_mentor_count = findViewById(R.id.tv_profile_mentor_count);
         tv_profile_mentee_count = findViewById(R.id.tv_profile_mentee_count);
 
+        img_gender_profile = findViewById(R.id.img_gender_profile);
+
         tv_profile_description = findViewById(R.id.tv_profile_description);
         tv_birth_profile = findViewById(R.id.tv_birth_profile);
         tv_addr_profile = findViewById(R.id.tv_addr_profile);
@@ -371,6 +373,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                             mCurrentLocation = new Location("");
                             mCurrentLocation.setLatitude(Double.parseDouble(profileData.getString("GP_LAT")));
                             mCurrentLocation.setLongitude(Double.parseDouble(profileData.getString("GP_LNG")));
+
                             List<Address> list = null;
                             try{
                                 list = geocoder.getFromLocation(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude() , 1);
@@ -428,7 +431,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 JSONObject obj = talentArr.getJSONObject(i);
                                 TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0, obj.getString("TalentID"));
                                 item.setCateCode((int)obj.getLong("Code"));
-
+                                item.setUserID(obj.getString("UserID"));
                                 if(talentFlag.equals("Y")) {
                                     mentorTalentList.add(item);
                                 }else if(talentFlag.equals("N")) {
@@ -465,6 +468,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("UserID", userID);
+                params.put("CheckUserID", SaveSharedPreference.getUserId(mContext));
                 params.put("TalentFlag", talentFlag);
                 return params;
             }

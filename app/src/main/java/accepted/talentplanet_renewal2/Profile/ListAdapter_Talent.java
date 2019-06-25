@@ -63,17 +63,15 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
                 intent1.putExtra("type", requestType);
                 intent1.putExtra("inPerson", inPerson);
                 intent1.putExtra("talentID", item.getTalentID());
-                Log.d("adapterTalentID", item.getTalentID());
+                intent1.putExtra("userID", item.getUserID());
 
-                Intent parentIntent = ((Activity) v.getContext()).getIntent();
-                intent1.putExtra("userName", parentIntent.getStringExtra("userName"));
-                intent1.putExtra("userInfo", parentIntent.getStringExtra("userInfo"));
                 if(position < getItemCount() - 1) {
-
                     intent1.putExtra("CateCode", item.getCateCode());
-
                     intent1.putExtra("type", requestType);
                     intent1.putExtra("position", position);
+                    Intent parentIntent = ((Activity) v.getContext()).getIntent();
+                    intent1.putExtra("userName", parentIntent.getStringExtra("userName"));
+                    intent1.putExtra("userInfo", parentIntent.getStringExtra("userInfo"));
                 }
                 ((Activity)v.getContext()).startActivity(intent1);
 //                ((Activity)v.getContext()).startActivityForResult(intent1, 3000);
