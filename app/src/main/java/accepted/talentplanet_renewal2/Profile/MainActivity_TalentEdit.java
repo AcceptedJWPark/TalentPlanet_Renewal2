@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +53,9 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     private String userID;
     private String talentID;
     private String targetUserID;
+    private String point;
+    private String ProfileSendFlag;
+    private String MatchingFlag;
 
     ViewPager.OnPageChangeListener onPageChangeListener;
     talentlist_viewpager vp;
@@ -69,12 +73,14 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         Intent intent = getIntent();
         inPerson = intent.getBooleanExtra("inPerson", false);
         talentID = intent.getStringExtra("talentID");
+        userID = intent.getStringExtra("userID");
         String requestType = intent.getStringExtra("type");
 
         if (requestType.equals("MENTOR")) {
             isMentor = "Y";
         } else if (requestType.equals("MENTEE")) {
             isMentor = "N";
+            ((TextView)findViewById(R.id.tv_talentprofile_profile)).setText("프로필 보내기");
         }
         clickCateCode = intent.getIntExtra("CateCode",0);
         // 이벤트를 위한 변수
@@ -105,6 +111,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                         sendInterest();
                     } else if (isMentor.equals("N")) {
                         // 멘티일 경우
+                        sendProfile();
                     }
                 }
             });
@@ -118,6 +125,7 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                 resultIntent.putExtra("talentFlag", isMentor);
                 resultIntent.putStringArrayListExtra("cateCodeArr", CateCodeArr);
                 resultIntent.putExtra("inPerson", inPerson);
+                resultIntent.putExtra("userID", userID);
 //                setResult(3000, resultIntent);
                 startActivity(resultIntent);
                 finish();
@@ -185,6 +193,9 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
                                     bundle.putString("isMentor", isMentor);
                                     bundle.putBoolean("inPerson", inPerson);
                                     bundle.putString("targetUserID", obj.getString("UserID"));
+                                    bundle.putString("BackgroundID", obj.getString("BackgroundID"));
+                                    ProfileSendFlag = obj.getString("ProfileSendFlag");
+                                    MatchingFlag = obj.getString("MatchingFlag");
 
                                     targetUserID = obj.getString("UserID");
 
@@ -193,6 +204,23 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
 
                                     fragment.setArguments(bundle);
                                     adapter.addViews(fragment);
+                                }
+
+                                if  (isMentor.equals("Y")) {
+                                    // 현재 카테고리가 멘토리스트
+                                    if (MatchingFlag.equals("0")) {
+                                        // 모든 재능에 멘티들이 요청할 수 있음
+                                        ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("요청하기");
+                                    } else if (MatchingFlag.equals("1")) {
+                                        ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("취소하기");
+                                    }
+                                } else if (isMentor.equals("N")) {
+                                    // 현재 카테고리가 멘티리스트
+                                    if (ProfileSendFlag.equals("0")) {
+                                        ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("프로필 보내기");
+                                    } else if (ProfileSendFlag.equals("1")) {
+                                        ((TextView) findViewById(R.id.tv_talentprofile_profile)).setText("취소하기");
+                                    }
                                 }
 
                             }
@@ -261,7 +289,8 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
             public Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("UserID", SaveSharedPreference.getUserId(mContext));
+                params.put("UserID", userID);
+                params.put("CheckUserID", SaveSharedPreference.getUserId(mContext));
                 params.put("TalentFlag",  isMentor);
                 return params;
             }
@@ -277,34 +306,60 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
     }
 
     public void sendInterest() {
-        Log.d("talentID", talentID);
-        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
-        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/newSendInterest.do", new Response.Listener<String>() {
+        AlertDialog.Builder ab = new AlertDialog.Builder(MainActivity_TalentEdit.this);
+        ab.setTitle("요청 보내기");
+        ab.setMessage("멘토에게 줄 POINT를 정해주세요.");
+
+        // Point input
+        final EditText et = new EditText(MainActivity_TalentEdit.this);
+        ab.setView(et);
+
+        ab.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    String result = obj.getString("result");
-                    if(result.equals("success")){
-                        Toast.makeText(getApplicationContext(), "요청이 전달되었습니다.", Toast.LENGTH_SHORT).show();
+            public void onClick(DialogInterface dialog, int which) {
+                point = et.getText().toString();
+                Log.d("point", point);
+
+                RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+                StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/newSendInterest.do", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            String result = obj.getString("result");
+                            if(result.equals("success")){
+                                Toast.makeText(getApplicationContext(), "요청이 전달되었습니다.", Toast.LENGTH_SHORT).show();
+                                ((TextView)findViewById(R.id.tv_talentprofile_profile)).setText("취소하기");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                }, SaveSharedPreference.getErrorListener(mContext)) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap();
+                        params.put("MentorTalentID", talentID);
+                        params.put("MenteeID", SaveSharedPreference.getUserId(mContext));
+                        params.put("Point", point);
+                        return params;
+                    }
+                };
+
+                postRequestQueue.add(postJsonRequest);
+
+                dialog.dismiss();
             }
-        }, SaveSharedPreference.getErrorListener(mContext)) {
+        });
+
+        ab.setNegativeButton("취소", new DialogInterface.OnClickListener() {
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap();
-                params.put("MentorTalentID", talentID);
-                params.put("MenteeID", SaveSharedPreference.getUserId(mContext));
-                return params;
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "취소되었습니다.", Toast.LENGTH_SHORT).show();
             }
-        };
+        });
 
-
-        postRequestQueue.add(postJsonRequest);
-
+        ab.show();
     }
 
     public void sendProfile() {
@@ -336,9 +391,6 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
             }
         };
 
-
         postRequestQueue.add(postJsonRequest);
-
     }
-
 }

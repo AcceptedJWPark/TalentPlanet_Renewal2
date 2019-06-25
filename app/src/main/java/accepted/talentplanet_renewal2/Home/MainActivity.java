@@ -45,6 +45,7 @@ import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.TalentBox.MainActivity_TalentBox;
 import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
 
 import static android.graphics.Color.BLACK;
@@ -516,16 +517,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //
+        ((LinearLayout)findViewById(R.id.ll_recive_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.closeDrawers();
+                ((LinearLayout)findViewById(R.id.ll_click_talent_dl)).setVisibility(View.GONE);
+                ((LinearLayout)findViewById(R.id.ll_second)).setVisibility(View.VISIBLE);
+                Intent intent = new Intent(context, MainActivity_TalentBox.class);
+                intent.putExtra("requestType", "recive");
+                startActivity(intent);
+            }
+        });
 
+
+        ((LinearLayout)findViewById(R.id.ll_send_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.closeDrawers();
+                ((LinearLayout)findViewById(R.id.ll_click_talent_dl)).setVisibility(View.GONE);
+                ((LinearLayout)findViewById(R.id.ll_second)).setVisibility(View.VISIBLE);
+                Intent intent = new Intent(context, MainActivity_TalentBox.class);
+                intent.putExtra("requestType", "send");
+                startActivity(intent);
+            }
+        });
 
 
 
         ((LinearLayout)findViewById(R.id.ll_talentbox_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((LinearLayout)findViewById(R.id.ll_click_talent_dl)).setVisibility(View.VISIBLE);
+                ((LinearLayout)findViewById(R.id.ll_second)).setVisibility(View.GONE);
             }
         });
-
 
 
         ((LinearLayout)findViewById(R.id.ll_message_dl)).setOnClickListener(new View.OnClickListener() {
@@ -583,6 +609,16 @@ public class MainActivity extends AppCompatActivity {
                 ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.VISIBLE);
             }
         });
+        // 탤런트박스 클릭 이벤트
+        ((ImageView)findViewById(R.id.iv_closetalentbox_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((LinearLayout)findViewById(R.id.ll_click_talent_dl)).setVisibility(View.GONE);
+                ((LinearLayout)findViewById(R.id.ll_second)).setVisibility(View.VISIBLE);
+            }
+        });
+
+
 
         ((LinearLayout)findViewById(R.id.ll_condition_dl)).setOnClickListener(new View.OnClickListener() {
             @Override

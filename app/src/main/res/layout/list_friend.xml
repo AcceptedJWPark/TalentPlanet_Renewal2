@@ -64,6 +64,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/v_void_friend"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
