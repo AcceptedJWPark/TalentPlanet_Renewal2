@@ -7,6 +7,7 @@ public class TalentObject_Home implements Comparable<TalentObject_Home> {
     private int talentCount;
     private int cateCode;
     private String talentID;
+    private String userID;
 
     public TalentObject_Home(String title, int backgroundResourceID, int iconResourceID, int talentCount, String talentID) {
         this.title = title;
@@ -72,5 +73,13 @@ public class TalentObject_Home implements Comparable<TalentObject_Home> {
 
     public void setTalentID(String talentID) {
         this.talentID = talentID;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }
