@@ -118,6 +118,13 @@ public class condition_req_Fragment extends android.support.v4.app.Fragment {
                 }
             });
 
+            btnmentorNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateMatchedFlag("Y");
+                }
+            });
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
             try {
                 Date cd = new Date(Long.parseLong(CreationDate));

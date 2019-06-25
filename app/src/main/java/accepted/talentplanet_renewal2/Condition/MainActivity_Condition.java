@@ -254,7 +254,7 @@ public class MainActivity_Condition extends AppCompatActivity {
                             condition_req_Fragment fragment = new condition_req_Fragment();
                             fragment.setArguments(bundle);
                             arr_req_fragment.add(fragment);
-                        }else if(obj.getString("MATCHED_FLAG").equals("Y")){
+                        }else if(obj.getString("MATCHED_FLAG").equals("Y") || obj.getString("MATCHED_FLAG").equals("H")){
                             condition_proc_Fragment fragment = new condition_proc_Fragment();
                             fragment.setArguments(bundle);
                             arr_proc_fragment.add(fragment);
