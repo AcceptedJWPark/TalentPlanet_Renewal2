@@ -11,12 +11,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import accepted.talentplanet_renewal2.R;
+import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.VolleySingleton;
 
 
 /**
@@ -28,6 +41,7 @@ public class condition_req_Fragment extends android.support.v4.app.Fragment {
     String MentorID, MentorName, MentorBirth, MentorGender;
     String MenteeID, MenteeName, MenteeBirth, MenteeGender;
     String CreationDate;
+    String Code;
     public condition_req_Fragment() {
     }
 
@@ -50,6 +64,7 @@ public class condition_req_Fragment extends android.support.v4.app.Fragment {
         TextView tv_mentee = ((TextView)layout.findViewById(R.id.tv_mentee_req_condition));
         if(getArguments() != null) {
             CreationDate = getArguments().getString("CREATION_DATE");
+            Code = getArguments().getString("Code");
             if (ismymentor) {
                 MentorID = getArguments().getString("MentorID");
                 MentorName = getArguments().getString("MentorName");
@@ -175,7 +190,20 @@ public class condition_req_Fragment extends android.support.v4.app.Fragment {
                 unactivebgr(btnmenteeNext);
 
                 btnmentorNext.setText("진행");
+                btnmentorNext.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        updateMatchedFlag("Y");
+                    }
+                });
+
                 btnmenteeCancel.setText("삭제");
+                btnmenteeCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        updateMatchedFlag("X");
+                    }
+                });
                 btnmenteeNext.setText(sdf2.format(calendar.getTime()) + " 자동 삭제");
 
             }catch(Exception e){
@@ -201,4 +229,31 @@ public class condition_req_Fragment extends android.support.v4.app.Fragment {
         btn.setTextColor(Color.WHITE);
     }
 
+    public void updateMatchedFlag(final String matchedFlag) {
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(getContext()).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentCondition/updateMatchedFlag.do", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")){
+                        Toast.makeText(getContext(), "완료되었습니다.", Toast.LENGTH_SHORT);
+                    }else{
+                        Toast.makeText(getContext(), "실패했습니다.", Toast.LENGTH_SHORT);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(getContext())) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+                params.put("MatchedFlag", matchedFlag);
+                params.put("Code", Code);
+                return params;
+            }
+        };
+        postRequestQueue.add(postJsonRequest);
+    }
 }

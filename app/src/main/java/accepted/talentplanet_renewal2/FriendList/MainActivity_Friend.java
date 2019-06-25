@@ -11,10 +11,26 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import accepted.talentplanet_renewal2.R;
+import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.VolleySingleton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity_Friend extends AppCompatActivity {
 
@@ -35,21 +51,7 @@ public class MainActivity_Friend extends AppCompatActivity {
         findViewById(R.id.img_show3x5).setVisibility(View.GONE);
 
         int nDatCnt=0;
-        String[] nameArr = {"박종우","민권홍","이태훈","조현배","문건우"};
-        String[] infoArr = {"남성 / 29세","남성 / 30세","남성 / 29세","남성 / 27세","남성 / 25세"};
-        oData = new ArrayList<>();
-        for (int i=0; i<5; ++i) {
-            ItemData_Friend oItem = new ItemData_Friend();
-            oItem.strUserName = nameArr[i];
-            oItem.strUserInfo = infoArr[i];
-            oData.add(oItem);
-        }
 
-        // ListView, Adapter 생성 및 연결 ------------------------
-        friendList = (ListView)findViewById(R.id.lv_friend);
-        ListAdapter_Friend oAdapter = new ListAdapter_Friend(oData);
-
-        friendList.setAdapter(oAdapter);
 
         // 뒤로가기 이벤트
         findViewById(R.id.img_open_dl).setOnClickListener(new View.OnClickListener() {
@@ -86,22 +88,65 @@ public class MainActivity_Friend extends AppCompatActivity {
                 ((ImageView) findViewById(R.id.img_open_dl)).setVisibility(View.VISIBLE);
             }
         });
+        getFriendList();
+    }
 
-        friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    public void getFriendList() {
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "FriendList/getFriendList_new.do", new Response.Listener<String>() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // 토스트 테스트 성공
-                //Toast.makeText(MainActivity_Friend.this , oData.get(position).strUserName,Toast.LENGTH_SHORT).show();
-                // 테스트 데이터 전송
-                Intent intent = new Intent(MainActivity_Friend.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
+            public void onResponse(String response) {
+                try {
+                    oData = new ArrayList<>();
+                    JSONArray array = new JSONArray(response);
+                    for(int i = 0; i < array.length(); i++){
+                        JSONObject obj = array.getJSONObject(i);
 
-                String userInfo = oData.get(position).strUserInfo;
-                String[] temp = userInfo.split(" / ");
-                intent.putExtra("userName", oData.get(position).strUserName);
-                intent.putExtra("userInfo", temp[1]);
-                startActivity(intent);
+                        SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+
+                        ItemData_Friend oItem = new ItemData_Friend();
+                        oItem.strUserName = obj.getString("USER_NAME");
+                        String Gender = obj.getString("GENDER").equals("남") ? "남성" : "여성";
+                        int Age = Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(obj.getString("USER_BIRTH").split("-")[0]) + 1;
+
+                        oItem.strUserInfo = Gender + " / " + Age + "세";
+                        oData.add(oItem);
+                    }
+
+                    // ListView, Adapter 생성 및 연결 ------------------------
+                    friendList = (ListView)findViewById(R.id.lv_friend);
+                    ListAdapter_Friend oAdapter = new ListAdapter_Friend(oData);
+
+                    friendList.setAdapter(oAdapter);
+
+                    friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            // 토스트 테스트 성공
+                            //Toast.makeText(MainActivity_Friend.this , oData.get(position).strUserName,Toast.LENGTH_SHORT).show();
+                            // 테스트 데이터 전송
+                            Intent intent = new Intent(MainActivity_Friend.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
+
+                            String userInfo = oData.get(position).strUserInfo;
+                            String[] temp = userInfo.split(" / ");
+                            intent.putExtra("userName", oData.get(position).strUserName);
+                            intent.putExtra("userInfo", temp[1]);
+                            startActivity(intent);
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        });
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
+                return params;
+            }
+        };
+        postRequestQueue.add(postJsonRequest);
     }
 
 }

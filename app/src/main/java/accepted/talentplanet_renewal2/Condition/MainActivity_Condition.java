@@ -189,6 +189,7 @@ public class MainActivity_Condition extends AppCompatActivity {
                         bundle.putString("MentorBirth", obj.getString("MentorBirth"));
                         bundle.putString("MentorGender", obj.getString("MentorGender"));
                         bundle.putString("CREATION_DATE", obj.getString("CREATION_DATE"));
+                        bundle.putString("Code", obj.getString("Code"));
 
                         if(obj.getString("MATCHED_FLAG").equals("N")){
                             condition_req_Fragment fragment = new condition_req_Fragment();
@@ -247,6 +248,7 @@ public class MainActivity_Condition extends AppCompatActivity {
                         bundle.putString("MenteeBirth", obj.getString("MenteeBirth"));
                         bundle.putString("MenteeGender", obj.getString("MenteeGender"));
                         bundle.putString("CREATION_DATE", obj.getString("CREATION_DATE"));
+                        bundle.putString("Code", obj.getString("Code"));
 
                         if(obj.getString("MATCHED_FLAG").equals("N")){
                             condition_req_Fragment fragment = new condition_req_Fragment();
