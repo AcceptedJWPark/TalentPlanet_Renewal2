@@ -149,4 +149,34 @@ public class MainActivity_Friend extends AppCompatActivity {
         postRequestQueue.add(postJsonRequest);
     }
 
+    public void removeFriend(final String friendID){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "FriendList/updateFriendList_new.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")){
+                        Toast.makeText(mContext, "친구 등록이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
+                params.put("friendID", friendID);
+                params.put("updateFlag", "R");
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
+
 }

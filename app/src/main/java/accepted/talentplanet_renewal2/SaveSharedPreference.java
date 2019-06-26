@@ -3,6 +3,8 @@ package accepted.talentplanet_renewal2;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.preference.PreferenceManager;
@@ -17,11 +19,14 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by kwonhong on 2017-10-14.
@@ -274,5 +279,158 @@ public class SaveSharedPreference{
 
     public static String getImageUri(){
         return IMAGE_URI2;
+    }
+
+    public static int makeChatRoom(Context ctx, String userID, String userName, String filePath){
+        SQLiteDatabase sqliteDatabase;
+        String dbName = "/accepted.db";
+
+        final Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd,a hh:mm:ss");
+        final String nowDateStr = simpleDateFormat.format(date);
+
+        try {
+            int roomID;
+            int startMessageID;
+            String creationDate;
+            sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(ctx.getFilesDir() + dbName, null);
+
+            String test = "SELECT IFNULL(MAX(A.START_MESSAGE_ID), 0) AS START_MESSAGE_ID FROM TB_CHAT_ROOM A WHERE A.USER_ID = '" + userID+ "'";
+            Cursor cursort = sqliteDatabase.rawQuery(test, null);
+            cursort.moveToFirst();
+            startMessageID = cursort.getInt(0);
+            Log.d("start_message_id", "" + startMessageID);
+
+            test = "SELECT IFNULL(MAX(B.ROOM_ID), (SELECT IFNULL(MAX(C.ROOM_ID) + 1, 1) FROM TB_CHAT_ROOM C)) AS MESSAGE_ID FROM TB_CHAT_ROOM B WHERE B.USER_ID = '" + userID + "' AND B.ACTIVATE_FLAG = 'Y'";
+            cursort = sqliteDatabase.rawQuery(test, null);
+            cursort.moveToFirst();
+            roomID = cursort.getInt(0);
+            Log.d("room_id", "" + roomID);
+
+            test = "SELECT IFNULL(MAX(D.CREATION_DATE), '"+nowDateStr+"') AS CREATION_DATE FROM TB_CHAT_ROOM D WHERE D.USER_ID = '" + userID+ "'";
+            cursort = sqliteDatabase.rawQuery(test, null);
+            cursort.moveToFirst();
+            creationDate = cursort.getString(0);
+            Log.d("creation_date", "" + creationDate );
+
+            String sqlUpsert = "INSERT OR REPLACE INTO TB_CHAT_ROOM(ROOM_ID, USER_ID, USER_NAME, MASTER_ID, START_MESSAGE_ID, CREATION_DATE, LAST_UPDATE_DATE, ACTIVATE_FLAG, FILE_PATH) VALUES ("+roomID+", '" + userID + "', '"+userName+"', '"+getUserId(ctx)+"', "+startMessageID+", '"+creationDate+"', '"+nowDateStr+"', 'Y', '"+ filePath + "')";
+            sqliteDatabase.execSQL(sqlUpsert);
+
+            Log.d("Insert SQL = ", sqlUpsert);
+            sqliteDatabase.close();
+
+
+            return roomID;
+
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
+    public static void setGiveTalentData(Context ctx, MyTalent Data){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(Data);
+        editor.putString(PREF_GIVE_DATA, json);
+        editor.commit();
+    }
+
+    public static MyTalent getGiveTalentData(Context ctx){
+        Gson gson = new Gson();
+        String json = getSharedPreferences(ctx).getString(PREF_GIVE_DATA, "");
+        MyTalent data = gson.fromJson(json, MyTalent.class);
+        return data;
+    }
+
+    public static void setTakeTalentData(Context ctx, MyTalent Data){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(Data);
+        editor.putString(PREF_TAKE_DATA, json);
+        editor.commit();
+    }
+
+    public static MyTalent getTakeTalentData(Context ctx){
+        Gson gson = new Gson();
+        String json = getSharedPreferences(ctx).getString(PREF_TAKE_DATA, "");
+        MyTalent data = gson.fromJson(json, MyTalent.class);
+        return data;
+    }
+
+    public static boolean getMessagePushGrant(Context ctx){
+        SQLiteDatabase sqliteDatabase;
+        String dbName = "/accepted.db";
+        boolean pushGrant = true;
+        try{
+            sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(ctx.getFilesDir() + dbName, null);
+            String sqlSelect = "SELECT MESSAGE_GRANT FROM TB_GRANT WHERE USER_ID = '" + getUserId(ctx) + "'";
+            Cursor cursor = sqliteDatabase.rawQuery(sqlSelect, null);
+            cursor.moveToFirst();
+            Log.d("message grant query = ", sqlSelect);
+            Log.d("message grant = ", cursor.getInt(0) + "");
+
+            pushGrant = (cursor.getInt(0) > 0);
+
+            cursor.close();
+
+            sqliteDatabase.close();
+        }catch (SQLiteException e){
+            e.printStackTrace();
+        }catch (CursorIndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+
+        return pushGrant;
+    }
+
+    public static boolean getConditionPushGrant(Context ctx){
+        SQLiteDatabase sqliteDatabase;
+        String dbName = "/accepted.db";
+        boolean pushGrant = true;
+        try{
+            sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(ctx.getFilesDir() + dbName, null);
+            String sqlSelect = "SELECT CONDITION_GRANT FROM TB_GRANT WHERE USER_ID = '" + getUserId(ctx) + "'";
+            Cursor cursor = sqliteDatabase.rawQuery(sqlSelect, null);
+            cursor.moveToFirst();
+
+            pushGrant = (cursor.getInt(0) > 0);
+
+            cursor.close();
+
+            sqliteDatabase.close();
+        }catch (SQLiteException e){
+            e.printStackTrace();
+        }catch (CursorIndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+
+        return pushGrant;
+    }
+
+    public static boolean getAnswerPushGrant(Context ctx){
+        SQLiteDatabase sqliteDatabase;
+        String dbName = "/accepted.db";
+        boolean pushGrant = true;
+        try{
+            sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(ctx.getFilesDir() + dbName, null);
+            String sqlSelect = "SELECT ANSWER_GRANT FROM TB_GRANT WHERE USER_ID = '" + getUserId(ctx) + "'";
+            Cursor cursor = sqliteDatabase.rawQuery(sqlSelect, null);
+            cursor.moveToFirst();
+
+            pushGrant = (cursor.getInt(0) > 0);
+
+            cursor.close();
+
+            sqliteDatabase.close();
+        }catch (SQLiteException e){
+            e.printStackTrace();
+        }catch (CursorIndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+
+        return pushGrant;
     }
 }

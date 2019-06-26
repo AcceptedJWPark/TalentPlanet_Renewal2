@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f5f5f5"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+
+    >
+
+
+<LinearLayout
+    android:id="@+id/Messanger_Chatting_DateLine"
+    android:layout_width="match_parent"
+    android:background="#f5f5f5"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    >
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_weight="1"
+        android:background="@color/textColor_object"
+        />
+
+    <TextView
+        android:id="@+id/Messanger_Chatting_Date_String"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2018/Mar/06 화요일"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textSize="@dimen/AdditionTxt"
+        android:textColor="@color/textColor_object"
+        />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_weight="1"
+        android:background="@color/textColor_object"
+        />
+
+</LinearLayout>
+
+<RelativeLayout
+    android:id="@+id/ll_Messanger_List"
+    android:layout_width="match_parent"
+    android:background="#f5f5f5"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    >
+
+        <ImageView
+            android:id="@+id/Messanger_Chatting_Picture"
+            android:layout_width="@dimen/Popup_Icon"
+            android:layout_height="@dimen/Popup_Icon"
+            android:adjustViewBounds="false"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:visibility="invisible"
+            />
+
+
+    <!--maxwidth를 디스플레이 가로 구해서 적용하기.-->
+
+            <TextView
+                android:id="@+id/Messanger_Chatting_Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/Height30dp"
+                android:maxWidth="@dimen/Width210dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:background="@drawable/bgr_messanger_chatting_send"
+                android:layout_toRightOf="@+id/Messanger_Chatting_Picture"
+                android:gravity="center|left"
+                android:text="안녕하세요. 박종우라고 합니다."
+                android:textSize="@dimen/SubTxt"
+                android:textColor="#000000"
+                />
+
+    <TextView
+        android:id="@+id/Messanger_Chatting_Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/Messanger_Chatting_Txt"
+        android:layout_toRightOf="@+id/Messanger_Chatting_Txt"
+        android:text="오전 09:24"
+        android:background="#f5f5f5"
+        android:textSize="@dimen/AdditionTxt" />
+
+</RelativeLayout>
+
+</LinearLayout>

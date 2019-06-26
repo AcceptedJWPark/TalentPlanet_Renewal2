@@ -174,6 +174,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
     private static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider";
 
+    // 친구 관련 변수
+    private boolean friendFlag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -219,6 +222,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             // 본인의 아이디에서 숨겨야할 요소
             ((Button)findViewById(R.id.btn_profile_btn)).setVisibility(View.GONE);
             //((LinearLayout)findViewById(R.id.ll_pointbox_profile)).setVisibility(View.GONE);
+            ((Button)findViewById(R.id.btn_sendMessage_profile)).setVisibility(View.GONE);
         } else  {
             ((LinearLayout)findViewById(R.id.ll_pointbox_profile)).setVisibility(View.GONE);
             userID = intent.getStringExtra("userID");
@@ -358,7 +362,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     @Override
                     public void onResponse(String response) {
                         try {
-                            JSONObject profileData = new JSONObject(response);
+                            final JSONObject profileData = new JSONObject(response);
                             tv_profile_description.setText(profileData.getString("PROFILE_DESCRIPTION"));
 
                             if(profileData.getString("GENDER").equals("남")){
@@ -390,6 +394,29 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 Log.d("MyLocation", "location: " + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude() + ", " + addr.getAddressLine(0) + "," + addr.toString());
                                 setCurrentLocation(mCurrentLocation,"기존위치" , addr.getAddressLine(0));
                             }
+
+                            ((Button)findViewById(R.id.btn_sendMessage_profile)).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    int roomID = 0;
+                                    try {
+                                        roomID = SaveSharedPreference.makeChatRoom(mContext, targetUserID, profileData.getString("USER_NAME"), profileData.getString("S_FILE_PATH"));
+                                        if (roomID < 0) {
+                                            return;
+                                        }
+                                        Intent i = new Intent(mContext, accepted.talentplanet_renewal2.Messanger.Chatting.MainActivity.class);
+                                        i.putExtra("userID", targetUserID);
+                                        i.putExtra("roomID", roomID);
+                                        i.putExtra("userName", profileData.getString("USER_NAME"));
+                                        startActivity(i);
+
+                                        finish();
+                                    }catch(JSONException e){
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            });
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -437,6 +464,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 }else if(talentFlag.equals("N")) {
                                     menteeTalentList.add(item);
                                 }
+
+                                friendFlag = obj.getInt("FriendFlag") > 0;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -456,6 +485,22 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                             menteeAdapter = new ListAdapter_Talent(menteeTalentList, "MENTEE", inPerson);
                             lv_mentee_profile.setAdapter(menteeAdapter);
                             tv_profile_mentee_count.setText(menteeTalentList.size() + "");
+                        }
+
+                        if(friendFlag){
+                            ((Button)findViewById(R.id.btn_profile_btn)).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(mContext, "이미 등록된 친구입니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }else{
+                            ((Button)findViewById(R.id.btn_profile_btn)).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    addFriend();
+                                }
+                            });
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -1018,5 +1063,33 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         return size;
     }
 
+    public void addFriend(){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "FriendList/updateFriendList_new.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")){
+                        Toast.makeText(mContext, "친구 등록이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
 
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
+                params.put("friendID", targetUserID);
+                params.put("updateFlag", "I");
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
 }
