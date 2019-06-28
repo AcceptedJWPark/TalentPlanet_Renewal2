@@ -153,13 +153,26 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
             });
 
             if (!ismentorComplete) {
-                unactivebgr(btnmentorNext);
-                unactivebgr(btnmenteeNext);
-                btnmentorCancel.setVisibility(View.GONE);
-                btnmenteeCancel.setVisibility(View.GONE);
-                btnmentorNext.setText("상대방 완료를 기다립니다.");
-                btnmenteeNext.setText("완료");
+                if (getArguments().getString("MATCHED_FLAG").equals("Y")) {
 
+                    unactivebgr(btnmentorNext);
+                    unactivebgr(btnmenteeNext);
+                    btnmentorCancel.setVisibility(View.VISIBLE);
+                    btnmenteeCancel.setVisibility(View.GONE);
+                    btnmentorNext.setVisibility(View.GONE);
+                    btnmenteeNext.setText("멘토의 완료를 기다립니다.");
+//                    btnmenteeNext.setText("멘토의 완료를 기다립니다.");
+
+                } else if (getArguments().getString("MATCHED_FLAG").equals("H")) {
+
+                    unactivebgr(btnmentorNext);
+                    unactivebgr(btnmenteeNext);
+                    btnmentorCancel.setVisibility(View.GONE);
+                    btnmenteeCancel.setVisibility(View.VISIBLE);
+                    btnmentorNext.setText("상대방 완료를 기다립니다.");
+                    btnmenteeNext.setText("완료");
+
+                }
             } else {
                 unactivebgr(btnmentorNext);
                 activebgr(btnmenteeNext);
@@ -168,7 +181,8 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
                 btnmentorCancel.setVisibility(View.VISIBLE);
                 btnmenteeCancel.setVisibility(View.GONE);
 
-                btnmentorNext.setText("완료 대기 중...");
+//                btnmentorNext.setText("완료 대기 중...");
+                btnmentorNext.setVisibility(View.GONE);
                 btnmentorCancel.setText("신고하기");
                 btnmenteeNext.setText("완료");
                 btnmenteeNext.setOnClickListener(new View.OnClickListener() {
@@ -229,12 +243,24 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
 
             tvmentor.setText("Mentor (나)");
             tvmentee.setText("Mentee (상대방)");
-            btnmentorCancel.setVisibility(View.GONE);
-            btnmenteeCancel.setVisibility(View.GONE);
-            activebgr(btnmentorNext);
-            unactivebgr(btnmenteeNext);
-            btnmentorNext.setText("완료");
-            btnmenteeNext.setText("회원님의 완료를 기다립니다.");
+
+            if (getArguments().getString("MATCHED_FLAG").equals("Y")) {
+
+                btnmentorCancel.setVisibility(View.GONE);
+                btnmenteeCancel.setVisibility(View.VISIBLE);
+                activebgr(btnmentorNext);
+                unactivebgr(btnmenteeNext);
+                btnmentorNext.setText("완료");
+                btnmenteeNext.setVisibility(View.GONE);
+//                btnmenteeNext.setText("회원님의 완료를 기다립니다.");
+            } else if (getArguments().getString("MATCHED_FLAG").equals("H")) {
+
+                btnmentorCancel.setVisibility(View.GONE);
+                btnmenteeCancel.setVisibility(View.VISIBLE);
+                unactivebgr(btnmentorNext);
+                btnmentorNext.setText("상대방의 완료 대기중");
+                btnmenteeNext.setVisibility(View.GONE);
+            }
 
             btnmentorNext.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -284,6 +310,7 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
     }
 
     public void updateMatchedFlag(final String matchedFlag) {
+        Log.d("CodeTest", Code);
         RequestQueue postRequestQueue = VolleySingleton.getInstance(getContext()).getRequestQueue();
         StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentCondition/updateMatchedFlag.do", new Response.Listener<String>() {
             @Override
