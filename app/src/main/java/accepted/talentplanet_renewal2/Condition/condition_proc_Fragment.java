@@ -180,8 +180,8 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
             }
 
             // 내 정보
-            ((TextView)layout.findViewById(R.id.tv_name_mentee_proc_condition)).setText(SaveSharedPreference.getPrefUserBirth(getActivity()));
-            if(MenteeGender.equals("남")) {
+            ((TextView)layout.findViewById(R.id.tv_name_mentee_proc_condition)).setText(SaveSharedPreference.getUserName(getActivity()));
+            if(SaveSharedPreference.getPrefUserGender(getContext()).equals("남")) {
                 ((ImageView) layout.findViewById(R.id.img_gender_mentee_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
             }else{
                 ((ImageView) layout.findViewById(R.id.img_gender_mentee_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
@@ -251,7 +251,7 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
 
             // 내 정보
             ((TextView)layout.findViewById(R.id.tv_name_mentor_proc_condition)).setText(SaveSharedPreference.getUserName(getActivity()));
-            if(MenteeGender.equals("남")) {
+            if(SaveSharedPreference.getPrefUserGender(getContext()).equals("남")) {
                 ((ImageView) layout.findViewById(R.id.img_gender_mentor_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
             }else{
                 ((ImageView) layout.findViewById(R.id.img_gender_mentor_proc_condition)).setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
