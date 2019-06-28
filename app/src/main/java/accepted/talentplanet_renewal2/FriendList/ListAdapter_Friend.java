@@ -19,17 +19,16 @@ public class ListAdapter_Friend extends BaseAdapter {
 
     public ListAdapter_Friend(ArrayList<ItemData_Friend> adaptUserData) {
         userData = adaptUserData;
-        nListCnt = userData.size();
     }
 
     @Override
     public int getCount() {
-        return nListCnt;
+        return userData.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return userData.get(position);
     }
 
     @Override

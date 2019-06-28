@@ -286,4 +286,14 @@ public class MainActivity_Condition extends AppCompatActivity {
         };
         postRequestQueue.add(postJsonRequest);
     }
+
+    public void refresh(){
+        if(ismymentor)
+            getMyMentor();
+        else
+            getMyMentee();
+
+        Toast.makeText(mContext, "완료되었습니다.", Toast.LENGTH_SHORT);
+    }
+
 }
