@@ -21,4 +21,33 @@
 
     <color name="txt_minus">#ff9797</color>
 
+    <color name="textColor_subject">#505050</color>
+    <color name="textColor_object">#777777</color>
+
+    <color name="textColor_txtpage">#000000</color>
+
+    <color name="textcolor_giveortake_clicked">#002c62</color>
+    <color name="textcolor_giveortake_unclicked">#aaaaaa</color>
+
+    <color name="textcolor_bigbtn">#ffffff</color>
+    <color name="textcolor_smallbtn">#000000</color>
+
+
+    <color name="toolbarcolor_background">#002c62</color>
+    <color name="toolbarcolor_txtandimage">#ffffff</color>
+
+
+    <color name="textcolor_nameortitle">#000000</color>
+
+    <color name = "messangerList">#9ebeea</color>
+
+
+    <color name="textcolor_devider">#000000</color>
+
+    <color name="imgcolor_closebtn">#002c62</color>
+
+    <color name="textColor_normal">#5a5a5a</color>
+
+    <color name="loginMainTitle">#ffffff</color>
+    <color name="loginPasswordLost">#cc5e93</color>
 </resources>

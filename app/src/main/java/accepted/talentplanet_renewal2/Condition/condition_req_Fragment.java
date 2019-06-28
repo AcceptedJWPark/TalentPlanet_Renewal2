@@ -295,10 +295,11 @@ public class condition_req_Fragment extends android.support.v4.app.Fragment {
                 try {
                     JSONObject obj = new JSONObject(response);
                     if(obj.getString("result").equals("success")){
-                        Toast.makeText(getContext(), "완료되었습니다.", Toast.LENGTH_SHORT);
+                        ((MainActivity_Condition) getActivity()).refresh();
                     }else{
                         Toast.makeText(getContext(), "실패했습니다.", Toast.LENGTH_SHORT);
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -189,12 +189,6 @@ public class MainActivity_Condition extends AppCompatActivity {
                         bundle.putString("MentorName", obj.getString("MentorName"));
                         bundle.putString("MentorBirth", obj.getString("MentorBirth"));
                         bundle.putString("MentorGender", obj.getString("MentorGender"));
-
-                        bundle.putString("MenteeID", SaveSharedPreference.getUserId(mContext));
-                        bundle.putString("MenteeName", SaveSharedPreference.getUserName(mContext));
-                        bundle.putString("MenteeBirth", SaveSharedPreference.getPrefUserBirth(mContext));
-                        bundle.putString("MenteeGender", SaveSharedPreference.getPrefUserGender(mContext));
-
                         bundle.putString("CREATION_DATE", obj.getString("CREATION_DATE"));
                         bundle.putString("Code", obj.getString("Code"));
 
@@ -248,7 +242,6 @@ public class MainActivity_Condition extends AppCompatActivity {
                     arr_req_fragment = new ArrayList<>();
 
                     JSONArray array = new JSONArray(response);
-                    Log.d("response", response.toString());
                     for(int i = 0; i < array.length(); i++){
                         JSONObject obj = array.getJSONObject(i);
                         Bundle bundle = new Bundle();
@@ -259,22 +252,14 @@ public class MainActivity_Condition extends AppCompatActivity {
                         bundle.putString("MenteeBirth", obj.getString("MenteeBirth"));
                         bundle.putString("MenteeGender", obj.getString("MenteeGender"));
                         bundle.putString("CREATION_DATE", obj.getString("CREATION_DATE"));
-
-                        bundle.putString("MentorID", SaveSharedPreference.getUserId(mContext));
-                        bundle.putString("MentorName", SaveSharedPreference.getUserName(mContext));
-                        bundle.putString("MentorBirth", SaveSharedPreference.getPrefUserBirth(mContext));
-                        bundle.putString("MentorGender", SaveSharedPreference.getPrefUserGender(mContext));
-
                         bundle.putString("Code", obj.getString("Code"));
 
                         if(obj.getString("MATCHED_FLAG").equals("N")){
                             condition_req_Fragment fragment = new condition_req_Fragment();
                             fragment.setArguments(bundle);
-                            fragment.setIsmymentor(ismymentor);
                             arr_req_fragment.add(fragment);
                         }else if(obj.getString("MATCHED_FLAG").equals("Y") || obj.getString("MATCHED_FLAG").equals("H")){
                             condition_proc_Fragment fragment = new condition_proc_Fragment();
-                            fragment.setIsmymentor(ismymentor);
                             fragment.setArguments(bundle);
                             arr_proc_fragment.add(fragment);
                         }
@@ -304,4 +289,14 @@ public class MainActivity_Condition extends AppCompatActivity {
         };
         postRequestQueue.add(postJsonRequest);
     }
+
+    public void refresh(){
+        if(ismymentor)
+            getMyMentor();
+        else
+            getMyMentee();
+
+        Toast.makeText(mContext, "완료되었습니다.", Toast.LENGTH_SHORT);
+    }
+
 }

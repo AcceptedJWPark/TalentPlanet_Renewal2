@@ -37,6 +37,9 @@ public class MainActivity_Friend extends AppCompatActivity {
     Context mContext;
     private ListView friendList;
     private  ArrayList<ItemData_Friend> oData;
+    private ArrayList<String> removeFriendList;
+    private StringBuilder strRemoveFriendList;
+    ListAdapter_Friend oAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class MainActivity_Friend extends AppCompatActivity {
         findViewById(R.id.img_show1x15).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                removeFriendList = new ArrayList<String>();
                 // 기본 적 UI 숨기기
                 ((ImageView) findViewById(R.id.img_show1x15)).setVisibility(View.GONE);
                 ((ImageView) findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
@@ -72,22 +76,38 @@ public class MainActivity_Friend extends AppCompatActivity {
                 // 삭제 전용 UI 보여주기
                 ((TextView)findViewById(R.id.tv_remove)).setVisibility(View.VISIBLE);
                 ((TextView)findViewById(R.id.tv_Choose)).setVisibility(View.VISIBLE);
+
+                ((TextView)findViewById(R.id.tv_Choose)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+                ((TextView)findViewById(R.id.tv_remove)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        strRemoveFriendList = new StringBuilder();
+                        for(int i = 0; i < removeFriendList.size(); i++) {
+                            if(i == 0)
+                                strRemoveFriendList.append(removeFriendList.get(i));
+                            else
+                                strRemoveFriendList.append(",").append(removeFriendList.get(i));
+                        }
+                        removeFriend();
+                    }
+                });
+
+                friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                        removeFriendList.add(oData.get(position).getStrUserID());
+                    }
+                });
             }
         });
 
-        // 친구삭제완료 이벤트
-        findViewById(R.id.tv_remove).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 기본 적 UI 숨기기
-                ((TextView)findViewById(R.id.tv_remove)).setVisibility(View.GONE);
-                ((TextView)findViewById(R.id.tv_Choose)).setVisibility(View.GONE);
-
-                // 삭제 전용 UI 보여주기
-                ((ImageView) findViewById(R.id.img_show1x15)).setVisibility(View.VISIBLE);
-                ((ImageView) findViewById(R.id.img_open_dl)).setVisibility(View.VISIBLE);
-            }
-        });
         getFriendList();
     }
 
@@ -105,17 +125,18 @@ public class MainActivity_Friend extends AppCompatActivity {
                         SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
 
                         ItemData_Friend oItem = new ItemData_Friend();
-                        oItem.strUserName = obj.getString("USER_NAME");
+                        oItem.setStrUserName(obj.getString("USER_NAME"));
                         String Gender = obj.getString("GENDER").equals("남") ? "남성" : "여성";
                         int Age = Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(obj.getString("USER_BIRTH").split("-")[0]) + 1;
 
-                        oItem.strUserInfo = Gender + " / " + Age + "세";
+                        oItem.setStrUserInfo(Gender + " / " + Age + "세");
+                        oItem.setStrUserID(obj.getString("USER_ID"));
                         oData.add(oItem);
                     }
 
                     // ListView, Adapter 생성 및 연결 ------------------------
                     friendList = (ListView)findViewById(R.id.lv_friend);
-                    ListAdapter_Friend oAdapter = new ListAdapter_Friend(oData);
+                    oAdapter = new ListAdapter_Friend(oData);
 
                     friendList.setAdapter(oAdapter);
 
@@ -146,6 +167,54 @@ public class MainActivity_Friend extends AppCompatActivity {
                 return params;
             }
         };
+        postRequestQueue.add(postJsonRequest);
+    }
+
+    public void removeFriend(){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "FriendList/updateFriendList_new.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")){
+                        Toast.makeText(mContext, "친구 삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                        for(int j = 0; j < oData.size(); j++) {
+                            ItemData_Friend item =oData.get(j);
+                            for (int i = 0; i < removeFriendList.size(); i++) {
+                                if(item.getStrUserID().equals(removeFriendList.get(i))){
+                                    oData.remove(j);
+                                }
+                            }
+                        }
+
+                        oAdapter.notifyDataSetChanged();
+
+                        ((TextView)findViewById(R.id.tv_remove)).setVisibility(View.GONE);
+                        ((TextView)findViewById(R.id.tv_Choose)).setVisibility(View.GONE);
+
+                        // 삭제 전용 UI 보여주기
+                        ((ImageView) findViewById(R.id.img_show1x15)).setVisibility(View.VISIBLE);
+                        ((ImageView) findViewById(R.id.img_open_dl)).setVisibility(View.VISIBLE);
+                    }
+
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
+                params.put("friendID", strRemoveFriendList.toString());
+                params.put("updateFlag", "R");
+                return params;
+            }
+        };
+
         postRequestQueue.add(postJsonRequest);
     }
 

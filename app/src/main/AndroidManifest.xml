@@ -74,6 +74,12 @@
         <activity
             android:name=".TalentList.MainActivity_TalentList"
             android:theme="@style/AppTheme_Home" />
+        <activity
+            android:name=".Messanger.List.MainActivity"
+            android:theme="@style/AppTheme_Home" />
+        <activity
+            android:name=".Messanger.Chatting.MainActivity"
+            android:theme="@style/AppTheme_Home" />
         <activity android:name=".Profile.MainActivity_TalentEdit" />
         <activity android:name=".Profile.MainActivity_Detail" />
         <activity android:name=".Cs.SubActivity_notice" />

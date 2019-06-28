@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_Messanger_List"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/Height70dp"
+    android:background="#ffffff"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:gravity="center"
+    >
+
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_pictureContainer_List_Messanger"
+        android:layout_width="@dimen/Height50dp"
+        android:layout_height="@dimen/Height50dp"
+        android:background="@drawable/bgr_picture_container"
+        android:padding="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:id="@+id/iv_pictureContainer_List_Messanger"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="false"
+            android:background="@drawable/picure_basic"
+            android:scaleType="fitXY"
+            />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_txtContainer_List_Messanger"
+        android:layout_width="0dp"
+        android:layout_weight="5"
+
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingRight="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/ll_name_List_Messanger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|left"
+                android:text="박종우"
+                android:singleLine="true"
+                android:textSize="@dimen/MainTxt"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/ll_txt_List_Messanger"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="안녕하세요. 박종우라고 합니다. "
+                android:singleLine="true"
+                android:textSize="@dimen/SubTxt"
+                android:textColor="@color/textColor_subject"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_dateContainer_List_Messanger"
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_delete_List_Messanger"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_deletecheck"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="20dp"
+            android:visibility="gone"
+            />
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_deleteContainer_Alarm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center|right"
+            android:layout_marginRight="10dp"
+
+            >
+            <TextView
+                android:id="@+id/tv_date_Alarm"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
+                android:gravity="center|right"
+                android:text="18/ 12/ 15"
+                android:textSize="@dimen/AdditionTxt"
+                android:textColor="@color/textColor_object"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                >
+
+            <TextView
+                android:id="@+id/tv_count_List_Alarm"
+                android:layout_width="@dimen/Height20dp"
+                android:layout_height="@dimen/Height20dp"
+                android:text="3"
+                android:gravity="center"
+                android:textSize="@dimen/SubTxt"
+                android:background="@drawable/bgr_answer"
+                android:textColor="@color/textColor_object"
+                />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
