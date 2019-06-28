@@ -140,19 +140,6 @@ public class SaveSharedPreference{
     }
 
     public static void setPrefFcmToken(Context ctx, String token){
-//        SQLiteDatabase sqliteDatabase;
-//        String dbName = "/accepted.db";
-//
-//        try{
-//            sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(ctx.getFilesDir() + dbName, null);
-//            String sqlUpsert = "INSERT OR REPLACE INTO TB_FCM_TOKEN(TOKEN) VALUES ('"+token+"')";
-//            sqliteDatabase.execSQL(sqlUpsert);
-//
-//            Log.d("insert friend", sqlUpsert);
-//            sqliteDatabase.close();
-//        }catch (SQLiteException e){
-//            e.printStackTrace();
-//        }
         fcmToken = token;
     }
 
@@ -443,5 +430,9 @@ public class SaveSharedPreference{
         }
 
         return pushGrant;
+    }
+
+    public static String getFcmToken(Context ctx){
+        return fcmToken;
     }
 }

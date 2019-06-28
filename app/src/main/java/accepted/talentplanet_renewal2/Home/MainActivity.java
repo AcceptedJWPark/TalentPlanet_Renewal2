@@ -29,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,6 +50,7 @@ import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.TalentBox.MainActivity_TalentBox;
 import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
+import accepted.talentplanet_renewal2.VolleySingleton;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
@@ -93,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         mContext=getApplicationContext();
+
+        if (SaveSharedPreference.getFcmToken(mContext) == null || SaveSharedPreference.getFcmToken(mContext).isEmpty()) {
+            SaveSharedPreference.setPrefFcmToken(mContext, FirebaseInstanceId.getInstance().getToken());
+            saveFcmToken();
+        }
 
         sv1x15 = findViewById(R.id.sv_show1x15);
         ll3x5 = findViewById(R.id.ll_container_home);
@@ -659,5 +666,38 @@ public class MainActivity extends AppCompatActivity {
                 ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.GONE);
             }
         });
+    }
+
+    public void saveFcmToken() {
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Login/saveFCMToken.do", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if (obj.getString("result").equals("success")) {
+                        Log.d("saveToken", "토큰 저장 성공");
+
+                    } else {
+                        Log.d("saveToken", "토큰 저장 실패");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
+                params.put("fcmToken", SaveSharedPreference.getFcmToken(mContext));
+
+
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+
     }
 }
