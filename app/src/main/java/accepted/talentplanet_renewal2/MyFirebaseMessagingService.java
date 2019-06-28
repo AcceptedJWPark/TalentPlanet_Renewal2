@@ -28,8 +28,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import accepted.talentplanet_renewal2.Condition.MainActivity_Condition;
 import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.JoinLogin.MainActivity_Login;
+import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.TalentBox.MainActivity_TalentBox;
 import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
 
@@ -453,13 +455,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     }
 
                     if (talentType == 1) {
-                        alarmTxt = "재능 드림에 받은 관심이 있습니다.";
-                        intent1 = new Intent(this, MainActivity_TalentBox.class);
-                        intent1.putExtra("TalentFlag", "Give");
+                        alarmTxt = "멘티에게 요청이 왔습니다.";
+                        intent1 = new Intent(this, MainActivity_Condition.class);
+                        intent1.putExtra("ismyMentor", "2");
                     } else {
-                        alarmTxt = "관심 재능에 받은 관심이 있습니다.";
+                        alarmTxt = "멘토에게 프로필이 왔습니다.";
                         intent1 = new Intent(this, MainActivity_TalentBox.class);
-                        intent1.putExtra("TalentFlag", "Take");
+                        intent1.putExtra("requestType", "recive");
                     }
                 }
                 break;
@@ -469,7 +471,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 int talentType = -1;
                 try {
                     JSONObject obj = new JSONObject(datas);
-                    talentType = (obj.getString("TALENT_FLAG").equals("Y")) ? 2 : 1;
+                    talentType = (obj.getString("MatchedFlag").equals("Y")) ? 2 : 1;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -78,9 +78,9 @@ public class MainActivity_Login extends AppCompatActivity {
         ((Button)findViewById(R.id.btn_login_login)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(mContext, MainActivity.class);
-                //SaveSharedPreference.setPrefUsrId(mContext, et_email_login.getText().toString());
-                //startActivity(intent);
+//                Intent intent = new Intent(mContext, MainActivity.class);
+//                SaveSharedPreference.setPrefUsrId(mContext, et_email_login.getText().toString());
+//                startActivity(intent);
                 loginClicked();
             }
         });

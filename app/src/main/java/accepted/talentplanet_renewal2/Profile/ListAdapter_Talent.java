@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,18 +27,22 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
     private ArrayList<TalentObject_Home> userTalent = null;
     private String requestType;
     private boolean inPerson;
+    private Activity mActivity;
 
-    public ListAdapter_Talent(ArrayList<TalentObject_Home> userTalentList, String request, boolean state) {
+    public ListAdapter_Talent(Activity activity, ArrayList<TalentObject_Home> userTalentList, String request, boolean state) {
         userTalent = userTalentList;
         requestType = request;
         inPerson = state;
+        mActivity = activity;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView iv;
+//        public ImageView iv;
+        public TextView tv;
         public ViewHolder(View itemView) {
             super(itemView);
-            iv = itemView.findViewById(R.id.iv_talent_image);
+//            iv = itemView.findViewById(R.id.iv_talent_image);
+            tv = itemView.findViewById(R.id.tv_talent_name);
         }
     }
 
@@ -51,31 +56,62 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
 
     @Override
     public void onBindViewHolder(ListAdapter_Talent.ViewHolder holder, final int position) {
-        Glide.with(holder.itemView.getContext()).load(userTalent.get(position).getBackgroundResourceID()).into(holder.iv);
 
+        holder.tv.setText(userTalent.get(position).getTitle());
 
-
-        holder.iv.setOnClickListener(new View.OnClickListener() {
+        holder.tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TalentObject_Home item = userTalent.get(position);
-                Intent intent1 = new Intent(v.getContext(), MainActivity_TalentEdit.class);
-                intent1.putExtra("type", requestType);
-                intent1.putExtra("inPerson", inPerson);
-                intent1.putExtra("talentID", item.getTalentID());
-                intent1.putExtra("userID", item.getUserID());
+                ImageView iv_talent_profile = mActivity.findViewById(R.id.iv_talent_profile);
+                Glide.with(mActivity).load(userTalent.get(position).getBackgroundResourceID()).into(iv_talent_profile);
 
-                if(position < getItemCount() - 1) {
-                    intent1.putExtra("CateCode", item.getCateCode());
-                    intent1.putExtra("type", requestType);
-                    intent1.putExtra("position", position);
-                    Intent parentIntent = ((Activity) v.getContext()).getIntent();
-                    intent1.putExtra("userName", parentIntent.getStringExtra("userName"));
-                    intent1.putExtra("userInfo", parentIntent.getStringExtra("userInfo"));
+                TextView tv_tag_profile = mActivity.findViewById(R.id.tv_tag_profile);
+                TextView tv_description_profile = mActivity.findViewById(R.id.tv_description_profile);
+
+                if (!userTalent.get(position).getTitle().equals("추가")) {
+                    tv_tag_profile.setVisibility(View.VISIBLE);
+                    tv_description_profile.setVisibility(View.VISIBLE);
+
+                    // 유저 재능내용을 가져오는 부분
+                    String hashTagString = "";
+                    String userText = userTalent.get(position).getTalentDescription();
+                    String[] tagParse = userText.split(" ");
+
+                    for (int i=0;i<tagParse.length;i++) {
+                        String aTag = tagParse[i];
+                        if (aTag.startsWith("#")) {
+                            hashTagString += aTag + " ";
+                        }
+                    }
+
+                    hashTagString.trim();
+
+                    tv_tag_profile.setText(hashTagString);
+                    tv_description_profile.setText(userText);
+                } else {
+                    tv_tag_profile.setVisibility(View.GONE);
+                    tv_description_profile.setVisibility(View.GONE);
                 }
-                ((Activity)v.getContext()).startActivity(intent1);
-//                ((Activity)v.getContext()).startActivityForResult(intent1, 3000);
-                ((Activity)v.getContext()).finish();
+
+//                Glide.with(mContext).load(userTalent.get(position).getBackgroundResourceID()).into(mContext);
+//                TalentObject_Home item = userTalent.get(position);
+//                Intent intent1 = new Intent(v.getContext(), MainActivity_TalentEdit.class);
+//                intent1.putExtra("type", requestType);
+//                intent1.putExtra("inPerson", inPerson);
+//                intent1.putExtra("talentID", item.getTalentID());
+//                intent1.putExtra("userID", item.getUserID());
+//
+//                if(position < getItemCount() - 1) {
+//                    intent1.putExtra("CateCode", item.getCateCode());
+//                    intent1.putExtra("type", requestType);
+//                    intent1.putExtra("position", position);
+//                    Intent parentIntent = ((Activity) v.getContext()).getIntent();
+//                    intent1.putExtra("userName", parentIntent.getStringExtra("userName"));
+//                    intent1.putExtra("userInfo", parentIntent.getStringExtra("userInfo"));
+//                }
+//                ((Activity)v.getContext()).startActivity(intent1);
+////                ((Activity)v.getContext()).startActivityForResult(intent1, 3000);
+//                ((Activity)v.getContext()).finish();
             }
 
         });

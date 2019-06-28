@@ -21,41 +21,87 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="horizontal">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/cimg_pic_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/pic_sample"
+            app:civ_border_color="#2f3070"
+            app:civ_border_width="4dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/img_gender_profile"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/icon_male" />
-
-            <TextView
-                android:id="@+id/tv_name_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="20dp"
-                android:text="민권홍"
-                android:textColor="#000"
-                android:textSize="28dp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_profile_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:lineSpacingExtra="2dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="음악, 스포츠, 디자인 재능 기부하는 민권홍입니다."
-            android:textColor="#9b9b9b"
-            android:textSize="13dp" />
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img_gender_profile"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/icon_male" />
+
+                <TextView
+                    android:id="@+id/tv_name_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="20dp"
+                    android:text="민권홍 / 1990.12.27"
+                    android:textColor="#000"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_addr_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="5dp"
+                    android:letterSpacing="0.07"
+                    android:text="경기도 고양시 일산동구"
+                    android:textSize="13dp" />
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_birth_profile"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:letterSpacing="0.07"-->
+                    <!--android:text=""-->
+                    <!--android:textSize="13dp" />-->
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_profile_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:lineSpacingExtra="2dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="음악, 스포츠, 디자인 재능 기부하는 민권홍입니다."
+                android:textColor="#9b9b9b"
+                android:textSize="13dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -67,44 +113,6 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         >
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            >
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/cimg_pic_profile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/pic_sample"
-                app:civ_border_color="#2f3070"
-                app:civ_border_width="4dp"
-                android:scaleType="centerInside"
-                />
-
-            <TextView
-                android:id="@+id/tv_addr_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="경기도 고양시 일산동구"
-                android:layout_marginTop="5dp"
-                android:letterSpacing="0.07"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:textSize="13dp" />
-
-            <TextView
-                android:id="@+id/tv_birth_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_centerVertical="true"
-                android:text="1990.12.27"
-                android:letterSpacing="0.07"
-                android:textSize="13dp" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -125,106 +133,27 @@
         android:layout_height="50dp"
         android:text="메세지 보내기"
         android:id="@+id/btn_sendMessage_profile"/>
-    <LinearLayout
-        android:id="@+id/ll_profile_number"
-        android:layout_marginTop="45dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        >
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/tv_profile_mentor_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="60dp"
-                android:textStyle="bold"
-                android:text="4"
-                android:textColor="@color/bgr_mainColor"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13dp"
-                android:text="MENTEE"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/tv_profile_mentee_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="60dp"
-                android:textStyle="bold"
-                android:text="3"
-                android:textColor="@color/bgr_mainColor"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13dp"
-                android:text="MENTOR"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_pointbox_profile"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/tv_profile_point"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="60dp"
-                android:textStyle="bold"
-                android:text="50"
-                android:textColor="@color/bgr_mainColor"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13dp"
-                android:text="POINT"
-                />
-        </LinearLayout>
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="MENTOR LIST"
-        android:letterSpacing="0.2"
-        android:textColor="#000"
-        android:paddingLeft="20dp"
-        android:layout_marginTop="45dp"
-        />
-    <TextView
-        android:id="@+id/tv_mentor_count_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:text="님의 관심멘토는 총 4건 입니다."
-        android:letterSpacing="0.2"
-        android:paddingLeft="20dp"
-        />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_mentor_count_profile"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="12dp"-->
+        <!--android:text="님의 관심멘토는 총 4건 입니다."-->
+        <!--android:letterSpacing="0.2"-->
+        <!--android:paddingLeft="20dp"-->
+        <!--/>-->
     <!-- 멘토 리스트 -->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="45dp"-->
+        <!--android:letterSpacing="0.2"-->
+        <!--android:paddingLeft="20dp"-->
+        <!--android:text="MENTOR LIST"-->
+        <!--android:textColor="#000"-->
+        <!--android:textSize="30dp" />-->
+
     <ScrollView
         android:id="@+id/sv_mentor"
         android:layout_width="match_parent"
@@ -251,48 +180,74 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             android:id="@+id/lv_mentor_profile"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
     </ScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="MENTEE LIST"
-        android:letterSpacing="0.2"
-        android:textColor="#000"
-        android:paddingLeft="20dp"
-        android:layout_marginTop="45dp"
-        />
-    <TextView
-        android:id="@+id/tv_mentee_count_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:text="님의 관심멘티는 총 4건 입니다."
-        android:letterSpacing="0.2"
-        android:paddingLeft="20dp"
-        />
-    <!-- 멘티 리스트 -->
-    <ScrollView
-        android:id="@+id/sv_mentee"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        >
+        <TextView
+            android:id="@+id/tv_tag_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test1"
+            />
 
-        <android.support.v7.widget.RecyclerView
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            android:id="@+id/lv_mentee_profile"
+
+        <ImageView
+            android:id="@+id/iv_talent_profile"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-        </android.support.v7.widget.RecyclerView>
-    </ScrollView>
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/tv_description_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test2"/>
+
+    </LinearLayout>
+
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="30dp"-->
+        <!--android:text="MENTEE LIST"-->
+        <!--android:letterSpacing="0.2"-->
+        <!--android:textColor="#000"-->
+        <!--android:paddingLeft="20dp"-->
+        <!--android:layout_marginTop="45dp"-->
+        <!--/>-->
+    <!--<TextView-->
+        <!--android:id="@+id/tv_mentee_count_profile"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="12dp"-->
+        <!--android:text="님의 관심멘티는 총 4건 입니다."-->
+        <!--android:letterSpacing="0.2"-->
+        <!--android:paddingLeft="20dp"-->
+        <!--/>-->
+    <!-- 멘티 리스트 -->
+    <!--<ScrollView-->
+        <!--android:id="@+id/sv_mentee"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--&gt;-->
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--app:layoutManager="android.support.v7.widget.LinearLayoutManager"-->
+            <!--android:id="@+id/lv_mentee_profile"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--&gt;-->
+        <!--</android.support.v7.widget.RecyclerView>-->
+    <!--</ScrollView>-->
 
     <TextView
         android:layout_width="wrap_content"
