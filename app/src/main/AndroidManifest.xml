@@ -93,6 +93,21 @@
         <activity android:name=".Profile.MainActivity_Detail" />
         <activity android:name=".Cs.SubActivity_notice" />
         <activity android:name=".TalentBox.MainActivity_TalentBox"></activity>
+
+        <service
+            android:name="accepted.talentplanet_renewal2.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- [END firebase_service] -->
+        <!-- [START firebase_iid_service] -->
+        <service
+            android:name="accepted.talentplanet_renewal2.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

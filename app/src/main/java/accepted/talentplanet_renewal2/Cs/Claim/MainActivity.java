@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_SaveClaim;
     private TextView tv_AttachFile;
 
-    private String name, keyword1, keyword2, keyword3, myTalentID, tarTalentID, talentFlag;
-    private int status;
+    private String name, hashtag, tarUserID, talentFlag, status;
+    private int matchingID;
     private final int GALLERY_CODE = 1112;
     private final int CLAIM_CODE = 1113;
     private boolean isSelect;
@@ -77,13 +77,12 @@ public class MainActivity extends AppCompatActivity {
         isSelect = getIntent().getBooleanExtra("isSelected", false);
         if (isSelect) {
             name = getIntent().getStringExtra("name");
-            keyword1 = getIntent().getStringExtra("keyword1");
-            keyword2 = getIntent().getStringExtra("keyword2");
-            keyword3 = getIntent().getStringExtra("keyword3");
-            myTalentID = getIntent().getStringExtra("myTalentID");
-            tarTalentID = getIntent().getStringExtra("tarTalentID");
+            hashtag = getIntent().getStringExtra("hashtag");
+            tarUserID = getIntent().getStringExtra("tarUserID");
+            matchingID = getIntent().getIntExtra("matchingID", -1);
+            tarUserID = getIntent().getStringExtra("tarUserID");
             talentFlag = getIntent().getStringExtra("talentFlag");
-            status = getIntent().getIntExtra("status", 0);
+            status = getIntent().getStringExtra("status");
         }
         mContext = getApplicationContext();
 
@@ -104,9 +103,20 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO : ??
         if (isSelect) {
-            String str = (talentFlag.equals("Give")) ? "재능드림" : "관심재능";
+            String str = talentFlag;
             tv_Txt = (TextView) findViewById(R.id.tv_txt_Claim);
-            tv_Txt.setText("\"" + name + " " + str + " " + keyword1 + ", " + keyword2 + ", " + keyword3 + "의 건" + "\"");
+            String[] arrHashtag = hashtag.split("\\|");
+            StringBuilder sb = new StringBuilder();
+            for(int i = 0; i < arrHashtag.length; i++){
+                if(i < 3 && !arrHashtag[i].isEmpty()){
+                    if(i != 0){
+                        sb.append(", ");
+                    }
+
+                    sb.append(arrHashtag);
+                }
+            }
+            tv_Txt.setText("\"" + name + " " + str + " " + sb.toString() + "의 건" + "\"");
         }
 
 
@@ -207,18 +217,6 @@ public class MainActivity extends AppCompatActivity {
                 String strStatus;
                 int claimType;
 
-                Log.d("status = ", String.valueOf(status));
-                switch (status){
-                    case 3:
-                        strStatus = "Y";
-                        break;
-                    case  4:
-                        strStatus = "C";
-                        break;
-                    default:
-                        strStatus = "X";
-                }
-
                 switch(spn_ClaimType.getSelectedItem().toString()){
                     case "금품 요구":
                         claimType = 1;
@@ -237,11 +235,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 params.put("userID", SaveSharedPreference.getUserId(mContext));
-                params.put("myTalentID", myTalentID);
-                params.put("tarTalentID", tarTalentID);
                 params.put("claimType", String.valueOf(claimType));
                 params.put("claimSummary", et_Claim.getText().toString());
-                params.put("status", strStatus);
+                params.put("status", status);
                 return params;
             }
 
@@ -293,31 +289,43 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case CLAIM_CODE:
                     name = data.getStringExtra("name");
-                    keyword1 = data.getStringExtra("keyword1");
-                    keyword2 = data.getStringExtra("keyword2");
-                    keyword3 = data.getStringExtra("keyword3");
-                    myTalentID = data.getStringExtra("myTalentID");
-                    tarTalentID = data.getStringExtra("tarTalentID");
+                    hashtag = data.getStringExtra("hashtag");
+                    tarUserID = data.getStringExtra("tarUserID");
+                    matchingID = data.getIntExtra("matchingID", -1);
+                    tarUserID = data.getStringExtra("tarUserID");
                     talentFlag = data.getStringExtra("talentFlag");
-                    status = data.getIntExtra("status", 0);
+                    status = data.getStringExtra("status");
                     isSelect = true;
 
-
                     String strStatus = null;
-                    if(status == 3)
+                    if(status.equals("Y"))
                     {
                         strStatus = "진행";
-                    }else if(status == 4)
+                    }else if(status.equals("H"))
+                    {
+                        strStatus = "멘토 완료";
+                    }else if(status.equals("C"))
                     {
                         strStatus = "완료";
-                    }else
-                    {
+                    }else{
                         strStatus = "취소";
                     }
 
-                    String str = (talentFlag.equals("Give")) ? "재능드림" : "관심재능";
+                    String str = talentFlag;
                     tv_Txt = (TextView) findViewById(R.id.tv_txt_Claim);
-                    tv_Txt.setText("\"" + name + " " + str + " " + keyword1 + ", " + keyword2 + ", " + keyword3 + " " + strStatus + "의 건" + "\"");
+
+                    String[] arrHashtag = hashtag.split("\\|");
+                    StringBuilder sb = new StringBuilder();
+                    for(int i = 0; i < arrHashtag.length; i++){
+                        if(i < 3 && !arrHashtag[i].isEmpty()){
+                            if(i != 0){
+                                sb.append(", ");
+                            }
+
+                            sb.append(arrHashtag[i]);
+                        }
+                    }
+                    tv_Txt.setText("\"" + name + " " + str + " " + sb.toString() + "의 건" + "\"");
                     break;
 
             }

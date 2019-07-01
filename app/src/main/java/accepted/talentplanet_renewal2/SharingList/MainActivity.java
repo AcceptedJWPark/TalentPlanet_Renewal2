@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
                         int TalentType = (o.getString("TALENT_FLAG").equals("Mentee"))?2: 1;
 
-                        ListItem target = new ListItem(o.getString("MATCHED_FLAG"), o.getString("USER_NAME"), o.getString("USER_ID"), o.getString("HASHTAG"), o.getInt("MATCHING_ID"), o.getString("S_FILE_PATH"), o.getString("FILE_PATH"), o.getInt("TALENT_CATE_CODE"), dateStr, o.getString("TALENT_FLAG"));
+                        ListItem target = new ListItem(o.getString("MATCHED_FLAG"), o.getString("USER_NAME"), o.getString("USER_ID"), (o.has("HASHTAG")) ? o.getString("HASHTAG"):"", o.getInt("MATCHING_ID"), o.getString("S_FILE_PATH"), o.getString("FILE_PATH"), o.getInt("TALENT_CATE_CODE"), dateStr, o.getString("TALENT_FLAG"));
                         arrayList_Original.add(0,target);
                         if(isGiveTalent){
                             if(TalentType == 1){

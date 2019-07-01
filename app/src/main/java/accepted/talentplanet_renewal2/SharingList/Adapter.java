@@ -146,6 +146,7 @@ public class Adapter extends BaseAdapter{
                                     intent.putExtra("tarUserID", arrayList.get(position).getUserID());
                                     intent.putExtra("talentFlag", arrayList.get(position).getTalentFlag());
                                     intent.putExtra("status", arrayList.get(position).getMatchedFlag());
+
                                     ((Activity)mContext).setResult(Activity.RESULT_OK, intent);
                                     ((Activity)mContext).finish();
 
@@ -183,7 +184,7 @@ public class Adapter extends BaseAdapter{
         String[] arrHashtag = arrayList.get(position).getHashtag().split("\\|");
 
         for(int i = 0; i < arrHashtag.length; i++){
-            if(i < 3) {
+            if(i < 3 && !arrHashtag[i].isEmpty()) {
                 tags[i].setText(arrHashtag[i]);
             }else{
                 break;
@@ -191,7 +192,7 @@ public class Adapter extends BaseAdapter{
         }
 
         for(int i = 2; i >= 0; i--){
-            if(arrHashtag.length <= i){
+            if(arrHashtag.length <= i || arrHashtag[i].isEmpty()){
                 tags[i].setVisibility(View.GONE);
             }
         }
