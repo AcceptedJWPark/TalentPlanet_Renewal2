@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import accepted.talentplanet_renewal2.Cs.Claim.MainActivity;
 import accepted.talentplanet_renewal2.R;
 
 import android.widget.AdapterView;
@@ -55,11 +56,16 @@ public class MainActivity_Cs extends AppCompatActivity {
                 String status = (String) oAdapter.getItem(position).toString();
                 Log.d(this.getClass().getName(), status);
                 switch (status) {
-                case "공지사항" :
-                    Intent intent = new Intent(MainActivity_Cs.this, MainActivity_Notice.class);
-                    intent.putExtra("ctgrTitle", status);
-                    startActivity(intent);
-                    break;
+                    case "공지사항" :
+                        Intent intent = new Intent(MainActivity_Cs.this, MainActivity_Notice.class);
+                        intent.putExtra("ctgrTitle", status);
+                        startActivity(intent);
+                        break;
+                    case "신고 리스트" :
+                        Intent intent2 = new Intent(MainActivity_Cs.this, MainActivity.class);
+                        intent2.putExtra("ctgrTitle", status);
+                        startActivity(intent2);
+                        break;
                 }
             }
         });

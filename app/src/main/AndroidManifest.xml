@@ -80,6 +80,15 @@
         <activity
             android:name=".Messanger.Chatting.MainActivity"
             android:theme="@style/AppTheme_Home" />
+        <activity
+            android:name=".Cs.Claim.ClaimList.MainActivity"
+            android:theme="@style/AppTheme_Home" />
+        <activity
+            android:name=".Cs.Claim.MainActivity"
+            android:theme="@style/AppTheme_Home" />
+        <activity
+            android:name=".SharingList.MainActivity"
+            android:theme="@style/AppTheme_Home" />
         <activity android:name=".Profile.MainActivity_TalentEdit" />
         <activity android:name=".Profile.MainActivity_Detail" />
         <activity android:name=".Cs.SubActivity_notice" />

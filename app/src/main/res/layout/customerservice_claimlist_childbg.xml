@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+
+    >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="24"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:gravity="center|left"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:gravity="center|top"
+                        android:layout_height="match_parent"
+                        android:background="#ffffff"
+                        android:textColor="@color/textColor_normal"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/SubTxt"
+                        android:text="신고 대상 : "
+                        />
+                    <TextView
+                        android:id="@+id/tv_Name_ClaimList"
+                        android:layout_width="wrap_content"
+                        android:gravity="center|left|top"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:singleLine="true"
+                        android:textColor="@color/textColor_object"
+                        android:textSize="@dimen/SubTxt"
+                        android:text="박종우님과 재능 드림 기타, 드럼, 피아노 완료의 건"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:gravity="center|top"
+                        android:layout_height="match_parent"
+                        android:background="#ffffff"
+                        android:textStyle="bold"
+                        android:textColor="@color/textColor_normal"
+                        android:textSize="@dimen/SubTxt"
+                        android:text="신고 유형 : "
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_ClaimType_ClaimList"
+                        android:layout_width="wrap_content"
+                        android:gravity="center|left|top"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:singleLine="true"
+                        android:textColor="@color/textColor_object"
+                        android:textSize="@dimen/SubTxt"
+                        android:text="금품 요구"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:orientation="horizontal"
+                    >
+
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|top"
+                android:background="#ffffff"
+                    android:textColor="@color/textColor_normal"
+                    android:textStyle="bold"
+                android:textSize="@dimen/SubTxt"
+                android:text="신고 일자 : "
+                />
+
+                    <TextView
+                        android:id="@+id/tv_Date_ClaimList"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center|left|top"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
+                        android:textColor="@color/textColor_object"
+                        android:textSize="@dimen/SubTxt"
+                        android:text="2017.12.11 21:32"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center|top"
+                        android:background="#ffffff"
+                        android:textColor="@color/textColor_normal"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/SubTxt"
+                        android:text="신고 내용 : "
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_Claim_ClaimList"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center|left|top"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/textColor_object"
+                        android:lineSpacingExtra="10dp"
+                        android:textSize="@dimen/SubTxt"
+                        android:text="박종우님과 재 드림 기타, 드럼, 종우님과 재 드림 기타, 드럼, 피, 드럼, 피아노 완료의 건"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:gravity="center|left"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bgr_answer"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_Answer_ClaimList"
+                    android:layout_width="wrap_content"
+                    android:gravity="center|left"
+                    android:layout_height="match_parent"
+                    android:lineSpacingExtra="10dp"
+                    android:textColor="@color/textColor_txtpage"
+                    android:textSize="@dimen/SubTxt"
+                    android:text="박종우님과 재 드림 기타, 드럼, 종우님과 재 드림 기타, 드럼, 피, 드럼, 피아노 완료의 건"
+                    />
+
+            </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
