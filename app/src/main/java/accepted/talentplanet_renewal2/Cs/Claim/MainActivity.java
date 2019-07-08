@@ -157,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
                                              @Override
                                              public void onClick(View v) {
 
-                                                 Log.d(String.valueOf(isSelect),"선택?");
                                                  AlertDialog.Builder AlarmDeleteDialog = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog));
                                                  if (et_Claim.getText().length() == 0) {
                                                      Toast.makeText(mContext, "신고 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -193,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void requestClaim() {
 
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Customer/requestClaim.do", new Response.Listener<NetworkResponse>() {
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Customer/requestClaim_new.do", new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
                 try {
@@ -234,6 +233,8 @@ public class MainActivity extends AppCompatActivity {
                         claimType = 5;
                 }
 
+                params.put("matchingID", String.valueOf(matchingID));
+                params.put("tarUserID", tarUserID);
                 params.put("userID", SaveSharedPreference.getUserId(mContext));
                 params.put("claimType", String.valueOf(claimType));
                 params.put("claimSummary", et_Claim.getText().toString());

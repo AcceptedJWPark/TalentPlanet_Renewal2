@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,12 +90,26 @@ public class MainActivity extends AppCompatActivity {
     private Map<String, TalentObject_Home> talentMap;
 
     SQLiteDatabase sqliteDatabase;
+
+    Spinner spinner;
+    SpinnerAdapter_Toolbar adapter_toolbar;
+    ArrayList<SpinnerData_Toolbar> arrayList_spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         mContext=getApplicationContext();
+
+        arrayList_spinner = new ArrayList<>();
+        arrayList_spinner.add(new SpinnerData_Toolbar("Teacher", R.drawable.icon_3x5_clicked));
+        arrayList_spinner.add(new SpinnerData_Toolbar("Student", R.drawable.icon_1x15_clicked));
+
+        spinner = findViewById(R.id.sp_toolbar);
+
+        adapter_toolbar = new SpinnerAdapter_Toolbar(arrayList_spinner, mContext);
+
+        spinner.setAdapter(adapter_toolbar);
 
         if (SaveSharedPreference.getFcmToken(mContext) == null || SaveSharedPreference.getFcmToken(mContext).isEmpty()) {
             SaveSharedPreference.setPrefFcmToken(mContext, FirebaseInstanceId.getInstance().getToken());
