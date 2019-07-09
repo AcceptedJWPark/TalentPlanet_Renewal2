@@ -3,9 +3,7 @@ package accepted.talentplanet_renewal2.FriendList;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -49,9 +47,7 @@ public class MainActivity_Friend extends AppCompatActivity {
         mContext = getApplicationContext();
         ((TextView)findViewById(R.id.tv_toolbar)).setText("친구 목록");
         ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
-        ((ImageView) findViewById(R.id.img_show1x15)).setImageResource(R.drawable.icon_trash_btn);
-//        findViewById(R.id.img_show1x15).setVisibility(View.GONE);
-        findViewById(R.id.img_show3x5).setVisibility(View.GONE);
+        ((ImageView) findViewById(R.id.img_rightbtn)).setImageResource(R.drawable.icon_trash_btn);
 
         int nDatCnt=0;
 
@@ -65,12 +61,11 @@ public class MainActivity_Friend extends AppCompatActivity {
         });
 
         // 친구삭제 이벤트
-        findViewById(R.id.img_show1x15).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.img_rightbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeFriendList = new ArrayList<String>();
                 // 기본 적 UI 숨기기
-                ((ImageView) findViewById(R.id.img_show1x15)).setVisibility(View.GONE);
                 ((ImageView) findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
 
                 // 삭제 전용 UI 보여주기
@@ -195,7 +190,7 @@ public class MainActivity_Friend extends AppCompatActivity {
                         ((TextView)findViewById(R.id.tv_Choose)).setVisibility(View.GONE);
 
                         // 삭제 전용 UI 보여주기
-                        ((ImageView) findViewById(R.id.img_show1x15)).setVisibility(View.VISIBLE);
+                        ((ImageView) findViewById(R.id.img_rightbtn)).setVisibility(View.VISIBLE);
                         ((ImageView) findViewById(R.id.img_open_dl)).setVisibility(View.VISIBLE);
                     }
 

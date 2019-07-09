@@ -31,8 +31,6 @@ public class MainActivity_System extends AppCompatActivity {
         mContext = getApplicationContext();
         ((TextView)findViewById(R.id.tv_toolbar)).setText("설정");
         ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
-        findViewById(R.id.img_show1x15).setVisibility(View.GONE);
-        findViewById(R.id.img_show3x5).setVisibility(View.GONE);
 
         ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -91,8 +91,6 @@ public class MainActivity_TalentEdit extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_toolbar)).setText(requestType);
         ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
 
-        findViewById(R.id.img_show1x15).setVisibility(View.GONE);
-        findViewById(R.id.img_show3x5).setVisibility(View.GONE);
 
         // 선택 재능 리스트
         findViewById(R.id.inc_mentor_profile).setVisibility(View.VISIBLE);

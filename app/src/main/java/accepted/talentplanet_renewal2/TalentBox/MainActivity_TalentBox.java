@@ -41,7 +41,6 @@ public class MainActivity_TalentBox extends AppCompatActivity {
     private ListView userTalentListView;
     private TextView title;
     private ImageView leftBtn;
-    private ImageView img3x5;
     private ImageView rightBtn;
 
     // 탤런트박스 요청 구분을 위한 변수
@@ -70,10 +69,7 @@ public class MainActivity_TalentBox extends AppCompatActivity {
         title = (TextView)findViewById(R.id.tv_toolbar);
         userTalentListView = (ListView)findViewById(R.id.lv_talentBox);
         leftBtn = (ImageView)findViewById(R.id.img_open_dl);
-        img3x5 = (ImageView)findViewById(R.id.img_show3x5);
-        rightBtn = (ImageView)findViewById(R.id.img_show1x15);
 
-        img3x5.setVisibility(View.GONE);
         rightBtn.setVisibility(View.GONE);
         title.setText("탤런트 박스");
         leftBtn.setImageResource(R.drawable.icon_back);

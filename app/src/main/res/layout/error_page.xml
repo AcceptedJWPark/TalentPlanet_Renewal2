@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="네트워크에 일시적인 장애가 생겼습니다."
+        android:gravity="center"
+        android:textSize="@dimen/MainTxt"
+        android:textColor="@color/textColor_txtpage"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="와이파이 사용 또는 모바일 데이터 접속을 허용해주세요."
+        android:gravity="center"
+        android:textColor="@color/textColor_txtpage"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="@dimen/MainTxt"
+        />
+
+    <Button
+        android:id="@+id/btn_RefreshErrorPage"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/bgr_bigbtn"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="10dp"
+        android:text="새로 고침"
+        android:textSize="@dimen/MainTxt"
+        android:includeFontPadding="false"
+        android:textColor="#ffffff"
+        />
+
+
+
+</LinearLayout>

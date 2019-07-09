@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -25,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -57,6 +61,7 @@ public class SaveSharedPreference{
     static final String PREF_MESSAGE_PUSH_GRANT = "messagePushGrant";
     static final String PREF_CONDITION_PUSH_GRANT = "conditionPushGrant";
     static final String PREF_ANSWER_PUSH_GRANT = "answerPushGrant";
+    static final String PREF_TALENT_FLAG = "talentFlag";
     static String myPicturePath = null;
     static String myThumbPicturePath = null;
     static String fcmToken = null;
@@ -66,6 +71,7 @@ public class SaveSharedPreference{
     public static final String NONE_STATE = "NONE";
 
     public static final String CONNECTION_CONFIRM_CLIENT_URL = "http://clients3.google.com/generate_204";
+
 
     static DrawerLayout slidingMenuDL;
     static View drawerView;
@@ -136,6 +142,12 @@ public class SaveSharedPreference{
     public static void setPrefUserDescription(Context ctx, String txt){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PREF_USER_DESCRIPTION, txt);
+        editor.commit();
+    }
+
+    public static void setPrefTalentFlag(Context ctx, String talentFlag){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_TALENT_FLAG, talentFlag);
         editor.commit();
     }
 
@@ -215,6 +227,10 @@ public class SaveSharedPreference{
 
     public static String getPrefUserDescription(Context ctx){
         return getSharedPreferences(ctx).getString(PREF_USER_DESCRIPTION, "");
+    }
+
+    public static String getPrefTalentFlag(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_TALENT_FLAG, "");
     }
 
     public static void clearUserInfo(Context ctx){
@@ -434,5 +450,70 @@ public class SaveSharedPreference{
 
     public static String getFcmToken(Context ctx){
         return fcmToken;
+    }
+
+    public static String getWhatKindOfNetwork(Context context){
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        if(activeNetwork != null){
+            if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI){
+                return WIFI_STATE;
+            }else if(activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE){
+                return MOBILE_STATE;
+            }
+        }
+        return NONE_STATE;
+    }
+
+    private static class CheckConnect extends Thread{
+        private boolean success;
+        private String host;
+
+        public CheckConnect(String host){
+            this.host = host;
+        }
+
+        @Override
+        public void run() {
+
+            HttpURLConnection conn = null;
+            try {
+                conn = (HttpURLConnection)new URL(host).openConnection();
+                conn.setRequestProperty("User-Agent","Android");
+                conn.setConnectTimeout(1000);
+                conn.connect();
+                int responseCode = conn.getResponseCode();
+                if(responseCode == 204) success = true;
+                else success = false;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                success = false;
+            }
+            if(conn != null){
+                conn.disconnect();
+            }
+        }
+
+        public boolean isSuccess(){
+            return success;
+        }
+    }
+
+    public static boolean isOnline() {
+        CheckConnect cc = new CheckConnect(CONNECTION_CONFIRM_CLIENT_URL);
+        cc.start();
+        try{
+            cc.join();
+            return cc.isSuccess();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean isTeacher(Context ctx){
+        return getPrefTalentFlag(ctx).equals("Y");
     }
 }

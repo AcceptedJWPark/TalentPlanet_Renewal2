@@ -50,4 +50,7 @@
 
     <color name="loginMainTitle">#ffffff</color>
     <color name="loginPasswordLost">#cc5e93</color>
+
+    <color name="color_mentor">#28364A</color>
+    <color name="color_mentee">#FFC35E</color>
 </resources>

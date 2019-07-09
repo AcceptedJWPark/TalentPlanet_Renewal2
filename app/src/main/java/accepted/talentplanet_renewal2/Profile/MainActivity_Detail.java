@@ -82,8 +82,6 @@ public class MainActivity_Detail extends AppCompatActivity {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
-        findViewById(R.id.img_show1x15).setVisibility(View.GONE);
-        findViewById(R.id.img_show3x5).setVisibility(View.GONE);
 
         // 완료 버튼
         btn_save_detail.setOnClickListener(new View.OnClickListener() {
@@ -109,13 +107,12 @@ public class MainActivity_Detail extends AppCompatActivity {
         // 유저가 작성한 텍스트
         // TB_TALENT_NEW  - 유저 요청 저장
         Editable talentTxt = hashTextView.getText();
-        String userId = "ansrjsdn7@naver.com";
         // 사용자가 멘토인지 멘티인지.
         String talentFlag = isMentor;
         String talentCate = cateCode;
 
         HashMap<String, Object> commandMap = new HashMap<String, Object>();
-        commandMap.put("UserID",userId);
+        commandMap.put("UserID",SaveSharedPreference.getUserId(mContext));
         commandMap.put("TalentFlag",talentFlag);
         commandMap.put("TalentCateCode",talentCate);
         commandMap.put("TalentDescription",talentTxt);

@@ -85,8 +85,6 @@ public class MainActivity_Condition extends AppCompatActivity {
             ismymentor=false;
         }
 
-        findViewById(R.id.img_show1x15).setVisibility(View.GONE);
-        findViewById(R.id.img_show3x5).setVisibility(View.GONE);
 
         btn_req_condition = findViewById(R.id.btn_req_condition);
         btn_proc_condition = findViewById(R.id.btn_proc_condition);

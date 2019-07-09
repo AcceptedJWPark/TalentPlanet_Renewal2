@@ -192,8 +192,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         img_gender_profile = findViewById(R.id.img_gender_profile);
 
         tv_profile_description = findViewById(R.id.tv_profile_description);
-//        tv_birth_profile = findViewById(R.id.tv_birth_profile);
-        tv_addr_profile = findViewById(R.id.tv_addr_profile);
+        tv_birth_profile = findViewById(R.id.tv_birth_profile);
+//        tv_addr_profile = findViewById(R.id.tv_addr_profile);
 //        tv_profile_point = findViewById(R.id.tv_profile_point);
 
         img_gender_profile = findViewById(R.id.img_gender_profile);
@@ -204,15 +204,13 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         tv_toolbar = findViewById(R.id.tv_toolbar);
         tv_toolbar.setText("Profile");
         ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
-        findViewById(R.id.img_show1x15).setVisibility(View.GONE);
-        findViewById(R.id.img_show3x5).setVisibility(View.GONE);
 
         // 받은 값 구현
         Intent intent = new Intent(this.getIntent());
         inPerson = intent.getBooleanExtra("inPerson", false);
         if (intent.getStringExtra("userName") != null) {
-            ((TextView)findViewById(R.id.tv_name_profile)).setText(intent.getStringExtra("userName") + " / " + intent.getStringExtra("userInfo"));
-//            ((TextView)findViewById(R.id.tv_birth_profile)).setText(intent.getStringExtra("userInfo"));
+            ((TextView)findViewById(R.id.tv_name_profile)).setText(intent.getStringExtra("userName"));
+            ((TextView)findViewById(R.id.tv_birth_profile)).setText(intent.getStringExtra("userInfo"));
             targetUserID = intent.getStringExtra("targetUserID");
         }
 
@@ -222,14 +220,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             String userInfo = SaveSharedPreference.getPrefUserBirth(mContext);
             userID = SaveSharedPreference.getUserId(mContext);
 
-            ((TextView)findViewById(R.id.tv_name_profile)).setText(userName + " / " + userInfo);
-            // 본인의 아이디에서 숨겨야할 요소
-            ((Button)findViewById(R.id.btn_profile_btn)).setVisibility(View.GONE);
-//            tv_profile_point.setText(String.valueOf(SaveSharedPreference.getTalentPoint(mContext)));
-            //((LinearLayout)findViewById(R.id.ll_pointbox_profile)).setVisibility(View.GONE);
-            ((Button)findViewById(R.id.btn_sendMessage_profile)).setVisibility(View.GONE);
+            ((TextView)findViewById(R.id.tv_name_profile)).setText(userName);
+
         } else  {
-//            ((LinearLayout)findViewById(R.id.ll_pointbox_profile)).setVisibility(View.GONE);
             userID = intent.getStringExtra("userID");
         }
 
@@ -242,24 +235,15 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         lv_point = findViewById(R.id.lv_point_profile);
 
         lv_mentor_profile = findViewById(R.id.lv_mentor_profile);
-//        lv_mentee_profile = findViewById(R.id.lv_mentee_profile);
-        
+
         mLayoutManagerMentor = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mLayoutManagerMentee = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         lv_mentor_profile.setLayoutManager(mLayoutManagerMentor);
-//        lv_mentee_profile.setLayoutManager(mLayoutManagerMentee);
 
-
-        // 추후 mode 값 변경 작업 필요
-        mode = "Y";
-        if (mode.equals("Y")) {
-            getAllTalent("Y");
-        } else {
-            getAllTalent("N");
-        }
-
-
+        // mode 값에 따라서 보여주는 내용이 다름
+        mode = SaveSharedPreference.getPrefTalentFlag(mContext);
+        getAllTalent(mode);
 
         adapter = new ListAdapter_Point(userDate);
         lv_point.setAdapter(adapter);
@@ -287,29 +271,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         createLocationRequest();
 
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.frg_AutoComplete_TalentRegister);
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                Log.d("Place : ", place.getLatLng().latitude + ", " + place.getLatLng().longitude);
-                Location location = new Location("");
-                location.setLatitude(place.getLatLng().latitude);
-                location.setLongitude(place.getLatLng().longitude);
-
-                mCurrentLocation = location;
-
-                setCurrentLocation(location, place.getName().toString(), place.getAddress().toString());
-            }
-
-            @Override
-            public void onError(Status status) {
-                Log.d("Error : ", String.valueOf(status));
-            }
-        });
-
         if(!inPerson){
-               autocompleteFragment.getView().setVisibility(View.GONE);
                mapFragment.getView().setOnClickListener(null);
         }
 
@@ -344,6 +306,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         });
 
         if (inPerson) {
+            tv_birth_profile.setText(SaveSharedPreference.getPrefUserBirth(mContext));
             tv_profile_description.setText(SaveSharedPreference.getPrefUserDescription(mContext));
             tv_profile_description.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -377,9 +340,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 }
             });
 
-
-
-//            tv_birth_profile.setText(SaveSharedPreference.getPrefUserBirth(mContext));
 
             Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
 
@@ -416,7 +376,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                             final JSONObject profileData = new JSONObject(response);
                             tv_profile_description.setText(SaveSharedPreference.getPrefUserDescription(mContext));
 
-//                            tv_birth_profile.setText(SaveSharedPreference.getPrefUserBirth(mContext));
+                            tv_birth_profile.setText(SaveSharedPreference.getPrefUserBirth(mContext));
 
                             Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
 
@@ -435,34 +395,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 Log.d("주소찾기", "실패");
                             }else if(list.size() > 0){
                                 Address addr = list.get(0);
-                                tv_addr_profile.setText(addr.getAddressLine(0));
 
                                 Log.d("MyLocation", "location: " + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude() + ", " + addr.getAddressLine(0) + "," + addr.toString());
                                 setCurrentLocation(mCurrentLocation,"기존위치" , addr.getAddressLine(0));
                             }
 
-                            ((Button)findViewById(R.id.btn_sendMessage_profile)).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    int roomID = 0;
-                                    try {
-                                        roomID = SaveSharedPreference.makeChatRoom(mContext, targetUserID, profileData.getString("USER_NAME"), profileData.getString("S_FILE_PATH"));
-                                        if (roomID < 0) {
-                                            return;
-                                        }
-                                        Intent i = new Intent(mContext, accepted.talentplanet_renewal2.Messanger.Chatting.MainActivity.class);
-                                        i.putExtra("userID", targetUserID);
-                                        i.putExtra("roomID", roomID);
-                                        i.putExtra("userName", profileData.getString("USER_NAME"));
-                                        startActivity(i);
-
-                                        finish();
-                                    }catch(JSONException e){
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            });
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -553,47 +490,15 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         }
 
                         if(talentFlag.equals("Y")){
-                            if (inPerson) {
-                                mentorTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0, ""));
-//                                tv_profile_mentor_count.setText((mentorTalentList.size()-1) + "");
-//                                ((TextView) findViewById(R.id.tv_mentor_count_profile)).setText(SaveSharedPreference.getUserName(mContext) + "님의 관심멘토는" + String.valueOf(mentorTalentList.size()-1) + "건 입니다.");
-                            } else {
-//                                tv_profile_mentor_count.setText(mentorTalentList.size() + "");
-//                                ((TextView) findViewById(R.id.tv_mentor_count_profile)).setText(SaveSharedPreference.getUserName(mContext) + "님의 관심멘토는" + String.valueOf(mentorTalentList.size()) + "건 입니다.");
-                            }
                             mentorAdapter = new ListAdapter_Talent(mActivity , mentorTalentList, "MENTOR", inPerson);
                             lv_mentor_profile.setAdapter(mentorAdapter);
 
                         }else if(talentFlag.equals("N")){
-                            if (inPerson) {
-                                menteeTalentList.add(new TalentObject_Home("추가", R.drawable.icon_profile_plus, 0, 0, ""));
-//                                tv_profile_mentee_count.setText((menteeTalentList.size()-1) + "");
-//                                ((TextView) findViewById(R.id.tv_mentee_count_profile)).setText(SaveSharedPreference.getUserName(mContext) + "님의 관심멘티는" +String.valueOf(menteeTalentList.size()-1)+ "건 입니다.");
-                            } else {
-//                                tv_profile_mentee_count.setText(menteeTalentList.size() + "");
-//                                ((TextView) findViewById(R.id.tv_mentee_count_profile)).setText(SaveSharedPreference.getUserName(mContext) + "님의 관심멘티는" +String.valueOf(menteeTalentList.size())+ "건 입니다.");
-                            }
-
                             menteeAdapter = new ListAdapter_Talent(mActivity, menteeTalentList, "MENTEE", inPerson);
                             lv_mentor_profile.setAdapter(menteeAdapter);
 
                         }
 
-                        if(friendFlag){
-                            ((Button)findViewById(R.id.btn_profile_btn)).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Toast.makeText(mContext, "이미 등록된 친구입니다.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }else{
-                            ((Button)findViewById(R.id.btn_profile_btn)).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    addFriend();
-                                }
-                            });
-                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

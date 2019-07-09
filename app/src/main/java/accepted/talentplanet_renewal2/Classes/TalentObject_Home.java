@@ -1,7 +1,5 @@
 package accepted.talentplanet_renewal2.Classes;
 
-import android.content.Context;
-
 public class TalentObject_Home implements Comparable<TalentObject_Home> {
     private String title;
     private int backgroundResourceID;
@@ -11,6 +9,8 @@ public class TalentObject_Home implements Comparable<TalentObject_Home> {
     private String talentID;
     private String userID;
     private String TalentDescription;
+    private boolean hasFlag;
+    private String hashtag;
 
     public TalentObject_Home( String title, int backgroundResourceID, int iconResourceID, int talentCount, String talentID) {
         this.title = title;
@@ -84,6 +84,22 @@ public class TalentObject_Home implements Comparable<TalentObject_Home> {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public boolean hasFlag() {
+        return hasFlag;
+    }
+
+    public void setHasFlag(boolean hasFlag) {
+        this.hasFlag = hasFlag;
+    }
+
+    public String getHashtag() {
+        return hashtag;
+    }
+
+    public void setHashtag(String hashtag) {
+        this.hashtag = hashtag;
     }
 
     public String getTalentDescription() {

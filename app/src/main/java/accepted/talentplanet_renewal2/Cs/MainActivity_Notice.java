@@ -29,8 +29,6 @@ public class MainActivity_Notice extends AppCompatActivity {
         ((TextView)findViewById(R.id.tv_toolbar)).setText(title);
 
         ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
-        ((ImageView) findViewById(R.id.img_show1x15)).setVisibility(View.GONE);
-        findViewById(R.id.img_show3x5).setVisibility(View.GONE);
 
         for (int i=1; i<4; i++) {
             NoticeData aData = new NoticeData();

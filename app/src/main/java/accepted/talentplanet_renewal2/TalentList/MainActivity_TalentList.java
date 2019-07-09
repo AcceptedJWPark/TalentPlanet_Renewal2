@@ -44,13 +44,13 @@ public class MainActivity_TalentList extends AppCompatActivity {
     private int cateCode;
     private String talentFlag;
     private String titleTxt;
+    private boolean hasFlag;
+    private String hashtag;
 
     // 뷰 정의
     ListView userListView;
     TextView title;
     ImageView leftBtn;
-    ImageView img3x5;
-    ImageView rightBtn;
     LinearLayout hsv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +63,6 @@ public class MainActivity_TalentList extends AppCompatActivity {
         userListView = (ListView)findViewById(R.id.lv_talentUser);
         title = (TextView)findViewById(R.id.tv_toolbar);
         leftBtn = (ImageView)findViewById(R.id.img_open_dl);
-        img3x5 = (ImageView)findViewById(R.id.img_show3x5);
-        rightBtn = (ImageView)findViewById(R.id.img_show1x15);
         hsv = (LinearLayout)findViewById(R.id.sv_show1x15);
 
         // 인텐트 받기
@@ -73,8 +71,16 @@ public class MainActivity_TalentList extends AppCompatActivity {
         // 인텐트 엑스트라 받기
         titleTxt = intent.getStringExtra("talentName");
         cateCode = intent.getIntExtra("cateCode", 0);
-        talentFlag = intent.getStringExtra("talentFlag");
-
+        talentFlag = SaveSharedPreference.getPrefTalentFlag(mContext);
+        hasFlag = intent.getBooleanExtra("hasFlag", false);
+        if(hasFlag) {
+            if(intent.hasExtra("hashtag")) {
+                hashtag = intent.getStringExtra("hashtag");
+            }
+            ((LinearLayout)findViewById(R.id.ll_addTalent_list)).setVisibility(View.GONE);
+        }else{
+            ((LinearLayout)findViewById(R.id.ll_myTalent_list)).setVisibility(View.GONE);
+        }
         // 필요정보 생성
         makeTestTalentArr();
         if(intent.hasExtra("isSearch")){
@@ -89,8 +95,6 @@ public class MainActivity_TalentList extends AppCompatActivity {
 
         // 필요한 뷰만을 표시 R.drawable.icon_back
         leftBtn.setImageResource(R.drawable.icon_back);
-        img3x5.setVisibility(View.GONE);
-        rightBtn.setVisibility(View.GONE);
 
 
         // 뒤로가기 이벤트

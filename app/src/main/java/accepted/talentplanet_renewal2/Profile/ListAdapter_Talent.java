@@ -39,10 +39,12 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
     public class ViewHolder extends RecyclerView.ViewHolder {
 //        public ImageView iv;
         public TextView tv;
+        public  View view;
         public ViewHolder(View itemView) {
             super(itemView);
 //            iv = itemView.findViewById(R.id.iv_talent_image);
             tv = itemView.findViewById(R.id.tv_talent_name);
+            view = itemView.findViewById(R.id.v_underline);
         }
     }
 
@@ -55,9 +57,10 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
     }
 
     @Override
-    public void onBindViewHolder(ListAdapter_Talent.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ListAdapter_Talent.ViewHolder holder, final int position) {
 
         holder.tv.setText(userTalent.get(position).getTitle());
+        holder.view.setVisibility(View.GONE);
 
         holder.tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +70,8 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
 
                 TextView tv_tag_profile = mActivity.findViewById(R.id.tv_tag_profile);
                 TextView tv_description_profile = mActivity.findViewById(R.id.tv_description_profile);
+
+                holder.view.setVisibility(View.VISIBLE);
 
                 if (!userTalent.get(position).getTitle().equals("추가")) {
                     tv_tag_profile.setVisibility(View.VISIBLE);
@@ -113,7 +118,6 @@ public class ListAdapter_Talent extends RecyclerView.Adapter<ListAdapter_Talent.
 ////                ((Activity)v.getContext()).startActivityForResult(intent1, 3000);
 //                ((Activity)v.getContext()).finish();
             }
-
         });
     }
 

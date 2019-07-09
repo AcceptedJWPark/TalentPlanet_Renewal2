@@ -14,12 +14,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,12 +85,15 @@ public class MainActivity extends AppCompatActivity {
     boolean mentorClicked;
 
     boolean isAlaram;
-    String talentFlag;
 
     private ArrayList<TalentObject_Home> arrTalent;
     private Map<String, TalentObject_Home> talentMap;
 
     SQLiteDatabase sqliteDatabase;
+
+    Spinner spinner;
+    SpinnerAdapter_Toolbar adapter_toolbar;
+    ArrayList<SpinnerData_Toolbar> arrayList_spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,26 +101,36 @@ public class MainActivity extends AppCompatActivity {
 
         mContext=getApplicationContext();
 
+        arrayList_spinner = new ArrayList<>();
+        arrayList_spinner.add(new SpinnerData_Toolbar("Teacher Planet", R.drawable.icon_teacher, R.drawable.icon_arrow_teacher, "Y"));
+        arrayList_spinner.add(new SpinnerData_Toolbar("Student Planet", R.drawable.icon_student, R.drawable.icon_arrow_student, "N"));
+
+        spinner = findViewById(R.id.sp_toolbar);
+
+        adapter_toolbar = new SpinnerAdapter_Toolbar(arrayList_spinner, mContext);
+
+        spinner.setAdapter(adapter_toolbar);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SaveSharedPreference.setPrefTalentFlag(mContext, arrayList_spinner.get(position).getTalentFlag());
+                getCateList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         if (SaveSharedPreference.getFcmToken(mContext) == null || SaveSharedPreference.getFcmToken(mContext).isEmpty()) {
             SaveSharedPreference.setPrefFcmToken(mContext, FirebaseInstanceId.getInstance().getToken());
             saveFcmToken();
         }
 
-        sv1x15 = findViewById(R.id.sv_show1x15);
-        ll3x5 = findViewById(R.id.ll_container_home);
-        ll1x15 = findViewById(R.id.ll_container_home_15);
-
-        img3x5 = findViewById(R.id.img_show3x5);
-        img1x15 = findViewById(R.id.img_show1x15);
         img_open_dl = findViewById(R.id.img_open_dl);
         dl = (DrawerLayout)findViewById(R.id.drawerlayout);
         v_drawerlayout=findViewById(R.id.view_drawerlayout);
-
-        btn_mentor_home = findViewById(R.id.btn_mentor_home);
-        btn_mentee_home = findViewById(R.id.btn_mentee_home);
-        btn_search_home = findViewById(R.id.btn_search_home);
-
-        et_search_home = findViewById(R.id.et_search_home);
 
         tv_user_dl = findViewById(R.id.tv_user_dl);
         tv_email_dl = findViewById(R.id.tv_email_dl);
@@ -129,60 +144,9 @@ public class MainActivity extends AppCompatActivity {
         isAlaram = true;
 
         makeTestTalentArr();
-        getCateList();
-        talentFlag = "Y";
+
         //기본 값
         mentorClicked = true;
-        findViewById(R.id.inc_list3x5_home).setVisibility(View.VISIBLE);
-        findViewById(R.id.inc_list1x15_home).setVisibility(View.GONE);
-
-        img_open_dl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dl.openDrawer(v_drawerlayout);
-            }
-        });
-        img3x5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickedShow3x5list();
-            }
-        });
-        img1x15.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickedShow1x15list();
-            }
-        });
-
-
-        btn_mentor_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mentorClicked=true;
-                clickedMentorMentee();
-            }
-        });
-
-        btn_mentee_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mentorClicked=false;
-                clickedMentorMentee();
-            }
-        });
-
-        btn_search_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity_TalentList.class);
-                String talentName = et_search_home.getText().toString();
-                intent.putExtra("talentName", talentName);
-                intent.putExtra("talentFlag", talentFlag);
-                intent.putExtra("isSearch", true);
-                startActivity(intent);
-            }
-        });
 
         String dbName = "/accepted.db";
         sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + dbName, null);
@@ -209,230 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
         sqliteDatabase.close();
 
-    }
-
-    //3x5로 바꾸는 함수
-    public void clickedShow3x5list()
-    {
-        img3x5.setImageResource(R.drawable.icon_3x5_clicked);
-        img1x15.setImageResource(R.drawable.icon_1x15_unclicked);
-        mentorClicked = true;
-        clickedMentorMentee();
-        findViewById(R.id.inc_list3x5_home).setVisibility(View.VISIBLE);
-        findViewById(R.id.inc_list1x15_home).setVisibility(View.GONE);
-    }
-
-    //1x15로 바꾸는 함수
-    public void clickedShow1x15list()
-    {
-        img3x5.setImageResource(R.drawable.icon_3x5_unclicked);
-        img1x15.setImageResource(R.drawable.icon_1x15_clicked);
-        mentorClicked = true;
-        clickedMentorMentee();
-        findViewById(R.id.inc_list3x5_home).setVisibility(View.GONE);
-        findViewById(R.id.inc_list1x15_home).setVisibility(View.VISIBLE);
-    }
-
-
-
-    //Mentor, Mentee 바꾸는 함수
-    public void clickedMentorMentee()
-    {
-        if(mentorClicked)
-        {
-            btn_mentor_home.setBackgroundColor(getResources().getColor(R.color.bgr_mainColor));
-            btn_mentor_home.setTextColor(WHITE);
-            btn_mentor_home.setTypeface(null, Typeface.BOLD);
-            btn_mentee_home.setBackgroundColor(getResources().getColor(R.color.bgr_gray));
-            btn_mentee_home.setTextColor(getResources().getColor(R.color.txt_gray));
-            btn_mentee_home.setTypeface(null, Typeface.NORMAL);
-            talentFlag = "Y";
-            getCateList();
-        }
-        else
-        {
-            btn_mentee_home.setBackgroundColor(getResources().getColor(R.color.bgr_mainColor));
-            btn_mentee_home.setTextColor(WHITE);
-            btn_mentee_home.setTypeface(null, Typeface.BOLD);
-            btn_mentor_home.setBackgroundColor(getResources().getColor(R.color.bgr_gray));
-            btn_mentor_home.setTextColor(getResources().getColor(R.color.txt_gray));
-            btn_mentor_home.setTypeface(null, Typeface.NORMAL);
-            talentFlag = "N";
-            getCateList();
-        }
-    }
-
-    private void makeLayout(LinearLayout layout){
-        LinearLayout root = (LinearLayout)layout.findViewById(R.id.ll_container_home);
-        root.removeAllViews();
-
-        LinearLayout row = null;
-        layout.setMinimumWidth(MATCH_PARENT);
-        layout.setMinimumHeight(MATCH_PARENT);
-
-        // row layout 의 Parameter 정의
-        LinearLayout.LayoutParams rowParams = new LinearLayout.LayoutParams(MATCH_PARENT, 0);
-        rowParams.weight = 1;
-        rowParams.bottomMargin = (int) getResources().getDimension(R.dimen.size_5dp);
-        rowParams.leftMargin = (int) getResources().getDimension(R.dimen.size_5dp);
-
-        // 하나의 객체의 Layout Parameter 정의
-        LinearLayout.LayoutParams objectParams = new LinearLayout.LayoutParams(0, MATCH_PARENT);
-        objectParams.weight = 1;
-        objectParams.rightMargin = (int) getResources().getDimension(R.dimen.size_5dp);
-
-        // 객체 background image 의 Parameter 정의
-        LinearLayout.LayoutParams bgImgParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-        bgImgParams.gravity = CENTER;
-
-        // 객체 opacity background 의 Parameter 정의
-        LinearLayout.LayoutParams viewParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-
-        // 텍스트 및 돌출 이미지에 대한 LinearLayout Parameter 정의
-        LinearLayout.LayoutParams linearParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-
-        // 돌출 텍스트에 대한 Parameter 정의
-        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT);
-
-        int rowNum = 0;
-
-        for (int i = 0; i < arrTalent.size(); i++){
-            if(i % 3 == 0){
-                row = new LinearLayout(getApplicationContext());
-                row.setOrientation(LinearLayout.HORIZONTAL);
-            }
-
-            final TalentObject_Home obj = arrTalent.get(i);
-            RelativeLayout rl = new RelativeLayout(getApplicationContext());
-
-            ImageView bgImgView = new ImageView(getApplicationContext());
-            bgImgView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-            Glide.with(this).load(obj.getBackgroundResourceID()).into(bgImgView);
-
-            LinearLayout linear = new LinearLayout(getApplicationContext());
-            View opacityView = new View(getApplicationContext());
-            final TextView textView = new TextView(getApplicationContext());
-            View basicView = new View(getApplicationContext());
-
-            linear.setGravity(CENTER);
-            linear.setOrientation(LinearLayout.VERTICAL);
-
-            opacityView.setBackgroundColor(Color.parseColor("#68000000"));
-
-            textView.setText(obj.getTitle() + "\n" + obj.getTalentCount());
-            textView.setTextColor(WHITE);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.isTalent_Txt));
-            textView.setTypeface(Typeface.DEFAULT_BOLD);
-            textView.setGravity(CENTER);
-
-            linear.addView(textView, textParams);
-
-            linear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity_TalentList.class);
-                    String talentName = (String) textView.getText();
-                    intent.putExtra("talentName", obj.getTitle());
-                    intent.putExtra("cateCode", obj.getCateCode());
-                    intent.putExtra("talentFlag", talentFlag);
-                    startActivity(intent);
-                }
-            });
-
-            rl.addView(bgImgView, bgImgParams);
-            rl.addView(opacityView, viewParams);
-            rl.addView(linear, linearParams);
-
-            row.addView(rl, objectParams);
-            if(i == arrTalent.size() - 1 || i % 3 == 2){
-                layout.addView(row, rowParams);
-                rowNum++;
-            }
-        }
-
-    }
-
-    private void make15Layout(LinearLayout layout){
-        LinearLayout root = (LinearLayout)layout.findViewById(R.id.ll_container_home_15);
-        root.removeAllViews();
-
-        LinearLayout row = null;
-        layout.setMinimumWidth(MATCH_PARENT);
-        layout.setMinimumHeight(MATCH_PARENT);
-
-        // 하나의 객체의 Layout Parameter 정의
-        LinearLayout.LayoutParams objectParams = new LinearLayout.LayoutParams(MATCH_PARENT, (int) getResources().getDimension(R.dimen.size_120dp));
-
-        // 객체 background image 의 Parameter 정의
-        LinearLayout.LayoutParams bgImgParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-        bgImgParams.gravity = CENTER;
-
-        // 객체 opacity background 의 Parameter 정의
-        LinearLayout.LayoutParams viewParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-
-        // 텍스트 및 돌출 이미지에 대한 LinearLayout Parameter 정의
-        RelativeLayout.LayoutParams linearParams = new RelativeLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-        linearParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-
-        // 돌출 텍스트에 대한 Parameter 정의
-        LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-        textParams.topMargin = (int)getResources().getDimension(R.dimen.size_10dp);
-
-        // 돌출 아이콘에 대한 Parameter 정의
-        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams((int) getResources().getDimension(R.dimen.isTalent_pic), (int) getResources().getDimension(R.dimen.isTalent_pic));
-
-        int rowNum = 0;
-
-        for (int i = 0; i < arrTalent.size(); i++){
-
-            final TalentObject_Home obj = arrTalent.get(i);
-            RelativeLayout rl = new RelativeLayout(getApplicationContext());
-
-            ImageView bgImgView = new ImageView(getApplicationContext());
-            bgImgView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-            Glide.with(this).load(obj.getBackgroundResourceID()).into(bgImgView);
-
-            View opacityView = new View(getApplicationContext());
-            opacityView.setBackgroundColor(Color.parseColor("#68000000"));
-
-            LinearLayout linear = new LinearLayout(getApplicationContext());
-            linear.setGravity(CENTER);
-            linear.setOrientation(LinearLayout.VERTICAL);
-
-            ImageView iconView = new ImageView(getApplicationContext());
-            iconView.setScaleType(ImageView.ScaleType.FIT_XY);
-            Glide.with(this).load(obj.getIconResourceID()).into(iconView);
-
-            final TextView textView = new TextView(getApplicationContext());
-            textView.setText(obj.getTitle() + " " + obj.getTalentCount());
-            textView.setTextColor(WHITE);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.isTalent_Txt));
-            textView.setTypeface(Typeface.DEFAULT_BOLD);
-
-            linear.addView(iconView, iconParams);
-            linear.addView(textView, textParams);
-
-            linear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity_TalentList.class);
-                    String talentName = (String) textView.getText();
-                    intent.putExtra("talentName", obj.getTitle());
-                    intent.putExtra("cateCode", obj.getCateCode());
-                    intent.putExtra("talentFlag", talentFlag);
-
-                    startActivity(intent);
-                }
-            });
-
-            rl.addView(bgImgView, bgImgParams);
-            rl.addView(opacityView, viewParams);
-            rl.addView(linear, linearParams);
-
-            root.addView(rl, objectParams);
-        }
     }
 
     private void makeTestTalentArr() {
@@ -485,11 +225,13 @@ public class MainActivity extends AppCompatActivity {
                         TalentObject_Home talentObject = talentMap.get(obj.getString("CateName"));
                         talentObject.setCateCode((int)obj.getLong("CateCode"));
                         talentObject.setTalentCount((int)obj.getLong("RegistCount"));
+                        talentObject.setHasFlag((int)obj.getLong("HasFlag") > 0);
+                        if(obj.has("HASHTAG")) {
+                            talentObject.setHashtag(obj.getString("HASHTAG"));
+                        }
                         arrTalent.add(talentObject);
                     }
 
-                    makeLayout(ll3x5);
-                    make15Layout(ll1x15);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -498,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
-                params.put("TalentFlag", talentFlag);
+                params.put("TalentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
                 params.put("UserID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }
@@ -699,5 +441,11 @@ public class MainActivity extends AppCompatActivity {
 
         postRequestQueue.add(postJsonRequest);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getCateList();
     }
 }

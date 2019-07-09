@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">TalentPlanet_Renewal2</string>
+
+    <string-array name="CustomerService_ClaimSpinnerList">
+
+        <item >금품 요구</item>
+        <item >폭언 및 욕설</item>
+        <item >No-Show</item>
+        <item >허위 광고</item>
+        <item >기타</item>
+
+    </string-array>
+
+    <string-array name="toolbar_spinner">
+        <item>Teacher</item>
+        <item>Student</item>
+    </string-array>
 </resources>

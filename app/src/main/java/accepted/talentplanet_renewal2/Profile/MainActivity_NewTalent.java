@@ -51,9 +51,6 @@ public class MainActivity_NewTalent extends AppCompatActivity {
 
         Glide.with(this).load(imgSrc).into(((ImageView) findViewById(R.id.iv_bg_newtalent)));
 
-        findViewById(R.id.img_show1x15).setVisibility(View.GONE);
-        findViewById(R.id.img_show3x5).setVisibility(View.GONE);
-
         // 유저가 새롭게 재능을 등록 / 신청하는 액티비티
         // 새 재능 타이틀
         tv_toolbar.setText(talentTitle);

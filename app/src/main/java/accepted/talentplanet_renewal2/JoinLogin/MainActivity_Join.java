@@ -104,8 +104,6 @@ public class MainActivity_Join extends AppCompatActivity {
         tv_toolbar=findViewById(R.id.tv_toolbar);
         tv_toolbar.setText("회원가입");
         ((ImageView)findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
-        findViewById(R.id.img_show1x15).setVisibility(View.GONE);
-        findViewById(R.id.img_show3x5).setVisibility(View.GONE);
 
         ll_malecheck.setOnClickListener(new View.OnClickListener() {
             @Override
