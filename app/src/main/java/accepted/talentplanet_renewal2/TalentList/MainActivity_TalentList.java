@@ -44,6 +44,8 @@ public class MainActivity_TalentList extends AppCompatActivity {
     private int cateCode;
     private String talentFlag;
     private String titleTxt;
+    private boolean hasFlag;
+    private String hashtag;
 
     // 뷰 정의
     ListView userListView;
@@ -74,7 +76,15 @@ public class MainActivity_TalentList extends AppCompatActivity {
         titleTxt = intent.getStringExtra("talentName");
         cateCode = intent.getIntExtra("cateCode", 0);
         talentFlag = intent.getStringExtra("talentFlag");
-
+        hasFlag = intent.getBooleanExtra("hasFlag", false);
+        if(hasFlag) {
+            if(intent.hasExtra("hashtag")) {
+                hashtag = intent.getStringExtra("hashtag");
+            }
+            ((LinearLayout)findViewById(R.id.ll_addTalent_list)).setVisibility(View.GONE);
+        }else{
+            ((LinearLayout)findViewById(R.id.ll_myTalent_list)).setVisibility(View.GONE);
+        }
         // 필요정보 생성
         makeTestTalentArr();
         if(intent.hasExtra("isSearch")){

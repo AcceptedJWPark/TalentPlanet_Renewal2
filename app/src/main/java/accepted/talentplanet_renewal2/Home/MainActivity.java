@@ -126,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
         dl = (DrawerLayout)findViewById(R.id.drawerlayout);
         v_drawerlayout=findViewById(R.id.view_drawerlayout);
 
-        btn_mentor_home = findViewById(R.id.btn_mentor_home);
-        btn_mentee_home = findViewById(R.id.btn_mentee_home);
+        //btn_mentor_home = findViewById(R.id.btn_mentor_home);
+        //btn_mentee_home = findViewById(R.id.btn_mentee_home);
         btn_search_home = findViewById(R.id.btn_search_home);
 
         et_search_home = findViewById(R.id.et_search_home);
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         isAlaram = true;
 
         makeTestTalentArr();
-        getCateList();
+        //getCateList();
         talentFlag = "Y";
         //기본 값
         mentorClicked = true;
@@ -171,21 +171,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        btn_mentor_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mentorClicked=true;
-                clickedMentorMentee();
-            }
-        });
-
-        btn_mentee_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mentorClicked=false;
-                clickedMentorMentee();
-            }
-        });
+//        btn_mentor_home.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mentorClicked=true;
+//                clickedMentorMentee();
+//            }
+//        });
+//
+//        btn_mentee_home.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mentorClicked=false;
+//                clickedMentorMentee();
+//            }
+//        });
 
         btn_search_home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
         img3x5.setImageResource(R.drawable.icon_3x5_unclicked);
         img1x15.setImageResource(R.drawable.icon_1x15_clicked);
         mentorClicked = true;
-        clickedMentorMentee();
+        //clickedMentorMentee();
         findViewById(R.id.inc_list3x5_home).setVisibility(View.GONE);
         findViewById(R.id.inc_list1x15_home).setVisibility(View.VISIBLE);
     }
@@ -351,6 +351,10 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("talentName", obj.getTitle());
                     intent.putExtra("cateCode", obj.getCateCode());
                     intent.putExtra("talentFlag", talentFlag);
+                    intent.putExtra("hasFlag", obj.hasFlag());
+                    if(obj.getHashtag() != null) {
+                        intent.putExtra("hashtag", obj.getHashtag());
+                    }
                     startActivity(intent);
                 }
             });
@@ -437,7 +441,10 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("talentName", obj.getTitle());
                     intent.putExtra("cateCode", obj.getCateCode());
                     intent.putExtra("talentFlag", talentFlag);
-
+                    intent.putExtra("hasFlag", obj.hasFlag());
+                    if(obj.getHashtag() != null) {
+                        intent.putExtra("hashtag", obj.getHashtag());
+                    }
                     startActivity(intent);
                 }
             });
@@ -500,6 +507,10 @@ public class MainActivity extends AppCompatActivity {
                         TalentObject_Home talentObject = talentMap.get(obj.getString("CateName"));
                         talentObject.setCateCode((int)obj.getLong("CateCode"));
                         talentObject.setTalentCount((int)obj.getLong("RegistCount"));
+                        talentObject.setHasFlag((int)obj.getLong("HasFlag") > 0);
+                        if(obj.has("HASHTAG")) {
+                            talentObject.setHashtag(obj.getString("HASHTAG"));
+                        }
                         arrTalent.add(talentObject);
                     }
 
@@ -714,5 +725,11 @@ public class MainActivity extends AppCompatActivity {
 
         postRequestQueue.add(postJsonRequest);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getCateList();
     }
 }
