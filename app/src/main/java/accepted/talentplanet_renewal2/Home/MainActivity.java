@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
     boolean mentorClicked;
 
     boolean isAlaram;
-    String talentFlag;
 
     private ArrayList<TalentObject_Home> arrTalent;
     private Map<String, TalentObject_Home> talentMap;
@@ -102,14 +102,26 @@ public class MainActivity extends AppCompatActivity {
         mContext=getApplicationContext();
 
         arrayList_spinner = new ArrayList<>();
-        arrayList_spinner.add(new SpinnerData_Toolbar("Teacher", R.drawable.icon_3x5_clicked));
-        arrayList_spinner.add(new SpinnerData_Toolbar("Student", R.drawable.icon_1x15_clicked));
+        arrayList_spinner.add(new SpinnerData_Toolbar("Teacher Planet", R.drawable.icon_teacher, R.drawable.icon_arrow_teacher, "Y"));
+        arrayList_spinner.add(new SpinnerData_Toolbar("Student Planet", R.drawable.icon_student, R.drawable.icon_arrow_student, "N"));
 
         spinner = findViewById(R.id.sp_toolbar);
 
         adapter_toolbar = new SpinnerAdapter_Toolbar(arrayList_spinner, mContext);
 
         spinner.setAdapter(adapter_toolbar);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SaveSharedPreference.setPrefTalentFlag(mContext, arrayList_spinner.get(position).getTalentFlag());
+                getCateList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         if (SaveSharedPreference.getFcmToken(mContext) == null || SaveSharedPreference.getFcmToken(mContext).isEmpty()) {
             SaveSharedPreference.setPrefFcmToken(mContext, FirebaseInstanceId.getInstance().getToken());
@@ -144,8 +156,7 @@ public class MainActivity extends AppCompatActivity {
         isAlaram = true;
 
         makeTestTalentArr();
-        //getCateList();
-        talentFlag = "Y";
+
         //기본 값
         mentorClicked = true;
         findViewById(R.id.inc_list3x5_home).setVisibility(View.VISIBLE);
@@ -193,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MainActivity_TalentList.class);
                 String talentName = et_search_home.getText().toString();
                 intent.putExtra("talentName", talentName);
-                intent.putExtra("talentFlag", talentFlag);
                 intent.putExtra("isSearch", true);
                 startActivity(intent);
             }
@@ -261,7 +271,6 @@ public class MainActivity extends AppCompatActivity {
             btn_mentee_home.setBackgroundColor(getResources().getColor(R.color.bgr_gray));
             btn_mentee_home.setTextColor(getResources().getColor(R.color.txt_gray));
             btn_mentee_home.setTypeface(null, Typeface.NORMAL);
-            talentFlag = "Y";
             getCateList();
         }
         else
@@ -272,7 +281,6 @@ public class MainActivity extends AppCompatActivity {
             btn_mentor_home.setBackgroundColor(getResources().getColor(R.color.bgr_gray));
             btn_mentor_home.setTextColor(getResources().getColor(R.color.txt_gray));
             btn_mentor_home.setTypeface(null, Typeface.NORMAL);
-            talentFlag = "N";
             getCateList();
         }
     }
@@ -350,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
                     String talentName = (String) textView.getText();
                     intent.putExtra("talentName", obj.getTitle());
                     intent.putExtra("cateCode", obj.getCateCode());
-                    intent.putExtra("talentFlag", talentFlag);
+                    intent.putExtra("talentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
                     intent.putExtra("hasFlag", obj.hasFlag());
                     if(obj.getHashtag() != null) {
                         intent.putExtra("hashtag", obj.getHashtag());
@@ -440,7 +448,6 @@ public class MainActivity extends AppCompatActivity {
                     String talentName = (String) textView.getText();
                     intent.putExtra("talentName", obj.getTitle());
                     intent.putExtra("cateCode", obj.getCateCode());
-                    intent.putExtra("talentFlag", talentFlag);
                     intent.putExtra("hasFlag", obj.hasFlag());
                     if(obj.getHashtag() != null) {
                         intent.putExtra("hashtag", obj.getHashtag());
@@ -524,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
-                params.put("TalentFlag", talentFlag);
+                params.put("TalentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
                 params.put("UserID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }

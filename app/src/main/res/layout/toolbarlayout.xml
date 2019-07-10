@@ -37,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:overlapAnchor="false"
+        android:layout_centerInParent="true"
         android:background="@color/transparent">
 
     </Spinner>
@@ -49,6 +50,7 @@
         android:text="HOME"
         android:textColor="@color/bgr_mainColor"
         android:textSize="16dp"
+        android:visibility="gone"
         />
 
     <ImageView

@@ -61,6 +61,7 @@ public class SaveSharedPreference{
     static final String PREF_MESSAGE_PUSH_GRANT = "messagePushGrant";
     static final String PREF_CONDITION_PUSH_GRANT = "conditionPushGrant";
     static final String PREF_ANSWER_PUSH_GRANT = "answerPushGrant";
+    static final String PREF_TALENT_FLAG = "talentFlag";
     static String myPicturePath = null;
     static String myThumbPicturePath = null;
     static String fcmToken = null;
@@ -70,6 +71,7 @@ public class SaveSharedPreference{
     public static final String NONE_STATE = "NONE";
 
     public static final String CONNECTION_CONFIRM_CLIENT_URL = "http://clients3.google.com/generate_204";
+
 
     static DrawerLayout slidingMenuDL;
     static View drawerView;
@@ -140,6 +142,12 @@ public class SaveSharedPreference{
     public static void setPrefUserDescription(Context ctx, String txt){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PREF_USER_DESCRIPTION, txt);
+        editor.commit();
+    }
+
+    public static void setPrefTalentFlag(Context ctx, String talentFlag){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_TALENT_FLAG, talentFlag);
         editor.commit();
     }
 
@@ -219,6 +227,10 @@ public class SaveSharedPreference{
 
     public static String getPrefUserDescription(Context ctx){
         return getSharedPreferences(ctx).getString(PREF_USER_DESCRIPTION, "");
+    }
+
+    public static String getPrefTalentFlag(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_TALENT_FLAG, "");
     }
 
     public static void clearUserInfo(Context ctx){
@@ -499,5 +511,9 @@ public class SaveSharedPreference{
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static boolean isTeacher(Context ctx){
+        return getPrefTalentFlag(ctx).equals("Y");
     }
 }

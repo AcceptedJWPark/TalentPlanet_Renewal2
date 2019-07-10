@@ -141,6 +141,7 @@ public class MainActivity_Login extends AppCompatActivity {
                                 Intent intent = new Intent(getBaseContext(), accepted.talentplanet_renewal2.Home.MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra("Activity", true);
+                                SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
                                 startActivity(intent);
                             }
                         },500);

@@ -75,7 +75,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
         // 인텐트 엑스트라 받기
         titleTxt = intent.getStringExtra("talentName");
         cateCode = intent.getIntExtra("cateCode", 0);
-        talentFlag = intent.getStringExtra("talentFlag");
+        talentFlag = SaveSharedPreference.getPrefTalentFlag(mContext);
         hasFlag = intent.getBooleanExtra("hasFlag", false);
         if(hasFlag) {
             if(intent.hasExtra("hashtag")) {

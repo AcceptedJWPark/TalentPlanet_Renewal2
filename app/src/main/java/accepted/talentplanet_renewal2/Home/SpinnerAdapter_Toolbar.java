@@ -1,6 +1,7 @@
 package accepted.talentplanet_renewal2.Home;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,12 @@ public class SpinnerAdapter_Toolbar extends BaseAdapter {
             SpinnerData_Toolbar item = items.get(position);
             ((ImageView)convertView.findViewById(R.id.iv_spinner_icon)).setImageDrawable(mContext.getDrawable(item.getImageID()));
             ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setText(item.getText());
-            ((ImageView)convertView.findViewById(R.id.iv_spinner_arrow)).setImageDrawable(mContext.getDrawable(item.getImageID()));
+            ((ImageView)convertView.findViewById(R.id.iv_spinner_arrow)).setImageDrawable(mContext.getDrawable(item.getArrowID()));
+            if(item.getText().equals("Teacher Planet")){
+                ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#28364A"));
+            }else{
+                ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#FFC35E"));
+            }
         }
 
         return convertView;
@@ -54,6 +60,11 @@ public class SpinnerAdapter_Toolbar extends BaseAdapter {
             SpinnerData_Toolbar item = items.get(position);
             ((ImageView)convertView.findViewById(R.id.iv_spinner_icon)).setImageDrawable(mContext.getDrawable(item.getImageID()));
             ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setText(item.getText());
+            if(item.getText().equals("Teacher Planet")){
+                ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#28364A"));
+            }else{
+                ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#FFC35E"));
+            }
         }
 
         return convertView;

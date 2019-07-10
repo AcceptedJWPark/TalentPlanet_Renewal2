@@ -3,10 +3,14 @@ package accepted.talentplanet_renewal2.Home;
 public class SpinnerData_Toolbar {
     String text;
     int imageID;
+    int arrowID;
+    String talentFlag;
 
-    public SpinnerData_Toolbar(String text, int imageID) {
+    public SpinnerData_Toolbar(String text, int imageID, int arrowID, String talentFlag) {
         this.text = text;
         this.imageID = imageID;
+        this.arrowID = arrowID;
+        this.talentFlag = talentFlag;
     }
 
     public String getText() {
@@ -23,5 +27,21 @@ public class SpinnerData_Toolbar {
 
     public void setImageID(int imageID) {
         this.imageID = imageID;
+    }
+
+    public int getArrowID() {
+        return arrowID;
+    }
+
+    public void setArrowID(int arrowID) {
+        this.arrowID = arrowID;
+    }
+
+    public String getTalentFlag() {
+        return talentFlag;
+    }
+
+    public void setTalentFlag(String talentFlag) {
+        this.talentFlag = talentFlag;
     }
 }
