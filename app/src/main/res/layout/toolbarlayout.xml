@@ -53,16 +53,31 @@
         android:visibility="gone"
         />
 
-    <ImageView
-        android:id="@+id/img_rightbtn"
+    <RelativeLayout
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:src="@drawable/icon_search_teacher"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        />
+        >
+            <ImageView
+                android:id="@+id/img_rightbtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/icon_alarm_toolbar"
+                />
 
+        <ImageView
+            android:id="@+id/img_alarm"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/icon_newalarm"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            />
+
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_remove"

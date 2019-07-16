@@ -45,15 +45,141 @@
             </android.support.v7.widget.Toolbar>
 
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/bgr_home_teacher"
+                >
+
+            <ImageView
+                android:id="@+id/img_bgr_home"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#64000000"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                        android:id="@+id/txt_line1_bgr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="당신의"
+                        android:textColor="#fff"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        />
+
+                        <TextView
+                        android:id="@+id/txt_line2_bgr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" 재능"
+                        android:textColor="#fff"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        />
+
+                        <TextView
+                            android:id="@+id/txt_line3_bgr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="을기다립니다."
+                        android:textColor="#fff"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        />
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/txt_line4_bgr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="지금 바로"
+                            android:textColor="#fff"
+                            android:textSize="15dp"
+                            android:textStyle="bold"
+                            />
+
+                        <TextView
+                            android:id="@+id/txt_line5_bgr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 학생"
+                            android:textColor="#fff"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
+                            />
+
+                        <TextView
+                            android:id="@+id/txt_line6_bgr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="들을 찾아보세요!"
+                            android:textColor="#fff"
+                            android:textSize="15dp"
+                            android:textStyle="bold"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="10dp"
+                    >
+                <TextView
+                    android:id="@+id/txt_line7_bgr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Teacher 재능 등록하기"
+                    android:textColor="#fff"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/icon_arrow_right"
+                        android:tint="#fff"
+                        />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
             <LinearLayout
+                android:id="@+id/ll_bgr_talentcate"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:background="@color/color_mentor"
@@ -75,6 +201,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_career_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_career"
@@ -82,6 +209,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_career_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="취업"
@@ -100,6 +228,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_money_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_money"
@@ -107,6 +236,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_money_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="재테크"
@@ -125,6 +255,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_living_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_living"
@@ -132,6 +263,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_living_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="생활"
@@ -150,6 +282,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_travel_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_travel"
@@ -157,9 +290,10 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_travel_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="생활"
+                            android:text="여행"
                             android:gravity="center"
                             android:textColor="#fff"
                             />
@@ -175,6 +309,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_study_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_study"
@@ -182,6 +317,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_study_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="학습"
@@ -208,6 +344,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_volunteer_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_volunteer"
@@ -215,6 +352,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_volunteer_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="봉사활동"
@@ -233,6 +371,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_it_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_it"
@@ -240,6 +379,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_it_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="IT"
@@ -258,6 +398,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_culture_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_culture"
@@ -265,6 +406,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_culture_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="문화"
@@ -283,6 +425,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_sports_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_sports"
@@ -290,6 +433,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_sports_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="운동"
@@ -308,6 +452,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_music_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_music"
@@ -315,6 +460,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_music_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="음악"
@@ -341,6 +487,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_camera_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_camera"
@@ -348,6 +495,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_camera_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="사진"
@@ -366,6 +514,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_beauty_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_beauty"
@@ -373,6 +522,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_beauty_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="뷰티"
@@ -391,6 +541,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_design_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_design"
@@ -398,6 +549,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_design_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="미술"
@@ -416,6 +568,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_game_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/icon_game"
@@ -423,6 +576,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/txt_game_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="게임"
@@ -441,12 +595,14 @@
                         >
 
                         <ImageView
+                            android:id="@+id/img_search_home"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:scaleType="fitXY"
                             />
 
                         <TextView
+                            android:id="@+id/txt_search_home"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="검색"
@@ -462,7 +618,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="110dp"
                 android:orientation="vertical"
                 >
 
@@ -470,9 +626,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="# 요즘 뜨는 재능 분야"
-                    android:textColor="@color/color_mentor"
-                    android:textSize="12dp"
-                    android:layout_marginTop="10dp"
+                    android:textColor="#000"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
                     android:paddingLeft="5dp"
                     />
 
@@ -514,11 +671,91 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_bgr_addcate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/color_mentor"
                 >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingLeft="30dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/txt_line1_addcate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="나의 재능이 이곳에 없다면?"
+                        android:textColor="#fff"
+                        android:textStyle="bold"
+                        android:textSize="14dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/txt_line2_addcate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="지금 바로 등록하세요!"
+                        android:textColor="#fff"
+                        android:textStyle="bold"
+                        android:textSize="14dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        >
+
+                    <TextView
+                        android:id="@+id/txt_line3_addcate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="카테고리 추가 신청하러 가기"
+                        android:textColor="#fff"
+                        android:textStyle="bold"
+                        android:textSize="12dp"
+                        />
+
+                        <ImageView
+                            android:id="@+id/img_arrow_addcate"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/icon_arrow_right"
+                            android:tint="#fff"
+                            />
+
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    >
+
+                    <ImageView
+                        android:id="@+id/img_addcate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/icon_addcate_teacher"
+                        android:padding="20dp"
+                        />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>

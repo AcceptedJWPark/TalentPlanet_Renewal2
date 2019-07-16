@@ -4,22 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,10 +36,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.Condition.MainActivity_Condition;
@@ -51,36 +47,25 @@ import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.TalentBox.MainActivity_TalentBox;
-import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
 import accepted.talentplanet_renewal2.VolleySingleton;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
-import static android.view.Gravity.CENTER;
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class MainActivity extends AppCompatActivity {
 
     Context mContext;
 
-    ScrollView sv1x15;
-    LinearLayout ll3x5;
-    LinearLayout ll1x15;
-    ImageView img3x5;
-    ImageView img1x15;
     ImageView img_open_dl;
     TextView tv_user_dl;
     TextView tv_email_dl;
 
-    EditText et_search_home;
+    ImageView[] iv_talentCate = new ImageView[15];
+    TextView[] tv_talentCate = new TextView[15];
+
 
     DrawerLayout dl;
     View v_drawerlayout;
-
-    Button btn_mentor_home;
-    Button btn_mentee_home;
-    Button btn_search_home;
 
     boolean mentorClicked;
 
@@ -101,6 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
         mContext=getApplicationContext();
 
+
+
+
+
         arrayList_spinner = new ArrayList<>();
         arrayList_spinner.add(new SpinnerData_Toolbar("Teacher Planet", R.drawable.icon_teacher, R.drawable.icon_arrow_teacher, "Y"));
         arrayList_spinner.add(new SpinnerData_Toolbar("Student Planet", R.drawable.icon_student, R.drawable.icon_arrow_student, "N"));
@@ -115,6 +104,18 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SaveSharedPreference.setPrefTalentFlag(mContext, arrayList_spinner.get(position).getTalentFlag());
                 getCateList();
+
+                if(position==0)
+                {
+                    Toast.makeText(mContext,"티쳐",Toast.LENGTH_SHORT).show();
+                    selectTeacher();
+
+                }else
+                    {
+                    Toast.makeText(mContext,"학생",Toast.LENGTH_SHORT).show();
+                    selectStudent();
+                    }
+
             }
 
             @Override
@@ -441,6 +442,104 @@ public class MainActivity extends AppCompatActivity {
 
         postRequestQueue.add(postJsonRequest);
 
+    }
+
+    public void selectTeacher()
+    {
+        talentCateFindView();
+        Glide.with(mContext).load(R.drawable.bgr_home_teacher).into((ImageView)findViewById(R.id.img_bgr_home));
+        ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+        ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+        ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(WHITE);
+        ((ImageView)findViewById(R.id.img_addcate)).setImageResource(R.drawable.icon_addcate_teacher);
+
+        ((LinearLayout)findViewById(R.id.ll_bgr_talentcate)).setBackgroundResource(R.color.color_mentor);
+        ((LinearLayout)findViewById(R.id.ll_bgr_addcate)).setBackgroundResource(R.color.color_mentor);
+
+        ((TextView)findViewById(R.id.txt_line1_bgr)).setText("당신의");
+        ((TextView)findViewById(R.id.txt_line2_bgr)).setText(" 재능");
+        ((TextView)findViewById(R.id.txt_line3_bgr)).setText("을 기다립니다.");
+        ((TextView)findViewById(R.id.txt_line4_bgr)).setText("지금 바로");
+        ((TextView)findViewById(R.id.txt_line5_bgr)).setText(" 학생");
+        ((TextView)findViewById(R.id.txt_line6_bgr)).setText("들을 찾아보세요!");
+        ((TextView)findViewById(R.id.txt_line7_bgr)).setText("Teacher 재능 등록하기");
+
+
+        ((TextView)findViewById(R.id.txt_line1_addcate)).setTextColor(WHITE);
+        ((TextView)findViewById(R.id.txt_line2_addcate)).setTextColor(WHITE);
+        ((TextView)findViewById(R.id.txt_line3_addcate)).setTextColor(WHITE);
+
+        for(int i=0; i<tv_talentCate.length; i++)
+        {
+            tv_talentCate[i].setTextColor(WHITE);
+            iv_talentCate[i].setColorFilter(WHITE);
+        }
+    }
+
+    public void selectStudent()
+    {
+        talentCateFindView();
+        Glide.with(mContext).load(R.drawable.bgr_home_student).into((ImageView)findViewById(R.id.img_bgr_home));
+        ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+        ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+        ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+        ((ImageView)findViewById(R.id.img_addcate)).setImageResource(R.drawable.icon_addcate_student);
+
+        ((LinearLayout)findViewById(R.id.ll_bgr_talentcate)).setBackgroundResource(R.color.color_mentee);
+        ((LinearLayout)findViewById(R.id.ll_bgr_addcate)).setBackgroundResource(R.color.color_mentee);
+
+        ((TextView)findViewById(R.id.txt_line1_bgr)).setText("당신의");
+        ((TextView)findViewById(R.id.txt_line2_bgr)).setText(" 배움");
+        ((TextView)findViewById(R.id.txt_line3_bgr)).setText("을 응원합니다.");
+        ((TextView)findViewById(R.id.txt_line4_bgr)).setText("지금 바로");
+        ((TextView)findViewById(R.id.txt_line5_bgr)).setText(" 선생님");
+        ((TextView)findViewById(R.id.txt_line6_bgr)).setText("을 찾아보세요!");
+        ((TextView)findViewById(R.id.txt_line7_bgr)).setText("Student 재능 등록하기");
+
+        ((TextView)findViewById(R.id.txt_line1_addcate)).setTextColor(BLACK);
+        ((TextView)findViewById(R.id.txt_line2_addcate)).setTextColor(BLACK);
+        ((TextView)findViewById(R.id.txt_line3_addcate)).setTextColor(BLACK);
+
+
+        for(int i=0; i<tv_talentCate.length; i++)
+        {
+            tv_talentCate[i].setTextColor(BLACK);
+            iv_talentCate[i].setColorFilter(BLACK);
+        }
+    }
+
+    public void talentCateFindView()
+    {
+        iv_talentCate[0] = findViewById(R.id.img_career_home);
+        iv_talentCate[1] = findViewById(R.id.img_money_home);
+        iv_talentCate[2] = findViewById(R.id.img_living_home);
+        iv_talentCate[3] = findViewById(R.id.img_travel_home);
+        iv_talentCate[4] = findViewById(R.id.img_study_home);
+        iv_talentCate[5] = findViewById(R.id.img_volunteer_home);
+        iv_talentCate[6] = findViewById(R.id.img_it_home);
+        iv_talentCate[7] = findViewById(R.id.img_culture_home);
+        iv_talentCate[8] = findViewById(R.id.img_sports_home);
+        iv_talentCate[9] = findViewById(R.id.img_music_home);
+        iv_talentCate[10] = findViewById(R.id.img_camera_home);
+        iv_talentCate[11] = findViewById(R.id.img_beauty_home);
+        iv_talentCate[12] = findViewById(R.id.img_design_home);
+        iv_talentCate[13] = findViewById(R.id.img_game_home);
+        iv_talentCate[14] = findViewById(R.id.img_search_home);
+        tv_talentCate[0] = findViewById(R.id.txt_career_home);
+        tv_talentCate[1] = findViewById(R.id.txt_money_home);
+        tv_talentCate[2] = findViewById(R.id.txt_living_home);
+        tv_talentCate[3] = findViewById(R.id.txt_travel_home);
+        tv_talentCate[4] = findViewById(R.id.txt_study_home);
+        tv_talentCate[5] = findViewById(R.id.txt_volunteer_home);
+        tv_talentCate[6] = findViewById(R.id.txt_it_home);
+        tv_talentCate[7] = findViewById(R.id.txt_culture_home);
+        tv_talentCate[8] = findViewById(R.id.txt_sports_home);
+        tv_talentCate[9] = findViewById(R.id.txt_music_home);
+        tv_talentCate[10] = findViewById(R.id.txt_camera_home);
+        tv_talentCate[11] = findViewById(R.id.txt_beauty_home);
+        tv_talentCate[12] = findViewById(R.id.txt_design_home);
+        tv_talentCate[13] = findViewById(R.id.txt_game_home);
+        tv_talentCate[14] = findViewById(R.id.txt_search_home);
     }
 
     @Override

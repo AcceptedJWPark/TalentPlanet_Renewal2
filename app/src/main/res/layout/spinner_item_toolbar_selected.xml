@@ -19,6 +19,8 @@
         android:layout_height="match_parent"
         android:paddingLeft="5dp"
         android:fontFamily="@font/aspeed"
+        android:textSize="16dp"
+        android:textStyle="bold"
         android:gravity="center"/>
 
     <ImageView
