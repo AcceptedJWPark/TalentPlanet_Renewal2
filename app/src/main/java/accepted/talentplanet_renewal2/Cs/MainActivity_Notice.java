@@ -3,14 +3,12 @@ package accepted.talentplanet_renewal2.Cs;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import accepted.talentplanet_renewal2.R;
 
@@ -22,7 +20,7 @@ public class MainActivity_Notice extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cs2);
+        setContentView(R.layout.customerservice_notice_activity);
 
         Intent intent = getIntent();
         String title = intent.getStringExtra("ctgrTitle");

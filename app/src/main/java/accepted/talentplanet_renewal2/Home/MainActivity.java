@@ -3,7 +3,6 @@ package accepted.talentplanet_renewal2.Home;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
@@ -13,12 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +44,6 @@ import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
-import accepted.talentplanet_renewal2.TalentBox.MainActivity_TalentBox;
 import accepted.talentplanet_renewal2.VolleySingleton;
 
 import static android.graphics.Color.BLACK;
@@ -82,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.home_activity);
 
         mContext=getApplicationContext();
 
@@ -95,9 +92,7 @@ public class MainActivity extends AppCompatActivity {
         arrayList_spinner.add(new SpinnerData_Toolbar("Student Planet", R.drawable.icon_student, R.drawable.icon_arrow_student, "N"));
 
         spinner = findViewById(R.id.sp_toolbar);
-
         adapter_toolbar = new SpinnerAdapter_Toolbar(arrayList_spinner, mContext);
-
         spinner.setAdapter(adapter_toolbar);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -108,11 +103,22 @@ public class MainActivity extends AppCompatActivity {
                 if(position==0)
                 {
                     Toast.makeText(mContext,"티쳐",Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Window window = getWindow();
+                        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                        window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+                    }
+
                     selectTeacher();
 
                 }else
                     {
                     Toast.makeText(mContext,"학생",Toast.LENGTH_SHORT).show();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            Window window = getWindow();
+                            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+                        }
                     selectStudent();
                     }
 
@@ -133,6 +139,13 @@ public class MainActivity extends AppCompatActivity {
         dl = (DrawerLayout)findViewById(R.id.drawerlayout);
         v_drawerlayout=findViewById(R.id.view_drawerlayout);
 
+        img_open_dl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.openDrawer(v_drawerlayout);
+            }
+        });
+
         tv_user_dl = findViewById(R.id.tv_user_dl);
         tv_email_dl = findViewById(R.id.tv_email_dl);
 
@@ -141,9 +154,10 @@ public class MainActivity extends AppCompatActivity {
         tv_user_dl.setText(userName);
         tv_email_dl.setText(userId);
 
+
+
         drawerlayoutEvent(mContext);
         isAlaram = true;
-
         makeTestTalentArr();
 
         //기본 값
@@ -299,38 +313,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //
-        ((LinearLayout)findViewById(R.id.ll_recive_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dl.closeDrawers();
-                ((LinearLayout)findViewById(R.id.ll_click_talent_dl)).setVisibility(View.GONE);
-                ((LinearLayout)findViewById(R.id.ll_second)).setVisibility(View.VISIBLE);
-                Intent intent = new Intent(context, MainActivity_TalentBox.class);
-                intent.putExtra("requestType", "recive");
-                startActivity(intent);
-            }
-        });
-
-
-        ((LinearLayout)findViewById(R.id.ll_send_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dl.closeDrawers();
-                ((LinearLayout)findViewById(R.id.ll_click_talent_dl)).setVisibility(View.GONE);
-                ((LinearLayout)findViewById(R.id.ll_second)).setVisibility(View.VISIBLE);
-                Intent intent = new Intent(context, MainActivity_TalentBox.class);
-                intent.putExtra("requestType", "send");
-                startActivity(intent);
-            }
-        });
 
 
 
         ((LinearLayout)findViewById(R.id.ll_talentbox_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((LinearLayout)findViewById(R.id.ll_click_talent_dl)).setVisibility(View.VISIBLE);
-                ((LinearLayout)findViewById(R.id.ll_second)).setVisibility(View.GONE);
             }
         });
 
@@ -453,6 +441,7 @@ public class MainActivity extends AppCompatActivity {
         ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(WHITE);
         ((ImageView)findViewById(R.id.img_addcate)).setImageResource(R.drawable.icon_addcate_teacher);
 
+
         ((LinearLayout)findViewById(R.id.ll_bgr_talentcate)).setBackgroundResource(R.color.color_mentor);
         ((LinearLayout)findViewById(R.id.ll_bgr_addcate)).setBackgroundResource(R.color.color_mentor);
 
@@ -469,11 +458,15 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.txt_line2_addcate)).setTextColor(WHITE);
         ((TextView)findViewById(R.id.txt_line3_addcate)).setTextColor(WHITE);
 
-        for(int i=0; i<tv_talentCate.length; i++)
+        for(int i=0; i<tv_talentCate.length-1; i++)
         {
             tv_talentCate[i].setTextColor(WHITE);
             iv_talentCate[i].setColorFilter(WHITE);
         }
+        tv_talentCate[14].setTextColor(WHITE);
+        iv_talentCate[14].setImageResource(R.drawable.icon_search_teacher);
+
+
     }
 
     public void selectStudent()
@@ -500,12 +493,13 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.txt_line2_addcate)).setTextColor(BLACK);
         ((TextView)findViewById(R.id.txt_line3_addcate)).setTextColor(BLACK);
 
-
-        for(int i=0; i<tv_talentCate.length; i++)
+        for(int i=0; i<tv_talentCate.length-1; i++)
         {
             tv_talentCate[i].setTextColor(BLACK);
             iv_talentCate[i].setColorFilter(BLACK);
         }
+        tv_talentCate[14].setTextColor(BLACK);
+        iv_talentCate[14].setImageResource(R.drawable.icon_search_student);
     }
 
     public void talentCateFindView()

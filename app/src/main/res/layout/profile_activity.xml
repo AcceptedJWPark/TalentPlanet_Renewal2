@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_profilebg_profile"
+    android:background="#fff"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+
+
+        <ImageView
+            android:id="@+id/iv_talent_profile"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:src="@drawable/pic_design"
+            />
+
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:fitsSystemWindows="true"
+        >
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/toolbarlayout_profile"/>
+    </android.support.v7.widget.Toolbar>
+
+
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="5dp"
+                >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/icon_heart" />
+
+                <TextView
+                    android:id="@+id/tv_tag_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:textSize="18dp"
+                    android:textColor="#28364a"
+                    android:text="#수채화 #어반스케치 #watercolour"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_description_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="30dp"
+                android:textSize="14dp"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="#fff"
+                android:textColor="#000"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:lineSpacingExtra="10dp"
+                android:text="면접위원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 위원의 위원의 위원의 위원의 위원의 위원의 전체 평정 위원의 위원의 위원의 위원의 위원의 위원의 전체 평정 위원의 위원의 위원의 위원의 위원의 위원의 전체 평정 성적(상․중․하 개수)을 집계하여 ‘중’, ‘하’의 개수와 관계없이 ‘상’의 개수가 많은 순으로 순위를 정하고, ‘상’의 개수가 동일한 경우에는 ‘중’의 개수가 많은 자에게 선순위 부여"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#fff"
+            >
+            <TextView
+                android:id="@+id/tv_showdetail_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_mentor"
+                android:text="자세히 보기"
+                android:textSize="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        >
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/color_mentee"
+        android:layout_marginTop="70dp"
+        android:paddingBottom="20dp">
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/cimg_pic_profile"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/pic_sample"
+            android:layout_marginTop="20dp"
+            app:civ_border_color="#fff"
+            app:civ_border_width="2dp"
+            android:visibility="gone"
+            />
+
+            <TextView
+                android:id="@+id/tv_name_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="박종우"
+                android:gravity="center"
+                android:textColor="@color/color_mentor"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_marginTop="100dp"
+                />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+
+
+            <ImageView
+                android:id="@+id/img_gender_profile"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_male"
+                android:tint="@color/color_mentor"
+                />
+
+
+            <TextView
+                android:id="@+id/tv_birth_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="1991.01.23"
+                android:gravity="center"
+                android:textColor="@color/color_mentor"
+                android:textSize="14dp"
+                android:layout_marginLeft="5dp"
+                />
+
+        </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+
+
+                <ImageView
+                    android:id="@+id/img_mappointer"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/icon_mappointer"
+                    android:tint="@color/color_mentor"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="경기도 고양시 일산동구 장항동"
+                    android:gravity="center"
+                    android:textColor="@color/color_mentor"
+                    android:textSize="14dp"
+                    android:layout_marginLeft="5dp"
+                    />
+            </LinearLayout>
+
+
+
+
+
+        <TextView
+            android:id="@+id/tv_profile_description"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="김재환 안녕하세요, 당신이 모르는 김재환의 진짜 이야기"
+            android:gravity="center"
+            android:textColor="@color/color_mentor"
+            android:maxLines="1"
+            android:textSize="14dp"
+            />
+
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                >
+
+              <LinearLayout
+                  android:layout_width="100dp"
+                  android:layout_height="140dp"
+                  android:gravity="center"
+                  >
+
+                  <ImageView
+                      android:layout_width="40dp"
+                      android:layout_height="40dp"
+                      android:src="@drawable/icon_message2"
+                      android:tint="@color/color_mentor"
+                      />
+
+              </LinearLayout>
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/pic_sample"
+                app:civ_border_color="#fff"
+                app:civ_border_width="2dp"
+                android:layout_centerInParent="true"
+                />
+
+                <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:gravity="center"
+                    android:layout_alignParentRight="true"
+                    >
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/icon_share"
+                        android:tint="@color/color_mentor"
+                        />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_gauge"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="false"
+                android:layout_marginTop="5dp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

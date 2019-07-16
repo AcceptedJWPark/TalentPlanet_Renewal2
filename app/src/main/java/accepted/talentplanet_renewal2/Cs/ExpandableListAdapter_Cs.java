@@ -9,7 +9,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import accepted.talentplanet_renewal2.R;
 
@@ -65,7 +64,7 @@ public class ExpandableListAdapter_Cs extends BaseExpandableListAdapter {
             if (inflater == null) {
                 inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             }
-            convertView = inflater.inflate(R.layout.list_cs, parent, false);
+            convertView = inflater.inflate(R.layout.customerservice_exlist_bg, parent, false);
         }
 
         // ParentList의 Layout 연결 후, 해당 layout 내 TextView를 연결
@@ -85,7 +84,7 @@ public class ExpandableListAdapter_Cs extends BaseExpandableListAdapter {
             if (inflater == null) {
                 inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             }
-            convertView = inflater.inflate(R.layout.list_list_cs, null);
+            convertView = inflater.inflate(R.layout.customerservice_list_bg, null);
         }
 
         // ParentList의 Layout 연결 후, 해당 layout 내 TextView를 연결

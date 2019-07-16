@@ -2,7 +2,6 @@ package accepted.talentplanet_renewal2.JoinLogin;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -77,7 +76,7 @@ public class MainActivity_Join extends AppCompatActivity {
 
         mContext = getApplicationContext();
         malecheck=false;
-        setContentView(R.layout.activity_join);
+        setContentView(R.layout.join_activity);
 
         // 기본 변수 정의
         et_email_join = findViewById(R.id.et_email_join);

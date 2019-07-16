@@ -18,12 +18,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,7 +55,7 @@ public class condition_proc_Fragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.activity_condition_proc_fragment, container, false);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.condition_proc_fragment, container, false);
 
         Button btn_next_mentor = ((Button)layout.findViewById(R.id.btn_next_mentor_proc_condition));
         Button btn_cancel_mentor = ((Button)layout.findViewById(R.id.btn_cancel_mentor_proc_condition));

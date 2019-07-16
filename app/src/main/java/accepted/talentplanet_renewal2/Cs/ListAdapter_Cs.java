@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import accepted.talentplanet_renewal2.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -49,7 +48,7 @@ public class ListAdapter_Cs extends BaseAdapter {
             if (inflater == null) {
                 inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             }
-            convertView = inflater.inflate(R.layout.list_cs, parent, false);
+            convertView = inflater.inflate(R.layout.customerservice_exlist_bg, parent, false);
         }
 
         TextView oTextTitle = (TextView) convertView.findViewById(R.id.tv_ctgrName);

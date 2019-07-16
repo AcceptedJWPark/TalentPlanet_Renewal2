@@ -69,8 +69,8 @@
 
         <ImageView
             android:id="@+id/img_alarm"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
             android:src="@drawable/icon_newalarm"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"

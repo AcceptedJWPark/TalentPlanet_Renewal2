@@ -42,7 +42,7 @@ public class ListAdapter_Friend extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_friend, parent, false);
+            convertView = inflater.inflate(R.layout.friend_list_bg, parent, false);
         }
 
         TextView oTextTitle = (TextView) convertView.findViewById(R.id.userName);

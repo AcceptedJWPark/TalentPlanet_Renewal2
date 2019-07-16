@@ -32,7 +32,7 @@ public class SpinnerAdapter_Toolbar extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.spinner_item_toolbar_selected, parent, false);
+            convertView = inflater.inflate(R.layout.toolbar_spinner_selecteditem, parent, false);
         }
 
         if(items.get(position) != null){
@@ -53,7 +53,7 @@ public class SpinnerAdapter_Toolbar extends BaseAdapter {
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent){
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.spinner_item_toolbar, parent, false);
+            convertView = inflater.inflate(R.layout.toolbar_spinner_item, parent, false);
         }
 
         if(items.get(position) != null){

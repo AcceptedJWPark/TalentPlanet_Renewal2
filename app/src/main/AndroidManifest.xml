@@ -40,7 +40,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC3yIIQ6yAN3jfkLmzFY5NyqxVBA21AkQg" />
 
-
         //로그인으로 변경할 때 AppTheme 변경해야 함.//
 
         <activity
@@ -59,10 +58,7 @@
             android:name=".JoinLogin.MainActivity_Login"
             android:theme="@style/AppThemeLogin" />
         <activity
-            android:name=".Profile.MainActivity_Profile"
-            android:theme="@style/AppTheme_Home" />
-        <activity
-            android:name=".Profile.MainActivity_NewTalent"
+            android:name=".TalentList.MainActivity_TalentList"
             android:theme="@style/AppTheme_Home" />
         <activity
             android:name=".FriendList.MainActivity_Friend"
@@ -75,8 +71,9 @@
             android:theme="@style/AppTheme_Home" />
         <activity android:name=".Cs.MainActivity_Notice" />
         <activity
-            android:name=".TalentList.MainActivity_TalentList"
+            android:name=".Profile.MainActivity_Profile"
             android:theme="@style/AppTheme_Home" />
+
         <activity
             android:name=".Messanger.List.MainActivity"
             android:theme="@style/AppTheme_Home" />
@@ -89,13 +86,6 @@
         <activity
             android:name=".Cs.Claim.MainActivity"
             android:theme="@style/AppTheme_Home" />
-        <activity
-            android:name=".SharingList.MainActivity"
-            android:theme="@style/AppTheme_Home" />
-        <activity android:name=".Profile.MainActivity_TalentEdit" />
-        <activity android:name=".Profile.MainActivity_Detail" />
-        <activity android:name=".Cs.SubActivity_notice" />
-        <activity android:name=".TalentBox.MainActivity_TalentBox"></activity>
 
         <service
             android:name="accepted.talentplanet_renewal2.MyFirebaseMessagingService">

@@ -92,14 +92,6 @@ public class MainActivity extends AppCompatActivity {
         spn_ClaimType.setAdapter(adapter);
 
         tv_SharingList = (TextView) findViewById(R.id.tv_SharingList_Claim);
-        tv_SharingList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), accepted.talentplanet_renewal2.SharingList.MainActivity.class);
-                intent.putExtra("isClaimActivity", true);
-                startActivityForResult(intent, CLAIM_CODE);
-            }
-        });
 
         //TODO : ??
         if (isSelect) {

@@ -1,6 +1,5 @@
 package accepted.talentplanet_renewal2.Condition;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -55,7 +54,7 @@ public class condition_req_Fragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.activity_condition_req_fragment, container, false);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.condition_req_fragment, container, false);
 
         Button btn_cancel_mentor = ((Button)layout.findViewById(R.id.btn_cancel_mentor_req_condition));
         Button btn_next_mentor = ((Button)layout.findViewById(R.id.btn_next_mentor_req_condition));

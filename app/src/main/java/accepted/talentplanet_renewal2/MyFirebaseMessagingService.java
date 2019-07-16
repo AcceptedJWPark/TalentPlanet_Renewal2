@@ -31,8 +31,6 @@ import java.util.TimeZone;
 import accepted.talentplanet_renewal2.Condition.MainActivity_Condition;
 import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.JoinLogin.MainActivity_Login;
-import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
-import accepted.talentplanet_renewal2.TalentBox.MainActivity_TalentBox;
 import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
 
 import static accepted.talentplanet_renewal2.Messanger.Chatting.MainActivity.receiverID;
@@ -460,8 +458,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         intent1.putExtra("ismyMentor", "2");
                     } else {
                         alarmTxt = "멘토에게 프로필이 왔습니다.";
-                        intent1 = new Intent(this, MainActivity_TalentBox.class);
-                        intent1.putExtra("requestType", "recive");
                     }
                 }
                 break;

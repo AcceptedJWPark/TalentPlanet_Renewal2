@@ -42,7 +42,7 @@ public class MainActivity_Friend extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend);
+        setContentView(R.layout.friendlist_activity);
 
         mContext = getApplicationContext();
         ((TextView)findViewById(R.id.tv_toolbar)).setText("친구 목록");

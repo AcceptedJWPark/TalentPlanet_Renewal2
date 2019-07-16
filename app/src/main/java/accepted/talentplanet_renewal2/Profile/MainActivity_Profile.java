@@ -7,16 +7,13 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -29,20 +26,13 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,16 +44,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -72,10 +57,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -91,7 +74,6 @@ import java.util.Map;
 import accepted.talentplanet_renewal2.BuildConfig;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.GeoPoint;
-import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.MyTalent;
 import accepted.talentplanet_renewal2.PermissionUtil;
 import accepted.talentplanet_renewal2.R;
@@ -100,23 +82,15 @@ import accepted.talentplanet_renewal2.VolleyMultipartRequest;
 import accepted.talentplanet_renewal2.VolleySingleton;
 
 
-import static android.graphics.Color.WHITE;
-
-
 public class MainActivity_Profile extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener,
         GoogleMap.OnMapClickListener{
 
-    TextView tv_toolbar;
-    talentlist_viewpager vp;
+    TextView tv_toolbarprofle;
     Context mContext;
-    ViewPager.OnPageChangeListener onPageChangeListener;
-    ImageView iv_mentor_plus;
-    ImageView iv_mentee_plus;
 
-    ListView lv_point;
     RecyclerView lv_mentor_profile;
     RecyclerView lv_mentee_profile;
     private ArrayList<ItemData_Profile> userDate = new ArrayList<>();
@@ -124,19 +98,14 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     private ArrayList<TalentObject_Home> mentorTalentList;
     private ArrayList<TalentObject_Home> menteeTalentList;
 
-    ListAdapter_Point adapter;
-    ListAdapter_Talent mentorAdapter;
-    ListAdapter_Talent menteeAdapter;
-
-    RecyclerView.LayoutManager mLayoutManagerMentor;
-    RecyclerView.LayoutManager mLayoutManagerMentee;
-
     private String targetUserID;
 //    private TextView tv_profile_mentor_count, tv_profile_mentee_count;
     private TextView tv_profile_description;
     private TextView tv_birth_profile;
     private TextView tv_addr_profile;
 //    private TextView tv_profile_point;
+
+    private boolean isDetailprofile;
 
     // 지도 관련 변수
     private String keyword1, keyword2, keyword3;
@@ -182,28 +151,29 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.profile_activity);
+
+        //statusbar 변경
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+        }
+
 
         mContext = getApplicationContext();
 
-//        tv_profile_mentor_count = findViewById(R.id.tv_profile_mentor_count);
-//        tv_profile_mentee_count = findViewById(R.id.tv_profile_mentee_count);
 
         img_gender_profile = findViewById(R.id.img_gender_profile);
-
         tv_profile_description = findViewById(R.id.tv_profile_description);
         tv_birth_profile = findViewById(R.id.tv_birth_profile);
-//        tv_addr_profile = findViewById(R.id.tv_addr_profile);
-//        tv_profile_point = findViewById(R.id.tv_profile_point);
-
         img_gender_profile = findViewById(R.id.img_gender_profile);
 
         mentorTalentList = new ArrayList<>();
         menteeTalentList = new ArrayList<>();
 
-        tv_toolbar = findViewById(R.id.tv_toolbar);
-        tv_toolbar.setText("Profile");
-        ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
+        tv_toolbarprofle = findViewById(R.id.tv_toolbarprofle);
+        tv_toolbarprofle.setText("Profile");
 
         // 받은 값 구현
         Intent intent = new Intent(this.getIntent());
@@ -226,30 +196,13 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             userID = intent.getStringExtra("userID");
         }
 
-        Point pt = new Point();
-        getWindowManager().getDefaultDisplay().getSize(pt);
-        ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getSize(pt);
-        int height = pt.y;
-
-        View trash;
-        lv_point = findViewById(R.id.lv_point_profile);
-
-        lv_mentor_profile = findViewById(R.id.lv_mentor_profile);
-
-        mLayoutManagerMentor = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mLayoutManagerMentee = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
-        lv_mentor_profile.setLayoutManager(mLayoutManagerMentor);
-
         // mode 값에 따라서 보여주는 내용이 다름
         mode = SaveSharedPreference.getPrefTalentFlag(mContext);
-        getAllTalent(mode);
+//        getAllTalent(mode);
 
-        adapter = new ListAdapter_Point(userDate);
-        lv_point.setAdapter(adapter);
 
         // 뒤로가기 이벤트
-        ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
+        ((ImageView) findViewById(R.id.img_back_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -265,9 +218,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 .addApi(LocationServices.API)
                 .build();
 
-        fragmentManager = getFragmentManager();
-        mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.frg_Map_TalentRegister);
-        mapFragment.getMapAsync(this);
+//        fragmentManager = getFragmentManager();
+//        mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.frg_Map_TalentRegister);
+//        mapFragment.getMapAsync(this);
 
         createLocationRequest();
 
@@ -276,79 +229,95 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         }
 
         // 프로필 사진 관련
-        final android.support.v7.app.AlertDialog.Builder AlarmDeleteDialog = new android.support.v7.app.AlertDialog.Builder(MainActivity_Profile.this);
+//        final android.support.v7.app.AlertDialog.Builder AlarmDeleteDialog = new android.support.v7.app.AlertDialog.Builder(MainActivity_Profile.this);
+//        iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
+//        iv_cimg_pic_profile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (Build.VERSION.SDK_INT > 22) {
+//                    requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA}, 1);
+//                }
+//                AlarmDeleteDialog.setMessage("사진을 가져올 곳을 선택해주세요.")
+//                        .setPositiveButton("카메라", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                selectPhoto();
+//                                dialog.cancel();
+//                            }
+//                        })
+//                        .setNegativeButton("앨범", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                selectGallery();
+//                                dialog.cancel();
+//                            }
+//                        });
+//                android.support.v7.app.AlertDialog alertDialog = AlarmDeleteDialog.create();
+//                alertDialog.show();
+//            }
+//        });
 
-        iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
-        iv_cimg_pic_profile.setOnClickListener(new View.OnClickListener() {
+//        if (inPerson) {
+//            tv_birth_profile.setText(SaveSharedPreference.getPrefUserBirth(mContext));
+//            tv_profile_description.setText(SaveSharedPreference.getPrefUserDescription(mContext));
+//            tv_profile_description.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity_Profile.this);
+//                    ad.setTitle("자기소개 변경");
+//                    ad.setMessage("변경할 내용을 입력해 주세요.");
+//
+//                    final EditText et = new EditText(MainActivity_Profile.this);
+//
+//                    et.setText(SaveSharedPreference.getPrefUserDescription(mContext));
+//                    ad.setView(et);
+//
+//                    ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            String txt = et.getText().toString();
+//                            updateMyProfileInfo(txt);
+//                            tv_profile_description.setText(txt);
+//                            SaveSharedPreference.setPrefUserDescription(mContext, txt);
+//                        }
+//                    });
+//
+//                    ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//
+//                        }
+//                    });
+//                    ad.show();
+//                }
+//            });
+//
+//            Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+//            mCurrentLocation = new Location("");
+//            mCurrentLocation.setLatitude(Double.parseDouble(SaveSharedPreference.getPrefUserGpLat(mContext)));
+//            mCurrentLocation.setLongitude(Double.parseDouble(SaveSharedPreference.getPrefUserGpLng(mContext)));
+//            Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into((ImageView) findViewById(R.id.cimg_pic_profile));
+//        }
+//        getProfileData();
+
+        isDetailprofile = true;
+
+        ((TextView)findViewById(R.id.tv_showdetail_profile)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT > 22) {
-                    requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA}, 1);
+                if(isDetailprofile)
+                {
+                    ((TextView)findViewById(R.id.tv_showdetail_profile)).setText("간략히 보기");
+                    ((TextView) findViewById(R.id.tv_description_profile)).setMaxLines(Integer.MAX_VALUE);
+                    isDetailprofile = false;
+                }else
+                {
+                    ((TextView)findViewById(R.id.tv_showdetail_profile)).setText("자세히 보기");
+                    ((TextView) findViewById(R.id.tv_description_profile)).setMaxLines(2);
+                    isDetailprofile = true;
                 }
-                AlarmDeleteDialog.setMessage("사진을 가져올 곳을 선택해주세요.")
-                        .setPositiveButton("카메라", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                selectPhoto();
-                                dialog.cancel();
-                            }
-                        })
-                        .setNegativeButton("앨범", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                selectGallery();
-                                dialog.cancel();
-                            }
-                        });
-                android.support.v7.app.AlertDialog alertDialog = AlarmDeleteDialog.create();
-                alertDialog.show();
             }
         });
-
-        if (inPerson) {
-            tv_birth_profile.setText(SaveSharedPreference.getPrefUserBirth(mContext));
-            tv_profile_description.setText(SaveSharedPreference.getPrefUserDescription(mContext));
-            tv_profile_description.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity_Profile.this);
-                    ad.setTitle("자기소개 변경");
-                    ad.setMessage("변경할 내용을 입력해 주세요.");
-
-                    final EditText et = new EditText(MainActivity_Profile.this);
-
-                    et.setText(SaveSharedPreference.getPrefUserDescription(mContext));
-                    ad.setView(et);
-
-                    ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String txt = et.getText().toString();
-                            updateMyProfileInfo(txt);
-                            tv_profile_description.setText(txt);
-                            SaveSharedPreference.setPrefUserDescription(mContext, txt);
-                        }
-                    });
-
-                    ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    ad.show();
-                }
-            });
-
-
-            Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-
-            mCurrentLocation = new Location("");
-            mCurrentLocation.setLatitude(Double.parseDouble(SaveSharedPreference.getPrefUserGpLat(mContext)));
-            mCurrentLocation.setLongitude(Double.parseDouble(SaveSharedPreference.getPrefUserGpLng(mContext)));
-            Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into((ImageView) findViewById(R.id.cimg_pic_profile));
-        }
-        getProfileData();
     }
 
     @Override
@@ -356,169 +325,152 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         super.onResume();
     }
 
-    public static float convertDpToPixel(float dp, Context context){
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * (metrics.densityDpi / 160f);
-        return px;
-    }
-
-    private void getProfileData(){
-        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
-
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                SaveSharedPreference.getServerIp() + "Profile/getMyProfileInfo_new.do",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            final JSONObject profileData = new JSONObject(response);
-                            tv_profile_description.setText(SaveSharedPreference.getPrefUserDescription(mContext));
-
-                            tv_birth_profile.setText(SaveSharedPreference.getPrefUserBirth(mContext));
-
-                            Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-
-                            mCurrentLocation = new Location("");
-                            mCurrentLocation.setLatitude(Double.parseDouble(SaveSharedPreference.getPrefUserGpLat(mContext)));
-                            mCurrentLocation.setLongitude(Double.parseDouble(SaveSharedPreference.getPrefUserGpLng(mContext)));
-
-                            List<Address> list = null;
-                            try{
-                                list = geocoder.getFromLocation(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude() , 1);
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-
-                            if(list == null){
-                                Log.d("주소찾기", "실패");
-                            }else if(list.size() > 0){
-                                Address addr = list.get(0);
-
-                                Log.d("MyLocation", "location: " + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude() + ", " + addr.getAddressLine(0) + "," + addr.toString());
-                                setCurrentLocation(mCurrentLocation,"기존위치" , addr.getAddressLine(0));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        String gender = SaveSharedPreference.getPrefUserGender(mContext);
-                        if (gender.equals("남")) {
-                            img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
-                        } else {
-                            img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
-            }
-        }){
-            @Override
-            public Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("userID", targetUserID);
-                return params;
-            }
-        };
-
-        // Add StringRequest to the RequestQueue
-        requestQueue.add(stringRequest);
-    }
-
-    private void getAllTalent(final String talentFlag) {
-        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
-
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                SaveSharedPreference.getServerIp() + "Profile/getAllMyTalent.do",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray talentArr = new JSONArray(response);
-
-                            mentorTalentList = new ArrayList<TalentObject_Home>();
-                            menteeTalentList = new ArrayList<TalentObject_Home>();
-                            for(int i = 0; i < talentArr.length(); i++){
-                                JSONObject obj = talentArr.getJSONObject(i);
-                                TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0, obj.getString("TalentID"));
-                                item.setCateCode((int)obj.getLong("Code"));
-                                item.setUserID(obj.getString("UserID"));
-                                item.setTalentDescription(obj.getString("TalentDescription"));
-
-                                // 최초 로딩시 첫 재능을 보여주기 위한 부분
-                                if (i == 0) {
-                                    Glide.with(mActivity).load(item.getBackgroundResourceID()).into((ImageView)findViewById(R.id.iv_talent_profile));
-
-                                    findViewById(R.id.tv_tag_profile).setVisibility(View.VISIBLE);
-                                    findViewById(R.id.tv_description_profile).setVisibility(View.VISIBLE);
-
-                                    // 유저 재능내용을 가져오는 부분
-                                    String hashTagString = "";
-                                    String userText = item.getTalentDescription();
-                                    userText = userText.replaceAll("#", " #");
-                                    String[] tagParse = userText.split(" ");
-
-                                    for (int j=0;j<tagParse.length;j++) {
-                                        String aTag = tagParse[j];
-                                        if (aTag.startsWith("#")) {
-                                            hashTagString += aTag + " ";
-                                        }
-                                    }
-
-                                    hashTagString.trim();
-
-                                    ((TextView)findViewById(R.id.tv_description_profile)).setText(userText);
-                                    ((TextView)findViewById(R.id.tv_tag_profile)).setText(hashTagString);
-                                }
-
-                                if(talentFlag.equals("Y")) {
-
-                                    mentorTalentList.add(item);
-                                }else if(talentFlag.equals("N")) {
-                                    menteeTalentList.add(item);
-                                }
-
-                                friendFlag = obj.getInt("FriendFlag") > 0;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        if(talentFlag.equals("Y")){
-                            mentorAdapter = new ListAdapter_Talent(mActivity , mentorTalentList, "MENTOR", inPerson);
-                            lv_mentor_profile.setAdapter(mentorAdapter);
-
-                        }else if(talentFlag.equals("N")){
-                            menteeAdapter = new ListAdapter_Talent(mActivity, menteeTalentList, "MENTEE", inPerson);
-                            lv_mentor_profile.setAdapter(menteeAdapter);
-
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
-            }
-        }){
-            @Override
-            public Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("UserID", userID);
-                params.put("CheckUserID", SaveSharedPreference.getUserId(mContext));
-                params.put("TalentFlag", talentFlag);
-                return params;
-            }
-        };
-
-        // Add StringRequest to the RequestQueue
-        requestQueue.add(stringRequest);
-    }
+//    private void getProfileData(){
+//        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+//
+//        StringRequest stringRequest = new StringRequest(
+//                Request.Method.POST,
+//                SaveSharedPreference.getServerIp() + "Profile/getMyProfileInfo_new.do",
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        try {
+//                            final JSONObject profileData = new JSONObject(response);
+//                            tv_profile_description.setText(SaveSharedPreference.getPrefUserDescription(mContext));
+//
+//                            tv_birth_profile.setText(SaveSharedPreference.getPrefUserBirth(mContext));
+//
+//                            Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+//
+//                            mCurrentLocation = new Location("");
+//                            mCurrentLocation.setLatitude(Double.parseDouble(SaveSharedPreference.getPrefUserGpLat(mContext)));
+//                            mCurrentLocation.setLongitude(Double.parseDouble(SaveSharedPreference.getPrefUserGpLng(mContext)));
+//
+//                            List<Address> list = null;
+//                            try{
+//                                list = geocoder.getFromLocation(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude() , 1);
+//                            }catch (Exception e){
+//                                e.printStackTrace();
+//                            }
+//
+//                            if(list == null){
+//                                Log.d("주소찾기", "실패");
+//                            }else if(list.size() > 0){
+//                                Address addr = list.get(0);
+//
+//                                Log.d("MyLocation", "location: " + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude() + ", " + addr.getAddressLine(0) + "," + addr.toString());
+//                                setCurrentLocation(mCurrentLocation,"기존위치" , addr.getAddressLine(0));
+//                            }
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        String gender = SaveSharedPreference.getPrefUserGender(mContext);
+//                        if (gender.equals("남")) {
+//                            img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
+//                        } else {
+//                            img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
+//            }
+//        }){
+//            @Override
+//            public Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<>();
+//                params.put("userID", targetUserID);
+//                return params;
+//            }
+//        };
+//
+//        // Add StringRequest to the RequestQueue
+//        requestQueue.add(stringRequest);
+//    }
+//    private void getAllTalent(final String talentFlag) {
+//        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+//
+//        StringRequest stringRequest = new StringRequest(
+//                Request.Method.POST,
+//                SaveSharedPreference.getServerIp() + "Profile/getAllMyTalent.do",
+//                new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        try {
+//                            JSONArray talentArr = new JSONArray(response);
+//
+//                            mentorTalentList = new ArrayList<TalentObject_Home>();
+//                            menteeTalentList = new ArrayList<TalentObject_Home>();
+//                            for(int i = 0; i < talentArr.length(); i++){
+//                                JSONObject obj = talentArr.getJSONObject(i);
+//                                TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0, obj.getString("TalentID"));
+//                                item.setCateCode((int)obj.getLong("Code"));
+//                                item.setUserID(obj.getString("UserID"));
+//                                item.setTalentDescription(obj.getString("TalentDescription"));
+//
+//                                // 최초 로딩시 첫 재능을 보여주기 위한 부분
+//                                if (i == 0) {
+//                                    Glide.with(mActivity).load(item.getBackgroundResourceID()).into((ImageView)findViewById(R.id.iv_talent_profile));
+//
+//                                    findViewById(R.id.tv_tag_profile).setVisibility(View.VISIBLE);
+//                                    findViewById(R.id.tv_description_profile).setVisibility(View.VISIBLE);
+//
+//                                    // 유저 재능내용을 가져오는 부분
+//                                    String hashTagString = "";
+//                                    String userText = item.getTalentDescription();
+//                                    userText = userText.replaceAll("#", " #");
+//                                    String[] tagParse = userText.split(" ");
+//
+//                                    for (int j=0;j<tagParse.length;j++) {
+//                                        String aTag = tagParse[j];
+//                                        if (aTag.startsWith("#")) {
+//                                            hashTagString += aTag + " ";
+//                                        }
+//                                    }
+//
+//                                    hashTagString.trim();
+//
+//                                    ((TextView)findViewById(R.id.tv_description_profile)).setText(userText);
+//                                    ((TextView)findViewById(R.id.tv_tag_profile)).setText(hashTagString);
+//                                }
+//
+//                                if(talentFlag.equals("Y")) {
+//
+//                                    mentorTalentList.add(item);
+//                                }else if(talentFlag.equals("N")) {
+//                                    menteeTalentList.add(item);
+//                                }
+//
+//                                friendFlag = obj.getInt("FriendFlag") > 0;
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
+//            }
+//        }){
+//            @Override
+//            public Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<>();
+//                params.put("UserID", userID);
+//                params.put("CheckUserID", SaveSharedPreference.getUserId(mContext));
+//                params.put("TalentFlag", talentFlag);
+//                return params;
+//            }
+//        };
+//
+//        // Add StringRequest to the RequestQueue
+//        requestQueue.add(stringRequest);
+//    }
 
 
     // 여기 아래부터는 지도 관련
