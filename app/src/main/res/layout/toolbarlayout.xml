@@ -33,12 +33,13 @@
         />
     <Spinner
         android:id="@+id/sp_toolbar"
+        android:layout_marginLeft="50dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:overlapAnchor="false"
         android:layout_centerInParent="true"
-        android:background="@color/transparent"
-        >
+        android:background="@color/transparent">
+
 
     </Spinner>
 

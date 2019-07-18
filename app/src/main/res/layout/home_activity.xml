@@ -193,6 +193,7 @@
                     >
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -220,6 +221,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -247,6 +249,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con3"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -274,6 +277,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con4"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -301,6 +305,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con5"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -336,6 +341,7 @@
                     >
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con6"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -363,6 +369,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con7"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -390,6 +397,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con8"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -417,6 +425,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con9"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -444,6 +453,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con10"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -479,6 +489,7 @@
                     >
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con11"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -506,6 +517,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con12"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -533,6 +545,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con13"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -560,6 +573,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_con14"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -587,6 +601,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_home_search"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -634,40 +649,14 @@
                     android:paddingLeft="5dp"
                     />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/pic_design"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitXY"
-                        />
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/pic_study"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitXY"
-                        />
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/pic_money"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitXY"
-                        />
-
-                </LinearLayout>
-
-
+            <android.support.v4.view.ViewPager
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/vp_pop_talent_home"/>
 
             </LinearLayout>
 
