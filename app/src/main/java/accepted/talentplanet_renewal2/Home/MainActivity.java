@@ -44,6 +44,7 @@ import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
 import accepted.talentplanet_renewal2.VolleySingleton;
 
 import static android.graphics.Color.BLACK;
@@ -101,25 +102,25 @@ public class MainActivity extends AppCompatActivity {
                 getCateList();
 
                 if(position==0)
-                {
-                    Toast.makeText(mContext,"티쳐",Toast.LENGTH_SHORT).show();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Window window = getWindow();
-                        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                        window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
-                    }
-
-                    selectTeacher();
-
-                }else
                     {
-                    Toast.makeText(mContext,"학생",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext,"티쳐",Toast.LENGTH_SHORT).show();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            Window window = getWindow();
+                            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+                        }
+
+                        selectTeacher();
+
+                    }else
+                    {
+                        Toast.makeText(mContext,"학생",Toast.LENGTH_SHORT).show();
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                             window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
                         }
-                    selectStudent();
+                        selectStudent();
                     }
 
             }
@@ -147,13 +148,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         tv_user_dl = findViewById(R.id.tv_user_dl);
-        tv_email_dl = findViewById(R.id.tv_email_dl);
 
         String userName = SaveSharedPreference.getUserName(mContext);
         String userId = SaveSharedPreference.getUserId(mContext);
         tv_user_dl.setText(userName);
-        tv_email_dl.setText(userId);
-
+        tv_email_dl = findViewById(R.id.tv_email_dl);
 
 
         drawerlayoutEvent(mContext);
@@ -287,36 +286,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        ((LinearLayout)findViewById(R.id.ll_mymentor_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dl.closeDrawers();
-                ((LinearLayout)findViewById(R.id.ll_click_condition_dl)).setVisibility(View.GONE);
-                ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.VISIBLE);
-                Intent intent = new Intent(context, MainActivity_Condition.class);
-                intent.putExtra("ismyMentor","1");
-                startActivity(intent);
-            }
-        });
-
-
-        ((LinearLayout)findViewById(R.id.ll_mymentee_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dl.closeDrawers();
-                ((LinearLayout)findViewById(R.id.ll_click_condition_dl)).setVisibility(View.GONE);
-                ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.VISIBLE);
-                Intent intent = new Intent(context, MainActivity_Condition.class);
-                intent.putExtra("ismyMentor","2");
-                startActivity(intent);
-            }
-        });
-
-        //
 
 
 
-        ((LinearLayout)findViewById(R.id.ll_talentbox_dl)).setOnClickListener(new View.OnClickListener() {
+        ((LinearLayout)findViewById(R.id.ll_system_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
             }
@@ -354,47 +327,32 @@ public class MainActivity extends AppCompatActivity {
 
         //알람 On Off
 
-        ((ImageView)findViewById(R.id.iv_alarm_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isAlaram)
-                {
-                    isAlaram=false;
-                    Toast.makeText(mContext,"알람이 비활성화되었습니다.",Toast.LENGTH_SHORT).show();
-                    ((ImageView)findViewById(R.id.iv_alarm_dl)).setImageResource(R.drawable.icon_dl_alarmoff);
-                }else
-                {
-                    isAlaram=true;
-                    Toast.makeText(mContext,"알람이 활성화되었습니다.",Toast.LENGTH_SHORT).show();
-                    ((ImageView)findViewById(R.id.iv_alarm_dl)).setImageResource(R.drawable.icon_dl_alarmon);
-                }
-            }
-        });
-
-        //재능상태 클릭했을 때 Mymentor,Mymentee 노출 기능
-        ((ImageView)findViewById(R.id.iv_closecondition_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((LinearLayout)findViewById(R.id.ll_click_condition_dl)).setVisibility(View.GONE);
-                ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.VISIBLE);
-            }
-        });
-        // 탤런트박스 클릭 이벤트
-        ((ImageView)findViewById(R.id.iv_closetalentbox_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((LinearLayout)findViewById(R.id.ll_click_talent_dl)).setVisibility(View.GONE);
-                ((LinearLayout)findViewById(R.id.ll_second)).setVisibility(View.VISIBLE);
-            }
-        });
+//        ((ImageView)findViewById(R.id.iv_alarm_dl)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(isAlaram)
+//                {
+//                    isAlaram=false;
+//                    Toast.makeText(mContext,"알람이 비활성화되었습니다.",Toast.LENGTH_SHORT).show();
+//                    ((ImageView)findViewById(R.id.iv_alarm_dl)).setImageResource(R.drawable.icon_dl_alarmoff);
+//                }else
+//                {
+//                    isAlaram=true;
+//                    Toast.makeText(mContext,"알람이 활성화되었습니다.",Toast.LENGTH_SHORT).show();
+//                    ((ImageView)findViewById(R.id.iv_alarm_dl)).setImageResource(R.drawable.icon_dl_alarmon);
+//                }
+//            }
+//        });
 
 
 
-        ((LinearLayout)findViewById(R.id.ll_condition_dl)).setOnClickListener(new View.OnClickListener() {
+
+        ((LinearLayout)findViewById(R.id.ll_addtalent_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((LinearLayout)findViewById(R.id.ll_click_condition_dl)).setVisibility(View.VISIBLE);
-                ((LinearLayout)findViewById(R.id.ll_unclick_condition_dl)).setVisibility(View.GONE);
+                dl.closeDrawers();
+                Intent intent = new Intent(context, MainActivity_TalentAdd.class);
+                startActivity(intent);
             }
         });
     }

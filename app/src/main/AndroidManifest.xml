@@ -70,6 +70,12 @@
             android:name=".Cs.MainActivity_Cs"
             android:theme="@style/AppTheme_Home" />
         <activity android:name=".Cs.MainActivity_Notice" />
+
+        <activity
+            android:name=".TalentAdd.MainActivity_TalentAdd"
+            android:theme="@style/AppTheme_Home" />
+
+
         <activity
             android:name=".Profile.MainActivity_Profile"
             android:theme="@style/AppTheme_Home" />
