@@ -145,13 +145,15 @@
         >
 
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@color/color_mentee"
-        android:layout_marginTop="70dp"
-        android:paddingBottom="20dp">
+            android:id="@+id/ll_status_bg_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/color_mentee"
+            android:layout_marginTop="70dp"
+            android:paddingBottom="20dp"
+            >
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/cimg_pic_profile"
@@ -228,6 +230,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_addr_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:text="경기도 고양시 일산동구 장항동"
@@ -274,11 +277,19 @@
                   android:layout_width="100dp"
                   android:layout_height="140dp"
                   android:gravity="center"
+                  android:orientation="vertical"
                   >
+                  <View
+                      android:layout_width="wrap_content"
+                      android:layout_height="0dp"
+                      android:layout_weight="1"
+                      />
 
                   <ImageView
+                      android:id="@+id/iv_message_profile"
                       android:layout_width="40dp"
-                      android:layout_height="40dp"
+                      android:layout_height="0dp"
+                      android:layout_weight="1"
                       android:src="@drawable/icon_message2"
                       android:tint="@color/color_mentor"
                       />
@@ -299,12 +310,20 @@
                     android:layout_width="100dp"
                     android:layout_height="140dp"
                     android:gravity="center"
+                    android:orientation="vertical"
                     android:layout_alignParentRight="true"
                     >
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        />
 
                     <ImageView
+                        android:id="@+id/iv_share_profile"
                         android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
                         android:src="@drawable/icon_share"
                         android:tint="@color/color_mentor"
                         />
