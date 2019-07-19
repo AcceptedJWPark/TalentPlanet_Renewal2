@@ -9,6 +9,19 @@
     android:focusableInTouchMode="true"
     >
 
+    <ImageView
+        android:id="@+id/img_back_toolbar"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/icon_back"
+        android:tint="@color/color_mentor"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        />
+
+
 
     <ImageView
         android:id="@+id/img_open_dl"
@@ -49,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="HOME"
-        android:textColor="@color/bgr_mainColor"
+        android:textColor="#000"
         android:textSize="16dp"
         android:visibility="gone"
         />
@@ -61,6 +74,17 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         >
+
+
+        <ImageView
+            android:id="@+id/img_search_talentadd"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/icon_search_student"
+            android:adjustViewBounds="false"
+            android:visibility="gone"
+            />
+
             <ImageView
                 android:id="@+id/img_rightbtn"
                 android:layout_width="25dp"
