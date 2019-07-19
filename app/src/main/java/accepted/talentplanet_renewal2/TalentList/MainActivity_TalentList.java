@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
     private ArrayList<UserData_TalentList> userList;
     private Context mContext;
     private int cateCode;
+    private String mode;
     private String talentFlag;
     private String titleTxt;
     private boolean hasFlag;
@@ -67,19 +69,38 @@ public class MainActivity_TalentList extends AppCompatActivity {
 
         mContext = getApplicationContext();
 
+        mode = SaveSharedPreference.getPrefTalentFlag(mContext);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+        talentFlag = mode;
+
+        if (mode.equals("Y")) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+            }
+
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+            }
+
+            RelativeLayout ll_bar_talentlist = findViewById(R.id.ll_bar_talentlist);
+            TextView tv_listhaed_talentlist = findViewById(R.id.tv_listhaed_talentlist);
+
+            ll_bar_talentlist.setBackgroundColor(getResources().getColor(R.color.color_mentee));
+            tv_listhaed_talentlist.setText("Teacher List");
+
         }
-
 
         // 뷰 정의
         userListView = (ListView)findViewById(R.id.lv_talentUser);
         title = (TextView)findViewById(R.id.tv_toolbar);
         leftBtn = (ImageView)findViewById(R.id.img_open_dl);
 
+        // 07-18
         sampleUserlist = new ArrayList<Sample_UserData_TalentList>();
         sampleUserlist.add(new Sample_UserData_TalentList("박종우","남성","1991.01.23","#헬스 #운동 #다이어트","17km"));
         sampleUserlist.add(new Sample_UserData_TalentList("민권홍","남성","비공개","#근력운동 #다이어트 #PT","21km"));
@@ -96,7 +117,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
 
         // 인텐트 엑스트라 받기
 //        titleTxt = intent.getStringExtra("talentName");
-//        cateCode = intent.getIntExtra("cateCode", 0);
+        cateCode = intent.getIntExtra("cateCode", 0);
 //        talentFlag = SaveSharedPreference.getPrefTalentFlag(mContext);
 //        hasFlag = intent.getBooleanExtra("hasFlag", false);
 //        if(hasFlag) {
@@ -119,6 +140,8 @@ public class MainActivity_TalentList extends AppCompatActivity {
 //        }
 
         // 뒤로가기 이벤트
+        leftBtn.setImageDrawable(getResources().getDrawable(R.drawable.icon_back));
+
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,76 +189,76 @@ public class MainActivity_TalentList extends AppCompatActivity {
     }
 
 
-//    private void getTalentListNew(){
-//        talentList = new ArrayList<>();
-//        RequestQueue postRequestQueue = Volley.newRequestQueue(mContext);
-//        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/getTalentListNew.do", new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                try {
-//                    userList = new ArrayList<UserData_TalentList>();
-//                    JSONArray array = new JSONArray(response);
-//                    for(int i = 0; i < array.length(); i++){
-//                        JSONObject obj = array.getJSONObject(i);
-//                        SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
-//
-//                        UserData_TalentList aUser = new UserData_TalentList();
-//                        aUser.setUserName(obj.getString("USER_NAME"));
-//                        aUser.setUserGender(obj.getString("GENDER"));
-//                        aUser.setHashtag(obj.has("HASHTAG") ? obj.getString("HASHTAG") : "");
-//                        aUser.setUserAge(Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(obj.getString("USER_BIRTH").split("-")[0]) + 1 + "");
-//                        aUser.setUserID(obj.getString("UserID"));
-//
-//                        userList.add(aUser);
-//                    }
-//
-//                    for (int i=0;i<talentList.size();i++) {
-//                        TextView tv = new TextView(getApplicationContext());
-//                        tv.setText(talentList.get(i).getTitle());
-//                        Log.d(this.getClass().getName(), titleTxt.toString() + ":" +talentList.get(i).getTitle().toString());
-//                        if (titleTxt.toString().equals(talentList.get(i).getTitle().toString())) {
-//                            tv.setTextColor(getResources().getColor(R.color.bgr_mainColor));
-//                        }
-//                        tv.setPadding(10,10,10,10);
-//                        hsv.addView(tv);
-//                    }
-//                    // 리스트 뷰
-//                    ListAdapter_TalentList oAdapter = new ListAdapter_TalentList(mContext, userList);
-//                    userListView.setAdapter(oAdapter);
-//
-//                    // 리스트 뷰 프로필 이동 이벤트
-//                    userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                            Intent intent = new Intent(MainActivity_TalentList.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
-//
-//                            String userInfo = userList.get(position).getUserGender() + " / " + userList.get(position).getUserAge() + "세";
-//
-//                            intent.putExtra("userName", userList.get(position).getUserName());
-//                            intent.putExtra("userInfo", userInfo);
-//                            intent.putExtra("targetUserID", userList.get(position).getUserID());
-//                            intent.putExtra("userID", userList.get(position).getUserID());
-//                            startActivity(intent);
-//                        }
-//                    });
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, SaveSharedPreference.getErrorListener(mContext)) {
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap();
-//                params.put("TalentFlag", talentFlag);
-//                params.put("CateCode", String.valueOf(cateCode));
-//                params.put("UserID", SaveSharedPreference.getUserId(mContext));
-//                return params;
-//            }
-//        };
-//
-//        postRequestQueue.add(postJsonRequest);
-//    }
+    private void getTalentListNew(){
+        talentList = new ArrayList<>();
+        RequestQueue postRequestQueue = Volley.newRequestQueue(mContext);
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/getTalentListNew.do", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    userList = new ArrayList<UserData_TalentList>();
+                    JSONArray array = new JSONArray(response);
+                    for(int i = 0; i < array.length(); i++){
+                        JSONObject obj = array.getJSONObject(i);
+                        SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+
+                        UserData_TalentList aUser = new UserData_TalentList();
+                        aUser.setUserName(obj.getString("USER_NAME"));
+                        aUser.setUserGender(obj.getString("GENDER"));
+                        aUser.setHashtag(obj.has("HASHTAG") ? obj.getString("HASHTAG") : "");
+                        aUser.setUserAge(Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(obj.getString("USER_BIRTH").split("-")[0]) + 1 + "");
+                        aUser.setUserID(obj.getString("UserID"));
+
+                        userList.add(aUser);
+                    }
+
+                    for (int i=0;i<talentList.size();i++) {
+                        TextView tv = new TextView(getApplicationContext());
+                        tv.setText(talentList.get(i).getTitle());
+                        Log.d(this.getClass().getName(), titleTxt.toString() + ":" +talentList.get(i).getTitle().toString());
+                        if (titleTxt.toString().equals(talentList.get(i).getTitle().toString())) {
+                            tv.setTextColor(getResources().getColor(R.color.bgr_mainColor));
+                        }
+                        tv.setPadding(10,10,10,10);
+                        hsv.addView(tv);
+                    }
+                    // 리스트 뷰
+                    ListAdapter_TalentList oAdapter = new ListAdapter_TalentList(mContext, userList);
+                    userListView.setAdapter(oAdapter);
+
+                    // 리스트 뷰 프로필 이동 이벤트
+                    userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(MainActivity_TalentList.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
+
+                            String userInfo = userList.get(position).getUserGender() + " / " + userList.get(position).getUserAge() + "세";
+
+                            intent.putExtra("userName", userList.get(position).getUserName());
+                            intent.putExtra("userInfo", userInfo);
+                            intent.putExtra("targetUserID", userList.get(position).getUserID());
+                            intent.putExtra("userID", userList.get(position).getUserID());
+                            startActivity(intent);
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+                params.put("TalentFlag", talentFlag);
+                params.put("CateCode", String.valueOf(cateCode));
+                params.put("UserID", SaveSharedPreference.getUserId(mContext));
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
 
     private void searchTalentListByHashtag(){
         talentList = new ArrayList<>();

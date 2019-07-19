@@ -45,13 +45,14 @@ public class ListAdapter_TalentList extends BaseAdapter {
         }
         // View
 //        ImageView user_profile = (ImageView) convertView.findViewById(R.id.user_profile);
-//        TextView userName = (TextView) convertView.findViewById(R.id.userName_talentliste);
-//        TextView userInfo = (TextView) convertView.findViewById(R.id.userName_talentlistInfo);
-//        TextView tv_userDistance = (TextView) convertView.findViewById(R.id.tv_userDistance);
-//        // Data
-//        UserData_TalentList aItem = this.userList.get(position);
-//        userName.setText(aItem.getUserName());
-//        userInfo.setText(aItem.getUserGender() + " / " + aItem.getUserAge() + "세");
+        TextView userName_talentlist = (TextView) convertView.findViewById(R.id.userName_talentlist);
+        TextView userBirth_talentlist = (TextView) convertView.findViewById(R.id.userBirth_talentlist);
+        TextView hashTag_talentlist = (TextView) convertView.findViewById(R.id.hashTag_talentlist);
+
+        // Data
+        UserData_TalentList aItem = this.userList.get(position);
+        userName_talentlist.setText(aItem.getUserName());
+        userBirth_talentlist.setText(aItem.getUserGender() + " / " + aItem.getUserAge() + "세");
 //
 //        // 태그 관련
 //        String strHashtags = aItem.getHashtag();

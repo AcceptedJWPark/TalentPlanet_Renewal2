@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.location.Address;
@@ -33,6 +34,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +61,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -70,6 +73,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import accepted.talentplanet_renewal2.BuildConfig;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
@@ -153,16 +157,36 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
 
-        //statusbar 변경
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-        }
-
-
         mContext = getApplicationContext();
 
+        mode = SaveSharedPreference.getPrefTalentFlag(mContext);
+//        getAllTalent(mode);
+
+        //statusbar 변경
+        if (mode.equals("Y")) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+            }
+
+            changeToMentee();
+
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+            }
+        }
+
+        //재능 수정
+        ((ImageView)findViewById(R.id.iv_talent_profile)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         img_gender_profile = findViewById(R.id.img_gender_profile);
         tv_profile_description = findViewById(R.id.tv_profile_description);
@@ -184,22 +208,32 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             targetUserID = intent.getStringExtra("targetUserID");
         }
 
+
+
         if (inPerson) {
             // 유저가 로그인했을 경우
             String userName = SaveSharedPreference.getUserName(mContext);
             String userInfo = SaveSharedPreference.getPrefUserBirth(mContext);
+            // 주소는
+            String userMent = SaveSharedPreference.getPrefUserDescription(mContext);
+            String gender = SaveSharedPreference.getPrefUserGender(mContext);
+
             userID = SaveSharedPreference.getUserId(mContext);
 
             ((TextView)findViewById(R.id.tv_name_profile)).setText(userName);
+            ((TextView)findViewById(R.id.tv_birth_profile)).setText(userInfo);
+
+            ((TextView)findViewById(R.id.tv_profile_description)).setText(userMent);
+
+            if (gender.equals("남")) {
+                img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
+            } else {
+                img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
+            }
 
         } else  {
             userID = intent.getStringExtra("userID");
         }
-
-        // mode 값에 따라서 보여주는 내용이 다름
-        mode = SaveSharedPreference.getPrefTalentFlag(mContext);
-//        getAllTalent(mode);
-
 
         // 뒤로가기 이벤트
         ((ImageView) findViewById(R.id.img_back_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
@@ -210,23 +244,25 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         });
 
         // 지도
-        mActivity = this;
-
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+        // 07/18 11:32
+//        mActivity = this;
+        // 07/18 11:32
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(LocationServices.API)
+//                .build();
 
 //        fragmentManager = getFragmentManager();
 //        mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.frg_Map_TalentRegister);
 //        mapFragment.getMapAsync(this);
 
-        createLocationRequest();
+//        createLocationRequest();
 
-        if(!inPerson){
-               mapFragment.getView().setOnClickListener(null);
-        }
+        // 07/18 11:32
+//        if(!inPerson){
+//               mapFragment.getView().setOnClickListener(null);
+//        }
 
 
 
@@ -325,6 +361,33 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    private void changeToMentee() {
+        LinearLayout ll_status_bg_profile = findViewById(R.id.ll_status_bg_profile);
+
+        TextView tv_name_profile = findViewById(R.id.tv_name_profile);
+        TextView tv_birth_profile = findViewById(R.id.tv_birth_profile);
+        TextView tv_addr_profile = findViewById(R.id.tv_addr_profile);
+        TextView tv_profile_description = findViewById(R.id.tv_profile_description);
+
+        ImageView img_gender_profile = findViewById(R.id.img_gender_profile);
+        ImageView img_mappointer = findViewById(R.id.img_mappointer);
+        ImageView iv_message_profile = findViewById(R.id.iv_message_profile);
+        ImageView iv_share_profile = findViewById(R.id.iv_share_profile);
+
+        String white = "#ffffff";
+
+        ll_status_bg_profile.setBackgroundColor(getResources().getColor(R.color.color_mentor));
+        tv_name_profile.setTextColor(Color.parseColor(white));
+        tv_birth_profile.setTextColor(Color.parseColor(white));
+        tv_addr_profile.setTextColor(Color.parseColor(white));
+        tv_profile_description.setTextColor(Color.parseColor(white));
+
+        img_gender_profile.setColorFilter(getResources().getColor(R.color.color_mentee));
+        img_mappointer.setColorFilter(getResources().getColor(R.color.color_mentee));
+        iv_message_profile.setColorFilter(getResources().getColor(R.color.color_mentee));
+        iv_share_profile.setColorFilter(getResources().getColor(R.color.color_mentee));
     }
 
 //    private void getProfileData(){
@@ -516,9 +579,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
     @Override
     protected void onStop(){
-        if(mGoogleApiClient.isConnected()){
-            mGoogleApiClient.disconnect();
-        }
+//        if(mGoogleApiClient.isConnected()){
+//            mGoogleApiClient.disconnect();
+//        }
 
         super.onStop();
     }
