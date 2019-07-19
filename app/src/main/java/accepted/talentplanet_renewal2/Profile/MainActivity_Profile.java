@@ -228,6 +228,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                mapFragment.getView().setOnClickListener(null);
         }
 
+
+
         // 프로필 사진 관련
 //        final android.support.v7.app.AlertDialog.Builder AlarmDeleteDialog = new android.support.v7.app.AlertDialog.Builder(MainActivity_Profile.this);
 //        iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
