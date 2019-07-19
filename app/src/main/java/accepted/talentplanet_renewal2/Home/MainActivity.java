@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
         drawerlayoutEvent(mContext);
         isAlaram = true;
-        makeTestTalentArr();
+//        makeTestTalentArr();
 
         //기본 값
         mentorClicked = true;
