@@ -55,19 +55,6 @@ public class MainActivity_Login extends AppCompatActivity {
             Toast.makeText(mContext, "다른 기기에서 로그인되어 접속이 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
 
-        final RelativeLayout rl_container;
-        rl_container = findViewById(R.id.rl_container_login);
-        Glide.with(mContext)
-                .load(R.drawable.pic_loginbgr)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(new ViewTarget<RelativeLayout, GlideDrawable>(rl_container) {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation anim) {
-                        RelativeLayout myView = this.view;
-                        myView.setBackground(resource);
-                    }
-                });
-
         // 기본 변수 정의
         et_email_login = findViewById(R.id.et_email_login);
         et_pw_login = findViewById(R.id.et_pw_login);
