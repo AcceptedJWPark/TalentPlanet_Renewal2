@@ -46,7 +46,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
     private ArrayList<TalentObject_Home> talentList;
     private ArrayList<UserData_TalentList> userList;
     private Context mContext;
-    private int cateCode;
+    private String cateCode;
     private String mode;
     private String talentFlag;
     private String titleTxt;
@@ -117,7 +117,8 @@ public class MainActivity_TalentList extends AppCompatActivity {
 
         // 인텐트 엑스트라 받기
 //        titleTxt = intent.getStringExtra("talentName");
-        cateCode = intent.getIntExtra("cateCode", 0);
+        cateCode = intent.getStringExtra("cateCode");
+        Log.d("firstCateCode", cateCode);
 //        talentFlag = SaveSharedPreference.getPrefTalentFlag(mContext);
 //        hasFlag = intent.getBooleanExtra("hasFlag", false);
 //        if(hasFlag) {
@@ -139,6 +140,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
 //            getTalentListNew();
 //        }
 
+        getTalentListNew();
         // 뒤로가기 이벤트
         leftBtn.setImageDrawable(getResources().getDrawable(R.drawable.icon_back));
 
@@ -195,6 +197,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
         StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/getTalentListNew.do", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.d("responseTest", response);
                 try {
                     userList = new ArrayList<UserData_TalentList>();
                     JSONArray array = new JSONArray(response);
@@ -249,9 +252,15 @@ public class MainActivity_TalentList extends AppCompatActivity {
         }, SaveSharedPreference.getErrorListener(mContext)) {
             @Override
             protected Map<String, String> getParams() {
+                String flag = "";
+                if (talentFlag.equals("Y")) {
+                    flag = "N";
+                } else if (talentFlag.equals("N")) {
+                    flag = "Y";
+                }
                 Map<String, String> params = new HashMap();
-                params.put("TalentFlag", talentFlag);
-                params.put("CateCode", String.valueOf(cateCode));
+                params.put("TalentFlag", flag);
+                params.put("CateCode", cateCode);
                 params.put("UserID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }

@@ -1,6 +1,7 @@
 package accepted.talentplanet_renewal2.TalentList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,19 +54,23 @@ public class ListAdapter_TalentList extends BaseAdapter {
         UserData_TalentList aItem = this.userList.get(position);
         userName_talentlist.setText(aItem.getUserName());
         userBirth_talentlist.setText(aItem.getUserGender() + " / " + aItem.getUserAge() + "세");
-//
-//        // 태그 관련
-//        String strHashtags = aItem.getHashtag();
-//        StringBuilder hashtag = new StringBuilder();
-//        String[] hashtags = strHashtags.split("\\|");
-//
-//        for(int i = 0 ; i < hashtags.length; i++){
-//            if(hashtags[i] == null || hashtags[i].isEmpty()){
-//                continue;
-//            }
-//
-//            hashtag.append("#").append(hashtags[i]).append(" ");
-//        }
+
+        // 태그 관련
+        String strHashtags = aItem.getHashtag();
+        String[] hashtags = strHashtags.split("\\|");
+
+        StringBuilder hashtag = new StringBuilder();
+
+        for(int i = 0 ; i < hashtags.length; i++){
+            if(hashtags[i] == null || hashtags[i].isEmpty()){
+                continue;
+            }
+
+            hashtag.append("#").append(hashtags[i]).append(" ");
+        }
+
+        hashTag_talentlist.setText(hashtag);
+
         return convertView;
     }
 }

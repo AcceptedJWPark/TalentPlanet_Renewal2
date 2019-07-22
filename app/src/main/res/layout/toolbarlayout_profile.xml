@@ -33,6 +33,16 @@
         android:textStyle="bold"
         />
 
+    <Spinner
+        android:id="@+id/sp_talent_profile"
+        android:layout_marginLeft="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:overlapAnchor="false"
+        android:layout_centerInParent="true"
+        android:background="@color/transparent">
+    </Spinner>
+
     <ImageView
         android:id="@+id/img_addfriend_toolbarprofile"
         android:layout_width="25dp"
