@@ -29,6 +29,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -152,6 +153,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     // 친구 관련 변수
     private boolean friendFlag;
 
+    //프로필 수정 다이얼로그
+    customDialog_Profile cd_profile;
+    customDialog_PointSend cd_PointSend;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,13 +186,42 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
         }
 
+
+
         //재능 수정
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
+        double width = dm.widthPixels; //디바이스 화면 너비
+        double height = dm.heightPixels; //디바이스 화면 높이
+
+        cd_profile = new customDialog_Profile(this);
+        WindowManager.LayoutParams wm = cd_profile.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
+        wm.copyFrom(cd_profile.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
+        wm.width = (int) (width / 1.2);  //
+        wm.height = (int) (height / 1.2);  //
+
         ((ImageView)findViewById(R.id.iv_talent_profile)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                cd_profile.show();
             }
         });
+
+
+        //포인트 지급
+        cd_PointSend = new customDialog_PointSend(this);
+        WindowManager.LayoutParams wm2 = cd_PointSend.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
+        wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
+        wm.width = (int) (width / 1.1);
+        wm.height = (int) (height / 1.1);
+        ((ImageView)findViewById(R.id.iv_share_profile)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cd_PointSend.show();
+            }
+        });
+
+
+
 
         img_gender_profile = findViewById(R.id.img_gender_profile);
         tv_profile_description = findViewById(R.id.tv_profile_description);

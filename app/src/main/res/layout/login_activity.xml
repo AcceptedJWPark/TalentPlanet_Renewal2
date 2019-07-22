@@ -17,18 +17,38 @@
         android:layout_height="match_parent"
         android:paddingLeft="60dp"
         android:paddingRight="60dp"
+        android:background="#4d5868"
         >
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_above="@+id/ll_idpw_login"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            >
 
             <ImageView
-                android:layout_width="match_parent"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/pic_logintxt"
-                android:layout_marginBottom="40dp"
-                android:layout_above="@+id/ll_idpw_login"
+                android:src="@drawable/img_login"
                 android:adjustViewBounds="true"
                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Talent Planet"
+                android:textSize="20dp"
+                android:fontFamily="@font/aspeed"
+                android:textColor="#fff"
+                android:layout_marginBottom="40dp"
+                />
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/ll_idpw_login"
@@ -39,9 +59,10 @@
             >
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/bgr_login_edittxt"
+                android:layout_height="40dp"
+                android:background="#656d7b"
                 android:hint="E-mail"
+                android:paddingLeft="10dp"
                 android:id="@+id/et_email_login"
                 android:textColor="#fff"
                 android:textColorHint="#fff" />
@@ -49,20 +70,22 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/bgr_login_edittxt"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="#656d7b"
                 android:hint="Password"
+                android:paddingLeft="10dp"
                 android:id="@+id/et_pw_login"
                 android:textColor="#fff"
                 android:textColorHint="#fff" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
                 android:gravity="right|center_vertical"
-                android:text="비밀번호 찾기"
+                android:layout_gravity="right"
+                android:text="ID/PW 찾기"
                 android:textColor="#fff"
                 android:textSize="14dp" />
         </LinearLayout>
@@ -70,34 +93,37 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
             android:layout_below="@+id/ll_idpw_login"
+            android:layout_marginTop="20dp"
             >
             <Button
                 android:id="@+id/btn_login_login"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/bgr_loginbtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bgr_joinbtn1"
                 android:text="Login"
+                android:textColor="@color/color_mentor"
                 android:textAllCaps="false"
-                android:textColor="#fff"
                 android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                />
 
 
             <Button
                 android:id="@+id/btn_join_login"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/bgr_loginbtn2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/bgr_joinbtn2"
                 android:text="Join-Us"
                 android:textAllCaps="false"
-                android:textColor="@color/bgr_mainColor"
+                android:textColor="@color/color_mentor"
                 android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginLeft="30dp" />
 
         </LinearLayout>
 

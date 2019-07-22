@@ -7,22 +7,26 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,18 +55,23 @@ import static accepted.talentplanet_renewal2.SaveSharedPreference.hideKeyboard;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Spinner spn_ClaimType;
-    private TextView tv_SharingList;
-    private TextView tv_Txt;
     private EditText et_Claim;
 
 
-    private View v_Divider;
-    private TextView tv_TxtCount;
     private Context mContext;
 
     private Button btn_SaveClaim;
-    private TextView tv_AttachFile;
+
+
+    private ImageView[] iv_claimSelect = new ImageView[5];
+    private LinearLayout[] ll_claimSelect = new LinearLayout[5];
+    private boolean[] claimSelected = new boolean[5];
+
+    private boolean isConfirm;
+    private ImageView iv_confirmClaim;
+    private LinearLayout ll_confirmClaim;
+
+    private String claimChecked;
 
     private String name, hashtag, tarUserID, talentFlag, status;
     private int matchingID;
@@ -73,6 +82,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customerservice_claimactivity);
+
+
+        ((ImageView)findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
+        ((ImageView)findViewById(R.id.img_back_toolbar)).setVisibility(View.VISIBLE);
+        ((ImageView)findViewById(R.id.img_search_talentadd)).setVisibility(View.GONE);
+
+        ((TextView)findViewById(R.id.tv_toolbar)).setText("신고하기");
+        ((TextView)findViewById(R.id.tv_toolbar)).setVisibility(View.VISIBLE);
+        ((Spinner)findViewById(R.id.sp_toolbar)).setVisibility(View.GONE);
+
+        ((ImageView)findViewById(R.id.img_rightbtn)).setVisibility(View.GONE);
+        ((ImageView)findViewById(R.id.img_alarm)).setVisibility(View.GONE);
+
+
+
 
         isSelect = getIntent().getBooleanExtra("isSelected", false);
         if (isSelect) {
@@ -87,16 +111,15 @@ public class MainActivity extends AppCompatActivity {
         mContext = getApplicationContext();
 
 
-        spn_ClaimType = (Spinner) findViewById(R.id.spn_ClaimType_Claim);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.CustomerService_ClaimSpinnerList, R.layout.customerservice_claim_spinnertext);
-        spn_ClaimType.setAdapter(adapter);
-
-        tv_SharingList = (TextView) findViewById(R.id.tv_SharingList_Claim);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.rgb(255, 102, 102));
+        }
 
         //TODO : ??
         if (isSelect) {
             String str = talentFlag;
-            tv_Txt = (TextView) findViewById(R.id.tv_txt_Claim);
             String[] arrHashtag = hashtag.split("\\|");
             StringBuilder sb = new StringBuilder();
             for(int i = 0; i < arrHashtag.length; i++){
@@ -108,12 +131,10 @@ public class MainActivity extends AppCompatActivity {
                     sb.append(arrHashtag);
                 }
             }
-            tv_Txt.setText("\"" + name + " " + str + " " + sb.toString() + "의 건" + "\"");
         }
 
 
         et_Claim = (EditText) findViewById(R.id.et_Content_Claim);
-        tv_TxtCount = (TextView) findViewById(R.id.tv_TxtCount_Claim);
         et_Claim.setPrivateImeOptions("defaultInputmode=korean;");
         et_Claim.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -124,25 +145,86 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        et_Claim.addTextChangedListener(new TextWatcher() {
+
+        claimChecked = "금품 요구";
+
+        iv_claimSelect[0] = findViewById(R.id.iv1_claim);
+        iv_claimSelect[1] = findViewById(R.id.iv2_claim);
+        iv_claimSelect[2] = findViewById(R.id.iv3_claim);
+        iv_claimSelect[3] = findViewById(R.id.iv4_claim);
+        iv_claimSelect[4] = findViewById(R.id.iv5_claim);
+
+        ll_claimSelect[0] = findViewById(R.id.ll1_claim);
+        ll_claimSelect[1] = findViewById(R.id.ll2_claim);
+        ll_claimSelect[2] = findViewById(R.id.ll3_claim);
+        ll_claimSelect[3] = findViewById(R.id.ll4_claim);
+        ll_claimSelect[4] = findViewById(R.id.ll5_claim);
+
+        for(int i = 0; i< ll_claimSelect.length; i++)
+        {
+            claimSelected[i] = false;
+
+            final int finalI = i;
+            ll_claimSelect[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(finalI==0)
+                    {
+                        claimChecked="금품 요구";
+                    }else if(finalI==1)
+                    {
+                        claimChecked="폭언 및 욕설";
+                    }else if(finalI==2)
+                    {
+                        claimChecked="No-Show";
+                    }else if(finalI==3)
+                    {
+                        claimChecked="허위 광고";
+                    }else
+                    {
+                        claimChecked="";
+                    }
+
+                    for(int j = 0; j< ll_claimSelect.length; j++)
+                    {
+                        if(j== finalI)
+                        {
+                            claimSelected[j] = true;
+                            iv_claimSelect[j].setImageResource(R.drawable.icon_checkbox_selected);
+                        }else
+                        {
+                            claimSelected[j] = false;
+                            iv_claimSelect[j].setImageResource(R.drawable.icon_checkbox_unselected);
+                        }
+                    }
+                }
+            });
+        }
+
+
+        isConfirm = false;
+        iv_confirmClaim = findViewById(R.id.iv_confirmClaim);
+        ll_confirmClaim = findViewById(R.id.ll_confirmClaim);
+
+        ll_confirmClaim.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tv_TxtCount.setText(String.valueOf(s.length()));
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onClick(View v) {
+                if(!isConfirm)
+                {
+                    isConfirm = true;
+                    iv_confirmClaim.setImageResource(R.drawable.icon_checkbox_selected);
+                }else
+                {
+                    isConfirm = false;
+                    iv_confirmClaim.setImageResource(R.drawable.icon_checkbox_unselected);
+                }
             }
         });
 
-        v_Divider = findViewById(R.id.v_Divider_Claim);
-        tv_Txt = (TextView) findViewById(R.id.tv_txt_Claim);
+
+
+
 
         btn_SaveClaim = (Button) findViewById(R.id.btn_SaveClaim_Claim);
         btn_SaveClaim.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +255,8 @@ public class MainActivity extends AppCompatActivity {
                                                      alertDialog.show();
                                                      alertDialog.getButton((DialogInterface.BUTTON_NEGATIVE)).setTextColor(getResources().getColor(R.color.loginPasswordLost));
                                                      alertDialog.getButton((DialogInterface.BUTTON_POSITIVE)).setTextColor(getResources().getColor(R.color.loginPasswordLost));
-                                                 } else {
+                                                 } else
+                                                     {
                                                      Toast.makeText(MainActivity.this,"공유 내역을 선택해주세요.",Toast.LENGTH_SHORT).show();
                                                      return;
                                                  }
@@ -208,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                 String strStatus;
                 int claimType;
 
-                switch(spn_ClaimType.getSelectedItem().toString()){
+                switch(claimChecked){
                     case "금품 요구":
                         claimType = 1;
                         break;
@@ -277,8 +360,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case 1:
-                    tv_Txt = (TextView) findViewById(R.id.tv_txt_Claim);
-                    tv_Txt.setText(data.getStringExtra("data"));
                     break;
                 case CLAIM_CODE:
                     name = data.getStringExtra("name");
@@ -305,7 +386,6 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     String str = talentFlag;
-                    tv_Txt = (TextView) findViewById(R.id.tv_txt_Claim);
 
                     String[] arrHashtag = hashtag.split("\\|");
                     StringBuilder sb = new StringBuilder();
@@ -318,7 +398,6 @@ public class MainActivity extends AppCompatActivity {
                             sb.append(arrHashtag[i]);
                         }
                     }
-                    tv_Txt.setText("\"" + name + " " + str + " " + sb.toString() + "의 건" + "\"");
                     break;
 
             }

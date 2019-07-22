@@ -3,36 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="50dp"
     android:orientation="vertical"
     android:background="@drawable/bgr_edittxt_box"
-    android:padding="1dp"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@color/color_mentor"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         >
 
-
-
-
-        
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:src="@drawable/pic_design"
-            android:scaleType="fitXY"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-
         <TextView
+            android:id="@+id/tv_cancel_edittalent_popup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -70,6 +54,7 @@
 
 
         <TextView
+            android:id="@+id/tv_save_edittalent_popup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -79,16 +64,20 @@
             android:textSize="16dp"
             android:textColor="#fff"
             />
-    </LinearLayout>
+
 
     </RelativeLayout>
 
-    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:src="@drawable/pic_design"
+        android:scaleType="fitXY"
+        />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:maxLines="4"
+        android:layout_height="150dp"
         android:hint="이곳에 텍스트를 입력하세요."
         android:textSize="14dp"
         android:gravity="left|top"
@@ -100,8 +89,22 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/Height40dp"
         android:background="#f2f2f2"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         >
-        
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            >
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/icon_gallery"
+            />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,15 +112,17 @@
             android:text="재능 사진 등록하기"
             android:textColor="#000"
             android:textSize="12dp"
+            android:layout_marginLeft="10dp"
             />
-        
+
+        </LinearLayout>
+
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/icon_arrow_right"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
             />
         
     </RelativeLayout>

@@ -42,9 +42,12 @@
 
         //로그인으로 변경할 때 AppTheme 변경해야 함.//
 
+
+        .PointSend.MainActivity_Profile
+
         <activity
-            android:name=".Home.MainActivity"
-            android:theme="@style/AppTheme_Home">
+            android:name=".JoinLogin.MainActivity_Login"
+            android:theme="@style/AppThemeLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,8 +58,8 @@
             android:name=".JoinLogin.MainActivity_Join"
             android:theme="@style/AppTheme_Home" />
         <activity
-            android:name=".JoinLogin.MainActivity_Login"
-            android:theme="@style/AppThemeLogin" />
+            android:name=".Home.MainActivity"
+            android:theme="@style/AppTheme_Home" />
         <activity
             android:name=".TalentList.MainActivity_TalentList"
             android:theme="@style/AppTheme_Home" />
@@ -80,6 +83,7 @@
             android:name=".Profile.MainActivity_Profile"
             android:theme="@style/AppTheme_Home" />
 
+
         <activity
             android:name=".Messanger.List.MainActivity"
             android:theme="@style/AppTheme_Home" />
@@ -92,6 +96,9 @@
         <activity
             android:name=".Cs.Claim.MainActivity"
             android:theme="@style/AppTheme_Home" />
+
+
+
 
         <service
             android:name="accepted.talentplanet_renewal2.MyFirebaseMessagingService">
