@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="110dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_talent_img1_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/pic_design"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                />
+
+            <TextView
+                android:id="@+id/tv_hashtag1_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#설계도"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:layout_centerInParent="true"
+                />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_talent_img2_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/pic_study"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                />
+
+            <TextView
+                android:id="@+id/tv_hashtag2_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#과외"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:layout_centerInParent="true"
+                />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_talent_img3_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/pic_money"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                />
+
+            <TextView
+                android:id="@+id/tv_hashtag3_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#투자"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:layout_centerInParent="true"
+                />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
