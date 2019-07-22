@@ -4,9 +4,11 @@ public class UserData_TalentList {
     private String userName;
     private String userGender;
     private String userAge;
+    private String userBirth;
     private String hashtag;
     private String talentID;
     private String userID;
+    private String description;
 
     public String getUserName() {
         return userName;
@@ -54,5 +56,21 @@ public class UserData_TalentList {
 
     public void setTalentID(String talentID) {
         this.talentID = talentID;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUserBirth() {
+        return userBirth;
+    }
+
+    public void setUserBirth(String userBirth) {
+        this.userBirth = userBirth;
     }
 }

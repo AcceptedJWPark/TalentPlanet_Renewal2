@@ -11,6 +11,7 @@ public class TalentObject_Home implements Comparable<TalentObject_Home> {
     private String TalentDescription;
     private boolean hasFlag;
     private String hashtag;
+    private String talentFlag;
 
     public TalentObject_Home( String title, int backgroundResourceID, int iconResourceID, int talentCount, String talentID) {
         this.title = title;
@@ -108,5 +109,13 @@ public class TalentObject_Home implements Comparable<TalentObject_Home> {
 
     public void setTalentDescription(String talentDescription) {
         TalentDescription = talentDescription;
+    }
+
+    public String getTalentFlag() {
+        return talentFlag;
+    }
+
+    public void setTalentFlag(String talentFlag) {
+        this.talentFlag = talentFlag;
     }
 }

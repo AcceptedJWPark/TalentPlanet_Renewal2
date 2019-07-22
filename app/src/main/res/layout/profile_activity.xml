@@ -22,7 +22,6 @@
             android:layout_alignParentTop="true"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
-            android:src="@drawable/pic_design"
             />
 
 
@@ -89,13 +88,22 @@
 
                 <TextView
                     android:id="@+id/tv_tag_profile"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="#fff"
                     android:textSize="18dp"
                     android:textColor="#28364a"
-                    android:text="#수채화 #어반스케치 #watercolour"
                     />
+
+                <ImageView
+                    android:id="@+id/iv_edittalent_profile"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/icon_edittalent"
+                    />
+
             </LinearLayout>
 
             <TextView
@@ -111,9 +119,8 @@
                 android:textColor="#000"
                 android:gravity="center_vertical"
                 android:maxLines="2"
-                android:lineSpacingExtra="10dp"
-                android:text="면접위원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 원의 위원의 위원의 위원의 위원의 위원의 전체 평정 위원의 위원의 위원의 위원의 위원의 위원의 전체 평정 위원의 위원의 위원의 위원의 위원의 위원의 전체 평정 위원의 위원의 위원의 위원의 위원의 위원의 전체 평정 성적(상․중․하 개수)을 집계하여 ‘중’, ‘하’의 개수와 관계없이 ‘상’의 개수가 많은 순으로 순위를 정하고, ‘상’의 개수가 동일한 경우에는 ‘중’의 개수가 많은 자에게 선순위 부여"/>
-        <RelativeLayout
+                android:lineSpacingExtra="10dp"/>
+           <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="#fff"
@@ -171,7 +178,6 @@
                 android:id="@+id/tv_name_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="박종우"
                 android:gravity="center"
                 android:textColor="@color/color_mentor"
                 android:textSize="18dp"
@@ -192,7 +198,6 @@
                 android:id="@+id/img_gender_profile"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/icon_male"
                 android:tint="@color/color_mentor"
                 />
 
@@ -201,7 +206,6 @@
                 android:id="@+id/tv_birth_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="1991.01.23"
                 android:gravity="center"
                 android:textColor="@color/color_mentor"
                 android:textSize="14dp"
@@ -233,7 +237,6 @@
                     android:id="@+id/tv_addr_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:text="경기도 고양시 일산동구 장항동"
                     android:gravity="center"
                     android:textColor="@color/color_mentor"
                     android:textSize="14dp"
@@ -249,7 +252,6 @@
             android:id="@+id/tv_profile_description"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="김재환 안녕하세요, 당신이 모르는 김재환의 진짜 이야기"
             android:gravity="center"
             android:textColor="@color/color_mentor"
             android:maxLines="1"

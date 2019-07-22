@@ -5,14 +5,32 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import accepted.talentplanet_renewal2.R;
+import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.VolleySingleton;
 
 /**
  * Created by Accepted on 2019-07-19.
@@ -20,14 +38,48 @@ import accepted.talentplanet_renewal2.R;
 
 public class customDialog_Profile extends Dialog {
 
-    TextView tv_cancel_edittalent_popup;
+    Context mContext;
 
-    public customDialog_Profile(@NonNull Context context) {
+    RelativeLayout rl_editorhead_popup;
+
+    ImageView iv_talent_img_edit;
+
+    TextView tv_edittalent_title_popup;
+    TextView tv_cancel_edittalent_popup;
+    TextView tv_save_edittalent_popup;
+
+    EditText et_edit_talent;
+
+    private String flag;
+    private int code;
+
+    public customDialog_Profile(@NonNull Context context, String userDescription, int backgroundID, String talentFlag, int talentCode) {
         super(context);
+
+        mContext = context;
+        flag = talentFlag;
+        code = talentCode;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);   //다이얼로그의 타이틀바를 없애주는 옵션입니다.
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));  //다이얼로그의 배경을 투명으로 만듭니다.
         setContentView(R.layout.profile_edittalent_popup);     //다이얼로그에서 사용할 레이아웃입니다.
+
+        rl_editorhead_popup = findViewById(R.id.rl_editorhead_popup);
+        if (flag.equals("N")) {
+            rl_editorhead_popup.setBackgroundColor( mContext.getResources().getColor(R.color.color_mentee));
+        }
+
+        iv_talent_img_edit = findViewById(R.id.iv_talent_img_edit);
+
+        Glide.with(mContext).load(backgroundID).into(iv_talent_img_edit);
+
+        et_edit_talent = findViewById(R.id.et_edit_talent);
+        tv_edittalent_title_popup = findViewById(R.id.tv_edittalent_title_popup);
+        if (userDescription != null && userDescription.length() != 0) {
+            et_edit_talent.setText(userDescription);
+        } else {
+            tv_edittalent_title_popup.setText("새로작성");
+        }
 
         tv_cancel_edittalent_popup = findViewById(R.id.tv_cancel_edittalent_popup);
         tv_cancel_edittalent_popup.setOnClickListener(new View.OnClickListener() {
@@ -36,5 +88,41 @@ public class customDialog_Profile extends Dialog {
                 dismiss();   //
             }
         });
+
+        tv_save_edittalent_popup = findViewById(R.id.tv_save_edittalent_popup);
+        tv_save_edittalent_popup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editUserTalent(String.valueOf(et_edit_talent.getText()));
+            }
+        });
+
+
+    }
+
+    public void editUserTalent(final String text){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "/Hashtag/editUserTalent.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                if(!response.equals("")){
+                    Toast.makeText(mContext, "프로필 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    ((MainActivity_Profile)mContext).getAllTalent(flag);
+                    dismiss();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("UserID", SaveSharedPreference.getUserId(mContext));
+                params.put("TalentFlag", flag);
+                params.put("TalentCateCode", String.valueOf(code));
+                params.put("TalentDescription", text);
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
     }
 }

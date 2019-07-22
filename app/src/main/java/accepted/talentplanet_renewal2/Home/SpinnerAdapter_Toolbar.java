@@ -32,15 +32,13 @@ public class SpinnerAdapter_Toolbar extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.toolbar_spinner_selecteditem, parent, false);
+            convertView = inflater.inflate(R.layout.spinner_item_menubar, parent, false);
         }
 
         if(items.get(position) != null){
             SpinnerData_Toolbar item = items.get(position);
-            ((ImageView)convertView.findViewById(R.id.iv_spinner_icon)).setImageDrawable(mContext.getDrawable(item.getImageID()));
             ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setText(item.getText());
-            ((ImageView)convertView.findViewById(R.id.iv_spinner_arrow)).setImageDrawable(mContext.getDrawable(item.getArrowID()));
-            if(item.getText().equals("Teacher Planet")){
+             if(item.getText().equals("Teacher Planet")){
                 ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#28364A"));
             }else{
                 ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#FFC35E"));
@@ -53,13 +51,12 @@ public class SpinnerAdapter_Toolbar extends BaseAdapter {
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent){
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.toolbar_spinner_item, parent, false);
+            convertView = inflater.inflate(R.layout.spinner_item_menubar, parent, false);
         }
 
         if(items.get(position) != null){
             SpinnerData_Toolbar item = items.get(position);
-            ((ImageView)convertView.findViewById(R.id.iv_spinner_icon)).setImageDrawable(mContext.getDrawable(item.getImageID()));
-            ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setText(item.getText());
+             ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setText(item.getText());
             if(item.getText().equals("Teacher Planet")){
                 ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#28364A"));
             }else{

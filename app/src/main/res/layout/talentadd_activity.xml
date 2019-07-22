@@ -168,6 +168,7 @@
 
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_it_talentadd"
                 android:layout_width="match_parent"

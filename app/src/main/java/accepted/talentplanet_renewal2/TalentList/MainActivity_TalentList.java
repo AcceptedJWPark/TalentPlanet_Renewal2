@@ -101,16 +101,16 @@ public class MainActivity_TalentList extends AppCompatActivity {
         leftBtn = (ImageView)findViewById(R.id.img_open_dl);
 
         // 07-18
-        sampleUserlist = new ArrayList<Sample_UserData_TalentList>();
-        sampleUserlist.add(new Sample_UserData_TalentList("박종우","남성","1991.01.23","#헬스 #운동 #다이어트","17km"));
-        sampleUserlist.add(new Sample_UserData_TalentList("민권홍","남성","비공개","#근력운동 #다이어트 #PT","21km"));
-        sampleUserlist.add(new Sample_UserData_TalentList("김지영","여성","1998.04.12","#크로스핏 #요가 #Personal Trainning","45km"));
-        sampleUserlist.add(new Sample_UserData_TalentList("조현배","남성","비공개","#스트렝스 #근력짱 #파워리프터","67km"));
-        sampleUserlist.add(new Sample_UserData_TalentList("문건우","남성","1995.11.22","#다이어트 #운동 #스트렝스","170km"));
-
-        listAdapter_talentList = new Sample_ListAdapter_TalentList(mContext,sampleUserlist);
-
-        userListView.setAdapter(listAdapter_talentList);
+//        sampleUserlist = new ArrayList<Sample_UserData_TalentList>();
+//        sampleUserlist.add(new Sample_UserData_TalentList("박종우","남성","1991.01.23","#헬스 #운동 #다이어트","17km"));
+//        sampleUserlist.add(new Sample_UserData_TalentList("민권홍","남성","비공개","#근력운동 #다이어트 #PT","21km"));
+//        sampleUserlist.add(new Sample_UserData_TalentList("김지영","여성","1998.04.12","#크로스핏 #요가 #Personal Trainning","45km"));
+//        sampleUserlist.add(new Sample_UserData_TalentList("조현배","남성","비공개","#스트렝스 #근력짱 #파워리프터","67km"));
+//        sampleUserlist.add(new Sample_UserData_TalentList("문건우","남성","1995.11.22","#다이어트 #운동 #스트렝스","170km"));
+//
+//        listAdapter_talentList = new Sample_ListAdapter_TalentList(mContext,sampleUserlist);
+//
+//        userListView.setAdapter(listAdapter_talentList);
 
         // 인텐트 받기
         Intent intent = getIntent();
@@ -211,6 +211,8 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         aUser.setHashtag(obj.has("HASHTAG") ? obj.getString("HASHTAG") : "");
                         aUser.setUserAge(Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(obj.getString("USER_BIRTH").split("-")[0]) + 1 + "");
                         aUser.setUserID(obj.getString("UserID"));
+                        aUser.setDescription(obj.getString("PROFILE_DESCRIPTION"));
+                        aUser.setUserBirth(obj.getString("USER_BIRTH"));
 
                         userList.add(aUser);
                     }
@@ -238,9 +240,11 @@ public class MainActivity_TalentList extends AppCompatActivity {
                             String userInfo = userList.get(position).getUserGender() + " / " + userList.get(position).getUserAge() + "세";
 
                             intent.putExtra("userName", userList.get(position).getUserName());
-                            intent.putExtra("userInfo", userInfo);
+                            intent.putExtra("userInfo", userList.get(position).getUserBirth());
                             intent.putExtra("targetUserID", userList.get(position).getUserID());
                             intent.putExtra("userID", userList.get(position).getUserID());
+                            intent.putExtra("userDescription", userList.get(position).getDescription());
+
                             startActivity(intent);
                         }
                     });

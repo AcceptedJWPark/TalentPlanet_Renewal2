@@ -34,8 +34,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -60,6 +63,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -107,6 +111,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 //    private TextView tv_profile_mentor_count, tv_profile_mentee_count;
     private TextView tv_profile_description;
     private TextView tv_birth_profile;
+    private Spinner sp_talent_profile;
     private TextView tv_addr_profile;
 //    private TextView tv_profile_point;
 
@@ -157,6 +162,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     customDialog_Profile cd_profile;
     customDialog_PointSend cd_PointSend;
 
+    SpinnerAdapter_Talent adapter_talent;
+
+    // 새로운 재능인지 아닌지
+    private boolean isNewTalent;
+    private int spinnerIdx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,9 +174,15 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         setContentView(R.layout.profile_activity);
 
         mContext = getApplicationContext();
+        mActivity = this;
+
+        // 받은 값 구현
+        Intent intent = new Intent(this.getIntent());
+        inPerson = intent.getBooleanExtra("inPerson", false);
+        isNewTalent = intent.getBooleanExtra("isNewTalent", false);
+        spinnerIdx = intent.getIntExtra("spinnerIdx", 0);
 
         mode = SaveSharedPreference.getPrefTalentFlag(mContext);
-//        getAllTalent(mode);
 
         //statusbar 변경
         if (mode.equals("Y")) {
@@ -186,33 +202,19 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
         }
 
-
-
-        //재능 수정
+        //재능 수정 TO-DO
         DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
         double width = dm.widthPixels; //디바이스 화면 너비
         double height = dm.heightPixels; //디바이스 화면 높이
 
-        cd_profile = new customDialog_Profile(this);
-        WindowManager.LayoutParams wm = cd_profile.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
-        wm.copyFrom(cd_profile.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
-        wm.width = (int) (width / 1.2);  //
-        wm.height = (int) (height / 1.2);  //
-
-        ((ImageView)findViewById(R.id.iv_talent_profile)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cd_profile.show();
-            }
-        });
 
 
         //포인트 지급
         cd_PointSend = new customDialog_PointSend(this);
         WindowManager.LayoutParams wm2 = cd_PointSend.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
         wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
-        wm.width = (int) (width / 1.1);
-        wm.height = (int) (height / 1.1);
+        wm2.width = (int) (width / 1.1);
+        wm2.height = (int) (height / 1.1);
         ((ImageView)findViewById(R.id.iv_share_profile)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,13 +222,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
         });
 
-
-
-
         img_gender_profile = findViewById(R.id.img_gender_profile);
         tv_profile_description = findViewById(R.id.tv_profile_description);
         tv_birth_profile = findViewById(R.id.tv_birth_profile);
         img_gender_profile = findViewById(R.id.img_gender_profile);
+        sp_talent_profile = findViewById(R.id.sp_talent_profile);
 
         mentorTalentList = new ArrayList<>();
         menteeTalentList = new ArrayList<>();
@@ -234,12 +234,12 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         tv_toolbarprofle = findViewById(R.id.tv_toolbarprofle);
         tv_toolbarprofle.setText("Profile");
 
-        // 받은 값 구현
-        Intent intent = new Intent(this.getIntent());
-        inPerson = intent.getBooleanExtra("inPerson", false);
+
+
         if (intent.getStringExtra("userName") != null) {
             ((TextView)findViewById(R.id.tv_name_profile)).setText(intent.getStringExtra("userName"));
-            ((TextView)findViewById(R.id.tv_birth_profile)).setText(intent.getStringExtra("userInfo"));
+            ((TextView)findViewById(R.id.tv_birth_profile)).setText(intent.getStringExtra("userInfo").replaceAll("-", "\\."));
+            ((TextView)findViewById(R.id.tv_profile_description)).setText(intent.getStringExtra("userDescription"));
             targetUserID = intent.getStringExtra("targetUserID");
         }
 
@@ -266,8 +266,30 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
             }
 
+
+            ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(View.GONE);
+            ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
+            ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
         } else  {
+            ((ImageView)findViewById(R.id.iv_edittalent_profile)).setVisibility(View.GONE);
+            ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addFriend();
+                }
+            });
+
+
             userID = intent.getStringExtra("userID");
+        }
+
+        getAllTalent(mode);
+
+        if (isNewTalent) {
+            String code = intent.getStringExtra("Code");
+            int bgID = intent.getIntExtra("backgroundID", 0);
+
+            addNewTalent(mode, bgID, Integer.parseInt(code), "");
         }
 
         // 뒤로가기 이벤트
@@ -280,7 +302,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         // 지도
         // 07/18 11:32
-//        mActivity = this;
+
         // 07/18 11:32
 //        mGoogleApiClient = new GoogleApiClient.Builder(this)
 //                .addConnectionCallbacks(this)
@@ -490,87 +512,209 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 //        // Add StringRequest to the RequestQueue
 //        requestQueue.add(stringRequest);
 //    }
-//    private void getAllTalent(final String talentFlag) {
-//        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
-//
-//        StringRequest stringRequest = new StringRequest(
-//                Request.Method.POST,
-//                SaveSharedPreference.getServerIp() + "Profile/getAllMyTalent.do",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONArray talentArr = new JSONArray(response);
-//
-//                            mentorTalentList = new ArrayList<TalentObject_Home>();
-//                            menteeTalentList = new ArrayList<TalentObject_Home>();
-//                            for(int i = 0; i < talentArr.length(); i++){
-//                                JSONObject obj = talentArr.getJSONObject(i);
-//                                TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0, obj.getString("TalentID"));
-//                                item.setCateCode((int)obj.getLong("Code"));
-//                                item.setUserID(obj.getString("UserID"));
-//                                item.setTalentDescription(obj.getString("TalentDescription"));
-//
-//                                // 최초 로딩시 첫 재능을 보여주기 위한 부분
-//                                if (i == 0) {
-//                                    Glide.with(mActivity).load(item.getBackgroundResourceID()).into((ImageView)findViewById(R.id.iv_talent_profile));
-//
-//                                    findViewById(R.id.tv_tag_profile).setVisibility(View.VISIBLE);
-//                                    findViewById(R.id.tv_description_profile).setVisibility(View.VISIBLE);
-//
-//                                    // 유저 재능내용을 가져오는 부분
-//                                    String hashTagString = "";
-//                                    String userText = item.getTalentDescription();
-//                                    userText = userText.replaceAll("#", " #");
-//                                    String[] tagParse = userText.split(" ");
-//
-//                                    for (int j=0;j<tagParse.length;j++) {
-//                                        String aTag = tagParse[j];
-//                                        if (aTag.startsWith("#")) {
-//                                            hashTagString += aTag + " ";
-//                                        }
-//                                    }
-//
-//                                    hashTagString.trim();
-//
-//                                    ((TextView)findViewById(R.id.tv_description_profile)).setText(userText);
-//                                    ((TextView)findViewById(R.id.tv_tag_profile)).setText(hashTagString);
-//                                }
-//
-//                                if(talentFlag.equals("Y")) {
-//
-//                                    mentorTalentList.add(item);
-//                                }else if(talentFlag.equals("N")) {
-//                                    menteeTalentList.add(item);
-//                                }
-//
-//                                friendFlag = obj.getInt("FriendFlag") > 0;
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
-//            }
-//        }){
-//            @Override
-//            public Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("UserID", userID);
-//                params.put("CheckUserID", SaveSharedPreference.getUserId(mContext));
-//                params.put("TalentFlag", talentFlag);
-//                return params;
-//            }
-//        };
-//
-//        // Add StringRequest to the RequestQueue
-//        requestQueue.add(stringRequest);
-//    }
+    public void getAllTalent(final String talentFlag) {
+        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                SaveSharedPreference.getServerIp() + "Profile/getAllMyTalent.do",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray talentArr = new JSONArray(response);
+
+                            mentorTalentList = new ArrayList<TalentObject_Home>();
+                            menteeTalentList = new ArrayList<TalentObject_Home>();
+                            for(int i = 0; i < talentArr.length(); i++){
+                                JSONObject obj = talentArr.getJSONObject(i);
+                                TalentObject_Home item = new TalentObject_Home(obj.getString("Name"), getResources().getIdentifier(obj.getString("BackgroundID"), "drawable", getPackageName()), getResources().getIdentifier(obj.getString("IconID"), "drawable", getPackageName()), 0, obj.getString("TalentID"));
+                                item.setCateCode((int)obj.getLong("Code"));
+                                item.setUserID(obj.getString("UserID"));
+                                item.setTalentDescription(obj.getString("TalentDescription"));
+                                item.setTalentFlag(obj.getString("TalentFlag"));
+
+                                // 최초 로딩시 첫 재능을 보여주기 위한 부분
+                                if (i == 0) {
+                                    tv_toolbarprofle.setVisibility(View.GONE);
+                                    Glide.with(mActivity).load(item.getBackgroundResourceID()).into((ImageView)findViewById(R.id.iv_talent_profile));
+
+                                    findViewById(R.id.tv_tag_profile).setVisibility(View.VISIBLE);
+                                    findViewById(R.id.tv_description_profile).setVisibility(View.VISIBLE);
+
+                                    // 유저 재능내용을 가져오는 부분
+                                    String hashTagString = "";
+                                    String userText = item.getTalentDescription();
+                                    userText = userText.replaceAll("#", " #");
+                                    String[] tagParse = userText.split(" ");
+
+                                    for (int j=0;j<tagParse.length;j++) {
+                                        String aTag = tagParse[j];
+                                        if (aTag.startsWith("#")) {
+                                            hashTagString += aTag + " ";
+                                        }
+                                    }
+
+                                    userText.trim();
+                                    hashTagString.trim();
+
+                                    ((TextView)findViewById(R.id.tv_tag_profile)).setText(hashTagString);
+                                    ((TextView)findViewById(R.id.tv_description_profile)).setText(userText);
+                                }
+
+                                // 모드별 유저의 재능 리스트 가져오기
+                                if(talentFlag.equals("Y")) {
+                                    mentorTalentList.add(item);
+                                    adapter_talent = new SpinnerAdapter_Talent(mentorTalentList, mContext);
+                                }else if(talentFlag.equals("N")) {
+                                    menteeTalentList.add(item);
+                                    adapter_talent = new SpinnerAdapter_Talent(menteeTalentList, mContext);
+                                }
+
+                                // 스피너에 추가
+
+                                sp_talent_profile.setAdapter(adapter_talent);
+                                sp_talent_profile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                        if(talentFlag.equals("Y")) {
+                                            Glide.with(mActivity).load(mentorTalentList.get(position).getBackgroundResourceID()).into((ImageView)findViewById(R.id.iv_talent_profile));
+
+                                            String hashTagString = "";
+                                            String userText = mentorTalentList.get(position).getTalentDescription();
+                                            userText = userText.replaceAll("#", " #");
+                                            String[] tagParse = userText.split(" ");
+
+                                            for (int j=0;j<tagParse.length;j++) {
+                                                String aTag = tagParse[j];
+                                                if (aTag.startsWith("#")) {
+                                                    hashTagString += aTag + " ";
+                                                }
+                                            }
+
+                                            userText.trim();
+                                            hashTagString.trim();
+
+                                           ((TextView)findViewById(R.id.tv_tag_profile)).setText(hashTagString);
+                                           ((TextView)findViewById(R.id.tv_description_profile)).setText(userText);
+
+                                            cd_profile = new customDialog_Profile(mActivity, userText, mentorTalentList.get(position).getBackgroundResourceID(), mentorTalentList.get(position).getTalentFlag(), mentorTalentList.get(position).getCateCode());
+
+                                        } else if(talentFlag.equals("N")) {
+                                            Glide.with(mActivity).load(menteeTalentList.get(position).getBackgroundResourceID()).into((ImageView)findViewById(R.id.iv_talent_profile));
+
+                                            String hashTagString = "";
+                                            String userText = menteeTalentList.get(position).getTalentDescription();
+                                            userText = userText.replaceAll("#", " #");
+                                            String[] tagParse = userText.split(" ");
+
+                                            for (int j=0;j<tagParse.length;j++) {
+                                                String aTag = tagParse[j];
+                                                if (aTag.startsWith("#")) {
+                                                    hashTagString += aTag + " ";
+                                                }
+                                            }
+
+                                            userText.trim();
+                                            hashTagString.trim();
+
+                                            ((TextView)findViewById(R.id.tv_tag_profile)).setText(hashTagString);
+                                            ((TextView)findViewById(R.id.tv_description_profile)).setText(userText);
+
+                                            cd_profile = new customDialog_Profile(mActivity, userText, menteeTalentList.get(position).getBackgroundResourceID(), menteeTalentList.get(position).getTalentFlag(), menteeTalentList.get(position).getCateCode());
+
+                                        }
+
+                                        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
+                                        double width = dm.widthPixels; //디바이스 화면 너비
+                                        double height = dm.heightPixels; //디바이스 화면 높이
+
+                                        WindowManager.LayoutParams wm = cd_profile.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
+                                        wm.copyFrom(cd_profile.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
+                                        wm.width = (int) (width / 1.2);  //
+                                        wm.height = (int) (height / 1.2);  //
+
+                                        ((ImageView)findViewById(R.id.iv_edittalent_profile)).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                if (!mActivity.isFinishing()) {
+                                                    cd_profile.show();
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) { }
+                                });
+
+                                if (spinnerIdx > -1) {
+                                    Log.d("spinnerIdx", String.valueOf(spinnerIdx));
+                                    sp_talent_profile.setSelection(spinnerIdx);
+                                }
+
+
+                                friendFlag = obj.getInt("FriendFlag") > 0;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(this.getClass().getName(), "getAllTalent  [error]: " +error);
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                String flag = "";
+                if (talentFlag.equals("Y")) {
+                    flag = "N";
+                } else if (talentFlag.equals("N")) {
+                    flag = "Y";
+                }
+
+                if (inPerson) {
+                    flag = talentFlag;
+                }
+
+                params.put("UserID", userID);
+                params.put("CheckUserID", SaveSharedPreference.getUserId(mContext));
+                params.put("TalentFlag", flag);
+                return params;
+            }
+        };
+
+        // Add StringRequest to the RequestQueue
+        requestQueue.add(stringRequest);
+    }
+
+    private void addNewTalent(String talentFlag, int backgroundID, int cateCode, String description) {
+        Log.d("talentFlag:", talentFlag);
+//        Log.d("backgroundID:", backgroundID);
+//        Log.d("cateCode:", cateCode);
+        Log.d("description:", description);
+
+        cd_profile = new customDialog_Profile(mActivity, description, backgroundID, talentFlag, cateCode);
+
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
+        double width = dm.widthPixels; //디바이스 화면 너비
+        double height = dm.heightPixels; //디바이스 화면 높이
+
+        WindowManager.LayoutParams wm = cd_profile.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
+        wm.copyFrom(cd_profile.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
+        wm.width = (int) (width / 1.2);  //
+        wm.height = (int) (height / 1.2);  //
+
+        if (!mActivity.isFinishing()) {
+            cd_profile.show();
+        }
+    }
 
 
     // 여기 아래부터는 지도 관련
@@ -1199,4 +1343,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         postRequestQueue.add(postJsonRequest);
     }
+
+
 }

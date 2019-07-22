@@ -8,6 +8,7 @@
     >
 
     <RelativeLayout
+        android:id="@+id/rl_editorhead_popup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/color_mentor"
@@ -41,6 +42,7 @@
                 />
 
             <TextView
+                android:id="@+id/tv_edittalent_title_popup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="수정하기"
@@ -69,6 +71,7 @@
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/iv_talent_img_edit"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:src="@drawable/pic_design"
@@ -76,6 +79,7 @@
         />
 
     <EditText
+        android:id="@+id/et_edit_talent"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:hint="이곳에 텍스트를 입력하세요."

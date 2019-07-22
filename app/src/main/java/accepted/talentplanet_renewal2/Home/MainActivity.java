@@ -203,8 +203,8 @@ public class MainActivity extends AppCompatActivity {
 
         vp = (ViewPager) findViewById(R.id.vp_pop_talent_home);
 
-//        ViewPager_PopTalent adapter = new ViewPager_PopTalent(getSupportFragmentManager() ,mContext);
-//        vp.setAdapter(adapter);
+        ViewPager_PopTalent adapter = new ViewPager_PopTalent(getSupportFragmentManager() ,mContext);
+        vp.setAdapter(adapter);
 
     }
 
