@@ -41,13 +41,14 @@
             <View
                 android:layout_width="3dp"
                 android:layout_height="match_parent"
-                android:background="@color/bgr_mainColor"
-                android:layout_marginLeft="30dp"
+                android:background="#fff"
+                android:layout_marginLeft="25dp"
                 />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,12 +62,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             >
 
+
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/icon_join_userinfo"
                 android:padding="5dp"
                 android:scaleType="fitXY"
@@ -89,7 +91,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
-                android:layout_marginRight="40dp"
+                android:layout_marginRight="30dp"
                 >
 
 
@@ -106,8 +108,9 @@
                     android:hint="아이디(이메일 주소)"
                     android:background="@drawable/bgr_edittxt_join"
                     android:textSize="12dp"
-                    android:textColorHint="#bebcd4"
-                    android:paddingLeft="5dp"
+                    android:textColorHint="#fff"
+                    android:textColor="#fff"
+                    android:paddingLeft="10dp"
                     />
 
                 <Button
@@ -115,8 +118,8 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:text="중복확인"
-                    android:textSize="13dp"
-                    android:textColor="@color/bgr_mainColor"
+                    android:textSize="12dp"
+                    android:textColor="@color/color_mentor"
                     android:background="@drawable/bgr_joinbtn1"
                     android:id="@+id/btn_emailcheck_join"
                     />
@@ -139,9 +142,10 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/bgr_edittxt_join"
                         android:hint="비밀번호 (6~16자의 영문,숫자, 특수기호 중 택2)"
-                        android:paddingLeft="5dp"
+                        android:paddingLeft="10dp"
                         android:inputType="textPassword"
-                        android:textColorHint="#bebcd4"
+                        android:textColorHint="#fff"
+                        android:textColor="#fff"
                         android:textSize="12dp" />
 
 
@@ -164,9 +168,10 @@
                         android:hint="비밀번호 확인"
                         android:background="@drawable/bgr_edittxt_join"
                         android:textSize="12dp"
+                        android:paddingLeft="10dp"
                         android:inputType="textPassword"
-                        android:textColorHint="#bebcd4"
-                        android:paddingLeft="5dp"
+                        android:textColorHint="#fff"
+                        android:textColor="#fff"
                         />
 
                 </LinearLayout>
@@ -180,12 +185,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 >
 
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/icon_join_admit"
                     android:padding="5dp"
                     android:scaleType="fitXY"
@@ -206,9 +211,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:orientation="vertical"
                 android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_marginRight="30dp"
                 >
 
 
@@ -225,7 +230,8 @@
                         android:hint="이름 (실명을 입력해주세요.)"
                         android:background="@drawable/bgr_edittxt_join"
                         android:textSize="12dp"
-                        android:textColorHint="#bebcd4"
+                        android:textColorHint="#fff"
+                        android:textColor="#fff"
                         android:paddingLeft="5dp"
                         />
 
@@ -246,18 +252,19 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/bgr_edittxt_join"
                         android:textSize="12dp"
-                        android:textColorHint="#bebcd4"
+                        android:textColorHint="#fff"
+                        android:textColor="#fff"
                         android:hint="핸드폰 번호 ('-'구분없이 입력)"
-                        android:paddingLeft="5dp"
+                        android:paddingLeft="10dp"
                         />
 
                     <Button
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:text="중복확인"
-                        android:textSize="13dp"
-                        android:textColor="@color/bgr_mainColor"
+                        android:text="인증번호 전송"
+                        android:textSize="12dp"
+                        android:textColor="@color/color_mentor"
                         android:background="@drawable/bgr_joinbtn1"
                         android:id="@+id/btn_sendsms_join"
                         />
@@ -265,19 +272,13 @@
                 </RelativeLayout>
 
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
                     >
 
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
-                        >
 
                         <EditText
                             android:id="@+id/et_admit_join"
@@ -286,26 +287,24 @@
                             android:hint="인증번호 입력"
                             android:background="@drawable/bgr_edittxt_join"
                             android:textSize="12dp"
-                            android:textColorHint="#bebcd4"
+                            android:textColorHint="#fff"
+                            android:textColor="#fff"
                             android:paddingLeft="5dp"
                             />
 
                         <Button
+                            android:id="@+id/btn_chkcertnum_join"
                             android:layout_width="100dp"
                             android:layout_height="match_parent"
                             android:text="인증완료"
-                            android:textColor="@color/bgr_mainColor"
+                            android:textColor="@color/color_mentor"
                             android:background="@drawable/bgr_joinbtn1"
                             android:layout_alignParentRight="true"
-                            android:textSize="13dp"
-                            android:id="@+id/btn_chkcertnum_join"
+                            android:textSize="12dp"
                             />
 
-                    </RelativeLayout>
 
-                </LinearLayout>
-
-
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -319,8 +318,8 @@
                 >
 
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/icon_join_addinfo"
                     android:padding="5dp"
                     android:scaleType="fitXY"
@@ -330,7 +329,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="부가정보"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:textStyle="bold"
                     android:textSize="20dp"
                     />
@@ -344,6 +343,7 @@
                 android:orientation="vertical"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginRight="30dp"
                 >
 
 
@@ -359,21 +359,22 @@
                         android:layout_width="0dp"
                         android:layout_weight="3"
                         android:layout_height="match_parent"
-                        android:hint="생년월일(190101)"
+                        android:hint="생년월일(19010101)"
                         android:background="@drawable/bgr_edittxt_join"
                         android:textSize="14dp"
-                        android:textColorHint="#bebcd4"
-                        android:paddingLeft="3dp"
+                        android:textColorHint="#fff"
+                        android:textColor="#fff"
+                        android:paddingLeft="10dp"
                         />
 
                     <CheckBox
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="30dp"
-                        android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:text="비공개"
                         android:id="@+id/cb_hide_birth"
+                        android:textColor="#fff"
                         />
 
                 </LinearLayout>
@@ -385,6 +386,7 @@
                     android:layout_height="40dp"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
+                    android:layout_marginTop="10dp"
                     >
 
                     <LinearLayout
@@ -403,18 +405,19 @@
 
                             <ImageView
                                 android:id="@+id/img_malecheck_join"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/icon_check1off"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:src="@drawable/icon_checkbox_unselected"
+                                android:tint="#fff"
                                 />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="남성"
-                                android:textSize="16dp"
+                                android:textSize="14dp"
                                 android:layout_marginLeft="10dp"
-                                android:textColor="#000"
+                                android:textColor="#fff"
                                 />
 
                         </LinearLayout>
@@ -429,18 +432,19 @@
 
                             <ImageView
                                 android:id="@+id/img_femalecheck_join"
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:src="@drawable/icon_check1off"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:src="@drawable/icon_checkbox_unselected"
+                                android:tint="#fff"
                                 />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="여성"
-                                android:textSize="16dp"
+                                android:textSize="14dp"
                                 android:layout_marginLeft="10dp"
-                                android:textColor="#000"
+                                android:textColor="#fff"
                                 />
 
                         </LinearLayout>
@@ -453,18 +457,13 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="30dp"
-                        android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:text="비공개"
                         android:id="@+id/cb_hide_gender"
+                        android:textColor="#fff"
                         />
 
                 </LinearLayout>
-
-
-
-
-
 
             </LinearLayout>
 
@@ -478,8 +477,8 @@
                 >
 
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/icon_join_docu"
                     android:padding="5dp"
                     android:scaleType="fitXY"
@@ -489,7 +488,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="이용약관"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:textStyle="bold"
                     android:textSize="20dp"
                     />
@@ -503,12 +502,14 @@
                 android:orientation="vertical"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginRight="30dp"
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"
+                    android:gravity="center_vertical"
                     >
 
                     <CheckBox
@@ -516,19 +517,18 @@
                         android:layout_weight="3"
                         android:layout_height="30dp"
                         android:text="서비스 이용약관에 동의합니다."
-                        android:textSize="12dp"
-                        android:textColor="@color/bgr_mainColor"
+                        android:textSize="13dp"
+                        android:textColor="#fff"
                         android:id="@+id/cb_agree_service"
                         />
 
-                    <Button
+                    <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1.5"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
-                        android:textColor="@color/bgr_mainColor"
-                        android:background="@drawable/bgr_joinbtn1"
+                        android:textColor="#fff"
                         android:textSize="13dp"
                         android:text="전체보기"
                         />
@@ -539,6 +539,7 @@
                     android:layout_height="40dp"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
                     >
 
                     <CheckBox
@@ -546,21 +547,20 @@
                         android:layout_weight="3"
                         android:layout_height="30dp"
                         android:text="개인정보 수집이용에 동의합니다."
-                        android:textSize="12dp"
-                        android:textColor="@color/bgr_mainColor"
+                        android:textSize="13dp"
+                        android:textColor="#fff"
                         android:id="@+id/cb_agree_privacy"
                         />
 
-                    <Button
+                    <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1.5"
+                        android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
+                        android:gravity="center|right"
                         android:text="전체보기"
+                        android:textColor="#fff"
                         android:textSize="13dp"
-                        android:textColor="@color/bgr_mainColor"
-                        android:background="@drawable/bgr_joinbtn1"
                         />
 
                 </LinearLayout>
@@ -586,9 +586,9 @@
 
                <Button
                    android:layout_width="wrap_content"
-                   android:layout_height="60dp"
+                   android:layout_height="40dp"
                    android:text="Talent Planet 시작하기"
-                   android:background="@drawable/bgr_joinbtn2"
+                   android:background="@drawable/bgr_loginbtn1"
                    android:paddingLeft="30dp"
                    android:paddingRight="30dp"
                    android:textAllCaps="false"

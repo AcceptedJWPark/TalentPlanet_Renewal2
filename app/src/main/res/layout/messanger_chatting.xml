@@ -71,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:padding="5dp"
-        android:background="@drawable/bgr_joinbtn2"
+        android:background="@drawable/bgr_loginbtn1"
         android:gravity="center"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
