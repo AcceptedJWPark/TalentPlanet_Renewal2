@@ -290,7 +290,7 @@
                       android:layout_width="40dp"
                       android:layout_height="0dp"
                       android:layout_weight="1"
-                      android:src="@drawable/icon_message2"
+                      android:src="@drawable/icon_message"
                       android:tint="@color/color_mentor"
                       />
 

@@ -8,13 +8,8 @@
         android:bottomRightRadius="3dp"
         />
 
-
-
     <solid
-        android:color="#8e7fa8c9"
+        android:color="@color/colorAccent"
         />
 
-    <stroke
-        android:width="0dp"
-        android:color="#878787"
-        /></shape>
+</shape>

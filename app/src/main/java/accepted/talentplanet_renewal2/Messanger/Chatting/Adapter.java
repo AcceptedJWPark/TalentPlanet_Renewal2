@@ -32,6 +32,9 @@ import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.VolleySingleton;
 
+import static android.graphics.Color.BLACK;
+import static android.graphics.Color.WHITE;
+
 /**
  * Created by Accepted on 2018-03-05.
  */
@@ -122,11 +125,13 @@ public class Adapter extends BaseAdapter {
                 holder.Messanger_Chatting_Picture.setBackgroundResource(messanger_Chatting_Arraylist.get(position).getPicture());
             }
             holder.Messanger_Chatting_Txt.setBackgroundResource(R.drawable.bgr_messanger_chatting_get);
+            holder.Messanger_Chatting_Txt.setTextColor(BLACK);
             Messanger_ChattingTxt.addRule(RelativeLayout.RIGHT_OF, R.id.Messanger_Chatting_Picture);
             Messanger_ChattingDate.addRule(RelativeLayout.RIGHT_OF, R.id.Messanger_Chatting_Txt);
         }else{
             holder.Messanger_Chatting_Picture.setVisibility(View.GONE);
             holder.Messanger_Chatting_Txt.setBackgroundResource(R.drawable.bgr_messanger_chatting_send);
+            holder.Messanger_Chatting_Txt.setTextColor(WHITE);
             Messanger_ChattingTxt.addRule( RelativeLayout.ALIGN_PARENT_RIGHT);
             Messanger_ChattingDate.addRule(RelativeLayout.LEFT_OF, R.id.Messanger_Chatting_Txt);
         }

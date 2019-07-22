@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:background="#ffffff"
+        android:background="#4d5868"
         android:focusableInTouchMode="true"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="계정정보"
-                android:textColor="#000"
+                android:textColor="#fff"
                 android:textStyle="bold"
                 android:textSize="20dp"
                 />
@@ -87,44 +87,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical"
+                android:layout_marginRight="40dp"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="아이디(이메일)"
-                    android:textColor="#000"
-                    android:textSize="16dp"
-                    />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"
-                    android:layout_marginTop="5dp"
                     >
 
                 <EditText
                     android:id="@+id/et_email_join"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="이메일 주소"
+                    android:hint="아이디(이메일 주소)"
                     android:background="@drawable/bgr_edittxt_join"
-                    android:textSize="14dp"
+                    android:textSize="12dp"
                     android:textColorHint="#bebcd4"
-                    android:paddingLeft="3dp"
+                    android:paddingLeft="5dp"
                     />
 
                 <Button
-                    android:layout_width="0dp"
-                    android:layout_weight="1.5"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_alignParentRight="true"
                     android:text="중복확인"
                     android:textSize="13dp"
                     android:textColor="@color/bgr_mainColor"
@@ -132,22 +121,15 @@
                     android:id="@+id/btn_emailcheck_join"
                     />
 
-                </LinearLayout>
+                </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="비밀번호"
-                    android:textColor="#000"
-                    android:layout_marginTop="20dp"
-                    android:textSize="16dp"
-                    />
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
                     >
 
 
@@ -155,31 +137,23 @@
                         android:id="@+id/et_pw_join"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
                         android:background="@drawable/bgr_edittxt_join"
-                        android:hint="비밀번호"
-                        android:paddingLeft="3dp"
+                        android:hint="비밀번호 (6~16자의 영문,숫자, 특수기호 중 택2)"
+                        android:paddingLeft="5dp"
                         android:inputType="textPassword"
                         android:textColorHint="#bebcd4"
-                        android:textSize="14dp" />
+                        android:textSize="12dp" />
 
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="비밀번호 확인"
-                    android:textColor="#000"
-                    android:textSize="16dp"
-                    android:layout_marginTop="20dp"
-                    />
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
                     >
 
 
@@ -187,13 +161,12 @@
                         android:id="@+id/et_pwcheck_join"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
                         android:hint="비밀번호 확인"
                         android:background="@drawable/bgr_edittxt_join"
-                        android:textSize="14dp"
+                        android:textSize="12dp"
                         android:inputType="textPassword"
                         android:textColorHint="#bebcd4"
-                        android:paddingLeft="3dp"
+                        android:paddingLeft="5dp"
                         />
 
                 </LinearLayout>
@@ -222,9 +195,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="본인인증"
-                    android:textColor="#000"
                     android:textStyle="bold"
                     android:textSize="20dp"
+                    android:textColor="#fff"
                     />
 
             </LinearLayout>
@@ -233,18 +206,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
                 android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="이름"
-                    android:textColor="#000"
-                    android:textSize="16dp"
-                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -256,67 +222,47 @@
                         android:id="@+id/et_name_join"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:hint="실명을 입력해주세요"
+                        android:hint="이름 (실명을 입력해주세요.)"
                         android:background="@drawable/bgr_edittxt_join"
-                        android:textSize="14dp"
+                        android:textSize="12dp"
                         android:textColorHint="#bebcd4"
-                        android:paddingLeft="3dp"
+                        android:paddingLeft="5dp"
                         />
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="휴대폰 번호"
-                    android:textColor="#000"
-                    android:textSize="16dp"
-                    android:layout_marginTop="20dp"
-                    />
 
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
                     >
 
                     <EditText
                         android:id="@+id/et_phone_join"
-                        android:layout_width="0dp"
-                        android:layout_weight="3"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/bgr_edittxt_join"
-                        android:textSize="14dp"
+                        android:textSize="12dp"
                         android:textColorHint="#bebcd4"
-                        android:hint="'-'구분없이 입력"
-                        android:paddingLeft="3dp"
+                        android:hint="핸드폰 번호 ('-'구분없이 입력)"
+                        android:paddingLeft="5dp"
                         />
 
                     <Button
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
+                        android:layout_width="100dp"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:text="인증번호 전송"
+                        android:layout_alignParentRight="true"
+                        android:text="중복확인"
+                        android:textSize="13dp"
                         android:textColor="@color/bgr_mainColor"
                         android:background="@drawable/bgr_joinbtn1"
-                        android:textSize="13dp"
                         android:id="@+id/btn_sendsms_join"
                         />
 
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="인증번호"
-                    android:textColor="#000"
-                    android:textSize="16dp"
-                    android:layout_marginTop="20dp"
-                    />
+                </RelativeLayout>
 
 
                 <LinearLayout
@@ -326,38 +272,36 @@
                     >
 
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
                         >
 
                         <EditText
                             android:id="@+id/et_admit_join"
-                            android:layout_width="0dp"
-                            android:layout_weight="3"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:hint="인증번호 입력"
                             android:background="@drawable/bgr_edittxt_join"
-                            android:textSize="14dp"
+                            android:textSize="12dp"
                             android:textColorHint="#bebcd4"
-                            android:paddingLeft="3dp"
+                            android:paddingLeft="5dp"
                             />
 
                         <Button
-                            android:layout_width="0dp"
-                            android:layout_weight="1.5"
+                            android:layout_width="100dp"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
                             android:text="인증완료"
                             android:textColor="@color/bgr_mainColor"
                             android:background="@drawable/bgr_joinbtn1"
+                            android:layout_alignParentRight="true"
                             android:textSize="13dp"
                             android:id="@+id/btn_chkcertnum_join"
                             />
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -371,7 +315,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 >
 
                 <ImageView
@@ -402,13 +346,6 @@
                 android:layout_marginBottom="20dp"
                 >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="생년월일"
-                    android:textColor="#000"
-                    android:textSize="16dp"
-                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -441,14 +378,6 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="성별"
-                    android:textColor="#000"
-                    android:textSize="16dp"
-                    android:layout_marginTop="20dp"
-                    />
 
 
                 <LinearLayout

@@ -69,8 +69,9 @@
     <LinearLayout
         android:id="@+id/ll_EditTxtContainer_Chatting_Messanger"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/Height40dp"
-        android:background="@drawable/brg_chatting_edittxt"
+        android:layout_height="50dp"
+        android:padding="5dp"
+        android:background="@drawable/bgr_joinbtn2"
         android:gravity="center"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
@@ -85,7 +86,7 @@
                 android:includeFontPadding="false"
                 android:minHeight="@dimen/Height40dp"
                 android:gravity="center_vertical"
-                android:background="@drawable/brg_chatting_edittxt"
+                android:background="@drawable/bgr_messanger_edittxt"
                 android:layout_weight="7"
                 />
 
@@ -93,15 +94,15 @@
             android:id="@+id/ll_SendBtnContainer_Chatting_Messanger"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/bgr_messanger_sendbtn"
             android:layout_weight="1"
             android:gravity="center"
             >
 
             <ImageView
-                android:layout_width="@dimen/Toolbar_Img"
-                android:layout_height="@dimen/Toolbar_Img"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:gravity="center"
+                android:tint="#fff"
                 android:src="@drawable/icon_send"
                 android:scaleType="fitXY"
                 />

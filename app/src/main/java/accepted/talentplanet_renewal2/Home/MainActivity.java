@@ -39,8 +39,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
-import accepted.talentplanet_renewal2.Condition.MainActivity_Condition;
-import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
 import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
@@ -473,7 +471,7 @@ public class MainActivity extends AppCompatActivity {
     public void selectTeacher()
     {
         talentCateFindView();
-        Glide.with(mContext).load(R.drawable.bgr_home_teacher).into((ImageView)findViewById(R.id.img_bgr_home));
+        Glide.with(mContext).load(R.drawable.pic_home_teacher).into((ImageView)findViewById(R.id.img_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
         ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
         ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(WHITE);
@@ -510,7 +508,7 @@ public class MainActivity extends AppCompatActivity {
     public void selectStudent()
     {
         talentCateFindView();
-        Glide.with(mContext).load(R.drawable.bgr_home_student).into((ImageView)findViewById(R.id.img_bgr_home));
+        Glide.with(mContext).load(R.drawable.pic_home_student).into((ImageView)findViewById(R.id.img_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
