@@ -9,6 +9,8 @@ public class UserData_TalentList {
     private String talentID;
     private String userID;
     private String description;
+    private Double GP_LAT;
+    private Double GP_LNG;
 
     public String getUserName() {
         return userName;
@@ -72,5 +74,21 @@ public class UserData_TalentList {
 
     public void setUserBirth(String userBirth) {
         this.userBirth = userBirth;
+    }
+
+    public Double getGP_LAT() {
+        return GP_LAT;
+    }
+
+    public void setGP_LAT(Double GP_LAT) {
+        this.GP_LAT = GP_LAT;
+    }
+
+    public Double getGP_LNG() {
+        return GP_LNG;
+    }
+
+    public void setGP_LNG(Double GP_LNG) {
+        this.GP_LNG = GP_LNG;
     }
 }

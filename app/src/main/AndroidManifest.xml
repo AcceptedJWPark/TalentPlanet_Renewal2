@@ -83,6 +83,9 @@
             android:name=".Profile.MainActivity_Profile"
             android:theme="@style/AppTheme_Home" />
 
+        <activity
+            android:name=".Profile.MapsActivity"
+            android:theme="@style/AppTheme_Home" />
 
         <activity
             android:name=".Messanger.List.MainActivity"

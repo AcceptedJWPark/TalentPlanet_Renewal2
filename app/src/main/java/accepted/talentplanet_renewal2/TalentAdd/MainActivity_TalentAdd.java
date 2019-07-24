@@ -66,6 +66,8 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
     private TextView[] tv_txt = new TextView[14];
     private Map<String, Object>[] teacherCodeArr =  new Map[14];
     private Map<String, Object>[] studentCodeArr =  new Map[14];
+    private String[] talentTitle =  new String[14];
+
 
     Context mContext;
 
@@ -138,6 +140,13 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getAllTalent(SaveSharedPreference.getPrefTalentFlag(mContext));
+    }
+
     public void registedBgr()
     {
         if(isTeacher) {
@@ -150,8 +159,6 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
                     iv_icon[i].setImageResource(icon_src[i]);
                     iv_icon[i].setColorFilter(BLACK);
                     tv_txt[i].setTextColor(BLACK);
-
-                    final String title = (String) tv_txt[i].getText();
 
                     final int spinnerIdx = idx;
 
@@ -178,6 +185,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
                         final String code = String.valueOf(i + 1);
                         final String flag = "Y";
                         final int bgID = bg_src[i];
+                        final String title = talentTitle[i];
 
                         view_bgr2[i].setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -185,7 +193,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), MainActivity_Profile.class);
                                 intent.putExtra("inPerson", true);
                                 intent.putExtra("isNewTalent", true);
-
+                                intent.putExtra("talentTitle", title);
                                 intent.putExtra("Code", code);
                                 intent.putExtra("talentFlag", flag);
                                 intent.putExtra("backgroundID", bgID);
@@ -242,6 +250,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
                         final String code = String.valueOf(i + 1);
                         final String flag = "N";
                         final int bgID = bg_src[i];
+                        final String title = talentTitle[i];
 
                         view_bgr2[i].setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -249,7 +258,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), MainActivity_Profile.class);
                                 intent.putExtra("inPerson", true);
                                 intent.putExtra("isNewTalent", true);
-
+                                intent.putExtra("talentTitle", title);
                                 intent.putExtra("Code", code);
                                 intent.putExtra("talentFlag", flag);
                                 intent.putExtra("backgroundID", bgID);
@@ -532,6 +541,21 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
         studentCodeArr[11] = defalutMap;
         studentCodeArr[12] = defalutMap;
         studentCodeArr[13] = defalutMap;
+
+        talentTitle[0] = "취업";
+        talentTitle[1] = "학습";
+        talentTitle[2] = "재테크";
+        talentTitle[3] = "IT";
+        talentTitle[4] = "사진";
+        talentTitle[5] = "음악";
+        talentTitle[6] = "미술/디자인";
+        talentTitle[7] = "운동";
+        talentTitle[8] = "생활";
+        talentTitle[9] = "뷰티/패션";
+        talentTitle[10] = "사회봉사";
+        talentTitle[11] = "여행";
+        talentTitle[12] = "문화";
+        talentTitle[13] = "게임";
     }
 
 

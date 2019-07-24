@@ -2,15 +2,32 @@ package accepted.talentplanet_renewal2.Profile;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import accepted.talentplanet_renewal2.R;
+import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
+import accepted.talentplanet_renewal2.VolleySingleton;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
@@ -22,12 +39,32 @@ import static android.graphics.Color.WHITE;
 public class customDialog_PointSend extends Dialog {
 
     ImageView iv_cancel_pointsend;
+
+    Button btn_reviewuser_popup;
+
     View [] view_Estimate = new View[10];
     int [] colorGradient = new int[10];
 
+    Context mContext;
 
-    public customDialog_PointSend(@NonNull Context context) {
+    private int score;
+
+    private String isMentor;
+    private String mentorID;
+    private String menteeID;
+
+    public customDialog_PointSend(@NonNull Context context, String mode, String targetID) {
         super(context);
+        mContext = context;
+        isMentor = mode;
+
+        if (isMentor.equals("Y")) {
+            mentorID = SaveSharedPreference.getUserId(mContext);
+            menteeID = targetID;
+        } else {
+            mentorID = targetID;
+            menteeID = SaveSharedPreference.getUserId(mContext);
+        }
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);   //다이얼로그의 타이틀바를 없애주는 옵션입니다.
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));  //다이얼로그의 배경을 투명으로 만듭니다.
@@ -55,6 +92,7 @@ public class customDialog_PointSend extends Dialog {
         colorGradient[8] = Color.parseColor("#ff9a61");
         colorGradient[9] = Color.parseColor("#ffa061");
 
+
         for(int i=0; i<view_Estimate.length; i++)
         {
             view_Estimate[i].setBackgroundColor(WHITE);
@@ -67,6 +105,7 @@ public class customDialog_PointSend extends Dialog {
                         if(j<= finalI)
                         {
                             view_Estimate[j].setBackgroundColor(colorGradient[j]);
+                            score = j;
                         }else
                         {
                             view_Estimate[j].setBackgroundColor(WHITE);
@@ -76,6 +115,42 @@ public class customDialog_PointSend extends Dialog {
             });
         }
 
+
+        btn_reviewuser_popup = findViewById(R.id.btn_reviewuser_popup);
+        btn_reviewuser_popup.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+                StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/newSendInterest.do", new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            if(obj.getString("result").equals("success")){
+                                Toast.makeText(mContext, "평가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                                dismiss();   //
+                            }
+                        }
+                        catch(JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }, SaveSharedPreference.getErrorListener(mContext)) {
+                    @Override
+                    protected Map<String, String> getParams(){
+                        Map<String, String> params = new HashMap();
+                        params.put("MenteeID", menteeID);
+                        params.put("MentorID", mentorID);
+                        params.put("user", mentorID);
+                        params.put("isMentor", isMentor);
+                        params.put("Score", String.valueOf(score));
+                        return params;
+                    }
+                };
+
+                postRequestQueue.add(postJsonRequest);
+            }
+        });
 
         iv_cancel_pointsend = findViewById(R.id.iv_cancel_pointsend);
         iv_cancel_pointsend.setOnClickListener(new View.OnClickListener() {

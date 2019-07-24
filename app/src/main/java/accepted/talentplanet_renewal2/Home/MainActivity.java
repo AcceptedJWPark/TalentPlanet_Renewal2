@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private Map<String, TalentObject_Home> talentMap;
     private ArrayList<LinearLayout> talentList = new ArrayList<>();
     private ArrayList<String> talentTextList = new ArrayList<>();
+    private ArrayList<String> talenTitletList = new ArrayList<>();
 
     SQLiteDatabase sqliteDatabase;
 
@@ -256,6 +257,21 @@ public class MainActivity extends AppCompatActivity {
         talentList.add(ll_13);
         talentList.add(ll_14);
 
+        talenTitletList.add("취업");
+        talenTitletList.add("재테크");
+        talenTitletList.add("생활");
+        talenTitletList.add("여행");
+        talenTitletList.add("학습");
+        talenTitletList.add("봉사활동");
+        talenTitletList.add("IT");
+        talenTitletList.add("문화");
+        talenTitletList.add("운동");
+        talenTitletList.add("음악");
+        talenTitletList.add("사진");
+        talenTitletList.add("뷰티");
+        talenTitletList.add("미술");
+        talenTitletList.add("게임");
+
         for (int i = 0; i<talentList.size(); i++) {
             final int position = i;
             talentList.get(i).setOnClickListener(new View.OnClickListener(){
@@ -263,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, MainActivity_TalentList.class);
                     intent.putExtra("cateCode", talentTextList.get(position));
+                    intent.putExtra("talentName", talenTitletList.get(position));
                     startActivity(intent);
                 }
             });

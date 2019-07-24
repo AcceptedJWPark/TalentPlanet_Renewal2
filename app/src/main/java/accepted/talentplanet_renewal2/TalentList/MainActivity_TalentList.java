@@ -116,9 +116,9 @@ public class MainActivity_TalentList extends AppCompatActivity {
         Intent intent = getIntent();
 
         // 인텐트 엑스트라 받기
-//        titleTxt = intent.getStringExtra("talentName");
+        titleTxt = intent.getStringExtra("talentName");
         cateCode = intent.getStringExtra("cateCode");
-        Log.d("firstCateCode", cateCode);
+
 //        talentFlag = SaveSharedPreference.getPrefTalentFlag(mContext);
 //        hasFlag = intent.getBooleanExtra("hasFlag", false);
 //        if(hasFlag) {
@@ -130,17 +130,18 @@ public class MainActivity_TalentList extends AppCompatActivity {
 //        }
 //        // 필요정보 생성
 //        makeTestTalentArr();
-//        if(intent.hasExtra("isSearch")){
-//            // 뷰 정보 인텐트 정보로 변경
-//            title.setText("#" + titleTxt);
-//            searchTalentListByHashtag();
-//        }else {
-//            // 뷰 정보 인텐트 정보로 변경
+        if(intent.hasExtra("isSearch")){
+            // 뷰 정보 인텐트 정보로 변경
+            title.setText("#" + titleTxt);
+            searchTalentListByHashtag();
+        }else {
+            // 뷰 정보 인텐트 정보로 변경
 //            title.setText(titleTxt);
-//            getTalentListNew();
-//        }
+            ((TextView)findViewById(R.id.tv_Choose)).setVisibility(View.VISIBLE);
+            ((TextView)findViewById(R.id.tv_Choose)).setText(titleTxt);
+            getTalentListNew();
+        }
 
-        getTalentListNew();
         // 뒤로가기 이벤트
         leftBtn.setImageDrawable(getResources().getDrawable(R.drawable.icon_back));
 
@@ -214,6 +215,16 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         aUser.setDescription(obj.getString("PROFILE_DESCRIPTION"));
                         aUser.setUserBirth(obj.getString("USER_BIRTH"));
 
+                        try {
+                            aUser.setGP_LAT(Double.parseDouble(obj.getString("GP_LAT")));
+                            aUser.setGP_LNG(Double.parseDouble(obj.getString("GP_LNG")));
+                        } catch (NumberFormatException e) {
+
+                        } catch (Exception e) {
+
+                        }
+
+
                         userList.add(aUser);
                     }
 
@@ -243,6 +254,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
                             intent.putExtra("userInfo", userList.get(position).getUserBirth());
                             intent.putExtra("targetUserID", userList.get(position).getUserID());
                             intent.putExtra("userID", userList.get(position).getUserID());
+                            intent.putExtra("userGender", userList.get(position).getUserGender());
                             intent.putExtra("userDescription", userList.get(position).getDescription());
 
                             startActivity(intent);
@@ -321,6 +333,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
                             intent.putExtra("userName", userList.get(position).getUserName());
                             intent.putExtra("userInfo", userInfo);
                             intent.putExtra("userID", userList.get(position).getUserID());
+                            intent.putExtra("userGender", userList.get(position).getUserGender());
                             intent.putExtra("talentID", userList.get(position).getTalentID());
                             startActivity(intent);
                         }

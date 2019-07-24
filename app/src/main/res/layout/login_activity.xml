@@ -65,7 +65,8 @@
                 android:paddingLeft="10dp"
                 android:id="@+id/et_email_login"
                 android:textColor="#fff"
-                android:textColorHint="#fff" />
+                android:textColorHint="#fff"
+                android:text="ansrjsdn7@naver.com"/>
 
 
             <EditText
@@ -77,7 +78,8 @@
                 android:paddingLeft="10dp"
                 android:id="@+id/et_pw_login"
                 android:textColor="#fff"
-                android:textColorHint="#fff" />
+                android:textColorHint="#fff"
+                android:text="gwm7410$^^$"/>
 
             <TextView
                 android:layout_width="wrap_content"

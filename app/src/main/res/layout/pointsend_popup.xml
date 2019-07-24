@@ -258,6 +258,7 @@
 
 
     <Button
+        android:id="@+id/btn_reviewuser_popup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textSize="14dp"

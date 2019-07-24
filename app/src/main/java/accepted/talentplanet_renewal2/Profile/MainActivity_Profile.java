@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -35,6 +36,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -87,6 +89,7 @@ import accepted.talentplanet_renewal2.MyTalent;
 import accepted.talentplanet_renewal2.PermissionUtil;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
 import accepted.talentplanet_renewal2.VolleyMultipartRequest;
 import accepted.talentplanet_renewal2.VolleySingleton;
 
@@ -167,6 +170,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     // 새로운 재능인지 아닌지
     private boolean isNewTalent;
     private int spinnerIdx;
+    private String title;
+    private int bgID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,30 +207,17 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
         }
 
-        //재능 수정 TO-DO
+        //재능 수정
         DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
         double width = dm.widthPixels; //디바이스 화면 너비
         double height = dm.heightPixels; //디바이스 화면 높이
 
 
 
-        //포인트 지급
-        cd_PointSend = new customDialog_PointSend(this);
-        WindowManager.LayoutParams wm2 = cd_PointSend.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
-        wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
-        wm2.width = (int) (width / 1.1);
-        wm2.height = (int) (height / 1.1);
-        ((ImageView)findViewById(R.id.iv_share_profile)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cd_PointSend.show();
-            }
-        });
-
         img_gender_profile = findViewById(R.id.img_gender_profile);
         tv_profile_description = findViewById(R.id.tv_profile_description);
         tv_birth_profile = findViewById(R.id.tv_birth_profile);
-        img_gender_profile = findViewById(R.id.img_gender_profile);
+
         sp_talent_profile = findViewById(R.id.sp_talent_profile);
 
         mentorTalentList = new ArrayList<>();
@@ -234,8 +226,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         tv_toolbarprofle = findViewById(R.id.tv_toolbarprofle);
         tv_toolbarprofle.setText("Profile");
 
-
-
         if (intent.getStringExtra("userName") != null) {
             ((TextView)findViewById(R.id.tv_name_profile)).setText(intent.getStringExtra("userName"));
             ((TextView)findViewById(R.id.tv_birth_profile)).setText(intent.getStringExtra("userInfo").replaceAll("-", "\\."));
@@ -243,22 +233,65 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             targetUserID = intent.getStringExtra("targetUserID");
         }
 
-
-
         if (inPerson) {
             // 유저가 로그인했을 경우
             String userName = SaveSharedPreference.getUserName(mContext);
             String userInfo = SaveSharedPreference.getPrefUserBirth(mContext);
-            // 주소는
             String userMent = SaveSharedPreference.getPrefUserDescription(mContext);
             String gender = SaveSharedPreference.getPrefUserGender(mContext);
+            // 주소
+            String lat = SaveSharedPreference.getPrefUserGpLat(mContext);
+            String lng = SaveSharedPreference.getPrefUserGpLng(mContext);
+            final double Lat = Double.parseDouble(lat);
+            final double Lng = Double.parseDouble(lng);
 
             userID = SaveSharedPreference.getUserId(mContext);
 
             ((TextView)findViewById(R.id.tv_name_profile)).setText(userName);
             ((TextView)findViewById(R.id.tv_birth_profile)).setText(userInfo);
 
-            ((TextView)findViewById(R.id.tv_profile_description)).setText(userMent);
+            if (userMent != null && !userMent.equals("")) {
+                ((TextView)findViewById(R.id.tv_profile_description)).setText(userMent);
+            } else {
+                ((TextView)findViewById(R.id.tv_profile_description)).setText("터치해서 자기소개를 입력해보세요.");
+                ((TextView)findViewById(R.id.tv_profile_description)).setBackgroundResource(R.drawable.white_dash_line);
+            }
+
+            if (lat.equals("") || lng.equals("")) {
+                ((TextView)findViewById(R.id.tv_addr_profile)).setText("터치해서 위치를 등록해보세요.");
+                ((TextView)findViewById(R.id.tv_addr_profile)).setBackgroundResource(R.drawable.white_dash_line);
+            } else {
+
+                final Geocoder geocoder = new Geocoder(mContext);
+                try {
+                    List<Address> list = geocoder.getFromLocation(Lat,Lng,10);
+                    if (list.size()==0) {
+                        ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
+                    } else {
+                        ((TextView)findViewById(R.id.tv_addr_profile)).setText(list.get(0).toString());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
+                }
+//                if (list != null) {
+//                    if (list.size()==0) {
+//                        ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
+//                    } else {
+//                        ((TextView)findViewById(R.id.tv_addr_profile)).setText(list.get(0).toString());
+//                    }
+//                }
+            }
+
+            ((TextView)findViewById(R.id.tv_addr_profile)).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, MapsActivity.class);
+                    intent.putExtra("GP_LAT", Lat);
+                    intent.putExtra("GP_LNG", Lng);
+                    startActivityForResult(intent, 2030);
+                }
+            });
 
             if (gender.equals("남")) {
                 img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
@@ -270,15 +303,34 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
+
+            ((ImageView)findViewById(R.id.iv_edittalent_profile)).setColorFilter(Color.parseColor("#ffffff"));
+            ((ImageView)findViewById(R.id.iv_deltalent_profile)).setColorFilter(Color.parseColor("#ffffff"));
+
+            ((TextView)findViewById(R.id.tv_profile_description)).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    updateMyProfileInfo();
+                }
+            });
+
         } else  {
             ((ImageView)findViewById(R.id.iv_edittalent_profile)).setVisibility(View.GONE);
+            ((ImageView)findViewById(R.id.iv_deltalent_profile)).setVisibility(View.GONE);
+
+            String gender = intent.getStringExtra("userGender");
+            if (gender.equals("남")) {
+                img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
+            } else {
+                img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
+            }
+
             ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     addFriend();
                 }
             });
-
 
             userID = intent.getStringExtra("userID");
         }
@@ -287,10 +339,24 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         if (isNewTalent) {
             String code = intent.getStringExtra("Code");
-            int bgID = intent.getIntExtra("backgroundID", 0);
+            title = intent.getStringExtra("talentTitle");
+            bgID = intent.getIntExtra("backgroundID", 0);
 
             addNewTalent(mode, bgID, Integer.parseInt(code), "");
         }
+
+        //포인트 지급
+        cd_PointSend = new customDialog_PointSend(this, mode, userID);
+        WindowManager.LayoutParams wm2 = cd_PointSend.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
+        wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
+        wm2.width = (int) (width / 1.1);
+        wm2.height = (int) (height / 1.1);
+        ((ImageView)findViewById(R.id.iv_share_profile)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cd_PointSend.show();
+            }
+        });
 
         // 뒤로가기 이벤트
         ((ImageView) findViewById(R.id.img_back_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
@@ -635,6 +701,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                         wm.width = (int) (width / 1.2);  //
                                         wm.height = (int) (height / 1.2);  //
 
+                                        // 재능 수정 버튼
                                         ((ImageView)findViewById(R.id.iv_edittalent_profile)).setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -643,6 +710,25 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                                 }
                                             }
                                         });
+
+                                        // 재능 삭제 버튼
+                                        if (talentFlag.equals("Y")) {
+                                            final int nowTalentCode = mentorTalentList.get(position).getCateCode();
+                                            ((ImageView)findViewById(R.id.iv_deltalent_profile)).setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    disableUserTalent(String.valueOf(nowTalentCode));
+                                                }
+                                            });
+                                        } else {
+                                            final int nowTalentCode = menteeTalentList.get(position).getCateCode();
+                                            ((ImageView)findViewById(R.id.iv_deltalent_profile)).setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    disableUserTalent(String.valueOf(nowTalentCode));
+                                                }
+                                            });
+                                        }
                                     }
 
                                     @Override
@@ -650,10 +736,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 });
 
                                 if (spinnerIdx > -1) {
-                                    Log.d("spinnerIdx", String.valueOf(spinnerIdx));
                                     sp_talent_profile.setSelection(spinnerIdx);
                                 }
-
 
                                 friendFlag = obj.getInt("FriendFlag") > 0;
                             }
@@ -714,6 +798,16 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         if (!mActivity.isFinishing()) {
             cd_profile.show();
         }
+    }
+
+    private void makeEmptyProfile(int bgID, String title) {
+        Glide.with(mActivity).load(bgID).into((ImageView)findViewById(R.id.iv_talent_profile));
+
+        TalentObject_Home obj = new TalentObject_Home();
+
+        ((TextView)findViewById(R.id.tv_tag_profile)).setText("");
+        ((TextView)findViewById(R.id.tv_description_profile)).setText("");
+        ((TextView)findViewById(R.id.tv_toolbarprofle)).setText(title);
     }
 
 
@@ -1286,33 +1380,67 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         postRequestQueue.add(postJsonRequest);
     }
 
-    public void updateMyProfileInfo(final String text){
-        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
-        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Profile/updateMyProfileInfo.do", new Response.Listener<String>(){
-            @Override
-            public void onResponse(String response){
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    if(obj.getString("result").equals("success")){
-                        SaveSharedPreference.setPrefUserDescription(mContext, text);
-                        Toast.makeText(mContext, "프로필 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(JSONException e){
-                    e.printStackTrace();
-                }
-            }
-        }, SaveSharedPreference.getErrorListener(mContext)) {
-            @Override
-            protected Map<String, String> getParams(){
-                Map<String, String> params = new HashMap();
-                params.put("userID", SaveSharedPreference.getUserId(mContext));
-                params.put("PROFILE_DESCRIPTION", text);
-                return params;
-            }
-        };
+    public void updateMyProfileInfo(){
 
-        postRequestQueue.add(postJsonRequest);
+        AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity_Profile.this);
+        ad.setTitle("자기소개 변경");
+        ad.setTitle("변경할 내용을 입력해 주세요.");
+
+        final EditText et = new EditText(MainActivity_Profile.this);
+        et.setText(SaveSharedPreference.getPrefUserDescription(mContext));
+        ad.setView(et);
+
+        ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialog, int which) {
+                RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+                StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Profile/updateMyProfileInfo.do", new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            if(obj.getString("result").equals("success")){
+                                SaveSharedPreference.setPrefUserDescription(mContext, et.getText().toString());
+                                Toast.makeText(mContext, "프로필 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                String desctipt = SaveSharedPreference.getPrefUserDescription(mContext);
+
+                                if (desctipt.equals("")) {
+                                    ((TextView)findViewById(R.id.tv_profile_description)).setText("터치해서 자기소개를 입력해보세요.");
+                                    ((TextView)findViewById(R.id.tv_profile_description)).setBackgroundResource(R.drawable.white_dash_line);
+                                } else  {
+                                    ((TextView)findViewById(R.id.tv_profile_description)).setText(desctipt);
+                                    ((TextView)findViewById(R.id.tv_profile_description)).setBackgroundResource(0);
+                                }
+
+                                dialog.dismiss();
+                            }
+                        }
+                        catch(JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }, SaveSharedPreference.getErrorListener(mContext)) {
+                    @Override
+                    protected Map<String, String> getParams(){
+                        Map<String, String> params = new HashMap();
+                        params.put("userID", SaveSharedPreference.getUserId(mContext));
+                        params.put("PROFILE_DESCRIPTION", et.getText().toString());
+                        return params;
+                    }
+                };
+
+                postRequestQueue.add(postJsonRequest);
+            }
+        });
+        ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        ad.show();
     }
 
     public void updateMyLocation(final String lat, final String lng){
@@ -1343,6 +1471,56 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         postRequestQueue.add(postJsonRequest);
     }
+
+    public void disableUserTalent(final String Code){
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder((MainActivity_Profile.this));
+        dialog.setTitle("해당 재능 삭제")
+                .setMessage("삭제하시겠습니까?")
+                .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+                        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Hashtag/deleteTalent.do", new Response.Listener<String>(){
+                            @Override
+                            public void onResponse(String response){
+                                try {
+                                    JSONObject obj = new JSONObject(response);
+                                    if(obj.getString("result").equals("success")){
+                                        Toast.makeText(mContext, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                                        (MainActivity_Profile.this).finish();
+                                        Intent intent = new Intent(mContext, MainActivity_TalentAdd.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                                catch(JSONException e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, SaveSharedPreference.getErrorListener(mContext)) {
+                            @Override
+                            protected Map<String, String> getParams(){
+                                Map<String, String> params = new HashMap();
+                                params.put("UserID", SaveSharedPreference.getUserId(mContext));
+                                params.put("TalentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
+                                params.put("TalentCateCode", Code);
+                                return params;
+                            }
+                        };
+
+                        postRequestQueue.add(postJsonRequest);
+                    }
+                })
+                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(mContext, "취소되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        dialog.create();
+        dialog.show();
+    }
+
 
 
 }

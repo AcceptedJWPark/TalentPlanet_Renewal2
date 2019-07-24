@@ -21,6 +21,10 @@ public class TalentObject_Home implements Comparable<TalentObject_Home> {
         this.talentID = talentID;
     }
 
+    public TalentObject_Home() {
+
+    }
+
     public String getTitle() {
         return title;
     }
