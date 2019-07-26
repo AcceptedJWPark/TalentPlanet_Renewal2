@@ -13,13 +13,13 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:gravity="center"
-        android:paddingLeft="10dp"
         />
     <TextView
         android:id="@+id/tv_spinner_text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingLeft="10dp"
+        android:textSize="16dp"
         android:fontFamily="@font/aspeed"
         android:gravity="center"/>
 </LinearLayout>

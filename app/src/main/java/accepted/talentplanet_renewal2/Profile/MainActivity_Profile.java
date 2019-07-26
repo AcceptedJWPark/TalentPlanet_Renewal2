@@ -242,8 +242,13 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             // 주소
             String lat = SaveSharedPreference.getPrefUserGpLat(mContext);
             String lng = SaveSharedPreference.getPrefUserGpLng(mContext);
-            final double Lat = Double.parseDouble(lat);
-            final double Lng = Double.parseDouble(lng);
+            double Lat = 0;
+            double Lng = 0;
+
+            if (!lat.equals("") || !lng.equals("")) {
+                Lat = Double.parseDouble(lat);
+                Lng = Double.parseDouble(lng);
+            }
 
             userID = SaveSharedPreference.getUserId(mContext);
 
@@ -258,37 +263,32 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
             if (lat.equals("") || lng.equals("")) {
+                ((ImageView)findViewById(R.id.img_mappointer)).setVisibility(View.GONE);
                 ((TextView)findViewById(R.id.tv_addr_profile)).setText("터치해서 위치를 등록해보세요.");
                 ((TextView)findViewById(R.id.tv_addr_profile)).setBackgroundResource(R.drawable.white_dash_line);
             } else {
-
                 final Geocoder geocoder = new Geocoder(mContext);
                 try {
                     List<Address> list = geocoder.getFromLocation(Lat,Lng,10);
                     if (list.size()==0) {
                         ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
                     } else {
-                        ((TextView)findViewById(R.id.tv_addr_profile)).setText(list.get(0).toString());
+                        String[] addr = list.get(0).getAddressLine(0).split(" ");
+
+                        ((TextView)findViewById(R.id.tv_addr_profile)).setText(addr[1]+" "+addr[2]+" "+addr[3]);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
                 }
-//                if (list != null) {
-//                    if (list.size()==0) {
-//                        ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
-//                    } else {
-//                        ((TextView)findViewById(R.id.tv_addr_profile)).setText(list.get(0).toString());
-//                    }
-//                }
             }
 
             ((TextView)findViewById(R.id.tv_addr_profile)).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, MapsActivity.class);
-                    intent.putExtra("GP_LAT", Lat);
-                    intent.putExtra("GP_LNG", Lng);
+                    intent.putExtra("GP_LAT", SaveSharedPreference.getPrefUserGpLat(mContext));
+                    intent.putExtra("GP_LNG", SaveSharedPreference.getPrefUserGpLng(mContext));
                     startActivityForResult(intent, 2030);
                 }
             });
