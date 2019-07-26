@@ -32,7 +32,7 @@ public class SpinnerAdapter_Toolbar extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.spinner_item_menubar, parent, false);
+            convertView = inflater.inflate(R.layout.toolbar_spinner_selecteditem, parent, false);
         }
 
         if(items.get(position) != null){
@@ -40,8 +40,12 @@ public class SpinnerAdapter_Toolbar extends BaseAdapter {
             ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setText(item.getText());
              if(item.getText().equals("Teacher Planet")){
                 ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#28364A"));
+                ((ImageView)convertView.findViewById(R.id.iv_spinner_icon)).setImageResource(R.drawable.icon_teacher);
+                 ((ImageView)convertView.findViewById(R.id.iv_spinner_arrow)).setImageResource(R.drawable.icon_arrow_teacher);
             }else{
                 ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#FFC35E"));
+                 ((ImageView)convertView.findViewById(R.id.iv_spinner_icon)).setImageResource(R.drawable.icon_student);
+                 ((ImageView)convertView.findViewById(R.id.iv_spinner_arrow)).setImageResource(R.drawable.icon_arrow_student);
             }
         }
 
@@ -51,7 +55,7 @@ public class SpinnerAdapter_Toolbar extends BaseAdapter {
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent){
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.spinner_item_menubar, parent, false);
+            convertView = inflater.inflate(R.layout.toolbar_spinner_item, parent, false);
         }
 
         if(items.get(position) != null){
@@ -59,8 +63,10 @@ public class SpinnerAdapter_Toolbar extends BaseAdapter {
              ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setText(item.getText());
             if(item.getText().equals("Teacher Planet")){
                 ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#28364A"));
+                ((ImageView)convertView.findViewById(R.id.iv_spinner_icon)).setImageResource(R.drawable.icon_teacher);
             }else{
                 ((TextView)convertView.findViewById(R.id.tv_spinner_text)).setTextColor(Color.parseColor("#FFC35E"));
+                ((ImageView)convertView.findViewById(R.id.iv_spinner_icon)).setImageResource(R.drawable.icon_student);
             }
         }
 
