@@ -130,38 +130,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v){
                 String str = et_searchaddr_map.getText().toString();
-                List<Address> addressList = null;
-                try {
-                    // editText에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
-                    addressList = geocoder.getFromLocationName(
-                            str, // 주소
-                            10); // 최대 검색 결과 개수
+                if (str.equals("")) {
+                    Toast.makeText(mContext, "주소 / 건물명을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    List<Address> addressList = null;
+                    try {
+                        // editText에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
+                        addressList = geocoder.getFromLocationName(
+                                str, // 주소
+                                10); // 최대 검색 결과 개수
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    // 콤마를 기준으로 split
+
+                    String []splitStr = addressList.get(0).toString().split(",");
+                    String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
+
+                    String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
+                    String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
+
+                    // 좌표(위도, 경도) 생성
+                    LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+                    // 마커 생성
+                    MarkerOptions mOptions2 = new MarkerOptions();
+                    mOptions2.title("검색 결과");
+
+                    String[] addr = address.split(" ");
+                    mOptions2.snippet(addr[1]+" "+addr[2]+" "+addr[3]);
+                    mOptions2.position(point);
+                    // 마커 추가
+                    mMap.addMarker(mOptions2);
+                    // 해당 좌표로 화면 줌
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
                 }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                // 콤마를 기준으로 split
-
-                String []splitStr = addressList.get(0).toString().split(",");
-                String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
-
-                String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
-                String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
-
-                // 좌표(위도, 경도) 생성
-                LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
-                // 마커 생성
-                MarkerOptions mOptions2 = new MarkerOptions();
-                mOptions2.title("검색 결과");
-
-                String[] addr = address.split(" ");
-                mOptions2.snippet(addr[1]+" "+addr[2]+" "+addr[3]);
-                mOptions2.position(point);
-                // 마커 추가
-                mMap.addMarker(mOptions2);
-                // 해당 좌표로 화면 줌
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
             }
         });
 
@@ -205,6 +209,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 SaveSharedPreference.setPrefUserGpLat(mContext, String.valueOf(lat));
                                 SaveSharedPreference.setPrefUserGpLng(mContext, String.valueOf(lng));
 
+                                Intent intent = new Intent();
+                                setResult(RESULT_OK, intent);
                                 finish();
 //                                Toast.makeText(mContext, "선택 지역으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
                             }

@@ -1149,6 +1149,22 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 case CAMERA_CODE:
                     getPictureForPhoto();
                     break;
+                case 2030:
+                    final Geocoder geocoder = new Geocoder(mContext);
+                    try {
+                        List<Address> list = geocoder.getFromLocation(Double.parseDouble(SaveSharedPreference.getPrefUserGpLat(mContext)),Double.parseDouble(SaveSharedPreference.getPrefUserGpLng(mContext)),10);
+                        if (list.size()==0) {
+                            ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
+                        } else {
+                            String[] addr = list.get(0).getAddressLine(0).split(" ");
+
+                            ((TextView)findViewById(R.id.tv_addr_profile)).setText(addr[1]+" "+addr[2]+" "+addr[3]);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
+                    }
+                    break;
                 default:
                     break;
             }
