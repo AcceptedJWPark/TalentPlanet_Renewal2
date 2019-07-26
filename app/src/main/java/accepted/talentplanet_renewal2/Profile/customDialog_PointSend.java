@@ -95,8 +95,8 @@ public class customDialog_PointSend extends Dialog {
 
         for(int i=0; i<view_Estimate.length; i++)
         {
-            view_Estimate[i].setBackgroundColor(WHITE);
             final int finalI = i;
+            view_Estimate[i].setBackgroundColor(colorGradient[i]);
             view_Estimate[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

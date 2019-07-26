@@ -65,6 +65,12 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout dl;
     View v_drawerlayout;
 
+
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+
+
+
     boolean mentorClicked;
 
     boolean isAlaram;
@@ -107,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(position==0)
                     {
-                        Toast.makeText(mContext,"티쳐",Toast.LENGTH_SHORT).show();
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -121,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 else
                 {
-                        Toast.makeText(mContext,"학생",Toast.LENGTH_SHORT).show();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();
                         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -594,4 +598,22 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         getCateList();
     }
+
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+
+            finish();
+            super.onBackPressed();
+
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(mContext, "뒤로가기를 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }
