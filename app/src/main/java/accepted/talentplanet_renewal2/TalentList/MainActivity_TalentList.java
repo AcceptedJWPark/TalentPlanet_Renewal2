@@ -210,6 +210,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         aUser.setUserID(obj.getString("UserID"));
                         aUser.setDescription(obj.getString("PROFILE_DESCRIPTION"));
                         aUser.setUserBirth(obj.getString("USER_BIRTH"));
+                        aUser.setBirthFlag(obj.getString("BIRTH_FLAG"));
 
                         try {
                             aUser.setGP_LAT(Double.parseDouble(obj.getString("GP_LAT")));
@@ -244,14 +245,15 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(MainActivity_TalentList.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
 
-                            String userInfo = userList.get(position).getUserGender() + " / " + userList.get(position).getUserAge() + "세";
-
                             intent.putExtra("userName", userList.get(position).getUserName());
                             intent.putExtra("userInfo", userList.get(position).getUserBirth());
                             intent.putExtra("targetUserID", userList.get(position).getUserID());
                             intent.putExtra("userID", userList.get(position).getUserID());
                             intent.putExtra("userGender", userList.get(position).getUserGender());
                             intent.putExtra("userDescription", userList.get(position).getDescription());
+                            intent.putExtra("GP_LAT", userList.get(position).getGP_LAT());
+                            intent.putExtra("GP_LNG", userList.get(position).getGP_LNG());
+                            intent.putExtra("BIRTH_FLAG", userList.get(position).getBirthFlag());
 
                             startActivity(intent);
                         }

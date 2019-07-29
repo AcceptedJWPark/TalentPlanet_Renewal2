@@ -219,17 +219,17 @@
             android:paddingBottom="20dp"
             >
 
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/cimg_pic_profile"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/pic_sample"
-            android:layout_marginTop="20dp"
-            app:civ_border_color="#fff"
-            app:civ_border_width="2dp"
-            android:visibility="gone"
-            />
+        <!--<com.mikhaellopez.circularimageview.CircularImageView-->
+            <!--android:id="@+id/cimg_pic_profile"-->
+            <!--android:layout_width="120dp"-->
+            <!--android:layout_height="120dp"-->
+            <!--android:scaleType="centerInside"-->
+            <!--android:src="@drawable/pic_sample"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--app:civ_border_color="#fff"-->
+            <!--app:civ_border_width="2dp"-->
+            <!--android:visibility="gone"-->
+            <!--/>-->
 
             <TextView
                 android:id="@+id/tv_name_profile"
@@ -250,13 +250,11 @@
             >
 
 
-
             <ImageView
                 android:id="@+id/img_gender_profile"
                 android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:tint="@color/color_mentor"
-                />
+                android:layout_height="17dp"
+                android:tint="@color/color_mentor" />
 
 
             <TextView
@@ -267,6 +265,25 @@
                 android:textColor="@color/color_mentor"
                 android:textSize="14dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                />
+
+            <ImageView
+                android:id="@+id/iv_birthopen_profile"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_checkbox_selected"
+                android:tint="@color/color_mentor"
+                android:visibility="gone"
+                />
+
+            <ImageView
+                android:id="@+id/iv_birthclose_profile"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_checkbox_unselected"
+                android:tint="@color/color_mentor"
+                android:visibility="gone"
                 />
 
         </LinearLayout>
@@ -279,15 +296,12 @@
                 android:gravity="center"
                 >
 
-
-
                 <ImageView
                     android:id="@+id/img_mappointer"
                     android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_height="15dp"
                     android:src="@drawable/icon_mappointer"
-                    android:tint="@color/color_mentor"
-                    />
+                    android:tint="@color/color_mentor" />
 
 
                 <TextView
@@ -298,8 +312,11 @@
                     android:textColor="@color/color_mentor"
                     android:textSize="14dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:padding="5dp"
                     />
+
+
             </LinearLayout>
 
 
@@ -358,6 +375,7 @@
               </LinearLayout>
 
             <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/cimg_pic_profile"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:scaleType="centerInside"

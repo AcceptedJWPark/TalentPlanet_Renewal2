@@ -43,6 +43,7 @@ import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.Search.MainActivity_Search;
 import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
 import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
 import accepted.talentplanet_renewal2.VolleySingleton;
@@ -288,6 +289,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+        ll_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MainActivity_Search.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -596,6 +605,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into((ImageView) findViewById(R.id.cimg_pic_dl));
         getCateList();
     }
 

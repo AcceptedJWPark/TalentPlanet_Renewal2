@@ -1,38 +1,38 @@
-package accepted.talentplanet_renewal2.TalentList;
+package accepted.talentplanet_renewal2.Search;
 
 import android.content.Context;
 import android.location.Location;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 
-public class ListAdapter_TalentList extends BaseAdapter {
 
-    private Context mContext;
-    private ArrayList<UserData_TalentList> userList;
+public class ListAdapter_Search extends BaseAdapter {
 
-    public ListAdapter_TalentList(Context context, ArrayList<UserData_TalentList> userDatas) {
-        this.mContext = context;
-        this.userList = userDatas;
+    Context mContext;
+    ArrayList<Map<String, Object>> itemArr;
+
+    public ListAdapter_Search(Context context, ArrayList<Map<String, Object>> paramArr) {
+        mContext = context;
+        itemArr = paramArr;
     }
 
     @Override
     public int getCount() {
-        return this.userList.size();
+        return itemArr.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return this.userList.get(position);
+        return itemArr.get(position);
     }
 
     @Override
@@ -46,17 +46,14 @@ public class ListAdapter_TalentList extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.talentlist_bg, parent, false);
         }
-        // View
-//        ImageView user_profile = (ImageView) convertView.findViewById(R.id.user_profile);
         TextView userName_talentlist = (TextView) convertView.findViewById(R.id.userName_talentlist);
         TextView userBirth_talentlist = (TextView) convertView.findViewById(R.id.userBirth_talentlist);
         TextView hashTag_talentlist = (TextView) convertView.findViewById(R.id.hashTag_talentlist);
         TextView tv_userDistance_talentlist = (TextView) convertView.findViewById(R.id.tv_userDistance_talentlist);
 
+        // 유저 정보 맵
+        Map<String, Object> aUserData = itemArr.get(position);
 
-        UserData_TalentList aItem = this.userList.get(position);
-
-        // 내 위치 관련
         Location myLocation = new Location("My point");
         try {
             final Double myGP_LAT = Double.parseDouble(SaveSharedPreference.getPrefUserGpLat(mContext));
@@ -70,8 +67,8 @@ public class ListAdapter_TalentList extends BaseAdapter {
         }
 
         // 현재 받은 타 유저의 위치
-        final Double aUserGP_LAT = aItem.getGP_LAT();
-        final Double aUserGP_LNG = aItem.getGP_LNG();
+        final Double aUserGP_LAT = (Double) aUserData.get("GP_LAT");
+        final Double aUserGP_LNG = (Double) aUserData.get("GP_LNG");
         Location aUserLocation = new Location("Another point");
 
         if (aUserGP_LAT != null || aUserGP_LNG != null) {
@@ -89,24 +86,20 @@ public class ListAdapter_TalentList extends BaseAdapter {
         }
 
         // Data
-        userName_talentlist.setText(aItem.getUserName());
-        userBirth_talentlist.setText(aItem.getUserBirth());
+        userName_talentlist.setText((String) aUserData.get("userName"));
 
-        // 태그 관련
-        String strHashtags = aItem.getHashtag();
-        String[] hashtags = strHashtags.split("\\|");
-
-        StringBuilder hashtag = new StringBuilder();
-
-        for(int i = 0 ; i < hashtags.length; i++){
-            if(hashtags[i] == null || hashtags[i].isEmpty()){
-                continue;
-            }
-
-            hashtag.append("#").append(hashtags[i]).append(" ");
+        String flag = (String) aUserData.get("birthFlag");
+        if (flag.equals("N")) {
+            userBirth_talentlist.setText((String) aUserData.get("userBirth"));
+        } else {
+            userBirth_talentlist.setText("비공개");
         }
 
-        hashTag_talentlist.setText(hashtag);
+        // 태그 관련
+        String talentName = (String) aUserData.get("talentName");
+        String searchText = (String) aUserData.get("searchTxt");
+
+        hashTag_talentlist.setText(talentName + " > "+searchText);
 
         return convertView;
     }
