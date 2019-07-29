@@ -40,20 +40,22 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC3yIIQ6yAN3jfkLmzFY5NyqxVBA21AkQg" />
 
-        //로그인으로 변경할 때 AppTheme 변경해야 함.//
 
+        <activity
+            android:name=".Loading.MainActivity_Loading"
+            >
 
-        .PointSend.MainActivity_Profile
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
         <activity
             android:name=".JoinLogin.MainActivity_Login"
-            android:theme="@style/AppThemeLogin">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/AppThemeLogin" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".JoinLogin.MainActivity_Join"
             android:theme="@style/AppTheme_Home" />
@@ -98,6 +100,9 @@
             android:theme="@style/AppTheme_Home" />
         <activity
             android:name=".Cs.Claim.MainActivity"
+            android:theme="@style/AppTheme_Home" />
+        <activity
+            android:name=".AddCategory.MainActivity_AddCategory"
             android:theme="@style/AppTheme_Home" />
 
 

@@ -2,7 +2,10 @@ package accepted.talentplanet_renewal2.JoinLogin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -10,6 +13,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -78,6 +83,17 @@ public class MainActivity_Join extends AppCompatActivity {
         malecheck=false;
         setContentView(R.layout.join_activity);
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor("#4d5868"));
+        }
+
+
+
+
+
         // 기본 변수 정의
         et_email_join = findViewById(R.id.et_email_join);
         et_pw_join = findViewById(R.id.et_pw_join);
@@ -100,9 +116,19 @@ public class MainActivity_Join extends AppCompatActivity {
         ll_malecheck = findViewById(R.id.ll_malecheck_join);
         ll_femalecheck = findViewById(R.id.ll_femalecheck_join);
 
-        tv_toolbar=findViewById(R.id.tv_toolbar);
-        tv_toolbar.setText("회원가입");
-        ((ImageView)findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
+        ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v)
+            {
+                finish();
+            }
+        });
+
+        ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText("Join-Us");
+        ((ImageView)findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
+
+
+
 
         ll_malecheck.setOnClickListener(new View.OnClickListener() {
             @Override

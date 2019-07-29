@@ -33,6 +33,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -92,6 +93,9 @@ import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
 import accepted.talentplanet_renewal2.VolleyMultipartRequest;
 import accepted.talentplanet_renewal2.VolleySingleton;
+
+import static android.graphics.Color.WHITE;
+import static android.view.View.GONE;
 
 
 public class MainActivity_Profile extends AppCompatActivity implements OnMapReadyCallback,
@@ -172,6 +176,14 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     private int spinnerIdx;
     private String title;
     private int bgID;
+
+
+    View [] view_Estimate = new View[10];
+    int [] colorGradient = new int[10];
+    double averageScore;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,7 +275,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
             if (lat.equals("") || lng.equals("")) {
-                ((ImageView)findViewById(R.id.img_mappointer)).setVisibility(View.GONE);
+                ((ImageView)findViewById(R.id.img_mappointer)).setVisibility(GONE);
                 ((TextView)findViewById(R.id.tv_addr_profile)).setText("터치해서 위치를 등록해보세요.");
                 ((TextView)findViewById(R.id.tv_addr_profile)).setBackgroundResource(R.drawable.white_dash_line);
             } else {
@@ -300,9 +312,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
 
-            ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(View.GONE);
-            ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
-            ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
+            ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(GONE);
+            ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(GONE);
+            ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(GONE);
 
             ((ImageView)findViewById(R.id.iv_edittalent_profile)).setColorFilter(Color.parseColor("#ffffff"));
             ((ImageView)findViewById(R.id.iv_deltalent_profile)).setColorFilter(Color.parseColor("#ffffff"));
@@ -315,8 +327,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             });
 
         } else  {
-            ((ImageView)findViewById(R.id.iv_edittalent_profile)).setVisibility(View.GONE);
-            ((ImageView)findViewById(R.id.iv_deltalent_profile)).setVisibility(View.GONE);
+            ((ImageView)findViewById(R.id.iv_edittalent_profile)).setVisibility(GONE);
+            ((ImageView)findViewById(R.id.iv_deltalent_profile)).setVisibility(GONE);
 
             String gender = intent.getStringExtra("userGender");
             if (gender.equals("남")) {
@@ -365,6 +377,41 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 finish();
             }
         });
+
+        view_Estimate[0] = findViewById(R.id.v1_estimate_profile);
+        view_Estimate[1] = findViewById(R.id.v2_estimate_profile);
+        view_Estimate[2] = findViewById(R.id.v3_estimate_profile);
+        view_Estimate[3] = findViewById(R.id.v4_estimate_profile);
+        view_Estimate[4] = findViewById(R.id.v5_estimate_profile);
+        view_Estimate[5] = findViewById(R.id.v6_estimate_profile);
+        view_Estimate[6] = findViewById(R.id.v7_estimate_profile);
+        view_Estimate[7] = findViewById(R.id.v8_estimate_profile);
+        view_Estimate[8] = findViewById(R.id.v9_estimate_profile);
+        view_Estimate[9] = findViewById(R.id.v10_estimate_profile);
+
+        colorGradient[0] = Color.parseColor("#ff6666");
+        colorGradient[1] = Color.parseColor("#ff6f65");
+        colorGradient[2] = Color.parseColor("#ff7664");
+        colorGradient[3] = Color.parseColor("#ff7d63");
+        colorGradient[4] = Color.parseColor("#ff8363");
+        colorGradient[5] = Color.parseColor("#ff8962");
+        colorGradient[6] = Color.parseColor("#ff8e62");
+        colorGradient[7] = Color.parseColor("#ff9462");
+        colorGradient[8] = Color.parseColor("#ff9a61");
+        colorGradient[9] = Color.parseColor("#ffa061");
+
+        averageScore = 7.8;
+
+        for(int i=0; i<Math.round(averageScore); i++)
+        {
+            final int finalI = i;
+            view_Estimate[i].setBackgroundColor(colorGradient[i]);
+        }
+
+
+
+
+        
 
         // 지도
         // 07/18 11:32
@@ -602,7 +649,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
                                 // 최초 로딩시 첫 재능을 보여주기 위한 부분
                                 if (i == 0) {
-                                    tv_toolbarprofle.setVisibility(View.GONE);
+                                    tv_toolbarprofle.setVisibility(GONE);
                                     Glide.with(mActivity).load(item.getBackgroundResourceID()).into((ImageView)findViewById(R.id.iv_talent_profile));
 
                                     findViewById(R.id.tv_tag_profile).setVisibility(View.VISIBLE);
