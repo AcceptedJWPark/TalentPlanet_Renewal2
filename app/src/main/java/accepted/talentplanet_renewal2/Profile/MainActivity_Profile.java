@@ -299,7 +299,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
             }
 
-
+//asdf
             ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
