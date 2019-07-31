@@ -6,7 +6,6 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,12 +28,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 
@@ -41,15 +39,12 @@ public class MainActivity_Search extends AppCompatActivity {
 
     Context mContext;
 
-    LinearLayout ll_bg_search;
+    RelativeLayout rl_bg_search;
     LinearLayout ll_searchbtn_search;
 
     TextView tv_Choose;
-
-    ImageView img_open_dl;
+    ImageView img_leftbtn;
     ImageView img_rightbtn;
-    ImageView img_alarm;
-    ImageView iv_searchbg_search;
 
     EditText et_searchbox_search;
 
@@ -83,28 +78,31 @@ public class MainActivity_Search extends AppCompatActivity {
             }
         }
 
-        tv_Choose = findViewById(R.id.tv_Choose);
-        img_open_dl = findViewById(R.id.img_open_dl);
-        img_rightbtn = findViewById(R.id.img_rightbtn);
-        img_alarm = findViewById(R.id.img_alarm);
-        iv_searchbg_search = findViewById(R.id.iv_searchbg_search);
+        tv_Choose = findViewById(R.id.tv_toolbar_talentlist);
+        img_rightbtn = findViewById(R.id.iv_toolbar_search_talentlist);
+        img_leftbtn = findViewById(R.id.img_back_toolbar_talentlist);
+
 
         et_searchbox_search = findViewById(R.id.et_searchbox_search);
-        ll_bg_search = findViewById(R.id.ll_bg_search);
+        rl_bg_search = findViewById(R.id.rl_bg_search);
         ll_searchbtn_search = findViewById(R.id.ll_searchbtn_search);
         lv_searchresult_search = findViewById(R.id.lv_searchresult_search);
 
-        tv_Choose.setVisibility(View.VISIBLE);
-        tv_Choose.setText("태그검색");
-
-        img_open_dl.setImageResource(R.drawable.icon_back);
+        tv_Choose.setText("#hashtag 검색");
         img_rightbtn.setVisibility(View.GONE);
-        img_alarm.setVisibility(View.GONE);
+        img_leftbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+
+
 
         String talentFlag = SaveSharedPreference.getPrefTalentFlag(mContext);
         if (talentFlag.equals("N")) {
-            ll_bg_search.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentee));
-            iv_searchbg_search.setImageResource(R.drawable.icon_search_teacher);
+            rl_bg_search.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentee));
         }
 
         ll_searchbtn_search.setOnClickListener(new View.OnClickListener() {
@@ -114,13 +112,6 @@ public class MainActivity_Search extends AppCompatActivity {
             }
         });
 
-        // 뒤로가기 이벤트
-        ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     private void searchTalentListByHashtag(){

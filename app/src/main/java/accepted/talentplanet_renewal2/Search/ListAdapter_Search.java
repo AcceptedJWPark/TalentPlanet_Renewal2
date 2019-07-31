@@ -1,6 +1,7 @@
 package accepted.talentplanet_renewal2.Search;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import java.util.Map;
 
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
+
+import static android.graphics.Color.BLACK;
 
 
 public class ListAdapter_Search extends BaseAdapter {
@@ -100,6 +103,8 @@ public class ListAdapter_Search extends BaseAdapter {
         String searchText = (String) aUserData.get("searchTxt");
 
         hashTag_talentlist.setText(talentName + " > "+searchText);
+        hashTag_talentlist.setTextColor(BLACK);
+
 
         return convertView;
     }

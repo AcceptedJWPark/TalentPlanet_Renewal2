@@ -27,12 +27,12 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                layout="@layout/toolbarlayout"/>
+                layout="@layout/toolbarlayout_talentlist"/>
 
         </android.support.v7.widget.Toolbar>
 
-        <LinearLayout
-            android:id="@+id/ll_bg_search"
+            <RelativeLayout
+            android:id="@+id/rl_bg_search"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:padding="5dp"
@@ -41,25 +41,24 @@
             android:orientation="horizontal">
 
 
+
             <EditText
                 android:id="@+id/et_searchbox_search"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:maxLines="4"
-                android:lineSpacingExtra="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:includeFontPadding="false"
-                android:minHeight="@dimen/Height40dp"
                 android:gravity="center_vertical"
-                android:background="@drawable/bgr_messanger_edittxt"
-                android:layout_weight="7"
+                android:background="#fff"
+                android:paddingLeft="5dp"
                 />
 
             <LinearLayout
                 android:id="@+id/ll_searchbtn_search"
-                android:layout_width="0dp"
+                android:layout_width="40dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:gravity="center"
+                android:background="@color/color_mentor"
+                android:layout_alignParentRight="true"
                 >
 
                 <ImageView
@@ -72,8 +71,11 @@
                     android:scaleType="fitXY"
                     />
 
+
             </LinearLayout>
-        </LinearLayout>
+
+
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/lv_searchresult_search"
