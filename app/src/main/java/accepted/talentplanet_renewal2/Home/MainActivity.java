@@ -38,7 +38,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.AddCategory.MainActivity_AddCategory;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
+import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
 import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
@@ -211,6 +213,15 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPager_PopTalent adapter = new ViewPager_PopTalent(getSupportFragmentManager() ,mContext);
         vp.setAdapter(adapter);
+
+
+        ((LinearLayout)findViewById(R.id.ll_bgr_addcate)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MainActivity_AddCategory.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -397,9 +408,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        ((LinearLayout)findViewById(R.id.ll_system_dl)).setOnClickListener(new View.OnClickListener() {
+        ((LinearLayout)findViewById(R.id.ll_claim_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dl.closeDrawers();
+                Intent intent = new Intent(context, accepted.talentplanet_renewal2.Cs.Claim.MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -427,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 dl.closeDrawers();
-                Intent intent = new Intent(context, accepted.talentplanet_renewal2.Cs.Claim.MainActivity.class);
+                Intent intent = new Intent(context, MainActivity_Cs.class);
                 startActivity(intent);
             }
         });

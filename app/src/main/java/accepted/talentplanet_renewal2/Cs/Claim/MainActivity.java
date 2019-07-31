@@ -86,6 +86,14 @@ public class MainActivity extends AppCompatActivity {
 
         ((ImageView)findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
         ((ImageView)findViewById(R.id.img_back_toolbar)).setVisibility(View.VISIBLE);
+
+        ((ImageView)findViewById(R.id.img_back_toolbar)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         ((ImageView)findViewById(R.id.img_search_talentadd)).setVisibility(View.GONE);
 
         ((TextView)findViewById(R.id.tv_toolbar)).setText("신고하기");
