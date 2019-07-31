@@ -46,6 +46,8 @@ public class SaveSharedPreference{
     static final String PREF_USER_GP_LAT= "userGP_LAT";
     static final String PREF_USER_GP_LNG= "userGP_LNG";
     static final String PREF_USER_DESCRIPTION= "userdescription";
+    static final String PREF_USER_BIRTH_FLAG= "userbirthflag";
+    static final String PREF_USER_ADDR_FLAG= "useraddrflag";
 
     static final String SERVER_IP2 = "https://13.209.191.97/Accepted/";
     static final String SERVER_IP = "http://175.213.4.39/Accepted/";
@@ -151,6 +153,18 @@ public class SaveSharedPreference{
         editor.commit();
     }
 
+    public static void setPrefUserBirthFlag(Context ctx, String birthFalg){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_BIRTH_FLAG, birthFalg);
+        editor.commit();
+    }
+
+    public static void setPrefUserAddrFlag(Context ctx, String addrFlag){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_ADDR_FLAG, addrFlag);
+        editor.commit();
+    }
+
     public static void setPrefFcmToken(Context ctx, String token){
         fcmToken = token;
     }
@@ -227,6 +241,14 @@ public class SaveSharedPreference{
 
     public static String getPrefUserDescription(Context ctx){
         return getSharedPreferences(ctx).getString(PREF_USER_DESCRIPTION, "");
+    }
+
+    public static String getPrefUserBirthFlag(Context ctx) {
+        return getSharedPreferences(ctx).getString(PREF_USER_BIRTH_FLAG, "");
+    }
+
+    public static String getPrefUserAddrFlag(Context ctx) {
+        return getSharedPreferences(ctx).getString(PREF_USER_ADDR_FLAG, "");
     }
 
     public static String getPrefTalentFlag(Context ctx){

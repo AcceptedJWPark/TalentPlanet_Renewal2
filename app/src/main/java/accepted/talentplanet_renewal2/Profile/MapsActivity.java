@@ -108,7 +108,71 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mOptions.snippet("해당되는 주소 정보는 없습니다");
                     } else {
                         String[] addr = list.get(0).getAddressLine(0).split(" ");
-                        mOptions.snippet(addr[1]+" "+addr[2]+" "+addr[3]);
+                        String showAddr = "";
+                        for (int i=1;i<4;i++) {
+                            if (addr[i].isEmpty() || addr[i] == null) {
+                                continue;
+                            }
+                            if (i == 1) {
+                                if (addr[i].equals("서울특별시")) {
+                                    showAddr = "서울";
+                                    continue;
+                                } else if (addr[i].equals("경기도")) {
+                                    showAddr = "경기";
+                                    continue;
+                                } else if (addr[i].equals("인천광역시")) {
+                                    showAddr = "인천";
+                                    continue;
+                                } else if (addr[i].equals("대구광역시")) {
+                                    showAddr = "대구";
+                                    continue;
+                                } else if (addr[i].equals("강원도")) {
+                                    showAddr = "강원";
+                                    continue;
+                                } else if (addr[i].equals("대전광역시")) {
+                                    showAddr = "대전";
+                                    continue;
+                                } else if (addr[i].equals("전라북도")) {
+                                    showAddr = "전북";
+                                    continue;
+                                } else if (addr[i].equals("전라남도")) {
+                                    showAddr = "전남";
+                                    continue;
+                                } else if (addr[i].equals("세종특별자치시")) {
+                                    showAddr = "세종";
+                                    continue;
+                                } else if (addr[i].equals("경상북도")) {
+                                    showAddr = "경북";
+                                    continue;
+                                } else if (addr[i].equals("경상남도")) {
+                                    showAddr = "경남";
+                                    continue;
+                                } else if (addr[i].equals("충청북도")) {
+                                    showAddr = "충북";
+                                    continue;
+                                } else if (addr[i].equals("충청남도")) {
+                                    showAddr = "충남";
+                                    continue;
+                                } else if (addr[i].equals("제주특별자치도")) {
+                                    showAddr = "제주";
+                                    continue;
+                                } else if (addr[i].equals("부산광역시")) {
+                                    showAddr = "부산";
+                                    continue;
+                                } else if (addr[i].equals("울산광역시")) {
+                                    showAddr = "울산";
+                                    continue;
+                                } else if (addr[i].equals("광주광역시")) {
+                                    showAddr = "광주";
+                                    continue;
+                                } else {
+                                    showAddr = addr[i];
+                                    continue;
+                                }
+                            }
+                            showAddr += " "+addr[i];
+                        }
+                        mOptions.snippet(showAddr);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -133,6 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (str.equals("")) {
                     Toast.makeText(mContext, "주소 / 건물명을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
+                    mMap.clear();
                     List<Address> addressList = null;
                     try {
                         // editText에 입력한 텍스트(주소, 지역, 장소 등)을 지오 코딩을 이용해 변환
@@ -145,7 +210,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
 
                     // 콤마를 기준으로 split
-
                     String []splitStr = addressList.get(0).toString().split(",");
                     String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
 
@@ -159,7 +223,71 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mOptions2.title("검색 결과");
 
                     String[] addr = address.split(" ");
-                    mOptions2.snippet(addr[1]+" "+addr[2]+" "+addr[3]);
+                    String showAddr = "";
+                    for (int i=1;i<4;i++) {
+                        if (addr[i].isEmpty() || addr[i] == null) {
+                            continue;
+                        }
+                        if (i == 1) {
+                            if (addr[i].equals("서울특별시")) {
+                                showAddr = "서울";
+                                continue;
+                            } else if (addr[i].equals("경기도")) {
+                                showAddr = "경기";
+                                continue;
+                            } else if (addr[i].equals("인천광역시")) {
+                                showAddr = "인천";
+                                continue;
+                            } else if (addr[i].equals("대구광역시")) {
+                                showAddr = "대구";
+                                continue;
+                            } else if (addr[i].equals("강원도")) {
+                                showAddr = "강원";
+                                continue;
+                            } else if (addr[i].equals("대전광역시")) {
+                                showAddr = "대전";
+                                continue;
+                            } else if (addr[i].equals("전라북도")) {
+                                showAddr = "전북";
+                                continue;
+                            } else if (addr[i].equals("전라남도")) {
+                                showAddr = "전남";
+                                continue;
+                            } else if (addr[i].equals("세종특별자치시")) {
+                                showAddr = "세종";
+                                continue;
+                            } else if (addr[i].equals("경상북도")) {
+                                showAddr = "경북";
+                                continue;
+                            } else if (addr[i].equals("경상남도")) {
+                                showAddr = "경남";
+                                continue;
+                            } else if (addr[i].equals("충청북도")) {
+                                showAddr = "충북";
+                                continue;
+                            } else if (addr[i].equals("충청남도")) {
+                                showAddr = "충남";
+                                continue;
+                            } else if (addr[i].equals("제주특별자치도")) {
+                                showAddr = "제주";
+                                continue;
+                            } else if (addr[i].equals("부산광역시")) {
+                                showAddr = "부산";
+                                continue;
+                            } else if (addr[i].equals("울산광역시")) {
+                                showAddr = "울산";
+                                continue;
+                            } else if (addr[i].equals("광주광역시")) {
+                                showAddr = "광주";
+                                continue;
+                            } else {
+                                showAddr = addr[i];
+                                continue;
+                            }
+                        }
+                        showAddr += " "+addr[i];
+                    }
+                    mOptions2.snippet(showAddr);
                     mOptions2.position(point);
                     // 마커 추가
                     mMap.addMarker(mOptions2);

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:background="#4d5868"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:fitsSystemWindows="true"
+        >
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/toolbarlayout_talentlist"/>
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID 찾기"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+        <EditText
+            android:id="@+id/et_phone_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bgr_edittxt_join"
+            android:textSize="12dp"
+            android:textColorHint="#fff"
+            android:textColor="#fff"
+            android:hint="핸드폰 번호 ('-'구분없이 입력)"
+            android:paddingLeft="10dp"
+            />
+
+        <Button
+            android:id="@+id/btn_chkphonenum_id"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:text="인증번호 전송"
+            android:textSize="12dp"
+            android:textColor="@color/color_mentor"
+            android:background="@drawable/bgr_joinbtn1"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+
+        <EditText
+            android:id="@+id/et_admit_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="인증번호 입력"
+            android:background="@drawable/bgr_edittxt_join"
+            android:textSize="12dp"
+            android:textColorHint="#fff"
+            android:textColor="#fff"
+            android:paddingLeft="5dp"
+            />
+
+        <Button
+            android:id="@+id/btn_chkcertnum_id"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="인증완료"
+            android:textColor="@color/color_mentor"
+            android:background="@drawable/bgr_joinbtn1"
+            android:layout_alignParentRight="true"
+            android:textSize="12dp"
+            />
+
+
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호 찾기"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="40dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+        <EditText
+            android:id="@+id/et_id_idpw"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bgr_edittxt_join"
+            android:textSize="12dp"
+            android:textColorHint="#fff"
+            android:textColor="#fff"
+            android:hint="ID (E-mail 주소)"
+            android:paddingLeft="10dp"
+            />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+
+        <EditText
+            android:id="@+id/et_phone_pw"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="핸드폰 번호 ('-'구분없이 입력)"
+            android:background="@drawable/bgr_edittxt_join"
+            android:textSize="12dp"
+            android:textColorHint="#fff"
+            android:textColor="#fff"
+            android:paddingLeft="5dp"
+            />
+
+        <Button
+            android:id="@+id/btn_chkphonenum_pw"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="인증완료"
+            android:textColor="@color/color_mentor"
+            android:background="@drawable/bgr_joinbtn1"
+            android:layout_alignParentRight="true"
+            android:textSize="12dp"
+            />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+
+        <EditText
+            android:id="@+id/et_admit_pw"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="인증번호 입력"
+            android:background="@drawable/bgr_edittxt_join"
+            android:textSize="12dp"
+            android:textColorHint="#fff"
+            android:textColor="#fff"
+            android:paddingLeft="5dp"
+            />
+
+        <Button
+            android:id="@+id/btn_chkcertnum_pw"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="인증완료"
+            android:textColor="@color/color_mentor"
+            android:background="@drawable/bgr_joinbtn1"
+            android:layout_alignParentRight="true"
+            android:textSize="12dp"
+            />
+
+
+    </RelativeLayout>
+
+    </LinearLayout>
+

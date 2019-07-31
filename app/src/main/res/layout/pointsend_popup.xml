@@ -57,6 +57,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_pointsendbg_popup"
             android:layout_width="match_parent"
             android:layout_height="260dp"
             android:layout_alignParentBottom="true"
@@ -76,6 +77,7 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_icon1_popup"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/icon_student"
@@ -84,6 +86,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_username_popup"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="박종우"
@@ -103,6 +106,7 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_gendericon_popup"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/icon_male"
@@ -111,6 +115,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_userbirth_popup"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="1991.01.23"
@@ -123,6 +128,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_userdescript_popup"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:text="김재환 안녕하세요, 당신이 모르는 김재환의 진짜 이야기"
@@ -219,6 +225,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tv_guide_popup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="평가는 비공개로 반영됩니다."
