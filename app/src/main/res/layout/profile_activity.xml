@@ -253,8 +253,9 @@
             <ImageView
                 android:id="@+id/img_gender_profile"
                 android:layout_width="20dp"
-                android:layout_height="17dp"
-                android:tint="@color/color_mentor" />
+                android:layout_height="20dp"
+                android:tint="@color/color_mentor"
+                />
 
 
             <TextView
@@ -375,9 +376,9 @@
               </LinearLayout>
 
             <com.mikhaellopez.circularimageview.CircularImageView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:id="@+id/cimg_pic_profile"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/pic_sample"
                 app:civ_border_color="#fff"
@@ -411,14 +412,95 @@
 
             </RelativeLayout>
 
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="20dp"
-                android:src="@drawable/icon_gauge"
-                android:scaleType="fitXY"
-                android:adjustViewBounds="false"
+
+
+            <LinearLayout
+                android:layout_width="140dp"
+                android:layout_height="15dp"
+                android:background="#fff"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
                 android:layout_marginTop="5dp"
-                />
+                android:orientation="horizontal"
+
+                >
+
+                <View
+                    android:id="@+id/v1_estimate_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <View
+                    android:id="@+id/v2_estimate_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <View
+                    android:id="@+id/v3_estimate_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <View
+                    android:id="@+id/v4_estimate_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <View
+                    android:id="@+id/v5_estimate_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <View
+                    android:id="@+id/v6_estimate_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <View
+                    android:id="@+id/v7_estimate_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <View
+                    android:id="@+id/v8_estimate_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <View
+                    android:id="@+id/v9_estimate_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+                <View
+                    android:id="@+id/v10_estimate_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    />
+
+
+
+            </LinearLayout>
+
         </LinearLayout>
     </RelativeLayout>
 

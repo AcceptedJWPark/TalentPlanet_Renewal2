@@ -93,6 +93,9 @@ import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
 import accepted.talentplanet_renewal2.VolleyMultipartRequest;
 import accepted.talentplanet_renewal2.VolleySingleton;
 
+import static android.graphics.Color.WHITE;
+import static android.view.View.GONE;
+
 
 public class MainActivity_Profile extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -169,9 +172,18 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
     // 새로운 재능인지 아닌지
     private boolean isNewTalent;
-    private int spinnerIdx;
+    private String listCateCode;
     private String title;
     private int bgID;
+    private int spinnerIdx;
+
+
+    View [] view_Estimate = new View[10];
+    int [] colorGradient = new int[10];
+    double averageScore;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,7 +197,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         Intent intent = new Intent(this.getIntent());
         inPerson = intent.getBooleanExtra("inPerson", false);
         isNewTalent = intent.getBooleanExtra("isNewTalent", false);
-        spinnerIdx = intent.getIntExtra("spinnerIdx", 0);
 
         mode = SaveSharedPreference.getPrefTalentFlag(mContext);
 
@@ -263,7 +274,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
             if (lat.equals("") || lng.equals("")) {
-                ((ImageView)findViewById(R.id.img_mappointer)).setVisibility(View.GONE);
+                ((ImageView)findViewById(R.id.img_mappointer)).setVisibility(GONE);
                 ((TextView)findViewById(R.id.tv_addr_profile)).setText("터치해서 위치를 등록해보세요.");
                 ((TextView)findViewById(R.id.tv_addr_profile)).setBackgroundResource(R.drawable.white_dash_line);
             } else {
@@ -374,7 +385,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             });
 
             userID = intent.getStringExtra("userID");
-            Log.d("intentTest", userID);
+            listCateCode = intent.getStringExtra("cateCode");
+
             // 주소 관련
             final double Lat = intent.getDoubleExtra("GP_LAT",0);
             final double Lng = intent.getDoubleExtra("GP_LNG",0);
@@ -426,6 +438,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         }
 
         getAllTalent(mode);
+        wasItShared(targetUserID);
 
         if (isNewTalent) {
             String code = intent.getStringExtra("Code");
@@ -442,6 +455,41 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 finish();
             }
         });
+
+        view_Estimate[0] = findViewById(R.id.v1_estimate_profile);
+        view_Estimate[1] = findViewById(R.id.v2_estimate_profile);
+        view_Estimate[2] = findViewById(R.id.v3_estimate_profile);
+        view_Estimate[3] = findViewById(R.id.v4_estimate_profile);
+        view_Estimate[4] = findViewById(R.id.v5_estimate_profile);
+        view_Estimate[5] = findViewById(R.id.v6_estimate_profile);
+        view_Estimate[6] = findViewById(R.id.v7_estimate_profile);
+        view_Estimate[7] = findViewById(R.id.v8_estimate_profile);
+        view_Estimate[8] = findViewById(R.id.v9_estimate_profile);
+        view_Estimate[9] = findViewById(R.id.v10_estimate_profile);
+
+        colorGradient[0] = Color.parseColor("#ff6666");
+        colorGradient[1] = Color.parseColor("#ff6f65");
+        colorGradient[2] = Color.parseColor("#ff7664");
+        colorGradient[3] = Color.parseColor("#ff7d63");
+        colorGradient[4] = Color.parseColor("#ff8363");
+        colorGradient[5] = Color.parseColor("#ff8962");
+        colorGradient[6] = Color.parseColor("#ff8e62");
+        colorGradient[7] = Color.parseColor("#ff9462");
+        colorGradient[8] = Color.parseColor("#ff9a61");
+        colorGradient[9] = Color.parseColor("#ffa061");
+
+        averageScore = 7.8;
+
+        for(int i=0; i<Math.round(averageScore); i++)
+        {
+            final int finalI = i;
+            view_Estimate[i].setBackgroundColor(colorGradient[i]);
+        }
+
+
+
+
+
 
         // 지도
         // 07/18 11:32
@@ -678,6 +726,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                     ((TextView)findViewById(R.id.tv_description_profile)).setText(userText);
                                 }
 
+                                Log.d("booleanTest", listCateCode + " : " + String.valueOf(item.getCateCode()));
+                                if (listCateCode == String.valueOf(item.getCateCode())) {
+                                    spinnerIdx = i;
+                                }
+
                                 // 모드별 유저의 재능 리스트 가져오기
                                 if(talentFlag.equals("Y")) {
                                     mentorTalentList.add(item);
@@ -785,6 +838,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                     public void onNothingSelected(AdapterView<?> parent) { }
                                 });
 
+                                Log.d("checkidx", String.valueOf(spinnerIdx));
                                 if (spinnerIdx > -1) {
                                     sp_talent_profile.setSelection(spinnerIdx);
                                 }
@@ -1662,4 +1716,42 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         }
     }
 
+    public void wasItShared(final String targetID){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Profile/wasItShared.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("isTrue").equals("1")){
+                        ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.VISIBLE);
+                    }else {
+                        ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
+                    }
+
+                    if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("N")) {
+                        ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.VISIBLE);
+                    }
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("Y")) {
+                    params.put("MentorID", SaveSharedPreference.getUserId(mContext));
+                    params.put("MenteeID", targetID);
+                } else {
+                    params.put("MentorID", targetID);
+                    params.put("MenteeID", SaveSharedPreference.getUserId(mContext));
+                }
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
 }
