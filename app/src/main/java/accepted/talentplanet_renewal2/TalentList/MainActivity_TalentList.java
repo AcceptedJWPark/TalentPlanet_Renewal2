@@ -254,6 +254,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
                             intent.putExtra("GP_LAT", userList.get(position).getGP_LAT());
                             intent.putExtra("GP_LNG", userList.get(position).getGP_LNG());
                             intent.putExtra("BIRTH_FLAG", userList.get(position).getBirthFlag());
+                            intent.putExtra("cateCode", cateCode);
 
                             startActivity(intent);
                         }

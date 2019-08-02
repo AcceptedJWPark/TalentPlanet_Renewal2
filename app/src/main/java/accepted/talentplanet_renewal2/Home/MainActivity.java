@@ -244,18 +244,18 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayout ll_search = findViewById(R.id.ll_home_search);
 
         talentTextList.add("1");
-        talentTextList.add("2");
         talentTextList.add("3");
-        talentTextList.add("4");
-        talentTextList.add("5");
-        talentTextList.add("6");
-        talentTextList.add("7");
-        talentTextList.add("8");
         talentTextList.add("9");
-        talentTextList.add("10");
-        talentTextList.add("11");
         talentTextList.add("12");
+        talentTextList.add("2");
+        talentTextList.add("11");
+        talentTextList.add("4");
         talentTextList.add("13");
+        talentTextList.add("8");
+        talentTextList.add("6");
+        talentTextList.add("5");
+        talentTextList.add("10");
+        talentTextList.add("7");
         talentTextList.add("14");
 
         talentList.add(ll_1);

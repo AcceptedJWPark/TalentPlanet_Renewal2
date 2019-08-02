@@ -48,7 +48,7 @@
                     android:gravity="left|center"
                     android:text="문건우"
                     android:textColor="@color/bgr"
-                    android:textSize="18dp" />
+                    android:textSize="16dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:text="#근력운동 #다이어트 #PT"
+            android:text="#근력운동 #다이어트 #PTsadfasdf"
             android:gravity="center|left"
             android:singleLine="true"
             android:textSize="14dp"
