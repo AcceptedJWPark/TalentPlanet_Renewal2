@@ -172,9 +172,10 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
     // 새로운 재능인지 아닌지
     private boolean isNewTalent;
-    private int spinnerIdx;
+    private String listCateCode;
     private String title;
     private int bgID;
+    private int spinnerIdx;
 
 
     View [] view_Estimate = new View[10];
@@ -196,7 +197,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         Intent intent = new Intent(this.getIntent());
         inPerson = intent.getBooleanExtra("inPerson", false);
         isNewTalent = intent.getBooleanExtra("isNewTalent", false);
-        spinnerIdx = intent.getIntExtra("spinnerIdx", 0);
 
         mode = SaveSharedPreference.getPrefTalentFlag(mContext);
 
@@ -385,7 +385,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             });
 
             userID = intent.getStringExtra("userID");
-            Log.d("intentTest", userID);
+            listCateCode = intent.getStringExtra("cateCode");
+
             // 주소 관련
             final double Lat = intent.getDoubleExtra("GP_LAT",0);
             final double Lng = intent.getDoubleExtra("GP_LNG",0);
@@ -437,6 +438,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         }
 
         getAllTalent(mode);
+        wasItShared(targetUserID);
 
         if (isNewTalent) {
             String code = intent.getStringExtra("Code");
@@ -724,6 +726,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                     ((TextView)findViewById(R.id.tv_description_profile)).setText(userText);
                                 }
 
+                                Log.d("booleanTest", listCateCode + " : " + String.valueOf(item.getCateCode()));
+                                if (listCateCode == String.valueOf(item.getCateCode())) {
+                                    spinnerIdx = i;
+                                }
+
                                 // 모드별 유저의 재능 리스트 가져오기
                                 if(talentFlag.equals("Y")) {
                                     mentorTalentList.add(item);
@@ -831,6 +838,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                     public void onNothingSelected(AdapterView<?> parent) { }
                                 });
 
+                                Log.d("checkidx", String.valueOf(spinnerIdx));
                                 if (spinnerIdx > -1) {
                                     sp_talent_profile.setSelection(spinnerIdx);
                                 }
@@ -1708,4 +1716,42 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         }
     }
 
+    public void wasItShared(final String targetID){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Profile/wasItShared.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("isTrue").equals("1")){
+                        ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.VISIBLE);
+                    }else {
+                        ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
+                    }
+
+                    if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("N")) {
+                        ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.VISIBLE);
+                    }
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("Y")) {
+                    params.put("MentorID", SaveSharedPreference.getUserId(mContext));
+                    params.put("MenteeID", targetID);
+                } else {
+                    params.put("MentorID", targetID);
+                    params.put("MenteeID", SaveSharedPreference.getUserId(mContext));
+                }
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
 }

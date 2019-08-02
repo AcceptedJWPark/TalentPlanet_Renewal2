@@ -109,7 +109,12 @@ public class customDialog_PointSend extends Dialog {
 
         // 상대방의 아이디
         tv_username_popup.setText(targetID);
-        tv_userbirth_popup.setText(intent.getStringExtra("userInfo"));
+        if (intent.getStringExtra("BIRTH_FLAG").equals("N")) {
+            tv_userbirth_popup.setText(intent.getStringExtra("userInfo"));
+        } else {
+            tv_userbirth_popup.setText("비공개");
+        }
+
         tv_userdescript_popup.setText(intent.getStringExtra("userDescription"));
 
         view_Estimate[0] = findViewById(R.id.v1_estimate_pointsend);
