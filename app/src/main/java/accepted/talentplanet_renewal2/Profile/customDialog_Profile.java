@@ -20,12 +20,14 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
+import com.volokh.danylo.hashtaghelper.HashTagHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import accepted.talentplanet_renewal2.R;
@@ -48,8 +50,10 @@ public class customDialog_Profile extends Dialog {
     TextView tv_cancel_edittalent_popup;
     TextView tv_save_edittalent_popup;
 
-    EditText et_edit_talent;
+    HashTagHelper mEditTextHashTagHelper;
 
+    EditText et_edit_talent;
+    int talentID = 0;
     private String flag;
     private int code;
 
@@ -75,6 +79,10 @@ public class customDialog_Profile extends Dialog {
 
         et_edit_talent = findViewById(R.id.et_edit_talent);
         tv_edittalent_title_popup = findViewById(R.id.tv_edittalent_title_popup);
+
+        mEditTextHashTagHelper = HashTagHelper.Creator.create(mContext.getResources().getColor(R.color.colorPrimary), null);
+        mEditTextHashTagHelper.handle(et_edit_talent);
+
         if (userDescription != null && userDescription.length() != 0) {
             et_edit_talent.setText(userDescription);
         } else {
@@ -93,11 +101,15 @@ public class customDialog_Profile extends Dialog {
         tv_save_edittalent_popup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editUserTalent(String.valueOf(et_edit_talent.getText()));
+                saveTalent();
             }
         });
 
 
+    }
+
+    public void saveTalent(){
+        editUserTalent(String.valueOf(et_edit_talent.getText()));
     }
 
     public void editUserTalent(final String text){
@@ -105,9 +117,22 @@ public class customDialog_Profile extends Dialog {
         StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "/Hashtag/editUserTalent.do", new Response.Listener<String>(){
             @Override
             public void onResponse(String response){
-                if(!response.equals("")){
-                    Toast.makeText(mContext, "프로필 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                    ((MainActivity_Profile)mContext).getAllTalent(flag);
+                talentID = Integer.parseInt(response);
+                Log.d("TalentID", talentID + "");
+
+                if(talentID > 0) {
+                    List<String> allHashTags = mEditTextHashTagHelper.getAllHashTags();
+                    StringBuilder sb = new StringBuilder();
+                    for(int i = 0; i < allHashTags.size(); i++){
+                        sb.append(allHashTags.get(i));
+                        if(i != allHashTags.size() - 1){
+                            sb.append("|");
+                        }
+                    }
+
+                    insertHashValue(sb.toString());
+                }else{
+                    Toast.makeText(mContext, "프로필 수정이 실패하였습니다.", Toast.LENGTH_SHORT).show();
                     dismiss();
                 }
             }
@@ -119,6 +144,38 @@ public class customDialog_Profile extends Dialog {
                 params.put("TalentFlag", flag);
                 params.put("TalentCateCode", String.valueOf(code));
                 params.put("TalentDescription", text);
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
+
+    public void insertHashValue(final String hashvalues){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "/Hashtag/insertHashValue.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")){
+                        Toast.makeText(mContext, "프로필 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                        ((MainActivity_Profile)mContext).getAllTalent(flag);
+                        dismiss();
+                    }else{
+                        Toast.makeText(mContext, "프로필 수정이 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("talentID", String.valueOf(talentID));
+                params.put("hashvalues", hashvalues);
                 return params;
             }
         };
