@@ -730,6 +730,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 item.setUserID(obj.getString("UserID"));
                                 item.setTalentDescription(obj.getString("TalentDescription"));
                                 item.setTalentFlag(obj.getString("TalentFlag"));
+                                ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(VISIBLE);
+                                ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(VISIBLE);
 
                                 // 최초 로딩시 첫 재능을 보여주기 위한 부분
                                 if (i == 0) {
@@ -780,6 +782,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                                         if(talentFlag.equals("Y")) {
+                                            Log.d("selected position", position + "");
                                             Glide.with(mActivity).load(mentorTalentList.get(position).getBackgroundResourceID()).into((ImageView)findViewById(R.id.iv_talent_profile));
 
                                             String hashTagString = "";
@@ -871,7 +874,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 });
 
                                 Log.d("checkidx", String.valueOf(spinnerIdx));
-                                if (spinnerIdx > -1) {
+                                if (spinnerIdx > 0) {
                                     sp_talent_profile.setSelection(spinnerIdx);
                                 }
 
