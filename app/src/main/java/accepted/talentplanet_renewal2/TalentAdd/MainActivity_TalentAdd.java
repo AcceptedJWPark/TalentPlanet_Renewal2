@@ -81,6 +81,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
         isTeacher = true;
 
         findViewbyId();
+        SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
         getAllTalent("Y");
 
 
