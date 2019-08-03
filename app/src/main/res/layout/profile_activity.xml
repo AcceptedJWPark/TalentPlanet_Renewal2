@@ -16,11 +16,14 @@
         android:orientation="vertical"
         >
 
+
+
         <RelativeLayout
         android:id="@+id/rl_picarea_profile"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-            android:layout_alignParentTop="true"
+        android:layout_alignParentTop="true"
+            android:visibility="gone"
         >
 
         <ImageView
@@ -107,6 +110,7 @@
                 android:layout_height="150dp"
                 android:orientation="vertical"
                 android:layout_alignParentBottom="true"
+            android:visibility="gone"
                 >
 
 
