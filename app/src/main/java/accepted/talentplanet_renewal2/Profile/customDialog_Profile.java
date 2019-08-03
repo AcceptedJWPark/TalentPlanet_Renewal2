@@ -129,8 +129,13 @@ public class customDialog_Profile extends Dialog {
                             sb.append("|");
                         }
                     }
-
-                    insertHashValue(sb.toString());
+                    if(!sb.toString().isEmpty()) {
+                        insertHashValue(sb.toString());
+                    } else {
+                        Toast.makeText(mContext, "프로필 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                        ((MainActivity_Profile)mContext).getAllTalent(flag);
+                        dismiss();
+                    }
                 }else{
                     Toast.makeText(mContext, "프로필 수정이 실패하였습니다.", Toast.LENGTH_SHORT).show();
                     dismiss();
