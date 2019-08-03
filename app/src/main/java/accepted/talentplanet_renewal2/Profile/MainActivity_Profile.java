@@ -235,17 +235,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
         });
 
-
-
-
-
         ((TextView)findViewById(R.id.tv_description_profile)).setMovementMethod(new ScrollingMovementMethod());
         ((TextView)findViewById(R.id.tv_tag_profile)).setMovementMethod(new ScrollingMovementMethod());
-
-
-
-
-
 
         //재능 수정
         DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
