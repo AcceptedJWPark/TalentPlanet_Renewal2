@@ -460,17 +460,19 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
         }
-
-        getAllTalent(mode);
-        wasItShared(targetUserID);
-
         if (isNewTalent) {
             String code = intent.getStringExtra("Code");
             title = intent.getStringExtra("talentTitle");
             bgID = intent.getIntExtra("backgroundID", 0);
 
             addNewTalent(mode, bgID, Integer.parseInt(code), "");
+        }else {
+            getAllTalent(mode);
         }
+
+        wasItShared(targetUserID);
+
+
 
         // 뒤로가기 이벤트
         ((ImageView) findViewById(R.id.img_back_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
@@ -1833,6 +1835,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             protected Map<String, String> getParams(){
                 Map<String, String> params = new HashMap();
                 params.put("userID", SaveSharedPreference.getUserId(mContext));
+                params.put("talentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
                 return params;
             }
         };
