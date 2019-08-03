@@ -93,6 +93,9 @@ import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
 import accepted.talentplanet_renewal2.VolleyMultipartRequest;
 import accepted.talentplanet_renewal2.VolleySingleton;
 
+import static android.graphics.Color.WHITE;
+import static android.view.View.GONE;
+
 
 public class MainActivity_Profile extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -169,9 +172,18 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
     // 새로운 재능인지 아닌지
     private boolean isNewTalent;
-    private int spinnerIdx;
+    private String listCateCode;
     private String title;
     private int bgID;
+    private int spinnerIdx;
+
+
+    View [] view_Estimate = new View[10];
+    int [] colorGradient = new int[10];
+    double averageScore;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,7 +197,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         Intent intent = new Intent(this.getIntent());
         inPerson = intent.getBooleanExtra("inPerson", false);
         isNewTalent = intent.getBooleanExtra("isNewTalent", false);
-        spinnerIdx = intent.getIntExtra("spinnerIdx", 0);
 
         mode = SaveSharedPreference.getPrefTalentFlag(mContext);
 
@@ -242,8 +253,13 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             // 주소
             String lat = SaveSharedPreference.getPrefUserGpLat(mContext);
             String lng = SaveSharedPreference.getPrefUserGpLng(mContext);
-            final double Lat = Double.parseDouble(lat);
-            final double Lng = Double.parseDouble(lng);
+            double Lat = 0;
+            double Lng = 0;
+
+            if (!lat.equals("") || !lng.equals("")) {
+                Lat = Double.parseDouble(lat);
+                Lng = Double.parseDouble(lng);
+            }
 
             userID = SaveSharedPreference.getUserId(mContext);
 
@@ -258,37 +274,32 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
             if (lat.equals("") || lng.equals("")) {
+                ((ImageView)findViewById(R.id.img_mappointer)).setVisibility(GONE);
                 ((TextView)findViewById(R.id.tv_addr_profile)).setText("터치해서 위치를 등록해보세요.");
                 ((TextView)findViewById(R.id.tv_addr_profile)).setBackgroundResource(R.drawable.white_dash_line);
             } else {
-
                 final Geocoder geocoder = new Geocoder(mContext);
                 try {
                     List<Address> list = geocoder.getFromLocation(Lat,Lng,10);
                     if (list.size()==0) {
                         ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
                     } else {
-                        ((TextView)findViewById(R.id.tv_addr_profile)).setText(list.get(0).toString());
+                        String[] addr = list.get(0).getAddressLine(0).split(" ");
+
+                        ((TextView)findViewById(R.id.tv_addr_profile)).setText(addr[1]+" "+addr[2]+" "+addr[3]);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
                 }
-//                if (list != null) {
-//                    if (list.size()==0) {
-//                        ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
-//                    } else {
-//                        ((TextView)findViewById(R.id.tv_addr_profile)).setText(list.get(0).toString());
-//                    }
-//                }
             }
 
             ((TextView)findViewById(R.id.tv_addr_profile)).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, MapsActivity.class);
-                    intent.putExtra("GP_LAT", Lat);
-                    intent.putExtra("GP_LNG", Lng);
+                    intent.putExtra("GP_LAT", SaveSharedPreference.getPrefUserGpLat(mContext));
+                    intent.putExtra("GP_LNG", SaveSharedPreference.getPrefUserGpLng(mContext));
                     startActivityForResult(intent, 2030);
                 }
             });
@@ -299,7 +310,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
             }
 
-
+//asdf
             ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
@@ -314,9 +325,50 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 }
             });
 
-        } else  {
-            ((ImageView)findViewById(R.id.iv_edittalent_profile)).setVisibility(View.GONE);
-            ((ImageView)findViewById(R.id.iv_deltalent_profile)).setVisibility(View.GONE);
+            String imgResource = SaveSharedPreference.getMyThumbPicturePath();
+            if (!imgResource.equals("")) {
+                Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into((ImageView) findViewById(R.id.cimg_pic_profile));
+            }
+
+            // 프로필 사진 관련
+            final android.support.v7.app.AlertDialog.Builder AlarmDeleteDialog = new android.support.v7.app.AlertDialog.Builder(MainActivity_Profile.this);
+            iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
+            iv_cimg_pic_profile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (Build.VERSION.SDK_INT > 22) {
+                        requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA}, 1);
+                    }
+                    AlarmDeleteDialog.setMessage("사진을 가져올 곳을 선택해주세요.")
+                            .setPositiveButton("카메라", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    selectPhoto();
+                                    dialog.cancel();
+                                }
+                            })
+                            .setNegativeButton("앨범", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    selectGallery();
+                                    dialog.cancel();
+                                }
+                            });
+                    android.support.v7.app.AlertDialog alertDialog = AlarmDeleteDialog.create();
+                    alertDialog.show();
+                }
+            });
+
+            changeOpenFlagImage();
+
+            if (mode.equals("Y")) {
+                ((ImageView) findViewById(R.id.iv_birthopen_profile)).setColorFilter(mContext.getResources().getColor(R.color.color_mentee));
+                ((ImageView) findViewById(R.id.iv_birthclose_profile)).setColorFilter(mContext.getResources().getColor(R.color.color_mentee));
+            }
+
+        } else {
+            ((ImageView) findViewById(R.id.iv_edittalent_profile)).setVisibility(View.GONE);
+            ((ImageView) findViewById(R.id.iv_deltalent_profile)).setVisibility(View.GONE);
 
             String gender = intent.getStringExtra("userGender");
             if (gender.equals("남")) {
@@ -325,7 +377,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
             }
 
-            ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
+            ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     addFriend();
@@ -333,9 +385,60 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             });
 
             userID = intent.getStringExtra("userID");
+            listCateCode = intent.getStringExtra("cateCode");
+
+            // 주소 관련
+            final double Lat = intent.getDoubleExtra("GP_LAT",0);
+            final double Lng = intent.getDoubleExtra("GP_LNG",0);
+            //  타유저의 프로필에서 주소 표시를 위한 geocoder
+            if (Lat != 0.0 && Lng != 0.0) {
+                final Geocoder geocoder = new Geocoder(mContext);
+                try {
+                    List<Address> list = geocoder.getFromLocation(Lat,Lng,10);
+                    if (list.size()==0) {
+                        ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
+                    } else {
+                        String[] addr = list.get(0).getAddressLine(0).split(" ");
+
+                        ((TextView)findViewById(R.id.tv_addr_profile)).setText(addr[1]+" "+addr[2]+" "+addr[3]);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
+                }
+            } else {
+                ((TextView)findViewById(R.id.tv_addr_profile)).setText("위치 정보 없음");
+            }
+
+            String byListGender = intent.getStringExtra("userGender");
+            //포인트 지급
+            cd_PointSend = new customDialog_PointSend(this, mode, userID, byListGender, intent);
+            WindowManager.LayoutParams wm2 = cd_PointSend.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
+            wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
+            wm2.width = (int) (width / 1.1);
+            wm2.height = (int) (height / 1.1);
+            ((ImageView)findViewById(R.id.iv_share_profile)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cd_PointSend.show();
+                }
+            });
+
+            // 타 유저의 공개여부에 맞게
+            String birthFlag = intent.getStringExtra("BIRTH_FLAG");
+            checkUserOpenData(birthFlag);
+
+            // 자신이 타유저를 볼때 반전되는 플래그
+            if (mode.equals("Y")) {
+                mode = "N";
+            } else {
+                mode = "Y";
+            }
+
         }
 
         getAllTalent(mode);
+        wasItShared(targetUserID);
 
         if (isNewTalent) {
             String code = intent.getStringExtra("Code");
@@ -345,19 +448,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             addNewTalent(mode, bgID, Integer.parseInt(code), "");
         }
 
-        //포인트 지급
-        cd_PointSend = new customDialog_PointSend(this, mode, userID);
-        WindowManager.LayoutParams wm2 = cd_PointSend.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
-        wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
-        wm2.width = (int) (width / 1.1);
-        wm2.height = (int) (height / 1.1);
-        ((ImageView)findViewById(R.id.iv_share_profile)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cd_PointSend.show();
-            }
-        });
-
         // 뒤로가기 이벤트
         ((ImageView) findViewById(R.id.img_back_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -365,6 +455,41 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 finish();
             }
         });
+
+        view_Estimate[0] = findViewById(R.id.v1_estimate_profile);
+        view_Estimate[1] = findViewById(R.id.v2_estimate_profile);
+        view_Estimate[2] = findViewById(R.id.v3_estimate_profile);
+        view_Estimate[3] = findViewById(R.id.v4_estimate_profile);
+        view_Estimate[4] = findViewById(R.id.v5_estimate_profile);
+        view_Estimate[5] = findViewById(R.id.v6_estimate_profile);
+        view_Estimate[6] = findViewById(R.id.v7_estimate_profile);
+        view_Estimate[7] = findViewById(R.id.v8_estimate_profile);
+        view_Estimate[8] = findViewById(R.id.v9_estimate_profile);
+        view_Estimate[9] = findViewById(R.id.v10_estimate_profile);
+
+        colorGradient[0] = Color.parseColor("#ff6666");
+        colorGradient[1] = Color.parseColor("#ff6f65");
+        colorGradient[2] = Color.parseColor("#ff7664");
+        colorGradient[3] = Color.parseColor("#ff7d63");
+        colorGradient[4] = Color.parseColor("#ff8363");
+        colorGradient[5] = Color.parseColor("#ff8962");
+        colorGradient[6] = Color.parseColor("#ff8e62");
+        colorGradient[7] = Color.parseColor("#ff9462");
+        colorGradient[8] = Color.parseColor("#ff9a61");
+        colorGradient[9] = Color.parseColor("#ffa061");
+
+        averageScore = 7.8;
+
+        for(int i=0; i<Math.round(averageScore); i++)
+        {
+            final int finalI = i;
+            view_Estimate[i].setBackgroundColor(colorGradient[i]);
+        }
+
+
+
+
+
 
         // 지도
         // 07/18 11:32
@@ -389,34 +514,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
 
 
-        // 프로필 사진 관련
-//        final android.support.v7.app.AlertDialog.Builder AlarmDeleteDialog = new android.support.v7.app.AlertDialog.Builder(MainActivity_Profile.this);
-//        iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
-//        iv_cimg_pic_profile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (Build.VERSION.SDK_INT > 22) {
-//                    requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA}, 1);
-//                }
-//                AlarmDeleteDialog.setMessage("사진을 가져올 곳을 선택해주세요.")
-//                        .setPositiveButton("카메라", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                selectPhoto();
-//                                dialog.cancel();
-//                            }
-//                        })
-//                        .setNegativeButton("앨범", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                selectGallery();
-//                                dialog.cancel();
-//                            }
-//                        });
-//                android.support.v7.app.AlertDialog alertDialog = AlarmDeleteDialog.create();
-//                alertDialog.show();
-//            }
-//        });
+
 
 //        if (inPerson) {
 //            tv_birth_profile.setText(SaveSharedPreference.getPrefUserBirth(mContext));
@@ -628,6 +726,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                     ((TextView)findViewById(R.id.tv_description_profile)).setText(userText);
                                 }
 
+                                Log.d("booleanTest", listCateCode + " : " + String.valueOf(item.getCateCode()));
+                                if (listCateCode == String.valueOf(item.getCateCode())) {
+                                    spinnerIdx = i;
+                                }
+
                                 // 모드별 유저의 재능 리스트 가져오기
                                 if(talentFlag.equals("Y")) {
                                     mentorTalentList.add(item);
@@ -735,6 +838,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                     public void onNothingSelected(AdapterView<?> parent) { }
                                 });
 
+                                Log.d("checkidx", String.valueOf(spinnerIdx));
                                 if (spinnerIdx > -1) {
                                     sp_talent_profile.setSelection(spinnerIdx);
                                 }
@@ -757,16 +861,17 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 String flag = "";
-                if (talentFlag.equals("Y")) {
-                    flag = "N";
-                } else if (talentFlag.equals("N")) {
-                    flag = "Y";
-                }
+//                if (talentFlag.equals("Y")) {
+//                    flag = "N";
+//                } else if (talentFlag.equals("N")) {
+//                    flag = "Y";
+//                }
 
-                if (inPerson) {
-                    flag = talentFlag;
-                }
+//                if (inPerson) {
+//                    flag = talentFlag;
+//                }
 
+                flag = talentFlag;
                 params.put("UserID", userID);
                 params.put("CheckUserID", SaveSharedPreference.getUserId(mContext));
                 params.put("TalentFlag", flag);
@@ -1095,21 +1200,21 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         String state = Environment.getExternalStorageState();
 
         if(Environment.MEDIA_MOUNTED.equals(state)){
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (intent.resolveActivity(getPackageManager()) != null) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (intent.resolveActivity(getPackageManager()) != null) {
 
-                File photoFile = null;
-                try{
-                    photoFile = createImageFile();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
+                    File photoFile = null;
+                    try{
+                        photoFile = createImageFile();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
 
-                if(photoFile != null){
-                    photoUri = FileProvider.getUriForFile(mContext, AUTHORITY, photoFile);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                    startActivityForResult(intent, CAMERA_CODE);
-                }
+                    if(photoFile != null){
+                        photoUri = FileProvider.getUriForFile(mContext, AUTHORITY, photoFile);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                        startActivityForResult(intent, CAMERA_CODE);
+                    }
             }
         }
     }
@@ -1148,6 +1253,22 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     break;
                 case CAMERA_CODE:
                     getPictureForPhoto();
+                    break;
+                case 2030:
+                    final Geocoder geocoder = new Geocoder(mContext);
+                    try {
+                        List<Address> list = geocoder.getFromLocation(Double.parseDouble(SaveSharedPreference.getPrefUserGpLat(mContext)),Double.parseDouble(SaveSharedPreference.getPrefUserGpLng(mContext)),10);
+                        if (list.size()==0) {
+                            ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
+                        } else {
+                            String[] addr = list.get(0).getAddressLine(0).split(" ");
+
+                            ((TextView)findViewById(R.id.tv_addr_profile)).setText(addr[1]+" "+addr[2]+" "+addr[3]);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
+                    }
                     break;
                 default:
                     break;
@@ -1278,7 +1399,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     JSONObject obj = new JSONObject(new String(response.data));
                     SaveSharedPreference.setMyPicturePath(obj.getString("FILE_PATH"), obj.getString("FILE_PATH"));
 
-                    Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into((ImageView) findViewById(R.id.cimg_pic_dl));
+//                    Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into((ImageView) findViewById(R.id.cimg_pic_dl));
                     Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into((ImageView) findViewById(R.id.cimg_pic_profile));
 
                 } catch (JSONException e) {
@@ -1521,6 +1642,116 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         dialog.show();
     }
 
+    public void saveMyProfileInfo(final String birth, final int mentIdx){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Profile/saveMyProfileInfo.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")){
+                        switch (mentIdx) {
+                            case 1:
+                                Toast.makeText(mContext, "생일을 공개로 설정했습니다.", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 2:
+                                Toast.makeText(mContext, "생일을 비공개로 설정했습니다.", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                        // 변경값으로 저장
+                        SaveSharedPreference.setPrefUserBirthFlag(mContext, birth);
 
+                        String addrFlag = SaveSharedPreference.getPrefUserAddrFlag(mContext);
+                        String birthFlag = SaveSharedPreference.getPrefUserBirthFlag(mContext);
 
+                        changeOpenFlagImage();
+                    }
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
+                params.put("birthFlag", birth);
+                params.put("addrFlag", "");
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
+
+    public void changeOpenFlagImage() {
+        // 공개 또는 비공개 기능
+        final String birthFlag = SaveSharedPreference.getPrefUserBirthFlag(mContext);
+
+        if (birthFlag.equals("Y")) {
+            ((ImageView) findViewById(R.id.iv_birthopen_profile)).setVisibility(View.VISIBLE);
+            ((ImageView) findViewById(R.id.iv_birthclose_profile)).setVisibility(View.GONE);
+            ((ImageView) findViewById(R.id.iv_birthopen_profile)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    saveMyProfileInfo("N",2);
+                }
+            });
+        } else if (birthFlag.equals("N")) {
+            ((ImageView) findViewById(R.id.iv_birthopen_profile)).setVisibility(View.GONE);
+            ((ImageView) findViewById(R.id.iv_birthclose_profile)).setVisibility(View.VISIBLE);
+            ((ImageView) findViewById(R.id.iv_birthclose_profile)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    saveMyProfileInfo("Y",1);
+                }
+            });
+        }
+    }
+
+    public void checkUserOpenData(final  String birthFlag) {
+        if (birthFlag.equals("Y")) {
+            ((TextView)findViewById(R.id.tv_birth_profile)).setText("비공개");
+        }
+    }
+
+    public void wasItShared(final String targetID){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Profile/wasItShared.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("isTrue").equals("1")){
+                        ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.VISIBLE);
+                    }else {
+                        ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
+                    }
+
+                    if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("N")) {
+                        ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.VISIBLE);
+                    }
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("Y")) {
+                    params.put("MentorID", SaveSharedPreference.getUserId(mContext));
+                    params.put("MenteeID", targetID);
+                } else {
+                    params.put("MentorID", targetID);
+                    params.put("MenteeID", SaveSharedPreference.getUserId(mContext));
+                }
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
 }

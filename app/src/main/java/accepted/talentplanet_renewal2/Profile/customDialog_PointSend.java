@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +40,16 @@ import static android.graphics.Color.WHITE;
 
 public class customDialog_PointSend extends Dialog {
 
+    LinearLayout ll_pointsendbg_popup;
+
     ImageView iv_cancel_pointsend;
+    ImageView iv_icon1_popup;
+    ImageView iv_gendericon_popup;
+
+    TextView tv_username_popup;
+    TextView tv_userbirth_popup;
+    TextView tv_userdescript_popup;
+    TextView tv_guide_popup;
 
     Button btn_reviewuser_popup;
 
@@ -53,22 +64,58 @@ public class customDialog_PointSend extends Dialog {
     private String mentorID;
     private String menteeID;
 
-    public customDialog_PointSend(@NonNull Context context, String mode, String targetID) {
+    public customDialog_PointSend(@NonNull Context context, String mode, String targetID, String gender, Intent intent) {
         super(context);
         mContext = context;
         isMentor = mode;
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);   //다이얼로그의 타이틀바를 없애주는 옵션입니다.
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));  //다이얼로그의 배경을 투명으로 만듭니다.
+        setContentView(R.layout.pointsend_popup);     //다이얼로그에서 사용할 레이아웃입니다.
+
+        iv_icon1_popup = findViewById(R.id.iv_icon1_popup);
+        ll_pointsendbg_popup = findViewById(R.id.ll_pointsendbg_popup);
+        iv_gendericon_popup = findViewById(R.id.iv_gendericon_popup);
+        tv_username_popup = findViewById(R.id.tv_username_popup);
+        tv_userbirth_popup = findViewById(R.id.tv_userbirth_popup);
+        tv_userdescript_popup = findViewById(R.id.tv_userdescript_popup);
+
+        if (intent.getBooleanExtra("inPerson",false) == false && intent.getStringExtra("userInfo").equals("여")) {
+            Glide.with(mContext).load(mContext.getResources().getDrawable(R.drawable.icon_female)).into((ImageView) findViewById(R.id.iv_gendericon_popup));
+        }
+
         if (isMentor.equals("Y")) {
+            ll_pointsendbg_popup.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentor));
+
+            iv_icon1_popup = findViewById(R.id.iv_icon1_popup);
+            tv_guide_popup = findViewById(R.id.tv_guide_popup);
+            iv_icon1_popup.setColorFilter(Color.WHITE);
+            iv_gendericon_popup.setColorFilter(Color.WHITE);
+
+            tv_username_popup.setTextColor(Color.WHITE);
+            tv_userbirth_popup.setTextColor(Color.WHITE);
+            tv_userdescript_popup.setTextColor(Color.WHITE);
+            tv_guide_popup.setTextColor(Color.WHITE);
+
             mentorID = SaveSharedPreference.getUserId(mContext);
             menteeID = targetID;
         } else {
+            ((ImageView) findViewById(R.id.iv_cancel_pointsend)).setImageResource(R.drawable.icon_teacher);
+
+            ll_pointsendbg_popup.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentee));
             mentorID = targetID;
             menteeID = SaveSharedPreference.getUserId(mContext);
         }
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);   //다이얼로그의 타이틀바를 없애주는 옵션입니다.
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));  //다이얼로그의 배경을 투명으로 만듭니다.
-        setContentView(R.layout.pointsend_popup);     //다이얼로그에서 사용할 레이아웃입니다.
+        // 상대방의 아이디
+        tv_username_popup.setText(targetID);
+        if (intent.getStringExtra("BIRTH_FLAG").equals("N")) {
+            tv_userbirth_popup.setText(intent.getStringExtra("userInfo"));
+        } else {
+            tv_userbirth_popup.setText("비공개");
+        }
+
+        tv_userdescript_popup.setText(intent.getStringExtra("userDescription"));
 
         view_Estimate[0] = findViewById(R.id.v1_estimate_pointsend);
         view_Estimate[1] = findViewById(R.id.v2_estimate_pointsend);
@@ -95,8 +142,8 @@ public class customDialog_PointSend extends Dialog {
 
         for(int i=0; i<view_Estimate.length; i++)
         {
-            view_Estimate[i].setBackgroundColor(WHITE);
             final int finalI = i;
+            view_Estimate[i].setBackgroundColor(colorGradient[i]);
             view_Estimate[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

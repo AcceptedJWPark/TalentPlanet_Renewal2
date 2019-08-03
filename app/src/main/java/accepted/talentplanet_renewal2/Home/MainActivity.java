@@ -38,11 +38,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.AddCategory.MainActivity_AddCategory;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
+import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
 import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.Search.MainActivity_Search;
 import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
 import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
 import accepted.talentplanet_renewal2.VolleySingleton;
@@ -64,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
 
     DrawerLayout dl;
     View v_drawerlayout;
+
+
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
+
+
 
     boolean mentorClicked;
 
@@ -107,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(position==0)
                     {
-                        Toast.makeText(mContext,"티쳐",Toast.LENGTH_SHORT).show();
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -121,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 else
                 {
-                        Toast.makeText(mContext,"학생",Toast.LENGTH_SHORT).show();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();
                         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -207,6 +214,15 @@ public class MainActivity extends AppCompatActivity {
         ViewPager_PopTalent adapter = new ViewPager_PopTalent(getSupportFragmentManager() ,mContext);
         vp.setAdapter(adapter);
 
+
+        ((LinearLayout)findViewById(R.id.ll_bgr_addcate)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MainActivity_AddCategory.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     // 이벤트
@@ -228,18 +244,18 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayout ll_search = findViewById(R.id.ll_home_search);
 
         talentTextList.add("1");
-        talentTextList.add("2");
         talentTextList.add("3");
-        talentTextList.add("4");
-        talentTextList.add("5");
-        talentTextList.add("6");
-        talentTextList.add("7");
-        talentTextList.add("8");
         talentTextList.add("9");
-        talentTextList.add("10");
-        talentTextList.add("11");
         talentTextList.add("12");
+        talentTextList.add("2");
+        talentTextList.add("11");
+        talentTextList.add("4");
         talentTextList.add("13");
+        talentTextList.add("8");
+        talentTextList.add("6");
+        talentTextList.add("5");
+        talentTextList.add("10");
+        talentTextList.add("7");
         talentTextList.add("14");
 
         talentList.add(ll_1);
@@ -284,6 +300,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+        ll_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MainActivity_Search.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -364,13 +388,8 @@ public class MainActivity extends AppCompatActivity {
     private void drawerlayoutEvent(final Context context)
     {
 
-        ((ImageView)findViewById(R.id.cimg_pic_dl)).setBackground(new ShapeDrawable((new OvalShape())));
-        // 본인이미지
         Glide.with(mContext).load(SaveSharedPreference.getServerIp()+SaveSharedPreference.getMyPicturePath()).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
 
-        if(Build.VERSION.SDK_INT >= 21) {
-            ((ImageView)findViewById(R.id.cimg_pic_dl)).setClipToOutline(true);
-        }
 
 
         ((LinearLayout)findViewById(R.id.ll_myprofile_dl)).setOnClickListener(new View.OnClickListener() {
@@ -384,9 +403,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        ((LinearLayout)findViewById(R.id.ll_system_dl)).setOnClickListener(new View.OnClickListener() {
+        ((LinearLayout)findViewById(R.id.ll_claim_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dl.closeDrawers();
+                Intent intent = new Intent(context, accepted.talentplanet_renewal2.Cs.Claim.MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -414,7 +436,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 dl.closeDrawers();
-                Intent intent = new Intent(context, accepted.talentplanet_renewal2.Cs.Claim.MainActivity.class);
+                Intent intent = new Intent(context, MainActivity_Cs.class);
                 startActivity(intent);
             }
         });
@@ -592,6 +614,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into((ImageView) findViewById(R.id.cimg_pic_dl));
         getCateList();
     }
+
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
+
+        if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+
+            finish();
+            super.onBackPressed();
+
+        } else {
+            backPressedTime = tempTime;
+            Toast.makeText(mContext, "뒤로가기를 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }

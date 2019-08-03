@@ -9,6 +9,8 @@ public class UserData_TalentList {
     private String talentID;
     private String userID;
     private String description;
+    private String birthFlag;
+    private String addrFlag;
     private Double GP_LAT;
     private Double GP_LNG;
 
@@ -74,6 +76,22 @@ public class UserData_TalentList {
 
     public void setUserBirth(String userBirth) {
         this.userBirth = userBirth;
+    }
+
+    public String getBirthFlag() {
+        return birthFlag;
+    }
+
+    public void setBirthFlag(String birthFlag) {
+        this.birthFlag = birthFlag;
+    }
+
+    public String getAddrFlag() {
+        return addrFlag;
+    }
+
+    public void setAddrFlag(String addrFlag) {
+        this.addrFlag = addrFlag;
     }
 
     public Double getGP_LAT() {

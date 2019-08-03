@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -54,13 +55,19 @@ public class MainActivity_TalentList extends AppCompatActivity {
     private String hashtag;
 
 
+
+
+
     private ArrayList<Sample_UserData_TalentList> sampleUserlist;
     private Sample_ListAdapter_TalentList listAdapter_talentList;
 
     // 뷰 정의
     ListView userListView;
+
     TextView title;
     ImageView leftBtn;
+    ImageView rightBtn;
+
     LinearLayout hsv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,20 +104,9 @@ public class MainActivity_TalentList extends AppCompatActivity {
 
         // 뷰 정의
         userListView = (ListView)findViewById(R.id.lv_talentUser);
-        title = (TextView)findViewById(R.id.tv_toolbar);
-        leftBtn = (ImageView)findViewById(R.id.img_open_dl);
-
-        // 07-18
-//        sampleUserlist = new ArrayList<Sample_UserData_TalentList>();
-//        sampleUserlist.add(new Sample_UserData_TalentList("박종우","남성","1991.01.23","#헬스 #운동 #다이어트","17km"));
-//        sampleUserlist.add(new Sample_UserData_TalentList("민권홍","남성","비공개","#근력운동 #다이어트 #PT","21km"));
-//        sampleUserlist.add(new Sample_UserData_TalentList("김지영","여성","1998.04.12","#크로스핏 #요가 #Personal Trainning","45km"));
-//        sampleUserlist.add(new Sample_UserData_TalentList("조현배","남성","비공개","#스트렝스 #근력짱 #파워리프터","67km"));
-//        sampleUserlist.add(new Sample_UserData_TalentList("문건우","남성","1995.11.22","#다이어트 #운동 #스트렝스","170km"));
-//
-//        listAdapter_talentList = new Sample_ListAdapter_TalentList(mContext,sampleUserlist);
-//
-//        userListView.setAdapter(listAdapter_talentList);
+        title = (TextView)findViewById(R.id.tv_toolbar_talentlist);
+        leftBtn = (ImageView)findViewById(R.id.img_back_toolbar_talentlist);
+        rightBtn = (ImageView)findViewById(R.id.iv_toolbar_search_talentlist);
 
         // 인텐트 받기
         Intent intent = getIntent();
@@ -137,8 +133,8 @@ public class MainActivity_TalentList extends AppCompatActivity {
         }else {
             // 뷰 정보 인텐트 정보로 변경
 //            title.setText(titleTxt);
-            ((TextView)findViewById(R.id.tv_Choose)).setVisibility(View.VISIBLE);
-            ((TextView)findViewById(R.id.tv_Choose)).setText(titleTxt);
+            ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setVisibility(View.VISIBLE);
+            ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText(titleTxt);
             getTalentListNew();
         }
 
@@ -214,6 +210,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         aUser.setUserID(obj.getString("UserID"));
                         aUser.setDescription(obj.getString("PROFILE_DESCRIPTION"));
                         aUser.setUserBirth(obj.getString("USER_BIRTH"));
+                        aUser.setBirthFlag(obj.getString("BIRTH_FLAG"));
 
                         try {
                             aUser.setGP_LAT(Double.parseDouble(obj.getString("GP_LAT")));
@@ -248,14 +245,16 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(MainActivity_TalentList.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
 
-                            String userInfo = userList.get(position).getUserGender() + " / " + userList.get(position).getUserAge() + "세";
-
                             intent.putExtra("userName", userList.get(position).getUserName());
                             intent.putExtra("userInfo", userList.get(position).getUserBirth());
                             intent.putExtra("targetUserID", userList.get(position).getUserID());
                             intent.putExtra("userID", userList.get(position).getUserID());
                             intent.putExtra("userGender", userList.get(position).getUserGender());
                             intent.putExtra("userDescription", userList.get(position).getDescription());
+                            intent.putExtra("GP_LAT", userList.get(position).getGP_LAT());
+                            intent.putExtra("GP_LNG", userList.get(position).getGP_LNG());
+                            intent.putExtra("BIRTH_FLAG", userList.get(position).getBirthFlag());
+                            intent.putExtra("cateCode", cateCode);
 
                             startActivity(intent);
                         }
@@ -356,5 +355,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
 
         postRequestQueue.add(postJsonRequest);
     }
+
+
 
 }

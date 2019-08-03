@@ -40,20 +40,23 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC3yIIQ6yAN3jfkLmzFY5NyqxVBA21AkQg" />
 
-        //로그인으로 변경할 때 AppTheme 변경해야 함.//
-
-
-        .PointSend.MainActivity_Profile
 
         <activity
-            android:name=".JoinLogin.MainActivity_Login"
-            android:theme="@style/AppThemeLogin">
+            android:name=".Loading.MainActivity_Loading"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+        <activity
+            android:name=".JoinLogin.MainActivity_Login"
+            android:theme="@style/AppThemeLogin" />
+
         <activity
             android:name=".JoinLogin.MainActivity_Join"
             android:theme="@style/AppTheme_Home" />
@@ -99,24 +102,24 @@
         <activity
             android:name=".Cs.Claim.MainActivity"
             android:theme="@style/AppTheme_Home" />
+        <activity
+            android:name=".AddCategory.MainActivity_AddCategory"
+            android:theme="@style/AppTheme_Home" />
 
-
-
-
-        <service
-            android:name="accepted.talentplanet_renewal2.MyFirebaseMessagingService">
+        <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <!-- [END firebase_service] -->
         <!-- [START firebase_iid_service] -->
-        <service
-            android:name="accepted.talentplanet_renewal2.MyFirebaseInstanceIDService">
+        <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity android:name=".Search.MainActivity_Search"></activity>
     </application>
 
 </manifest>
