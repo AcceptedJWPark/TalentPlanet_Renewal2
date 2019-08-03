@@ -115,6 +115,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     private ArrayList<TalentObject_Home> menteeTalentList;
 
     private String targetUserID;
+    private String cateCode;
 //    private TextView tv_profile_mentor_count, tv_profile_mentee_count;
     private TextView tv_profile_description;
     private TextView tv_birth_profile;
@@ -244,6 +245,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             ((TextView)findViewById(R.id.tv_name_profile)).setText(intent.getStringExtra("userName"));
             ((TextView)findViewById(R.id.tv_birth_profile)).setText(intent.getStringExtra("userInfo").replaceAll("-", "\\."));
             ((TextView)findViewById(R.id.tv_profile_description)).setText(intent.getStringExtra("userDescription"));
+            cateCode = intent.getStringExtra("cateCode");
             targetUserID = intent.getStringExtra("targetUserID");
         }
 
@@ -704,7 +706,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 // 최초 로딩시 첫 재능을 보여주기 위한 부분
                                 if (i == 0) {
                                     tv_toolbarprofle.setVisibility(View.GONE);
-                                    Glide.with(mActivity).load(item.getBackgroundResourceID()).into((ImageView)findViewById(R.id.iv_talent_profile));
+                                    Glide.with(mActivity).load(item.getBackgroundResourceID()).into((ImageView) findViewById(R.id.iv_talent_profile));
 
                                     findViewById(R.id.tv_tag_profile).setVisibility(View.VISIBLE);
                                     findViewById(R.id.tv_description_profile).setVisibility(View.VISIBLE);
@@ -715,7 +717,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                     userText = userText.replaceAll("#", " #");
                                     String[] tagParse = userText.split(" ");
 
-                                    for (int j=0;j<tagParse.length;j++) {
+                                    for (int j = 0; j < tagParse.length; j++) {
                                         String aTag = tagParse[j];
                                         if (aTag.startsWith("#")) {
                                             hashTagString += aTag + " ";
@@ -725,12 +727,12 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                     userText.trim();
                                     hashTagString.trim();
 
-                                    ((TextView)findViewById(R.id.tv_tag_profile)).setText(hashTagString);
-                                    ((TextView)findViewById(R.id.tv_description_profile)).setText(userText);
+                                    ((TextView) findViewById(R.id.tv_tag_profile)).setText(hashTagString);
+                                    ((TextView) findViewById(R.id.tv_description_profile)).setText(userText);
                                 }
 
                                 Log.d("booleanTest", listCateCode + " : " + String.valueOf(item.getCateCode()));
-                                if (listCateCode == String.valueOf(item.getCateCode())) {
+                                if (listCateCode.equals(String.valueOf(item.getCateCode()))) {
                                     spinnerIdx = i;
                                 }
 
