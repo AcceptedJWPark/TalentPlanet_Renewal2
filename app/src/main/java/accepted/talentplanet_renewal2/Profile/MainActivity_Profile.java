@@ -1793,30 +1793,28 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         if(talentFlag.equals("Y")){
                             // Teacher 등록한게 없는 경우
                             if (talentCnt == 0){
-                                ((ImageView)findViewById(R.id.img_back_toolbarprofile)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
-                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setText("Teacher 등록");
-                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
-                                ((Spinner)findViewById(R.id.sp_talent_profile)).setVisibility(GONE);
+                                ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+                                ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(GONE);
+                                ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(GONE);
                             }
                             else
                             {
-                                ((ImageView)findViewById(R.id.img_back_toolbarprofile)).setColorFilter(WHITE);
-                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setVisibility(GONE);
-                                ((Spinner)findViewById(R.id.sp_talent_profile)).setVisibility(VISIBLE);
+                                ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(Color.parseColor("#64000000"));
+                                ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(VISIBLE);
+                                ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(VISIBLE);
                             }
                         }
                         else{
                             // Student 등록한게 없는 경우
                             if (talentCnt == 0){
-                                ((ImageView)findViewById(R.id.img_back_toolbarprofile)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setText("Student 등록");
-                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-                                ((Spinner)findViewById(R.id.sp_talent_profile)).setVisibility(GONE);
-
+                                ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+                                ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(GONE);
+                                ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(GONE);
                             }else
                             {
-                                ((ImageView)findViewById(R.id.img_back_toolbarprofile)).setColorFilter(WHITE);
-                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setVisibility(GONE);
+                                ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(Color.parseColor("#64000000"));
+                                ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(VISIBLE);
+                                ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(VISIBLE);
                             }
                         }
                     }
