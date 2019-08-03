@@ -742,6 +742,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
                                     findViewById(R.id.tv_tag_profile).setVisibility(VISIBLE);
                                     findViewById(R.id.tv_description_profile).setVisibility(VISIBLE);
+                                    ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(GONE);
+                                    ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(GONE);
+                                    ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(GONE);
+                                    ((ImageView)findViewById(R.id.iv_notalent_profile)).setVisibility(GONE);
+                                    ((ImageView)findViewById(R.id.iv_addtalent_profile)).setVisibility(GONE);
 
                                     // 유저 재능내용을 가져오는 부분
                                     String hashTagString = "";

@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
+import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.Profile.SpinnerAdapter_Talent;
 import accepted.talentplanet_renewal2.Profile.customDialog_Profile;
@@ -135,7 +136,9 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
         ((ImageView)findViewById(R.id.img_back_toolbar)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(mContext, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 
