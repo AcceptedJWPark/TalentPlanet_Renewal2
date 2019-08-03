@@ -219,6 +219,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
         }
 
+        // 재능 등록 개수 확인
+        getTalentCount();
         //재능 수정
         DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
         double width = dm.widthPixels; //디바이스 화면 너비
@@ -1749,6 +1751,51 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     params.put("MentorID", targetID);
                     params.put("MenteeID", SaveSharedPreference.getUserId(mContext));
                 }
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
+
+    public void getTalentCount(){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Profile/getTalentCount.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONArray objArr = new JSONArray(response);
+                    for (int i = 0; i < objArr.length(); i++){
+                        JSONObject obj = objArr.getJSONObject(i);
+                        String talentFlag = obj.getString("TalentFlag");
+
+                        int talentCnt = 0;
+                        talentCnt = obj.getInt("TalentCount");
+                        Log.d("TalentRegistCount", talentFlag + " : " + talentCnt);
+                        // Y인 경우 Teacher
+                        if(talentFlag.equals("Y")){
+                            // Teacher 등록한게 없는 경우
+                            if (talentCnt == 0){
+
+                            }
+                        }else{
+                            // Student 등록한게 없는 경우
+                            if (talentCnt == 0){
+
+                            }
+                        }
+                    }
+
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }
         };

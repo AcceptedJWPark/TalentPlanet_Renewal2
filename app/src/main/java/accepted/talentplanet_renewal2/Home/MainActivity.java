@@ -99,7 +99,19 @@ public class MainActivity extends AppCompatActivity {
         mContext=getApplicationContext();
 
         // 최초 로그인 성공시 모드는 티처모드이므로 Y부여
-        SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
+        if(SaveSharedPreference.getPrefTalentFlag(mContext) == null || SaveSharedPreference.getPrefTalentFlag(mContext).isEmpty()) {
+            SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
+        }
+
+        // 현재 Teacher 모드인지 아닌지 판단
+        if(SaveSharedPreference.isTeacher(mContext)){
+
+        }else{
+
+        }
+
+        // 재능 등록 여부 확인
+        getTalentCount();
 
         arrayList_spinner = new ArrayList<>();
         arrayList_spinner.add(new SpinnerData_Toolbar("Teacher Planet", R.drawable.icon_teacher, R.drawable.icon_arrow_teacher, "Y"));
@@ -632,6 +644,51 @@ public class MainActivity extends AppCompatActivity {
             backPressedTime = tempTime;
             Toast.makeText(mContext, "뒤로가기를 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void getTalentCount(){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Profile/getTalentCount.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONArray objArr = new JSONArray(response);
+                    for (int i = 0; i < objArr.length(); i++){
+                        JSONObject obj = objArr.getJSONObject(i);
+                        String talentFlag = obj.getString("TalentFlag");
+
+                        int talentCnt = 0;
+                        talentCnt = obj.getInt("TalentCount");
+                        Log.d("TalentRegistCount", talentFlag + " : " + talentCnt);
+                        // Y인 경우 Teacher
+                        if(talentFlag.equals("Y")){
+                            // Teacher 등록한게 없는 경우
+                            if (talentCnt == 0){
+
+                            }
+                        }else{
+                            // Student 등록한게 없는 경우
+                            if (talentCnt == 0){
+
+                            }
+                        }
+                    }
+
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
     }
 
 
