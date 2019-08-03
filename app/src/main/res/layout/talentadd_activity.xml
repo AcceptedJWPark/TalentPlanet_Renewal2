@@ -116,9 +116,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_career_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_career"
                     android:scaleType="fitXY"
                     />
 
@@ -177,9 +177,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_it_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_it"
                     android:scaleType="fitXY"
                     />
 
@@ -236,9 +236,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_design_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_design"
                     android:scaleType="fitXY"
                     />
 
@@ -296,7 +296,6 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_beauty"
                     android:scaleType="fitXY"
                     />
 
@@ -354,9 +353,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_culture_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_culture"
                     android:scaleType="fitXY"
                     />
 
@@ -414,9 +413,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_living_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_living"
                     android:scaleType="fitXY"
                     />
 
@@ -473,9 +472,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_money_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_money"
                     android:scaleType="fitXY"
                     />
 
@@ -539,9 +538,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_study_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_study"
                     android:scaleType="fitXY"
                     />
 
@@ -597,9 +596,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_camera_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_camera"
                     android:scaleType="fitXY"
                     />
 
@@ -657,9 +656,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_sports_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_sports"
                     android:scaleType="fitXY"
                     />
 
@@ -716,9 +715,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_volunteer_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_volunteer"
                     android:scaleType="fitXY"
                     />
 
@@ -775,14 +774,14 @@
                 >
 
                 <ImageView
+                    android:id="@+id/view_game_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_game"
                     android:scaleType="fitXY"
                     />
 
                 <View
-                    android:id="@+id/view_game_talentadd"
+                    android:id="@+id/iv_game_talentadd"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/bgr_addtalent_circle"
@@ -836,9 +835,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_travel_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_travel"
                     android:scaleType="fitXY"
                     />
 
@@ -897,9 +896,9 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_music_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pic_music"
                     android:scaleType="fitXY"
                     />
 
