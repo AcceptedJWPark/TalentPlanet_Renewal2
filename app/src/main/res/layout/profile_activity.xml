@@ -16,17 +16,52 @@
         android:orientation="vertical"
         >
 
-        <TextView
-            android:id="@+id/tv_notalent_profile"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="당신의 재능을 나누어주세요."
-            android:layout_above="@+id/iv_notalent_profile"
+            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dp"
+            android:layout_above="@+id/iv_notalent_profile"
+            android:gravity="center"
+            >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_notalent1_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="당신의 재능"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="#000"
             />
 
+            <TextView
+                android:id="@+id/tv_notalent2_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="을"
+                android:layout_above="@+id/iv_notalent_profile"
+                android:layout_centerHorizontal="true"
+                android:textSize="18dp"
+                android:textColor="#646464"
+                />
 
+        </LinearLayout>
+            <TextView
+                android:id="@+id/tv_notalent3_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="나누어주세요."
+                android:layout_above="@+id/iv_notalent_profile"
+                android:layout_centerHorizontal="true"
+                android:textSize="18dp"
+                android:textColor="#646464"
+                />
+
+        </LinearLayout>
         <ImageView
             android:id="@+id/iv_notalent_profile"
             android:layout_width="match_parent"

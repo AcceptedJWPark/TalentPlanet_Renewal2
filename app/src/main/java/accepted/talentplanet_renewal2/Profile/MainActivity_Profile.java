@@ -15,7 +15,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -70,7 +69,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -82,7 +80,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import accepted.talentplanet_renewal2.BuildConfig;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
@@ -95,8 +92,6 @@ import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
 import accepted.talentplanet_renewal2.VolleyMultipartRequest;
 import accepted.talentplanet_renewal2.VolleySingleton;
 
-import static android.graphics.Color.BLACK;
-import static android.graphics.Color.WHITE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -232,6 +227,16 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         }else{
 
         }
+
+        ((ImageView)findViewById(R.id.iv_addtalent_profile)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cd_profile.show();
+            }
+        });
+
+
+
 
 
         ((TextView)findViewById(R.id.tv_description_profile)).setMovementMethod(new ScrollingMovementMethod());
@@ -460,6 +465,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
         }
+
+
         if (isNewTalent) {
             String code = intent.getStringExtra("Code");
             title = intent.getStringExtra("talentTitle");
@@ -924,10 +931,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         wm.copyFrom(cd_profile.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
         wm.width = (int) (width / 1.2);  //
         wm.height = (int) (height / 1.2);  //
-
-        if (!mActivity.isFinishing()) {
-            cd_profile.show();
-        }
     }
 
     private void makeEmptyProfile(int bgID, String title) {
@@ -1796,30 +1799,76 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         // Y인 경우 Teacher
                         if(talentFlag.equals("Y")){
                             // Teacher 등록한게 없는 경우
-                            if (talentCnt == 0){
+                            if (isNewTalent){
                                 Toast.makeText(mContext,"등록 안됨",Toast.LENGTH_SHORT).show();
                                 ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setVisibility(VISIBLE);
+                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setText(title);
+                                ((Spinner)findViewById(R.id.sp_talent_profile)).setVisibility(GONE);
+
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(GONE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(GONE);
+
+                                ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(VISIBLE);
+                                ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(VISIBLE);
+                                ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(VISIBLE);
+                                ((TextView)findViewById(R.id.tv_notalent1_profile)).setText("당신의 재능");
+                                ((TextView)findViewById(R.id.tv_notalent3_profile)).setText("나누어주세요.");
+
+                                ((ImageView)findViewById(R.id.iv_notalent_profile)).setVisibility(VISIBLE);
+                                ((ImageView)findViewById(R.id.iv_notalent_profile)).setImageResource(R.drawable.pic_notalent_teacher);
+                                ((ImageView)findViewById(R.id.iv_addtalent_profile)).setVisibility(VISIBLE);
                             }
                             else
                             {
                                 ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(Color.parseColor("#64000000"));
+                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setVisibility(GONE);
+                                ((Spinner)findViewById(R.id.sp_talent_profile)).setVisibility(VISIBLE);
+
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(VISIBLE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(VISIBLE);
+                                ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(GONE);
+                                ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(GONE);
+                                ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(GONE);
+                                ((ImageView)findViewById(R.id.iv_notalent_profile)).setVisibility(GONE);
+                                ((ImageView)findViewById(R.id.iv_addtalent_profile)).setVisibility(GONE);
+
+
                             }
                         }
                         else{
                             // Student 등록한게 없는 경우
-                            if (talentCnt == 0){
+                            if (isNewTalent){
                                 ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(GONE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(GONE);
+
+                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setVisibility(VISIBLE);
+                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setText(title);
+                                ((Spinner)findViewById(R.id.sp_talent_profile)).setVisibility(GONE);
+
+                                ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(VISIBLE);
+                                ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(VISIBLE);
+                                ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(VISIBLE);
+
+                                ((ImageView)findViewById(R.id.iv_notalent_profile)).setVisibility(VISIBLE);
+                                ((TextView)findViewById(R.id.tv_notalent1_profile)).setText("당신의 배움");
+                                ((TextView)findViewById(R.id.tv_notalent3_profile)).setText("응원합니다.");
+                                ((ImageView)findViewById(R.id.iv_notalent_profile)).setImageResource(R.drawable.pic_notalent_student);
+                                ((ImageView)findViewById(R.id.iv_addtalent_profile)).setVisibility(VISIBLE);
                             }else
                             {
                                 ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(Color.parseColor("#64000000"));
+                                ((TextView)findViewById(R.id.tv_toolbarprofle)).setVisibility(GONE);
+                                ((Spinner)findViewById(R.id.sp_talent_profile)).setVisibility(VISIBLE);
+
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(VISIBLE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(VISIBLE);
+                                ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(GONE);
+                                ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(GONE);
+                                ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(GONE);
+                                ((ImageView)findViewById(R.id.iv_notalent_profile)).setVisibility(GONE);
+                                ((ImageView)findViewById(R.id.iv_addtalent_profile)).setVisibility(GONE);
                             }
                         }
                     }
@@ -1841,4 +1890,5 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         postRequestQueue.add(postJsonRequest);
     }
+
 }
