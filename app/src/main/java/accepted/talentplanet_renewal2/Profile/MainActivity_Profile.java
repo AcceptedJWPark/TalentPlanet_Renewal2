@@ -84,6 +84,7 @@ import java.util.Map;
 import accepted.talentplanet_renewal2.BuildConfig;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.GeoPoint;
+import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.MyTalent;
 import accepted.talentplanet_renewal2.PermissionUtil;
 import accepted.talentplanet_renewal2.R;
@@ -276,6 +277,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             double Lat = 0;
             double Lng = 0;
 
+            ((TextView)findViewById(R.id.tv_isteacher_profile)).setVisibility(GONE);
+
             if (!lat.equals("") || !lng.equals("")) {
                 Lat = Double.parseDouble(lat);
                 Lng = Double.parseDouble(lng);
@@ -387,6 +390,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
         } else {
+            ((TextView)findViewById(R.id.tv_isteacher_profile)).setVisibility(VISIBLE);
             ((RelativeLayout) findViewById(R.id.rl_edittalent_profile)).setVisibility(View.GONE);
             ((RelativeLayout) findViewById(R.id.rl_deltalent_profile)).setVisibility(View.GONE);
 
@@ -711,7 +715,17 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     public void onResponse(String response) {
                         try {
                             JSONArray talentArr = new JSONArray(response);
-
+                            if(talentArr.length() == 0){
+                                if(talentFlag.equals("Y")) {
+                                    Toast.makeText(mContext, "Teacher 재능을 등록해주세요.", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(mContext, "Student 재능을 등록해주세요.", Toast.LENGTH_SHORT).show();
+                                }
+                                Intent intent = new Intent(mContext, MainActivity_TalentAdd.class);
+                                intent.putExtra("TalentFlag", talentFlag);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
                             mentorTalentList = new ArrayList<TalentObject_Home>();
                             menteeTalentList = new ArrayList<TalentObject_Home>();
                             for(int i = 0; i < talentArr.length(); i++){
@@ -1797,6 +1811,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         Log.d("TalentRegistCount", talentFlag + " : " + talentCnt);
                         // Y인 경우 Teacher
                         if(talentFlag.equals("Y")){
+                            ((TextView)findViewById(R.id.tv_isteacher_profile)).setText("Student의 프로필");
                             // Teacher 등록한게 없는 경우
                             if (isNewTalent){
                                 Toast.makeText(mContext,"등록 안됨",Toast.LENGTH_SHORT).show();
@@ -1831,11 +1846,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(GONE);
                                 ((ImageView)findViewById(R.id.iv_notalent_profile)).setVisibility(GONE);
                                 ((ImageView)findViewById(R.id.iv_addtalent_profile)).setVisibility(GONE);
-
-
                             }
                         }
                         else{
+
+                            ((TextView)findViewById(R.id.tv_isteacher_profile)).setText("Teacher의 프로필");
                             // Student 등록한게 없는 경우
                             if (isNewTalent){
                                 ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));

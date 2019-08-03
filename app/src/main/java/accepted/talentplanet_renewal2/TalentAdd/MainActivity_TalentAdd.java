@@ -68,7 +68,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
     private Map<String, Object>[] teacherCodeArr =  new Map[14];
     private Map<String, Object>[] studentCodeArr =  new Map[14];
     private String[] talentTitle =  new String[14];
-
+    String talentFlag;
 
     Context mContext;
 
@@ -82,9 +82,6 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
         isTeacher = true;
 
         findViewbyId();
-        SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
-        getAllTalent("Y");
-
 
         ((ImageView)findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
         ((ImageView)findViewById(R.id.img_back_toolbar)).setVisibility(View.VISIBLE);
@@ -142,6 +139,19 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
             }
         });
 
+        talentFlag = getIntent().getStringExtra("TalentFlag");
+        if(talentFlag != null) {
+            getAllTalent(talentFlag);
+            Log.d("talentFlag 222", talentFlag);
+            if(talentFlag.equals("Y")){
+                ((Button)findViewById(R.id.btn_teahcer_talentadd)).callOnClick();
+            }else{
+                ((Button)findViewById(R.id.btn_student_talentadd)).callOnClick();
+            }
+        }else{
+            SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
+            getAllTalent("Y");
+        }
     }
 
     @Override
