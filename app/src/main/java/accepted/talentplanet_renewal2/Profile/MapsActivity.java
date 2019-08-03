@@ -1,19 +1,24 @@
 package accepted.talentplanet_renewal2.Profile;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ImageView img_alarm;
     TextView tv_Choose;
     EditText et_searchaddr_map;
-    Button btn_searchbtn_map;
+    LinearLayout ll_searchbtn_map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +65,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.map_activity);
         mContext = getApplicationContext();
 
+        String mode = SaveSharedPreference.getPrefTalentFlag(mContext);
+
+        if (mode.equals("Y")) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+                ((LinearLayout)findViewById(R.id.ll_searchbtn_map)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+                ((RelativeLayout)findViewById(R.id.rl_bg_map)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+
+            }
+
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+                ((LinearLayout)findViewById(R.id.ll_searchbtn_map)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+                ((RelativeLayout)findViewById(R.id.rl_bg_map)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+
+            }
+        }
+
+
+
+
         img_rightbtn = findViewById(R.id.img_rightbtn);
         img_open_dl = findViewById(R.id.img_open_dl);
         img_alarm = findViewById(R.id.img_alarm);
         tv_Choose = findViewById(R.id.tv_Choose);
-        btn_searchbtn_map = findViewById(R.id.btn_searchbtn_map);
+        ll_searchbtn_map = findViewById(R.id.ll_searchbtn_map);
         et_searchaddr_map = findViewById(R.id.et_searchaddr_map);
 
         tv_Choose.setVisibility(View.VISIBLE);
@@ -190,7 +221,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         // 버튼 이벤트
-        btn_searchbtn_map.setOnClickListener(new Button.OnClickListener(){
+        ll_searchbtn_map.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v){
                 String str = et_searchaddr_map.getText().toString();

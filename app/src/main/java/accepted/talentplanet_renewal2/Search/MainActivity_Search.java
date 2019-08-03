@@ -103,6 +103,7 @@ public class MainActivity_Search extends AppCompatActivity {
         String talentFlag = SaveSharedPreference.getPrefTalentFlag(mContext);
         if (talentFlag.equals("N")) {
             rl_bg_search.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentee));
+            ((LinearLayout)findViewById(R.id.ll_searchbtn_search)).setBackgroundColor(mContext.getResources().getColor(R.color.color_mentee));
         }
 
         ll_searchbtn_search.setOnClickListener(new View.OnClickListener() {
