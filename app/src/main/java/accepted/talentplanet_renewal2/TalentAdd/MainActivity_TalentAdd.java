@@ -433,6 +433,22 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
         bg_src[12] = R.drawable.pic_culture;
         bg_src[13] = R.drawable.pic_game;
 
+        Glide.with(mContext).load(R.drawable.pic_career).into((ImageView)findViewById(R.id.iv_career_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_study).into((ImageView)findViewById(R.id.iv_study_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_money).into((ImageView)findViewById(R.id.iv_money_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_it).into((ImageView)findViewById(R.id.iv_it_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_camera).into((ImageView)findViewById(R.id.iv_camera_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_music).into((ImageView)findViewById(R.id.iv_music_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_design).into((ImageView)findViewById(R.id.iv_design_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_sports).into((ImageView)findViewById(R.id.iv_sports_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_living).into((ImageView)findViewById(R.id.iv_living_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_beauty).into((ImageView)findViewById(R.id.iv_beauty_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_volunteer).into((ImageView)findViewById(R.id.iv_volunteer_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_travel).into((ImageView)findViewById(R.id.iv_travel_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_culture).into((ImageView)findViewById(R.id.iv_culture_talentadd));
+        Glide.with(mContext).load(R.drawable.pic_game).into((ImageView)findViewById(R.id.iv_game_talentadd));
+
+
         view_bgr[0] = findViewById(R.id.view_career_talentadd);
         view_bgr[1] = findViewById(R.id.view_study_talentadd);
         view_bgr[2] = findViewById(R.id.view_money_talentadd);

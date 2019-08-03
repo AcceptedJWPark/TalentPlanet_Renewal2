@@ -294,6 +294,7 @@
                 >
 
                 <ImageView
+                    android:id="@+id/iv_beauty_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
@@ -774,14 +775,14 @@
                 >
 
                 <ImageView
-                    android:id="@+id/view_game_talentadd"
+                    android:id="@+id/iv_game_talentadd"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
                     />
 
                 <View
-                    android:id="@+id/iv_game_talentadd"
+                    android:id="@+id/view_game_talentadd"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/bgr_addtalent_circle"
