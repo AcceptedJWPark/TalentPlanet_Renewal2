@@ -39,6 +39,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -369,8 +370,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
         } else {
-            ((ImageView) findViewById(R.id.iv_edittalent_profile)).setVisibility(View.GONE);
-            ((ImageView) findViewById(R.id.iv_deltalent_profile)).setVisibility(View.GONE);
+            ((RelativeLayout) findViewById(R.id.rl_edittalent_profile)).setVisibility(View.GONE);
+            ((RelativeLayout) findViewById(R.id.rl_deltalent_profile)).setVisibility(View.GONE);
 
             String gender = intent.getStringExtra("userGender");
             if (gender.equals("남")) {
@@ -807,7 +808,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                         wm.height = (int) (height / 1.2);  //
 
                                         // 재능 수정 버튼
-                                        ((ImageView)findViewById(R.id.iv_edittalent_profile)).setOnClickListener(new View.OnClickListener() {
+                                        ((RelativeLayout)findViewById(R.id.rl_edittalent_profile)).setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 if (!mActivity.isFinishing()) {
@@ -819,7 +820,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                         // 재능 삭제 버튼
                                         if (talentFlag.equals("Y")) {
                                             final int nowTalentCode = mentorTalentList.get(position).getCateCode();
-                                            ((ImageView)findViewById(R.id.iv_deltalent_profile)).setOnClickListener(new View.OnClickListener() {
+                                            ((RelativeLayout)findViewById(R.id.rl_deltalent_profile)).setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     disableUserTalent(String.valueOf(nowTalentCode));
@@ -827,7 +828,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                             });
                                         } else {
                                             final int nowTalentCode = menteeTalentList.get(position).getCateCode();
-                                            ((ImageView)findViewById(R.id.iv_deltalent_profile)).setOnClickListener(new View.OnClickListener() {
+                                            ((RelativeLayout)findViewById(R.id.rl_deltalent_profile)).setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
                                                     disableUserTalent(String.valueOf(nowTalentCode));
