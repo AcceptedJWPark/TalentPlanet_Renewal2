@@ -16,6 +16,36 @@
         android:orientation="vertical"
         >
 
+        <TextView
+            android:id="@+id/tv_notalent_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="당신의 재능을 나누어주세요."
+            android:layout_above="@+id/iv_notalent_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            />
+
+
+        <ImageView
+            android:id="@+id/iv_notalent_profile"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/pic_notalent_student"
+            android:paddingBottom="10dp"
+            />
+
+        <ImageView
+            android:id="@+id/iv_addtalent_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="70dp"
+            android:src="@drawable/icon_addtalent"
+            />
+
 
 
         <RelativeLayout
