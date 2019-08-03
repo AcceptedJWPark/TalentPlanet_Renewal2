@@ -24,6 +24,7 @@
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/iv_notalent_profile"
             android:gravity="center"
+            android:visibility="gone"
             >
         <LinearLayout
             android:layout_width="wrap_content"
@@ -69,6 +70,7 @@
             android:layout_alignParentBottom="true"
             android:src="@drawable/pic_notalent_student"
             android:paddingBottom="10dp"
+            android:visibility="gone"
             />
 
         <ImageView
@@ -79,6 +81,7 @@
             android:layout_centerInParent="true"
             android:layout_marginBottom="70dp"
             android:src="@drawable/icon_addtalent"
+            android:visibility="gone"
             />
 
 
@@ -88,7 +91,6 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentTop="true"
-            android:visibility="gone"
         >
 
         <ImageView
@@ -99,6 +101,20 @@
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
             />
+
+            <TextView
+                android:id="@+id/tv_isteacher_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Teacher의 프로필"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:shadowColor="#000"
+                android:shadowDx="7.0"
+                android:shadowDy="7.0"
+                android:shadowRadius="7.0"
+                />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -175,7 +191,6 @@
                 android:layout_height="150dp"
                 android:orientation="vertical"
                 android:layout_alignParentBottom="true"
-            android:visibility="gone"
                 >
 
 

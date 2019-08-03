@@ -276,6 +276,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             double Lat = 0;
             double Lng = 0;
 
+            ((TextView)findViewById(R.id.tv_isteacher_profile)).setVisibility(GONE);
+
             if (!lat.equals("") || !lng.equals("")) {
                 Lat = Double.parseDouble(lat);
                 Lng = Double.parseDouble(lng);
@@ -387,6 +389,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
         } else {
+            ((TextView)findViewById(R.id.tv_isteacher_profile)).setVisibility(VISIBLE);
             ((RelativeLayout) findViewById(R.id.rl_edittalent_profile)).setVisibility(View.GONE);
             ((RelativeLayout) findViewById(R.id.rl_deltalent_profile)).setVisibility(View.GONE);
 
@@ -1797,6 +1800,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         Log.d("TalentRegistCount", talentFlag + " : " + talentCnt);
                         // Y인 경우 Teacher
                         if(talentFlag.equals("Y")){
+                            ((TextView)findViewById(R.id.tv_isteacher_profile)).setText("Student의 프로필");
                             // Teacher 등록한게 없는 경우
                             if (isNewTalent){
                                 Toast.makeText(mContext,"등록 안됨",Toast.LENGTH_SHORT).show();
@@ -1831,11 +1835,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(GONE);
                                 ((ImageView)findViewById(R.id.iv_notalent_profile)).setVisibility(GONE);
                                 ((ImageView)findViewById(R.id.iv_addtalent_profile)).setVisibility(GONE);
-
-
                             }
                         }
                         else{
+
+                            ((TextView)findViewById(R.id.tv_isteacher_profile)).setText("Teacher의 프로필");
                             // Student 등록한게 없는 경우
                             if (isNewTalent){
                                 ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
