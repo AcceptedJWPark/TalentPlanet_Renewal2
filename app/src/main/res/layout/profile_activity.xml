@@ -525,9 +525,8 @@
                 <View
                     android:id="@+id/v5_estimate_profile"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    />
+                    android:layout_height="15dp"
+                    android:layout_weight="1" />
 
                 <View
                     android:id="@+id/v6_estimate_profile"

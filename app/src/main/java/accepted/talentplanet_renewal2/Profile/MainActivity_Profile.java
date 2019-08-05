@@ -352,7 +352,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
 
             String imgResource = SaveSharedPreference.getMyThumbPicturePath();
-            if (!imgResource.equals("NODATA")) {
+            if (imgResource != null && !imgResource.equals("NODATA")) {
                 Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into(iv_cimg_pic_profile);
             }
 
@@ -525,7 +525,15 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         colorGradient[8] = Color.parseColor("#ff9a61");
         colorGradient[9] = Color.parseColor("#ffa061");
 
-        averageScore = 7.8;
+        // 점수계산된값
+        String userPoint;
+        if (mode.equals("Y")) {
+            userPoint = SaveSharedPreference.getPrefUserMentorScore(mContext);
+        } else {
+            userPoint = SaveSharedPreference.getPrefUserMenteeScore(mContext);
+        }
+
+        averageScore = Double.parseDouble(userPoint);
 
         for(int i=0; i<Math.round(averageScore); i++)
         {

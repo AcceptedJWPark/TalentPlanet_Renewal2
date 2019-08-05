@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
@@ -68,6 +70,7 @@ public class customDialog_PointSend extends Dialog {
         super(context);
         mContext = context;
         isMentor = mode;
+        score = 9;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);   //다이얼로그의 타이틀바를 없애주는 옵션입니다.
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));  //다이얼로그의 배경을 투명으로 만듭니다.
@@ -167,35 +170,9 @@ public class customDialog_PointSend extends Dialog {
         btn_reviewuser_popup.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
-                StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/newSendInterest.do", new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response){
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            if(obj.getString("result").equals("success")){
-                                Toast.makeText(mContext, "평가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                                dismiss();   //
-                            }
-                        }
-                        catch(JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }, SaveSharedPreference.getErrorListener(mContext)) {
-                    @Override
-                    protected Map<String, String> getParams(){
-                        Map<String, String> params = new HashMap();
-                        params.put("MenteeID", menteeID);
-                        params.put("MentorID", mentorID);
-                        params.put("user", mentorID);
-                        params.put("isMentor", isMentor);
-                        params.put("Score", String.valueOf(score));
-                        return params;
-                    }
-                };
+                newSendInterest();
 
-                postRequestQueue.add(postJsonRequest);
+
             }
         });
 
@@ -207,4 +184,40 @@ public class customDialog_PointSend extends Dialog {
             }
         });
     }
+
+    private void newSendInterest() {
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/newSendInterest.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")){
+                        Toast.makeText(mContext, "평가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mContext.startActivity(intent);
+                        dismiss();
+                    }
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("MenteeID", menteeID);
+                params.put("MentorID", mentorID);
+                params.put("user", SaveSharedPreference.getUserId(mContext));
+                params.put("isMentor", isMentor);
+                params.put("Score", String.valueOf(score));
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
+
 }

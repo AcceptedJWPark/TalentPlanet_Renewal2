@@ -49,6 +49,9 @@ public class SaveSharedPreference{
     static final String PREF_USER_BIRTH_FLAG= "userbirthflag";
     static final String PREF_USER_ADDR_FLAG= "useraddrflag";
 
+    static final String PREF_USER_MENTEESCORE= "usermenteescore";
+    static final String PREF_USER_MENTORSCORE= "usermentorscore";
+
     static final String SERVER_IP2 = "https://13.209.191.97/Accepted/";
     static final String SERVER_IP = "http://175.213.4.39/Accepted/";
     static final String IMAGE_URI = "http://13.209.191.97/Accepted/";
@@ -165,6 +168,18 @@ public class SaveSharedPreference{
         editor.commit();
     }
 
+    public static void setPrefUserMenteeScore(Context ctx, String addrFlag){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_MENTEESCORE, addrFlag);
+        editor.commit();
+    }
+
+    public static void setPrefUserMentorScore(Context ctx, String addrFlag){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_MENTORSCORE, addrFlag);
+        editor.commit();
+    }
+
     public static void setPrefFcmToken(Context ctx, String token){
         fcmToken = token;
     }
@@ -253,6 +268,14 @@ public class SaveSharedPreference{
 
     public static String getPrefTalentFlag(Context ctx){
         return getSharedPreferences(ctx).getString(PREF_TALENT_FLAG, "");
+    }
+
+    public static String getPrefUserMenteeScore(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_MENTEESCORE, "");
+    }
+
+    public static String getPrefUserMentorScore(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_MENTORSCORE, "");
     }
 
     public static void clearUserInfo(Context ctx){
@@ -538,4 +561,6 @@ public class SaveSharedPreference{
     public static boolean isTeacher(Context ctx){
         return getPrefTalentFlag(ctx).equals("Y");
     }
+
+
 }

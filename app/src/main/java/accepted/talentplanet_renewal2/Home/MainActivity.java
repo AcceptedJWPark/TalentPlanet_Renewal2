@@ -60,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
     ImageView img_open_dl;
     TextView tv_user_dl;
     TextView tv_email_dl;
+    TextView tv_userpoint_dl;
 
     ImageView[] iv_talentCate = new ImageView[15];
     TextView[] tv_talentCate = new TextView[15];
-
 
     DrawerLayout dl;
     View v_drawerlayout;
@@ -141,6 +141,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 else
                 {
+                    // 현재 유저의 포인트 검사 (유저의 포인트가 0 일 경우 Teacher 역할을 실행해서 포인트를 모을 수 있도록
+                    int nowUserPoint = SaveSharedPreference.getTalentPoint(mContext);
+                    if (nowUserPoint == 0) {
+                        Toast.makeText(mContext,"현재 포인트가 없어 모드를 변경할 수 없습니다.",Toast.LENGTH_LONG).show();
+                        spinner.setSelection(0);
+
+                        return;
+                    }
+
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();
                         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -178,13 +187,15 @@ public class MainActivity extends AppCompatActivity {
 
         tv_user_dl = findViewById(R.id.tv_user_dl);
         tv_email_dl = findViewById(R.id.tv_email_dl);
+        tv_userpoint_dl = findViewById(R.id.tv_userpoint_dl);
 
         String userName = SaveSharedPreference.getUserName(mContext);
         String userId = SaveSharedPreference.getUserId(mContext);
+        int userPoint = SaveSharedPreference.getTalentPoint(mContext);
+
         tv_user_dl.setText(userName);
         tv_email_dl.setText(userId);
-
-
+        tv_userpoint_dl.setText(String.valueOf(userPoint));
 
         drawerlayoutEvent(mContext);
         isAlaram = true;
@@ -401,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
     {
         String myPicture = SaveSharedPreference.getMyPicturePath();
 
-        if (!myPicture.equals("NODATA")) {
+        if (myPicture != null && !myPicture.equals("NODATA")) {
             Glide.with(mContext).load(SaveSharedPreference.getServerIp()+myPicture).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
         }
 
@@ -559,6 +570,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectStudent()
     {
+
+
         talentCateFindView();
         Glide.with(mContext).load(R.drawable.pic_home_student).into((ImageView)findViewById(R.id.img_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
@@ -627,7 +640,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into((ImageView) findViewById(R.id.cimg_pic_dl));
+        String myPicture = SaveSharedPreference.getMyPicturePath();
+        if (myPicture != null && !myPicture.equals("NODATA")) {
+            Glide.with(mContext).load(SaveSharedPreference.getServerIp()+myPicture).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
+        }
         getCateList();
     }
 

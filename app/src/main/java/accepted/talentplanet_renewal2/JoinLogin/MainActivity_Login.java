@@ -166,13 +166,22 @@ public class MainActivity_Login extends AppCompatActivity {
                     JSONObject obj = new JSONObject(response);
                     SaveSharedPreference.setPrefGender(mContext, obj.getString("GENDER"));
                     SaveSharedPreference.setPrefUserBirth(mContext, obj.getString("USER_BIRTH"));
-                    SaveSharedPreference.setPrefUserGpLng(mContext, obj.getString("GP_LNG"));
-                    SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
                     SaveSharedPreference.setPrefUserDescription(mContext, obj.getString("PROFILE_DESCRIPTION"));
                     SaveSharedPreference.setPrefTalentPoint(mContext, obj.getInt("TALENT_POINT"));
                     SaveSharedPreference.setMyPicturePath(obj.getString("FILE_PATH"), obj.getString("S_FILE_PATH"));
                     SaveSharedPreference.setPrefUserBirthFlag(mContext, obj.getString("BIRTH_FLAG"));
-                    SaveSharedPreference.setPrefUserAddrFlag(mContext, obj.getString("ADDR_FLAG"));
+
+                    if (obj.has("GP_LNG") && obj.has("GP_LAT")) {
+                        SaveSharedPreference.setPrefUserGpLng(mContext, obj.getString("GP_LNG"));
+                        SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
+                    }
+
+                    if (obj.has("MentorScore")) {
+                        SaveSharedPreference.setPrefUserMentorScore(mContext, obj.getString("MentorScore"));
+                    } else if (obj.has("MenteeScore")) {
+                        SaveSharedPreference.setPrefUserMenteeScore(mContext, obj.getString("MenteeScore"));
+                    }
+
                 } catch(JSONException e){
                     e.printStackTrace();
                 }
