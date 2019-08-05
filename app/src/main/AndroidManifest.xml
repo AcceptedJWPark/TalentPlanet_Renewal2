@@ -40,23 +40,16 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC3yIIQ6yAN3jfkLmzFY5NyqxVBA21AkQg" />
 
-
-        <activity
-            android:name=".Loading.MainActivity_Loading"
-            >
-
+        <activity android:name=".Loading.MainActivity_Loading">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".JoinLogin.MainActivity_Login"
             android:theme="@style/AppThemeLogin" />
-
         <activity
             android:name=".JoinLogin.MainActivity_Join"
             android:theme="@style/AppTheme_Home" />
@@ -76,20 +69,15 @@
             android:name=".Cs.MainActivity_Cs"
             android:theme="@style/AppTheme_Home" />
         <activity android:name=".Cs.MainActivity_Notice" />
-
         <activity
             android:name=".TalentAdd.MainActivity_TalentAdd"
             android:theme="@style/AppTheme_Home" />
-
-
         <activity
             android:name=".Profile.MainActivity_Profile"
             android:theme="@style/AppTheme_Home" />
-
         <activity
             android:name=".Profile.MapsActivity"
             android:theme="@style/AppTheme_Home" />
-
         <activity
             android:name=".Messanger.List.MainActivity"
             android:theme="@style/AppTheme_Home" />
@@ -119,7 +107,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Search.MainActivity_Search"></activity>
+        <activity android:name=".Search.MainActivity_Search" />
+        <activity android:name=".Profile.ImageActivity"></activity>
     </application>
 
 </manifest>

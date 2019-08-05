@@ -174,14 +174,15 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
                     iv_icon[i].setColorFilter(BLACK);
                     tv_txt[i].setTextColor(BLACK);
 
-                    final int spinnerIdx = idx;
+                    final int spinnerIdx = i;
+                    Log.d("teacherCodeArr", i + ": "+teacherCodeArr[i].toString());
 
                     view_bgr[i].setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(getApplicationContext(), MainActivity_Profile.class);
                             intent.putExtra ("inPerson", true);
-                            intent.putExtra ("spinnerIdx", spinnerIdx);
+                            intent.putExtra ("cateCode", (String) teacherCodeArr[spinnerIdx ].get("code"));
                             startActivity(intent);
                         }
                     });
@@ -194,7 +195,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
                     iv_icon[i].setImageResource(R.drawable.icon_add);
                     iv_icon[i].setColorFilter(WHITE);
                     tv_txt[i].setTextColor(WHITE);
-
+                    Log.d("teacherCodeArr", i + ": "+teacherCodeArr[i].toString());
                     if (teacherCodeArr[i].get("flag").equals("-")) {
                         final String code = String.valueOf(i + 1);
                         final String flag = "Y";
@@ -240,14 +241,14 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
                     iv_icon[i].setColorFilter(BLACK);
                     tv_txt[i].setTextColor(BLACK);
 
-                    final int spinnerIdx = idx;
+                    final int spinnerIdx = i;
 
                     view_bgr[i].setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(getApplicationContext(), MainActivity_Profile.class);
                             intent.putExtra ("inPerson", true);
-                            intent.putExtra ("spinnerIdx", spinnerIdx);
+                            intent.putExtra ("cateCode",(String) studentCodeArr[spinnerIdx].get("code"));
                             startActivity(intent);
                         }
                     });
@@ -331,13 +332,12 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
                                 }
 
                             }
-
-                            isRegisted_Teacher();
-                            isRegisted_Student();
-                            registedBgr();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        isRegisted_Teacher();
+                        isRegisted_Student();
+                        registedBgr();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -556,6 +556,8 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
         teacherCodeArr[11] = defalutMap;
         teacherCodeArr[12] = defalutMap;
         teacherCodeArr[13] = defalutMap;
+
+
 
         studentCodeArr[0] = defalutMap;
         studentCodeArr[1] = defalutMap;

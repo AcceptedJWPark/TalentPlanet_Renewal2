@@ -211,6 +211,8 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         aUser.setDescription(obj.getString("PROFILE_DESCRIPTION"));
                         aUser.setUserBirth(obj.getString("USER_BIRTH"));
                         aUser.setBirthFlag(obj.getString("BIRTH_FLAG"));
+                        aUser.setPicturePath(obj.getString("FILE_PATH"));
+                        aUser.setThumbPath(obj.getString("S_FILE_PATH"));
 
                         try {
                             aUser.setGP_LAT(Double.parseDouble(obj.getString("GP_LAT")));
@@ -254,6 +256,8 @@ public class MainActivity_TalentList extends AppCompatActivity {
                             intent.putExtra("GP_LAT", userList.get(position).getGP_LAT());
                             intent.putExtra("GP_LNG", userList.get(position).getGP_LNG());
                             intent.putExtra("BIRTH_FLAG", userList.get(position).getBirthFlag());
+                            intent.putExtra("FILE_PATH", userList.get(position).getPicturePath());
+                            intent.putExtra("S_FILE_PATH", userList.get(position).getThumbPath());
                             intent.putExtra("cateCode", cateCode);
 
                             startActivity(intent);

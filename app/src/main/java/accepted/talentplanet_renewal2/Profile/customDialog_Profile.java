@@ -2,6 +2,7 @@ package accepted.talentplanet_renewal2.Profile;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.VolleySingleton;
@@ -118,7 +120,6 @@ public class customDialog_Profile extends Dialog {
             @Override
             public void onResponse(String response){
                 talentID = Integer.parseInt(response);
-                Log.d("TalentID", talentID + "");
 
                 if(talentID > 0) {
                     List<String> allHashTags = mEditTextHashTagHelper.getAllHashTags();
@@ -133,7 +134,13 @@ public class customDialog_Profile extends Dialog {
                         insertHashValue(sb.toString());
                     } else {
                         Toast.makeText(mContext, "프로필 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                        ((MainActivity_Profile)mContext).getAllTalent(flag);
+//                        ((MainActivity_Profile)mContext).getAllTalent(flag);
+                        Intent intent = new Intent(mContext, MainActivity_Profile.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("inPerson", true);
+                        intent.putExtra("cateCode", String.valueOf(code));
+                        mContext.startActivity(intent);
+
                         dismiss();
                     }
                 }else{
@@ -165,7 +172,13 @@ public class customDialog_Profile extends Dialog {
                     JSONObject obj = new JSONObject(response);
                     if(obj.getString("result").equals("success")){
                         Toast.makeText(mContext, "프로필 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                        ((MainActivity_Profile)mContext).getAllTalent(flag);
+//                        ((MainActivity_Profile)mContext).getAllTalent(flag);
+
+                        Intent intent = new Intent(mContext, MainActivity_Profile.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("inPerson", true);
+                        intent.putExtra("cateCode", String.valueOf(code));
+                        mContext.startActivity(intent);
                         dismiss();
                     }else{
                         Toast.makeText(mContext, "프로필 수정이 실패하였습니다.", Toast.LENGTH_SHORT).show();

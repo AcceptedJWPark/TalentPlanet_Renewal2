@@ -10,7 +10,8 @@ public class UserData_TalentList {
     private String userID;
     private String description;
     private String birthFlag;
-    private String addrFlag;
+    private String picturePath;
+    private String thumbPath;
     private Double GP_LAT;
     private Double GP_LNG;
 
@@ -86,14 +87,6 @@ public class UserData_TalentList {
         this.birthFlag = birthFlag;
     }
 
-    public String getAddrFlag() {
-        return addrFlag;
-    }
-
-    public void setAddrFlag(String addrFlag) {
-        this.addrFlag = addrFlag;
-    }
-
     public Double getGP_LAT() {
         return GP_LAT;
     }
@@ -108,5 +101,21 @@ public class UserData_TalentList {
 
     public void setGP_LNG(Double GP_LNG) {
         this.GP_LNG = GP_LNG;
+    }
+
+    public String getPicturePath() {
+        return picturePath;
+    }
+
+    public void setPicturePath(String picturePath) {
+        this.picturePath = picturePath;
+    }
+
+    public String getThumbPath() {
+        return thumbPath;
+    }
+
+    public void setThumbPath(String thumbPath) {
+        this.thumbPath = thumbPath;
     }
 }

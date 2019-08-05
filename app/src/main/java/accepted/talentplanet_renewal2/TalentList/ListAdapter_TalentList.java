@@ -2,13 +2,19 @@ package accepted.talentplanet_renewal2.TalentList;
 
 import android.content.Context;
 import android.location.Location;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
@@ -42,17 +48,23 @@ public class ListAdapter_TalentList extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.talentlist_bg, parent, false);
-        }
-        // View
-//        ImageView user_profile = (ImageView) convertView.findViewById(R.id.user_profile);
-        TextView userName_talentlist = (TextView) convertView.findViewById(R.id.userName_talentlist);
-        TextView userBirth_talentlist = (TextView) convertView.findViewById(R.id.userBirth_talentlist);
-        TextView hashTag_talentlist = (TextView) convertView.findViewById(R.id.hashTag_talentlist);
-        TextView tv_userDistance_talentlist = (TextView) convertView.findViewById(R.id.tv_userDistance_talentlist);
 
+            // View
+            holder = new ViewHolder();
+            holder.user_profile = convertView.findViewById(R.id.civ_user_profile);
+            holder.userName_talentlist = (TextView) convertView.findViewById(R.id.userName_talentlist);
+            holder.userBirth_talentlist = (TextView) convertView.findViewById(R.id.userBirth_talentlist);
+            holder.hashTag_talentlist = (TextView) convertView.findViewById(R.id.hashTag_talentlist);
+            holder.tv_userDistance_talentlist = (TextView) convertView.findViewById(R.id.tv_userDistance_talentlist);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder)convertView.getTag();
+        }
 
         UserData_TalentList aItem = this.userList.get(position);
 
@@ -83,19 +95,25 @@ public class ListAdapter_TalentList extends BaseAdapter {
             String[] intToStr = value.split("\\,");
 
             // 현재 타 유저와의 거리
-            tv_userDistance_talentlist.setText(String.valueOf(intToStr[0]) + " km");
+            holder.tv_userDistance_talentlist.setText(String.valueOf(intToStr[0]) + " km");
         } else {
-            tv_userDistance_talentlist.setText("위치\n정보\n없음");
+            holder.tv_userDistance_talentlist.setText("위치\n정보\n없음");
+        }
+
+        // 유저의 프로필
+        String userThumb = aItem.getThumbPath();
+        Log.d("Image Path", aItem.getUserName() + ", " + userThumb);
+        if (!userThumb.equals("NODATA")) {
+            Glide.with(mContext).load(SaveSharedPreference.getImageUri() + userThumb).into(holder.user_profile);
         }
 
         // Data
-        userName_talentlist.setText(aItem.getUserName());
-
+        holder.userName_talentlist.setText(aItem.getUserName());
 
         if(aItem.getBirthFlag().equals("N")){
-            userBirth_talentlist.setText("비공개");
+            holder.userBirth_talentlist.setText("비공개");
         }else{
-            userBirth_talentlist.setText(aItem.getUserBirth());
+            holder.userBirth_talentlist.setText(aItem.getUserBirth());
         }
 
         // 태그 관련
@@ -112,8 +130,17 @@ public class ListAdapter_TalentList extends BaseAdapter {
             hashtag.append("#").append(hashtags[i]).append(" ");
         }
 
-        hashTag_talentlist.setText(hashtag);
+        holder.hashTag_talentlist.setText(hashtag);
 
         return convertView;
     }
+
+    static class ViewHolder {
+        ImageView user_profile;
+        TextView userName_talentlist;
+        TextView userBirth_talentlist;
+        TextView hashTag_talentlist;
+        TextView tv_userDistance_talentlist;
+    }
+
 }
