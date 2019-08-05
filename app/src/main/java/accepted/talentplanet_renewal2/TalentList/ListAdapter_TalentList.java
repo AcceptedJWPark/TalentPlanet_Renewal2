@@ -90,7 +90,13 @@ public class ListAdapter_TalentList extends BaseAdapter {
 
         // Data
         userName_talentlist.setText(aItem.getUserName());
-        userBirth_talentlist.setText(aItem.getUserBirth());
+
+
+        if(aItem.getBirthFlag().equals("N")){
+            userBirth_talentlist.setText("비공개");
+        }else{
+            userBirth_talentlist.setText(aItem.getUserBirth());
+        }
 
         // 태그 관련
         String strHashtags = aItem.getHashtag();
