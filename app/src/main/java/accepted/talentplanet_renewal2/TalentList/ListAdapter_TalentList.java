@@ -49,6 +49,7 @@ public class ListAdapter_TalentList extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        convertView = null;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.talentlist_bg, parent, false);
@@ -102,7 +103,6 @@ public class ListAdapter_TalentList extends BaseAdapter {
 
         // 유저의 프로필
         String userThumb = aItem.getThumbPath();
-        Log.d("Image Path", aItem.getUserName() + ", " + userThumb);
         if (!userThumb.equals("NODATA")) {
             Glide.with(mContext).load(SaveSharedPreference.getImageUri() + userThumb).into(holder.user_profile);
         }
