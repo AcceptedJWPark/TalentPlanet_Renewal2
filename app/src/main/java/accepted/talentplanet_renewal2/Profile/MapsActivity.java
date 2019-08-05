@@ -241,14 +241,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
 
                     // 콤마를 기준으로 split
-                    String []splitStr = addressList.get(0).toString().split(",");
-                    String address = splitStr[0].substring(splitStr[0].indexOf("\"") + 1,splitStr[0].length() - 2); // 주소
+                    Address addrObj = addressList.get(0);
+                    //String []splitStr = addressList.get(0).toString().split(",");
+                    String address = addrObj.getAddressLine(0);
 
-                    String latitude = splitStr[10].substring(splitStr[10].indexOf("=") + 1); // 위도
-                    String longitude = splitStr[12].substring(splitStr[12].indexOf("=") + 1); // 경도
-
+                    Log.d("what?", address);
                     // 좌표(위도, 경도) 생성
-                    LatLng point = new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude));
+                    LatLng point = new LatLng(addrObj.getLatitude(), addrObj.getLongitude());
                     // 마커 생성
                     MarkerOptions mOptions2 = new MarkerOptions();
                     mOptions2.title("검색 결과");
@@ -256,8 +255,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     String[] addr = address.split(" ");
                     String showAddr = "";
                     for (int i=1;i<4;i++) {
-                        if (addr[i].isEmpty() || addr[i] == null) {
-                            continue;
+                        try {
+                            if (addr[i].isEmpty() || addr[i] == null) {
+                                continue;
+                            }
+                        }catch(ArrayIndexOutOfBoundsException e){
+                            break;
                         }
                         if (i == 1) {
                             if (addr[i].equals("서울특별시")) {

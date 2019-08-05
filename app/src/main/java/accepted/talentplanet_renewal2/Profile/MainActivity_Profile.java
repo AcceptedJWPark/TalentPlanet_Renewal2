@@ -198,6 +198,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         Intent intent = new Intent(this.getIntent());
         inPerson = intent.getBooleanExtra("inPerson", false);
         isNewTalent = intent.getBooleanExtra("isNewTalent", false);
+        listCateCode = intent.getStringExtra("cateCode");
 
         mode = SaveSharedPreference.getPrefTalentFlag(mContext);
 
@@ -348,14 +349,16 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 }
             });
 
+            iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
+
             String imgResource = SaveSharedPreference.getMyThumbPicturePath();
-            if (!imgResource.equals("")) {
-                Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into((ImageView) findViewById(R.id.cimg_pic_profile));
+            if (!imgResource.equals("NODATA")) {
+                Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into(iv_cimg_pic_profile);
             }
 
             // 프로필 사진 관련
             final android.support.v7.app.AlertDialog.Builder AlarmDeleteDialog = new android.support.v7.app.AlertDialog.Builder(MainActivity_Profile.this);
-            iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
+
             iv_cimg_pic_profile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -409,7 +412,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             });
 
             userID = intent.getStringExtra("userID");
-            listCateCode = intent.getStringExtra("cateCode");
 
             // 주소 관련
             final double Lat = intent.getDoubleExtra("GP_LAT",0);
@@ -459,6 +461,23 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 mode = "Y";
             }
 
+            iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
+
+            String imgResource = intent.getStringExtra("S_FILE_PATH");
+            final String bigImg = intent.getStringExtra("FILE_PATH");
+
+            if (!imgResource.equals("NODATA")) {
+                Glide.with(mContext).load(SaveSharedPreference.getImageUri() + imgResource).into(iv_cimg_pic_profile);
+                // 타인의 프로필을 볼 경우 전체화면 식으로
+                iv_cimg_pic_profile.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, ImageActivity.class);
+                        intent.putExtra("bigImg", bigImg);
+                        startActivity(intent);
+                    }
+                });
+            }
         }
 
 
@@ -797,7 +816,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
                                             String hashTagString = "";
                                             String userText = mentorTalentList.get(position).getTalentDescription();
-                                            userText = userText.replaceAll("#", " #");
+//                                            userText = userText.replaceAll("#", " #");
                                             String[] tagParse = userText.split(" ");
 
                                             for (int j=0;j<tagParse.length;j++) {
@@ -820,7 +839,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
                                             String hashTagString = "";
                                             String userText = menteeTalentList.get(position).getTalentDescription();
-                                            userText = userText.replaceAll("#", " #");
+//                                            userText = userText.replaceAll("#", " #");
                                             String[] tagParse = userText.split(" ");
 
                                             for (int j=0;j<tagParse.length;j++) {

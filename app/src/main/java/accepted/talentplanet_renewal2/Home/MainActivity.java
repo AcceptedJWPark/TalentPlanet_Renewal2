@@ -399,10 +399,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void drawerlayoutEvent(final Context context)
     {
+        String myPicture = SaveSharedPreference.getMyPicturePath();
 
-        Glide.with(mContext).load(SaveSharedPreference.getServerIp()+SaveSharedPreference.getMyPicturePath()).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
-
-
+        if (!myPicture.equals("NODATA")) {
+            Glide.with(mContext).load(SaveSharedPreference.getServerIp()+myPicture).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
+        }
 
         ((LinearLayout)findViewById(R.id.ll_myprofile_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
