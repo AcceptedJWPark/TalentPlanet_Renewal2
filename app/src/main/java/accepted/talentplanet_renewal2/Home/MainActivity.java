@@ -98,6 +98,21 @@ public class MainActivity extends AppCompatActivity {
 
         mContext=getApplicationContext();
 
+        Intent intent = getIntent();
+
+        // 푸쉬알람으로 유저가 접근했을 경우 다이얼로그
+        boolean pushFlag = intent.getBooleanExtra("pushFlag", false);
+        if (pushFlag) {
+            // 평가 다이얼로그
+            Log.d("푸쉬알람여부", "true");
+            String mentorID = intent.getStringExtra("MentorID");
+            String menteeID = intent.getStringExtra("MenteeID");
+            String isMentor = intent.getStringExtra("isMentor");
+            if (isMentor.equals("N")) {
+                SaveSharedPreference.showCustomDialog(this, mentorID, menteeID, isMentor, intent);
+            }
+        }
+
         // 최초 로그인 성공시 모드는 티처모드이므로 Y부여
         if(SaveSharedPreference.getPrefTalentFlag(mContext) == null || SaveSharedPreference.getPrefTalentFlag(mContext).isEmpty()) {
             SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
@@ -143,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     // 현재 유저의 포인트 검사 (유저의 포인트가 0 일 경우 Teacher 역할을 실행해서 포인트를 모을 수 있도록
                     int nowUserPoint = SaveSharedPreference.getTalentPoint(mContext);
-                    if (nowUserPoint == 0) {
+                    if (nowUserPoint <= 0) {
                         Toast.makeText(mContext,"현재 포인트가 없어 모드를 변경할 수 없습니다.",Toast.LENGTH_LONG).show();
                         spinner.setSelection(0);
 

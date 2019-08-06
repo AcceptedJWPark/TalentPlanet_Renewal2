@@ -61,6 +61,14 @@ public class MainActivity_Login extends AppCompatActivity {
         et_pw_login.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         et_pw_login.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
+        String lastID = SaveSharedPreference.getUserId(mContext);
+        String lastPW = SaveSharedPreference.getPrefUserPw(mContext);
+
+        if (!lastID.equals("") && !lastPW.equals("")) {
+            et_email_login.setText(lastID);
+            et_pw_login.setText(lastPW);
+        }
+
         ((Button)findViewById(R.id.btn_login_login)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

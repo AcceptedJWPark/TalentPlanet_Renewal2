@@ -106,6 +106,10 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     TextView tv_toolbarprofle;
     Context mContext;
 
+    String messageFilePath;
+    String messageUserID;
+    String messageUserName;
+
     RecyclerView lv_mentor_profile;
     RecyclerView lv_mentee_profile;
     private ArrayList<ItemData_Profile> userDate = new ArrayList<>();
@@ -261,6 +265,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             ((TextView)findViewById(R.id.tv_profile_description)).setText(intent.getStringExtra("userDescription"));
             cateCode = intent.getStringExtra("cateCode");
             targetUserID = intent.getStringExtra("targetUserID");
+            messageUserID = targetUserID;
+            messageUserName = intent.getStringExtra("userName");
+            messageFilePath = intent.getStringExtra("FILE_PATH");
         }
 
         if (inPerson) {
@@ -459,6 +466,23 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
             iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
+
+            ((ImageView)findViewById(R.id.iv_message_profile)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int roomID = SaveSharedPreference.makeChatRoom(mContext, messageUserID, messageUserName, messageFilePath);
+                    if (roomID < 0) {
+                        return;
+                    }
+                    Intent i = new Intent(mContext, accepted.talentplanet_renewal2.Messanger.Chatting.MainActivity.class);
+                    i.putExtra("userID", messageUserID);
+                    i.putExtra("roomID", roomID);
+                    i.putExtra("userName", messageUserName);
+                    startActivity(i);
+
+                    finish();
+                }
+            });
 
             String imgResource = intent.getStringExtra("S_FILE_PATH");
             final String bigImg = intent.getStringExtra("FILE_PATH");

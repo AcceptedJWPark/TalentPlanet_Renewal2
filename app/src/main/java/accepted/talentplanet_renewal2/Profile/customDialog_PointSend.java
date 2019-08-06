@@ -62,6 +62,7 @@ public class customDialog_PointSend extends Dialog {
 
     private int score;
 
+    // 파라미터로 받아야할 값들
     private String isMentor;
     private String mentorID;
     private String menteeID;
@@ -70,6 +71,7 @@ public class customDialog_PointSend extends Dialog {
         super(context);
         mContext = context;
         isMentor = mode;
+        // 기본으로 표시될 점수
         score = 9;
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);   //다이얼로그의 타이틀바를 없애주는 옵션입니다.

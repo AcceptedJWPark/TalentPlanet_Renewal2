@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import accepted.talentplanet_renewal2.Condition.MainActivity_Condition;
@@ -40,9 +41,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String GROUP_KEY_ALARM = "Alarm";
     private static final int MESSAGE_NOTIFICATION_ID = 1;
     private static final int CONDITION_NOTIFICATION_ID = 2;
-    private static final int BOARD_NOTIFICATION_ID = 3;
+    private static final int BOARD_NOTIFICATION_ID = 0;
     private static final int INTERESTING_NOTIFICATION_ID = 4;
-    private static final int SUMMARY_NOTIFICATION_ID = 0;
+    private static final int SUMMARY_NOTIFICATION_ID = 3;
     private static final String MY_CHANNEL_ID = "NOTIFICATION_CHANNEL_1";
     public static boolean isNewMessageArrive = false;
 
@@ -62,6 +63,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private String topActivityName;
 
+    private JSONObject userInfo;
 
     private Intent intent1 = null;
 
@@ -193,6 +195,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             } else if (remoteMessage.getData().get("type").contains("Interesting")) {
                                 nm.notify(CONDITION_NOTIFICATION_ID, mBuilder.build());
                             } else {
+                                Log.d("asdfasa", "1234");
                                 nm.notify(BOARD_NOTIFICATION_ID, mBuilder.build());
                             }
                         }else {
@@ -203,6 +206,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             } else if (remoteMessage.getData().get("type").contains("Interesting")) {
                                 notificationManagerCompat.notify(CONDITION_NOTIFICATION_ID, mBuilder.build());
                             } else {
+                                Log.d("asdfasa", "1234123123");
                                 notificationManagerCompat.notify(BOARD_NOTIFICATION_ID, mBuilder.build());
                             }
                         }
@@ -397,6 +401,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void addNotificationList(String type){
         intent1 = null;
+        Log.d("asdfasdf", type);
         switch (type) {
             case "Message": {
                 String userId = null;
@@ -554,6 +559,55 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         break;
                     }
                 }
+                //
+                case "Share":
+                    intent1 = new Intent(this, accepted.talentplanet_renewal2.Home.MainActivity.class);
+
+                    try {
+                        JSONObject obj = new JSONObject(datas);
+                        String isMentor = obj.getString("isMentor");
+                        String mentorID = obj.getString("MentorID");
+                        String menteeID = obj.getString("MenteeID");
+                        int userPoint = SaveSharedPreference.getTalentPoint(mContext);
+
+                        if (isMentor.equals("Y")) {
+                            alarmTxt = mentorID + " 님께서 평가를 하셨습니다!";
+
+                            try {
+                                userInfo = obj.getJSONObject("mentorInfo");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            userPoint = userPoint - 1;
+
+                        } else if (isMentor.equals("N")) {
+                            alarmTxt = menteeID + " 님께서 평가를 하셨습니다!";
+
+                            try {
+                                userInfo = obj.getJSONObject("menteeInfo");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            userPoint = userPoint + 1;
+                        }
+
+                        SaveSharedPreference.setPrefTalentPoint(mContext, userPoint);
+
+                        intent1.putExtra("pushFlag", true);
+                        intent1.putExtra("isMentor", isMentor);
+                        intent1.putExtra("MentorID", mentorID);
+                        intent1.putExtra("MenteeID", menteeID);
+                        intent1.putExtra("GENDER", userInfo.getString("GENDER"));
+                        intent1.putExtra("userInfo", userInfo.getString("USER_BIRTH"));
+                        intent1.putExtra("BIRTH_FLAG", userInfo.getString("BIRTH_FLAG"));
+                        intent1.putExtra("userDescription", userInfo.getString("PROFILE_DESCRIPTION"));
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
         }
     }
 

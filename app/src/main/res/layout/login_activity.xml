@@ -66,7 +66,7 @@
                 android:id="@+id/et_email_login"
                 android:textColor="#fff"
                 android:textColorHint="#fff"
-                android:text="ansrjsdn7@naver.com"/>
+                android:text="test"/>
 
 
             <EditText
@@ -79,7 +79,7 @@
                 android:id="@+id/et_pw_login"
                 android:textColor="#fff"
                 android:textColorHint="#fff"
-                android:text="gwm7410$^^$"/>
+                android:text=""/>
 
             <TextView
                 android:layout_width="wrap_content"

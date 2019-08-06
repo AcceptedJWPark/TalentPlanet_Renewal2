@@ -2,6 +2,7 @@ package accepted.talentplanet_renewal2;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
@@ -11,8 +12,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -31,6 +34,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import accepted.talentplanet_renewal2.Profile.customDialog_PointSend;
 
 /**
  * Created by kwonhong on 2017-10-14.
@@ -562,5 +567,31 @@ public class SaveSharedPreference{
         return getPrefTalentFlag(ctx).equals("Y");
     }
 
+    public static void showCustomDialog(Context ctx, String mentorID, String menteeID, String isMentor, Intent intent) {
+        String targetID = "";
 
+        if (isMentor.equals("Y")) {
+            targetID = mentorID;
+
+            isMentor = "N";
+        } else if (isMentor.equals("N")) {
+            targetID = menteeID;
+
+            isMentor = "Y";
+        }
+
+        customDialog_PointSend cd_PointSend = new customDialog_PointSend(ctx, isMentor, targetID, "", intent);
+
+
+        DisplayMetrics dm = ctx.getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
+        double width = dm.widthPixels; //디바이스 화면 너비
+        double height = dm.heightPixels; //디바이스 화면 높이
+
+        WindowManager.LayoutParams wm2 = cd_PointSend.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
+        wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
+        wm2.width = (int) (width / 1.1);
+        wm2.height = (int) (height / 1.1);
+
+        cd_PointSend.show();
+    }
 }
