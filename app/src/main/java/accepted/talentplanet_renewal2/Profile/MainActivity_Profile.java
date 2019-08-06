@@ -181,10 +181,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
     View [] view_Estimate = new View[10];
     int [] colorGradient = new int[10];
-    double averageScore;
-
-
-
+    double averageScore = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -526,14 +523,24 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         colorGradient[9] = Color.parseColor("#ffa061");
 
         // 점수계산된값
-        String userPoint;
+        String userPoint = "";
         if (mode.equals("Y")) {
-            userPoint = SaveSharedPreference.getPrefUserMentorScore(mContext);
-        } else {
-            userPoint = SaveSharedPreference.getPrefUserMenteeScore(mContext);
+            if (inPerson) {
+                userPoint = SaveSharedPreference.getPrefUserMentorScore(mContext);
+            } else {
+                userPoint = intent.getStringExtra("MentorScore") == null ? "" : intent.getStringExtra("MentorScore");
+            }
+        } else if (mode.equals("N")) {
+            if (inPerson) {
+                userPoint = SaveSharedPreference.getPrefUserMenteeScore(mContext);
+            } else {
+                userPoint = intent.getStringExtra("MenteeScore") == null ? "" : intent.getStringExtra("MenteeScore");
+            }
         }
-
-        averageScore = Double.parseDouble(userPoint);
+        Log.d("userPoint", userPoint);
+        if (!userPoint.equals("")) {
+            averageScore = Double.parseDouble(userPoint + 1);
+        }
 
         for(int i=0; i<Math.round(averageScore); i++)
         {

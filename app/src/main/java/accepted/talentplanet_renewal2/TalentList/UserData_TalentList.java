@@ -12,6 +12,8 @@ public class UserData_TalentList {
     private String birthFlag;
     private String picturePath;
     private String thumbPath;
+    private String MentorScore;
+    private String MenteeScore;
     private Double GP_LAT;
     private Double GP_LNG;
 
@@ -117,5 +119,21 @@ public class UserData_TalentList {
 
     public void setThumbPath(String thumbPath) {
         this.thumbPath = thumbPath;
+    }
+
+    public String getMentorScore() {
+        return MentorScore;
+    }
+
+    public void setMentorScore(String mentorScore) {
+        MentorScore = mentorScore;
+    }
+
+    public String getMenteeScore() {
+        return MenteeScore;
+    }
+
+    public void setMenteeScore(String menteeScore) {
+        MenteeScore = menteeScore;
     }
 }

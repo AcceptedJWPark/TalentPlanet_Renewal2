@@ -214,6 +214,13 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         aUser.setPicturePath(obj.getString("FILE_PATH"));
                         aUser.setThumbPath(obj.getString("S_FILE_PATH"));
 
+                        if (obj.has("MenteeScore")) {
+                            aUser.setMenteeScore(obj.getString("MenteeScore"));
+                        }
+                        if (obj.has("MentorScore")) {
+                            aUser.setMentorScore(obj.getString("MentorScore"));
+                        }
+
                         try {
                             aUser.setGP_LAT(Double.parseDouble(obj.getString("GP_LAT")));
                             aUser.setGP_LNG(Double.parseDouble(obj.getString("GP_LNG")));
@@ -258,6 +265,8 @@ public class MainActivity_TalentList extends AppCompatActivity {
                             intent.putExtra("BIRTH_FLAG", userList.get(position).getBirthFlag());
                             intent.putExtra("FILE_PATH", userList.get(position).getPicturePath());
                             intent.putExtra("S_FILE_PATH", userList.get(position).getThumbPath());
+                            intent.putExtra("MenteeScore", userList.get(position).getMenteeScore());
+                            intent.putExtra("MentorScore", userList.get(position).getMentorScore());
                             intent.putExtra("cateCode", cateCode);
 
                             startActivity(intent);
