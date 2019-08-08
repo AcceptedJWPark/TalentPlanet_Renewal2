@@ -222,7 +222,7 @@ public class Adapter extends BaseAdapter {
 
         if(messanger_Arraylist.get(position).getMessanger_Count() == 0)
         {
-            holder.messanger_Count.setVisibility(View.INVISIBLE);
+            holder.ll_count_List_Alarm.setVisibility(View.GONE);
             holder.Messanger_List_LL.setBackgroundColor(0);
         }else
         {
@@ -243,6 +243,9 @@ public class Adapter extends BaseAdapter {
         LinearLayout Messanger_List_DateLL;
         LinearLayout Messanger_List_LL;
         ImageView Messanger_List_DeleteList;
+
+        LinearLayout ll_count_List_Alarm;
+
 
         LinearLayout ll_pictureContainer;
         LinearLayout ll_txtContainer;

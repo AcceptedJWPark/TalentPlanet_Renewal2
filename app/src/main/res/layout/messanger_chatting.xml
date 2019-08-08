@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:background="#f5f5f5"
+            android:background="#ffffff"
             android:clickable="true"
             android:layout_above="@+id/ll_EditTxtContainer_Chatting_Messanger"
             android:cacheColorHint="#00000000"

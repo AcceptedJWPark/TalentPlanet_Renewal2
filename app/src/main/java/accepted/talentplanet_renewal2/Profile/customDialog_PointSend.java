@@ -102,6 +102,10 @@ public class customDialog_PointSend extends Dialog {
             tv_userdescript_popup.setTextColor(Color.WHITE);
             tv_guide_popup.setTextColor(Color.WHITE);
 
+            ((TextView)findViewById(R.id.tv_text_pointsend)).setText("Student에게 포인트를 받습니다.");
+            ((TextView)findViewById(R.id.btn_reviewuser_popup)).setText("포인트 받기");
+
+
             mentorID = SaveSharedPreference.getUserId(mContext);
             menteeID = targetID;
         } else {
@@ -110,6 +114,12 @@ public class customDialog_PointSend extends Dialog {
             ll_pointsendbg_popup.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentee));
             mentorID = targetID;
             menteeID = SaveSharedPreference.getUserId(mContext);
+
+
+            ((TextView)findViewById(R.id.tv_text_pointsend)).setText("Teacher에게 포인트를 보냅니다.");
+            ((TextView)findViewById(R.id.btn_reviewuser_popup)).setText("포인트 보내기");
+
+
         }
 
         // 상대방의 아이디
