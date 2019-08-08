@@ -184,11 +184,12 @@ public class MainActivity_Login extends AppCompatActivity {
                         SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
                     }
 
-                    if (obj.has("MentorScore")) {
-                        SaveSharedPreference.setPrefUserMentorScore(mContext, obj.getString("MentorScore"));
-                    } else if (obj.has("MenteeScore")) {
-                        SaveSharedPreference.setPrefUserMenteeScore(mContext, obj.getString("MenteeScore"));
+                    if (obj.has("Score")) {
+                        SaveSharedPreference.setPrefUserScore(mContext, obj.getString("Score"));
+                    } else if (!obj.has("MentorScore")) {
+                        SaveSharedPreference.setPrefUserScore(mContext, "");
                     }
+
 
                 } catch(JSONException e){
                     e.printStackTrace();

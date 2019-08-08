@@ -242,10 +242,11 @@
 
 
         <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/civ_user_profile"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:scaleType="centerInside"
-            android:src="@drawable/pic_sample"
+            android:src="@drawable/pic_profile"
             app:civ_border_color="#fff"
             app:civ_border_width="2dp"
             android:layout_centerHorizontal="true"

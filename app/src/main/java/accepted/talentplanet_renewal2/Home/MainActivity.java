@@ -210,7 +210,14 @@ public class MainActivity extends AppCompatActivity {
 
         tv_user_dl.setText(userName);
         tv_email_dl.setText(userId);
-        tv_userpoint_dl.setText(String.valueOf(userPoint));
+
+        int newPoint = SaveSharedPreference.getTalentPoint(mContext);
+        String nowPoint = tv_userpoint_dl.getText().toString();
+        if (newPoint == Integer.parseInt(nowPoint)) {
+            tv_userpoint_dl.setText(String.valueOf(newPoint));
+        } else {
+            tv_userpoint_dl.setText(String.valueOf(userPoint));
+        }
 
         drawerlayoutEvent(mContext);
         isAlaram = true;
@@ -659,6 +666,7 @@ public class MainActivity extends AppCompatActivity {
         if (myPicture != null && !myPicture.equals("NODATA")) {
             Glide.with(mContext).load(SaveSharedPreference.getServerIp()+myPicture).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
         }
+
         getCateList();
     }
 

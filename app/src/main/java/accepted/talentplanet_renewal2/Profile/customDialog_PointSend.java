@@ -44,6 +44,7 @@ public class customDialog_PointSend extends Dialog {
 
     LinearLayout ll_pointsendbg_popup;
 
+    ImageView civ_user_profile;
     ImageView iv_cancel_pointsend;
     ImageView iv_icon1_popup;
     ImageView iv_gendericon_popup;
@@ -78,6 +79,7 @@ public class customDialog_PointSend extends Dialog {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));  //다이얼로그의 배경을 투명으로 만듭니다.
         setContentView(R.layout.pointsend_popup);     //다이얼로그에서 사용할 레이아웃입니다.
 
+        civ_user_profile = findViewById(R.id.civ_user_profile);
         iv_icon1_popup = findViewById(R.id.iv_icon1_popup);
         ll_pointsendbg_popup = findViewById(R.id.ll_pointsendbg_popup);
         iv_gendericon_popup = findViewById(R.id.iv_gendericon_popup);
@@ -85,7 +87,13 @@ public class customDialog_PointSend extends Dialog {
         tv_userbirth_popup = findViewById(R.id.tv_userbirth_popup);
         tv_userdescript_popup = findViewById(R.id.tv_userdescript_popup);
 
-        if (intent.getBooleanExtra("inPerson",false) == false && intent.getStringExtra("userInfo").equals("여")) {
+        // User Profile Image
+        String imgResource = intent.getStringExtra("S_FILE_PATH");
+        if (imgResource != null && !imgResource.equals("")) {
+            Glide.with(mContext).load(SaveSharedPreference.getImageUri() + imgResource).into(civ_user_profile);
+        }
+        // User Gender Icon
+        if (intent.getBooleanExtra("inPerson",false) == false && intent.getStringExtra("userGender").equals("여")) {
             Glide.with(mContext).load(mContext.getResources().getDrawable(R.drawable.icon_female)).into((ImageView) findViewById(R.id.iv_gendericon_popup));
         }
 
@@ -104,7 +112,8 @@ public class customDialog_PointSend extends Dialog {
 
             mentorID = SaveSharedPreference.getUserId(mContext);
             menteeID = targetID;
-        } else {
+
+          } else {
             ((ImageView) findViewById(R.id.iv_cancel_pointsend)).setImageResource(R.drawable.icon_teacher);
 
             ll_pointsendbg_popup.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentee));
@@ -113,9 +122,13 @@ public class customDialog_PointSend extends Dialog {
         }
 
         // 상대방의 아이디
-        tv_username_popup.setText(targetID);
+        String userName = intent.getStringExtra("userName");
+        tv_username_popup.setText(userName);
+
         if (intent.getStringExtra("BIRTH_FLAG").equals("N")) {
-            tv_userbirth_popup.setText(intent.getStringExtra("userInfo"));
+            String userBirth = intent.getStringExtra("userInfo");
+
+            tv_userbirth_popup.setText(userBirth.replaceAll("-", "."));
         } else {
             tv_userbirth_popup.setText("비공개");
         }
@@ -195,6 +208,17 @@ public class customDialog_PointSend extends Dialog {
                 try {
                     JSONObject obj = new JSONObject(response);
                     if(obj.getString("result").equals("success")){
+
+                        int userPoint = 0;
+
+                        if (isMentor.equals("Y")) {
+                            userPoint = SaveSharedPreference.getTalentPoint(mContext) + 1;
+                        } else if (isMentor.equals("N")) {
+                            userPoint = SaveSharedPreference.getTalentPoint(mContext) - 1;
+                        }
+
+                        SaveSharedPreference.setPrefTalentPoint(mContext, userPoint);
+
                         Toast.makeText(mContext, "평가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(mContext, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -52,11 +52,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
     private String talentFlag;
     private String titleTxt;
     private boolean hasFlag;
-    private String hashtag;
-
-
-
-
+    private boolean isSearch;
 
     private ArrayList<Sample_UserData_TalentList> sampleUserlist;
     private Sample_ListAdapter_TalentList listAdapter_talentList;
@@ -114,6 +110,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
         // 인텐트 엑스트라 받기
         titleTxt = intent.getStringExtra("talentName");
         cateCode = intent.getStringExtra("cateCode");
+        isSearch = intent.hasExtra("isSearch");
 
 //        talentFlag = SaveSharedPreference.getPrefTalentFlag(mContext);
 //        hasFlag = intent.getBooleanExtra("hasFlag", false);
@@ -148,6 +145,16 @@ public class MainActivity_TalentList extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isSearch){
+            searchTalentListByHashtag();
+        }else {
+            getTalentListNew();
+        }
     }
 
     private void makeTestTalentArr() {
@@ -214,11 +221,8 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         aUser.setPicturePath(obj.getString("FILE_PATH"));
                         aUser.setThumbPath(obj.getString("S_FILE_PATH"));
 
-                        if (obj.has("MenteeScore")) {
-                            aUser.setMenteeScore(obj.getString("MenteeScore"));
-                        }
-                        if (obj.has("MentorScore")) {
-                            aUser.setMentorScore(obj.getString("MentorScore"));
+                        if (obj.has("Score")) {
+                            aUser.setScore(obj.getString("Score"));
                         }
 
                         try {
@@ -265,8 +269,8 @@ public class MainActivity_TalentList extends AppCompatActivity {
                             intent.putExtra("BIRTH_FLAG", userList.get(position).getBirthFlag());
                             intent.putExtra("FILE_PATH", userList.get(position).getPicturePath());
                             intent.putExtra("S_FILE_PATH", userList.get(position).getThumbPath());
-                            intent.putExtra("MenteeScore", userList.get(position).getMenteeScore());
-                            intent.putExtra("MentorScore", userList.get(position).getMentorScore());
+                            intent.putExtra("Score", userList.get(position).getScore());
+                            intent.putExtra("userTalentDescription", userList.get(position).getHashtag());
                             intent.putExtra("cateCode", cateCode);
 
                             startActivity(intent);

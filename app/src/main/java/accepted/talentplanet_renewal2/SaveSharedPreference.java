@@ -54,8 +54,7 @@ public class SaveSharedPreference{
     static final String PREF_USER_BIRTH_FLAG= "userbirthflag";
     static final String PREF_USER_ADDR_FLAG= "useraddrflag";
 
-    static final String PREF_USER_MENTEESCORE= "usermenteescore";
-    static final String PREF_USER_MENTORSCORE= "usermentorscore";
+    static final String PREF_USER_SCORE= "userscore";
 
     static final String SERVER_IP2 = "https://13.209.191.97/Accepted/";
     static final String SERVER_IP = "http://175.213.4.39/Accepted/";
@@ -173,15 +172,9 @@ public class SaveSharedPreference{
         editor.commit();
     }
 
-    public static void setPrefUserMenteeScore(Context ctx, String addrFlag){
+    public static void setPrefUserScore(Context ctx, String Score){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putString(PREF_USER_MENTEESCORE, addrFlag);
-        editor.commit();
-    }
-
-    public static void setPrefUserMentorScore(Context ctx, String addrFlag){
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putString(PREF_USER_MENTORSCORE, addrFlag);
+        editor.putString(PREF_USER_SCORE, Score);
         editor.commit();
     }
 
@@ -275,12 +268,8 @@ public class SaveSharedPreference{
         return getSharedPreferences(ctx).getString(PREF_TALENT_FLAG, "");
     }
 
-    public static String getPrefUserMenteeScore(Context ctx){
-        return getSharedPreferences(ctx).getString(PREF_USER_MENTEESCORE, "");
-    }
-
-    public static String getPrefUserMentorScore(Context ctx){
-        return getSharedPreferences(ctx).getString(PREF_USER_MENTORSCORE, "");
+    public static String getPrefUserScore(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_SCORE, "");
     }
 
     public static void clearUserInfo(Context ctx){
