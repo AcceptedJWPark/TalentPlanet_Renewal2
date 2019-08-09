@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
 
     final int maxInterval = 5000;
     public static String receiverID;
-
+    private String receiverName;
     public int roomID;
 
     private boolean isTimeChanged;
@@ -91,10 +91,10 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
         mContext = getApplicationContext();
         receiverID = getIntent().getStringExtra("userID");
         roomID = getIntent().getIntExtra("roomID", 0);
-
+        receiverName = getIntent().getStringExtra("userName");
         Log.d("receiverID : ",receiverID);
         Log.d("receiverID : ", String.valueOf(roomID));
-        Log.d("receiverID : ",getIntent().getStringExtra("userName"));
+        Log.d("receiverID : ",receiverName);
 
         String dbName = "/accepted.db";
         try {
@@ -187,17 +187,19 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
     }
 
     public boolean refreshChatLog(){
-        String selectBasicChat = "SELECT * FROM TB_CHAT_LOG WHERE ROOM_ID = " + roomID +" AND MASTER_ID = '"+ SaveSharedPreference.getUserId(mContext) +"' AND MESSAGE_ID > "+lastMessageID+"";
+        String selectBasicChat = "SELECT USER_ID, CONTENT, CREATION_DATE, POINT_MSG_FLAG, POINT_SEND_FLAG FROM TB_CHAT_LOG WHERE ROOM_ID = " + roomID +" AND MASTER_ID = '"+ SaveSharedPreference.getUserId(mContext) +"' AND MESSAGE_ID > "+lastMessageID+"";
         Cursor cursor = sqliteDatabase.rawQuery(selectBasicChat, null);
         cursor.moveToFirst();
         boolean isRunning = false;
         while(!cursor.isAfterLast()){
             isRunning = true;
 
-            String sender = cursor.getString(3);
-            String content = cursor.getString(4);
-            String creationDate = cursor.getString(5);
+            String sender = cursor.getString(0);
+            String content = cursor.getString(1);
+            String creationDate = cursor.getString(2);
             String[] nowDateTemp = creationDate.split(",");
+            boolean isPoint = Integer.parseInt(cursor.getString(3)) > 0;
+            boolean isCompleted = Integer.parseInt(cursor.getString(4)) > 0;
             final String nowDate = nowDateTemp[0];
             final String nowTime = nowDateTemp[1].substring(0, 8);
 
@@ -213,7 +215,12 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
             if(arrayList.size() == 0){
                 isTimeChanged = true;
                 isDateChanged = true;
-                arrayList.add(new ListItem(R.drawable.picure_basic, content, creationDate, messageType, isPicture, isTimeChanged, isDateChanged));
+                ListItem item = new ListItem(R.drawable.picure_basic, content, creationDate, messageType, isPicture, isTimeChanged, isDateChanged);
+                item.setPointSend(isPoint);
+                item.setCompleted(isCompleted);
+                item.setTargetID(receiverID);
+                item.setTargetName(receiverName);
+                arrayList.add(item);
             }else{
                 int prevPosition = arrayList.size() - 1;
                 ListItem temp = arrayList.get(prevPosition);
@@ -221,7 +228,6 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
                 String prevTime;
                 String[] dateTemp = prevDate.split(",");
                 prevDate = dateTemp[0];
-
                 prevTime = dateTemp[1].substring(0, 8);
                 if(prevDate.equals(nowDate)){
                     isDateChanged = false;
@@ -241,7 +247,12 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
                     isTimeChanged = true;
                 }
 
-                arrayList.add(new ListItem(R.drawable.picure_basic, content, creationDate, messageType, isPicture, isTimeChanged, isDateChanged));
+                ListItem item = new ListItem(R.drawable.picure_basic, content, creationDate, messageType, isPicture, isTimeChanged, isDateChanged);
+                item.setPointSend(isPoint);
+                item.setCompleted(isCompleted);
+                item.setTargetID(receiverID);
+                item.setTargetName(receiverName);
+                arrayList.add(item);
 
             }
             cursor.moveToNext();

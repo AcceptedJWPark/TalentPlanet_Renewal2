@@ -9,10 +9,14 @@ public class ListItem {
     private int picture;
     private String message;
     private String date;
+    private String targetName;
+    private String targetID;
     private int messageType;
     private boolean isPicture;
     private boolean isTimeChanged;
     private boolean isDateChanged;
+    private boolean isPointSend;
+    private boolean isCompleted;
 
 
     public ListItem(int picture, String message, String date, int messageType, boolean isPicture, boolean isTimeChanged, boolean isDateChanged) {
@@ -79,5 +83,37 @@ public class ListItem {
 
     public void setDateChanged(boolean dateChanged) {
         this.isDateChanged = dateChanged;
+    }
+
+    public boolean isPointSend() {
+        return isPointSend;
+    }
+
+    public void setPointSend(boolean pointSend) {
+        isPointSend = pointSend;
+    }
+
+    public String getTargetName() {
+        return targetName;
+    }
+
+    public void setTargetName(String targetName) {
+        this.targetName = targetName;
+    }
+
+    public String getTargetID() {
+        return targetID;
+    }
+
+    public void setTargetID(String targetID) {
+        this.targetID = targetID;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 }
