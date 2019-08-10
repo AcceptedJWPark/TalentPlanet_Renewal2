@@ -568,7 +568,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         String isMentor = obj.getString("isMentor");
                         String mentorID = obj.getString("MentorID");
                         String menteeID = obj.getString("MenteeID");
-                        int userPoint = SaveSharedPreference.getTalentPoint(mContext);
 
                         if (isMentor.equals("Y")) {
                             alarmTxt = mentorID + " 님께서 평가를 하셨습니다!";
@@ -579,7 +578,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 e.printStackTrace();
                             }
 
-                            userPoint = userPoint - 1;
 
                         } else if (isMentor.equals("N")) {
                             alarmTxt = menteeID + " 님께서 평가를 하셨습니다!";
@@ -589,19 +587,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            userPoint = userPoint + 1;
                         }
-
-                        SaveSharedPreference.setPrefTalentPoint(mContext, userPoint);
 
                         intent1.putExtra("pushFlag", true);
                         intent1.putExtra("isMentor", isMentor);
                         intent1.putExtra("MentorID", mentorID);
                         intent1.putExtra("MenteeID", menteeID);
-                        intent1.putExtra("GENDER", userInfo.getString("GENDER"));
+                        intent1.putExtra("userName", userInfo.getString("USER_NAME"));
+                        intent1.putExtra("userGender", userInfo.getString("GENDER"));
                         intent1.putExtra("userInfo", userInfo.getString("USER_BIRTH"));
                         intent1.putExtra("BIRTH_FLAG", userInfo.getString("BIRTH_FLAG"));
                         intent1.putExtra("userDescription", userInfo.getString("PROFILE_DESCRIPTION"));
+                        intent1.putExtra("S_FILE_PATH", userInfo.getString("S_FILE_PATH"));
 
                     } catch (Exception e) {
                         e.printStackTrace();

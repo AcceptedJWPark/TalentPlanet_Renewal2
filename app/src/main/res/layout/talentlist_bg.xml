@@ -87,6 +87,7 @@
             android:singleLine="true"
             android:textSize="14dp"
             android:paddingLeft="5dp"
+            android:textColor="@color/colorAccent"
             />
 
 
