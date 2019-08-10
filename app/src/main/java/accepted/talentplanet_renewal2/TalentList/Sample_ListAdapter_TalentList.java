@@ -1,6 +1,7 @@
 package accepted.talentplanet_renewal2.TalentList;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,7 @@ public class Sample_ListAdapter_TalentList extends BaseAdapter {
         ImageView userGender = (ImageView) convertView.findViewById(R.id.userGender_talentlist);
         TextView tv_userDistance = (TextView) convertView.findViewById(R.id.tv_userDistance_talentlist);
 
+        userHash.setTypeface(null, Typeface.BOLD);
 
         userName.setText(this.userList.get(position).getUserName());
         userBirth.setText(this.userList.get(position).getUserAge());

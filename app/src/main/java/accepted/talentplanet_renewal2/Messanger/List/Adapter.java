@@ -106,6 +106,7 @@ public class Adapter extends BaseAdapter {
             holder.messanger_Date = view.findViewById(R.id.tv_date_Alarm);
             holder.Messanger_List_DateLL = view.findViewById(R.id.ll_deleteContainer_Alarm);
             holder.Messanger_List_DeleteList = view.findViewById(R.id.iv_delete_List_Messanger);
+            holder.ll_count_List_Alarm = view.findViewById(R.id.ll_count_List_Alarm);
 
             holder.ll_pictureContainer = view.findViewById(R.id.ll_pictureContainer_List_Messanger);
             holder.ll_txtContainer = view.findViewById(R.id.ll_txtContainer_List_Messanger);
@@ -226,8 +227,8 @@ public class Adapter extends BaseAdapter {
             holder.Messanger_List_LL.setBackgroundColor(0);
         }else
         {
-//            int messanger_Unread_Color = view.getResources().getColor(R.color.messangerList);
-//            holder.Messanger_List_LL.setBackgroundColor(messanger_Unread_Color);
+            int messanger_Unread_Color = view.getResources().getColor(R.color.messangerList);
+            holder.Messanger_List_LL.setBackgroundColor(messanger_Unread_Color);
         }
 
         return view;
@@ -243,10 +244,7 @@ public class Adapter extends BaseAdapter {
         LinearLayout Messanger_List_DateLL;
         LinearLayout Messanger_List_LL;
         ImageView Messanger_List_DeleteList;
-
         LinearLayout ll_count_List_Alarm;
-
-
         LinearLayout ll_pictureContainer;
         LinearLayout ll_txtContainer;
         RelativeLayout rl_dateContainer;

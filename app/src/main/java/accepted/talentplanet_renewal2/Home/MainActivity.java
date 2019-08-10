@@ -46,6 +46,7 @@ import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.Search.MainActivity_Search;
+import accepted.talentplanet_renewal2.SharingList.MainActivity_SharingList;
 import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
 import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
 import accepted.talentplanet_renewal2.VolleySingleton;
@@ -210,7 +211,14 @@ public class MainActivity extends AppCompatActivity {
 
         tv_user_dl.setText(userName);
         tv_email_dl.setText(userId);
-        tv_userpoint_dl.setText(String.valueOf(userPoint));
+
+        int newPoint = SaveSharedPreference.getTalentPoint(mContext);
+        String nowPoint = tv_userpoint_dl.getText().toString();
+        if (newPoint == Integer.parseInt(nowPoint)) {
+            tv_userpoint_dl.setText(String.valueOf(newPoint));
+        } else {
+            tv_userpoint_dl.setText(String.valueOf(userPoint));
+        }
 
         drawerlayoutEvent(mContext);
         isAlaram = true;
@@ -480,6 +488,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ((LinearLayout)findViewById(R.id.ll_userpoint_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.closeDrawers();
+                Intent intent = new Intent(context, MainActivity_SharingList.class);
+                startActivity(intent);
+            }
+        });
+
 
         //알람 On Off
 
@@ -659,6 +676,7 @@ public class MainActivity extends AppCompatActivity {
         if (myPicture != null && !myPicture.equals("NODATA")) {
             Glide.with(mContext).load(SaveSharedPreference.getServerIp()+myPicture).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
         }
+
         getCateList();
     }
 

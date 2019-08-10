@@ -63,9 +63,6 @@
             android:name=".FriendList.MainActivity_Friend"
             android:theme="@style/AppTheme_Home" />
         <activity
-            android:name=".Condition.MainActivity_Condition"
-            android:theme="@style/AppTheme_Home" />
-        <activity
             android:name=".Cs.MainActivity_Cs"
             android:theme="@style/AppTheme_Home" />
         <activity android:name=".Cs.MainActivity_Notice" />
@@ -93,6 +90,11 @@
         <activity
             android:name=".AddCategory.MainActivity_AddCategory"
             android:theme="@style/AppTheme_Home" />
+
+        <activity
+            android:name=".SharingList.MainActivity_SharingList"
+            android:theme="@style/AppTheme_Home" />
+
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>

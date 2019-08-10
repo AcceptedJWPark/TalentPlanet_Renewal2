@@ -23,7 +23,7 @@
         <include
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            layout="@layout/toolbarlayout"/>
+            layout="@layout/toolbarlayout_talentlist"/>
     </android.support.v7.widget.Toolbar>
 
 
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:background="#fafafa"
+        android:background="#ffffff"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:clickable="true"
@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
-        android:background="#f5f5f5"
+        android:background="#ffffff"
         android:focusableInTouchMode="true"
         android:clickable="true"
         >

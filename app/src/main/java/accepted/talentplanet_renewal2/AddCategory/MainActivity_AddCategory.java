@@ -32,10 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import accepted.talentplanet_renewal2.Condition.condition_proc_Fragment;
-import accepted.talentplanet_renewal2.Condition.condition_proc_pagerAdapter;
-import accepted.talentplanet_renewal2.Condition.condition_req_Fragment;
-import accepted.talentplanet_renewal2.Condition.condition_req_pagerAdapter;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.VolleySingleton;

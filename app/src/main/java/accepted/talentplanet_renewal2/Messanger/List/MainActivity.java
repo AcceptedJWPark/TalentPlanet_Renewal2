@@ -5,14 +5,20 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import accepted.talentplanet_renewal2.MyFirebaseMessagingService;
@@ -43,6 +49,25 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
         setContentView(R.layout.messanger_list);
 
         mContext = getApplicationContext();
+
+        ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v)
+            {
+                finish();
+            }
+        });
+
+        ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText("Messanger");
+        ((ImageView)findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.rgb(255, 102, 102));
+        }
+
+
 
         messanger_Listview = (ListView) findViewById(R.id.Messanger_List_ListView);
         messanger_Listview.setAdapter(messanger_ArrayAdapter);

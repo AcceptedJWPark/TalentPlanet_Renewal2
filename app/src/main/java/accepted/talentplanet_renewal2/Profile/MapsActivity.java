@@ -60,11 +60,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     EditText et_searchaddr_map;
     LinearLayout ll_searchbtn_map;
 
+    private boolean isUser;
+    private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_activity);
         mContext = getApplicationContext();
+
+        intent = getIntent();
+        isUser = intent.getBooleanExtra("isUser", false);
 
         String mode = SaveSharedPreference.getPrefTalentFlag(mContext);
 
@@ -89,9 +95,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
-
-
-
         img_rightbtn = findViewById(R.id.img_rightbtn);
         img_open_dl = findViewById(R.id.img_open_dl);
         img_alarm = findViewById(R.id.img_alarm);
@@ -100,7 +103,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         et_searchaddr_map = findViewById(R.id.et_searchaddr_map);
 
         tv_Choose.setVisibility(View.VISIBLE);
-        tv_Choose.setText("주소 찾기");
+        if (isUser) {
+            tv_Choose.setText("유저 위치");
+        } else {
+            tv_Choose.setText("주소 찾기");
+        }
+
 
         img_rightbtn.setVisibility(View.GONE);
         img_alarm.setVisibility(View.GONE);
@@ -242,6 +250,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
 
                     // 콤마를 기준으로 split
+                    if (addressList.size() == 0) {
+                        Toast.makeText(mContext, "지도에서 " + str + "을(를) 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     Address addrObj = addressList.get(0);
                     //String []splitStr = addressList.get(0).toString().split(",");
                     String address = addrObj.getAddressLine(0);
@@ -339,13 +351,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setOnInfoWindowClickListener(this);
 
-        Intent intent = getIntent();
-        String myLAT = intent.getStringExtra("GP_LAT");
-        String myLNG = intent.getStringExtra("GP_LNG");
+        double myLAT = 0;
+        double myLNG = 0;
+        if (isUser) {
+            myLAT = intent.getDoubleExtra("GP_LAT", 0);
+            myLNG = intent.getDoubleExtra("GP_LNG", 0);
+        } else {
+            myLAT = Double.parseDouble(SaveSharedPreference.getPrefUserGpLat(mContext));
+            myLNG = Double.parseDouble(SaveSharedPreference.getPrefUserGpLng(mContext));
+        }
 
-        if (!myLAT.equals("") || !myLNG.equals("")) {
-            LatLng myLocation = new LatLng(Double.parseDouble(myLAT), Double.parseDouble(myLNG));
-            mMap.addMarker(new MarkerOptions().position(myLocation).title("내 위치"));
+        if (myLAT != 0 || myLNG != 0) {
+            LatLng myLocation = new LatLng(myLAT, myLNG);
+            if (isUser) {
+                mMap.addMarker(new MarkerOptions().position(myLocation).title("유저 위치"));
+            } else {
+                mMap.addMarker(new MarkerOptions().position(myLocation).title("내 위치"));
+            }
+
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
         } else {
             LatLng blueHouse = new LatLng(37.5866118, 126.9726223);
@@ -356,6 +379,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
+        if (isUser) {
+            return;
+        }
+
         LatLng location = marker.getPosition();
 
         final double lat = location.latitude;

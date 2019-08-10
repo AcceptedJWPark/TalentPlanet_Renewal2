@@ -149,7 +149,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
     private ImageView img_gender_profile;
 
-    // 프로필 사진 관련 변수
     private ImageView iv_cimg_pic_profile;
     private Uri photoUri;
     private String currentPhotoPath;
@@ -158,6 +157,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     private final int CAMERA_CODE = 1111;
     private final int GALLERY_CODE = 1112;
     private String mode;
+    private String userTalentDescript;
 
     // 리스트 뷰를 초기화 하기 위한 변수
     private String listReset;
@@ -200,6 +200,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         inPerson = intent.getBooleanExtra("inPerson", false);
         isNewTalent = intent.getBooleanExtra("isNewTalent", false);
         listCateCode = intent.getStringExtra("cateCode");
+        userTalentDescript = intent.getStringExtra("userTalentDescription");
 
         mode = SaveSharedPreference.getPrefTalentFlag(mContext);
 
@@ -223,13 +224,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         // 재능 등록 개수 확인
         getTalentCount();
-
-        // 현재 Teacher 모드인지 아닌지 판단
-        if(SaveSharedPreference.isTeacher(mContext)){
-
-        }else{
-
-        }
 
         ((ImageView)findViewById(R.id.iv_addtalent_profile)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,6 +265,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         }
 
         if (inPerson) {
+            getMyProfileInfo_new();
             // 유저가 로그인했을 경우
             String userName = SaveSharedPreference.getUserName(mContext);
             String userInfo = SaveSharedPreference.getPrefUserBirth(mContext);
@@ -431,6 +426,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         String[] addr = list.get(0).getAddressLine(0).split(" ");
 
                         ((TextView)findViewById(R.id.tv_addr_profile)).setText(addr[1]+" "+addr[2]+" "+addr[3]);
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -479,7 +475,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     i.putExtra("roomID", roomID);
                     i.putExtra("userName", messageUserName);
                     startActivity(i);
-
                     finish();
                 }
             });
@@ -499,6 +494,18 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     }
                 });
             }
+
+            // 타인이 자신의 주소를 볼경우
+            ((TextView)findViewById(R.id.tv_addr_profile)).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, MapsActivity.class);
+                    intent.putExtra("GP_LAT", Lat);
+                    intent.putExtra("GP_LNG", Lng);
+                    intent.putExtra("isUser", true);
+                    startActivityForResult(intent, 2030);
+                }
+            });
         }
 
 
@@ -548,22 +555,14 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         // 점수계산된값
         String userPoint = "";
-        if (mode.equals("Y")) {
-            if (inPerson) {
-                userPoint = SaveSharedPreference.getPrefUserMentorScore(mContext);
-            } else {
-                userPoint = intent.getStringExtra("MentorScore") == null ? "" : intent.getStringExtra("MentorScore");
-            }
-        } else if (mode.equals("N")) {
-            if (inPerson) {
-                userPoint = SaveSharedPreference.getPrefUserMenteeScore(mContext);
-            } else {
-                userPoint = intent.getStringExtra("MenteeScore") == null ? "" : intent.getStringExtra("MenteeScore");
-            }
+        if (inPerson) {
+            userPoint = SaveSharedPreference.getPrefUserScore(mContext);
+        } else {
+            userPoint = intent.getStringExtra("Score") == null ? "" : intent.getStringExtra("Score");
         }
-        Log.d("userPoint", userPoint);
+
         if (!userPoint.equals("")) {
-            averageScore = Double.parseDouble(userPoint + 1);
+            averageScore = Double.parseDouble(userPoint) + 1;
         }
 
         for(int i=0; i<Math.round(averageScore); i++)
@@ -765,7 +764,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     public void getAllTalent(final String talentFlag) {
         final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
 
-        StringRequest stringRequest = new StringRequest(
+        final StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 SaveSharedPreference.getServerIp() + "Profile/getAllMyTalent.do",
                 new Response.Listener<String>() {
@@ -828,7 +827,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                     ((TextView) findViewById(R.id.tv_description_profile)).setText(userText);
                                 }
 
-                                Log.d("booleanTest", listCateCode + " : " + String.valueOf(item.getCateCode()));
                                 if (listCateCode != null && listCateCode.equals(String.valueOf(item.getCateCode()))) {
                                     spinnerIdx = i;
                                 }
@@ -1751,9 +1749,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         switch (mentIdx) {
                             case 1:
                                 Toast.makeText(mContext, "생일을 공개로 설정했습니다.", Toast.LENGTH_SHORT).show();
+                                ((TextView) findViewById(R.id.tv_birth_profile)).setText(SaveSharedPreference.getPrefUserBirth(mContext));
                                 break;
                             case 2:
                                 Toast.makeText(mContext, "생일을 비공개로 설정했습니다.", Toast.LENGTH_SHORT).show();
+                                ((TextView) findViewById(R.id.tv_birth_profile)).setText("비공개");
                                 break;
                         }
                         // 변경값으로 저장
@@ -1790,19 +1790,21 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         if (birthFlag.equals("Y")) {
             ((ImageView) findViewById(R.id.iv_birthopen_profile)).setVisibility(VISIBLE);
             ((ImageView) findViewById(R.id.iv_birthclose_profile)).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.tv_birth_profile)).setText("비공개");
             ((ImageView) findViewById(R.id.iv_birthopen_profile)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    saveMyProfileInfo("N",2);
+                    saveMyProfileInfo("N",1);
                 }
             });
         } else if (birthFlag.equals("N")) {
             ((ImageView) findViewById(R.id.iv_birthopen_profile)).setVisibility(View.GONE);
             ((ImageView) findViewById(R.id.iv_birthclose_profile)).setVisibility(VISIBLE);
+
             ((ImageView) findViewById(R.id.iv_birthclose_profile)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    saveMyProfileInfo("Y",1);
+                    saveMyProfileInfo("Y",2);
                 }
             });
         }
@@ -1881,6 +1883,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(GONE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(GONE);
 
+                                ((LinearLayout)findViewById(R.id.ll_notalent_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(VISIBLE);
@@ -1899,6 +1902,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(VISIBLE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(VISIBLE);
+                                ((LinearLayout)findViewById(R.id.ll_notalent_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(GONE);
@@ -1919,6 +1923,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 ((TextView)findViewById(R.id.tv_toolbarprofle)).setText(title);
                                 ((Spinner)findViewById(R.id.sp_talent_profile)).setVisibility(GONE);
 
+                                ((LinearLayout)findViewById(R.id.ll_notalent_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(VISIBLE);
@@ -1936,6 +1941,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(VISIBLE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(VISIBLE);
+                                ((LinearLayout)findViewById(R.id.ll_notalent_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(GONE);
@@ -1956,6 +1962,48 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 Map<String, String> params = new HashMap();
                 params.put("userID", SaveSharedPreference.getUserId(mContext));
                 params.put("talentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
+
+    private void getMyProfileInfo_new() {
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "/Profile/getMyProfileInfo_new.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    SaveSharedPreference.setPrefGender(mContext, obj.getString("GENDER"));
+                    SaveSharedPreference.setPrefUserBirth(mContext, obj.getString("USER_BIRTH"));
+                    SaveSharedPreference.setPrefUserDescription(mContext, obj.getString("PROFILE_DESCRIPTION"));
+                    SaveSharedPreference.setPrefTalentPoint(mContext, obj.getInt("TALENT_POINT"));
+                    SaveSharedPreference.setMyPicturePath(obj.getString("FILE_PATH"), obj.getString("S_FILE_PATH"));
+                    SaveSharedPreference.setPrefUserBirthFlag(mContext, obj.getString("BIRTH_FLAG"));
+
+                    if (obj.has("GP_LNG") && obj.has("GP_LAT")) {
+                        SaveSharedPreference.setPrefUserGpLng(mContext, obj.getString("GP_LNG"));
+                        SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
+                    }
+
+                    if (obj.has("Score")) {
+                        SaveSharedPreference.setPrefUserScore(mContext, obj.getString("Score"));
+                    } else {
+                        SaveSharedPreference.setPrefUserScore(mContext, "");
+                    }
+
+
+                } catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }
         };

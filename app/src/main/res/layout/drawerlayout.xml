@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="20dp"
@@ -66,6 +66,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/ll_userpoint_dl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     >
@@ -86,7 +87,7 @@
                         android:text="3"
                         android:textColor="@color/colorAccent"
                         android:layout_marginLeft="5dp"
-                        android:textSize="14dp"
+                        android:textSize="16dp"
                         android:textStyle="bold"
                         />
 
@@ -102,9 +103,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-
-
         </LinearLayout>
 
 
@@ -119,7 +117,8 @@
                 <LinearLayout
                     android:id="@+id/ll_myprofile_dl"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:orientation="horizontal"
                     android:gravity="center|left"
                     >
@@ -144,10 +143,10 @@
                 <LinearLayout
                     android:id="@+id/ll_addtalent_dl"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:orientation="horizontal"
                     android:gravity="center|left"
-                    android:layout_marginTop="30dp"
                 >
 
                 <ImageView
@@ -171,10 +170,10 @@
             <LinearLayout
                 android:id="@+id/ll_friend_dl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal"
                 android:gravity="center|left"
-                android:layout_marginTop="30dp"
                 >
 
                 <ImageView
@@ -198,10 +197,10 @@
                 <LinearLayout
                     android:id="@+id/ll_message_dl"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:orientation="horizontal"
                     android:gravity="center|left"
-                    android:layout_marginTop="30dp"
                     >
 
                     <ImageView
@@ -227,10 +226,10 @@
             <LinearLayout
                 android:id="@+id/ll_claim_dl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal"
                 android:gravity="center|left"
-                android:layout_marginTop="30dp"
                 >
 
                 <ImageView
@@ -254,10 +253,10 @@
                 <LinearLayout
                     android:id="@+id/ll_cs_dl"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:orientation="horizontal"
                     android:gravity="center|left"
-                    android:layout_marginTop="30dp"
                     >
 
                     <ImageView
@@ -277,35 +276,37 @@
 
                 </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_logout_dl"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center|left"
+                >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/icon_dl_logout"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="로그아웃"
+                    android:textColor="#000"
+                    android:textSize="16dp"
+                    />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/ll_logout_dl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center|left"
-            android:layout_marginTop="30dp"
-            >
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/icon_dl_logout"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="로그아웃"
-                android:textColor="#000"
-                android:textSize="16dp"
-                />
-
-        </LinearLayout>
 
 
 
