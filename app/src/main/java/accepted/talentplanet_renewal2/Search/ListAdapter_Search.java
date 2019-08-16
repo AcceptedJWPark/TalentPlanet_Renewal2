@@ -3,11 +3,15 @@ package accepted.talentplanet_renewal2.Search;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -49,6 +53,7 @@ public class ListAdapter_Search extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.talentlist_bg, parent, false);
         }
+        CircularImageView civ_user_profile = (CircularImageView) convertView.findViewById(R.id.civ_user_profile);
         TextView userName_talentlist = (TextView) convertView.findViewById(R.id.userName_talentlist);
         TextView userBirth_talentlist = (TextView) convertView.findViewById(R.id.userBirth_talentlist);
         TextView hashTag_talentlist = (TextView) convertView.findViewById(R.id.hashTag_talentlist);
@@ -67,6 +72,10 @@ public class ListAdapter_Search extends BaseAdapter {
 
         }catch (Exception e) {
 
+        }
+
+        if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("N")) {
+            civ_user_profile.setBorderColor(mContext.getResources().getColor(R.color.color_mentee));
         }
 
         // 현재 받은 타 유저의 위치
@@ -102,7 +111,19 @@ public class ListAdapter_Search extends BaseAdapter {
         String talentName = (String) aUserData.get("talentName");
         String searchText = (String) aUserData.get("searchTxt");
 
-        hashTag_talentlist.setText(talentName + " > "+searchText);
+        String tags = (String) aUserData.get("tags");
+        String[] tagArr = tags.split("\\|");
+
+        String outText = "";
+
+        for (int i=0;i<tagArr.length;i++) {
+            if (tagArr[i].toLowerCase().contains(searchText.toLowerCase())) {
+                Log.d("outText", tagArr[i]);
+                outText = tagArr[i];
+            }
+        }
+
+        hashTag_talentlist.setText(talentName + " > "+outText);
         hashTag_talentlist.setTextColor(BLACK);
 
 

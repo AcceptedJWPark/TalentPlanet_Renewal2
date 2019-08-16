@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 
@@ -107,6 +108,10 @@ public class ListAdapter_TalentList extends BaseAdapter {
             Glide.with(mContext).load(SaveSharedPreference.getImageUri() + userThumb).into(holder.user_profile);
         }
 
+        if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("N")) {
+            holder.user_profile.setBorderColor(mContext.getResources().getColor(R.color.color_mentee));
+        }
+
         // Data
         holder.userName_talentlist.setText(aItem.getUserName());
 
@@ -137,7 +142,7 @@ public class ListAdapter_TalentList extends BaseAdapter {
     }
 
     static class ViewHolder {
-        ImageView user_profile;
+        CircularImageView user_profile;
         TextView userName_talentlist;
         TextView userBirth_talentlist;
         TextView hashTag_talentlist;

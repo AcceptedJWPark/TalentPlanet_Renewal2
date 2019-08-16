@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
             }
         });
 
-        ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText("User Name");
+        ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText(getIntent().getStringExtra("userName"));
         ((ImageView)findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
 
 

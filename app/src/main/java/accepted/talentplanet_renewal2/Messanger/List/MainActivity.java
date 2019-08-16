@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
 
             Log.d("filePath Messanger = ", filePath);
 
-            messanger_Arraylist.add(0,new ListItem(R.drawable.picure_basic, userName, userID, lastMessage ,lastDate, unreadedCount, false, roomID, filePath));
+            messanger_Arraylist.add(0,new ListItem(R.drawable.pic_profile, userName, userID, lastMessage ,lastDate, unreadedCount, false, roomID, filePath));
             cursor.moveToNext();
         }
         cursor.close();

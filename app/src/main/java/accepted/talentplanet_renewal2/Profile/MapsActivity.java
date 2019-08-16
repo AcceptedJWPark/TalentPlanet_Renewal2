@@ -59,6 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     TextView tv_Choose;
     EditText et_searchaddr_map;
     LinearLayout ll_searchbtn_map;
+    RelativeLayout rl_bg_map;
 
     private boolean isUser;
     private Intent intent;
@@ -101,10 +102,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         tv_Choose = findViewById(R.id.tv_Choose);
         ll_searchbtn_map = findViewById(R.id.ll_searchbtn_map);
         et_searchaddr_map = findViewById(R.id.et_searchaddr_map);
+        rl_bg_map = findViewById(R.id.rl_bg_map);
 
         tv_Choose.setVisibility(View.VISIBLE);
         if (isUser) {
             tv_Choose.setText("유저 위치");
+            rl_bg_map.setVisibility(View.GONE);
         } else {
             tv_Choose.setText("주소 찾기");
         }
@@ -130,104 +133,105 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         geocoder = new Geocoder(this);
+        if (!isUser) {
+// 맵 터치 이벤트 구현 //
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
+                @Override
+                public void onMapClick(LatLng point) {
+                    MarkerOptions mOptions = new MarkerOptions();
+                    // 마커 타이틀
+                    mOptions.title("현재 선택 위치");
+                    Double latitude = point.latitude; // 위도
+                    Double longitude = point.longitude; // 경도
 
-        // 맵 터치 이벤트 구현 //
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener(){
-            @Override
-            public void onMapClick(LatLng point) {
-                MarkerOptions mOptions = new MarkerOptions();
-                // 마커 타이틀
-                mOptions.title("현재 선택 위치");
-                Double latitude = point.latitude; // 위도
-                Double longitude = point.longitude; // 경도
-
-                final Geocoder geocoder = new Geocoder(mContext);
-                try {
-                    List<Address> list = geocoder.getFromLocation(latitude,longitude,10);
-                    if (list.size()==0) {
-                        mOptions.snippet("해당되는 주소 정보는 없습니다");
-                    } else {
-                        String[] addr = list.get(0).getAddressLine(0).split(" ");
-                        String showAddr = "";
-                        for (int i=1;i<4;i++) {
-                            if (addr[i].isEmpty() || addr[i] == null) {
-                                continue;
-                            }
-                            if (i == 1) {
-                                if (addr[i].equals("서울특별시")) {
-                                    showAddr = "서울";
-                                    continue;
-                                } else if (addr[i].equals("경기도")) {
-                                    showAddr = "경기";
-                                    continue;
-                                } else if (addr[i].equals("인천광역시")) {
-                                    showAddr = "인천";
-                                    continue;
-                                } else if (addr[i].equals("대구광역시")) {
-                                    showAddr = "대구";
-                                    continue;
-                                } else if (addr[i].equals("강원도")) {
-                                    showAddr = "강원";
-                                    continue;
-                                } else if (addr[i].equals("대전광역시")) {
-                                    showAddr = "대전";
-                                    continue;
-                                } else if (addr[i].equals("전라북도")) {
-                                    showAddr = "전북";
-                                    continue;
-                                } else if (addr[i].equals("전라남도")) {
-                                    showAddr = "전남";
-                                    continue;
-                                } else if (addr[i].equals("세종특별자치시")) {
-                                    showAddr = "세종";
-                                    continue;
-                                } else if (addr[i].equals("경상북도")) {
-                                    showAddr = "경북";
-                                    continue;
-                                } else if (addr[i].equals("경상남도")) {
-                                    showAddr = "경남";
-                                    continue;
-                                } else if (addr[i].equals("충청북도")) {
-                                    showAddr = "충북";
-                                    continue;
-                                } else if (addr[i].equals("충청남도")) {
-                                    showAddr = "충남";
-                                    continue;
-                                } else if (addr[i].equals("제주특별자치도")) {
-                                    showAddr = "제주";
-                                    continue;
-                                } else if (addr[i].equals("부산광역시")) {
-                                    showAddr = "부산";
-                                    continue;
-                                } else if (addr[i].equals("울산광역시")) {
-                                    showAddr = "울산";
-                                    continue;
-                                } else if (addr[i].equals("광주광역시")) {
-                                    showAddr = "광주";
-                                    continue;
-                                } else {
-                                    showAddr = addr[i];
+                    final Geocoder geocoder = new Geocoder(mContext);
+                    try {
+                        List<Address> list = geocoder.getFromLocation(latitude,longitude,10);
+                        if (list.size()==0) {
+                            mOptions.snippet("해당되는 주소 정보는 없습니다");
+                        } else {
+                            String[] addr = list.get(0).getAddressLine(0).split(" ");
+                            String showAddr = "";
+                            for (int i=1;i<4;i++) {
+                                if (addr[i].isEmpty() || addr[i] == null) {
                                     continue;
                                 }
+                                if (i == 1) {
+                                    if (addr[i].equals("서울특별시")) {
+                                        showAddr = "서울";
+                                        continue;
+                                    } else if (addr[i].equals("경기도")) {
+                                        showAddr = "경기";
+                                        continue;
+                                    } else if (addr[i].equals("인천광역시")) {
+                                        showAddr = "인천";
+                                        continue;
+                                    } else if (addr[i].equals("대구광역시")) {
+                                        showAddr = "대구";
+                                        continue;
+                                    } else if (addr[i].equals("강원도")) {
+                                        showAddr = "강원";
+                                        continue;
+                                    } else if (addr[i].equals("대전광역시")) {
+                                        showAddr = "대전";
+                                        continue;
+                                    } else if (addr[i].equals("전라북도")) {
+                                        showAddr = "전북";
+                                        continue;
+                                    } else if (addr[i].equals("전라남도")) {
+                                        showAddr = "전남";
+                                        continue;
+                                    } else if (addr[i].equals("세종특별자치시")) {
+                                        showAddr = "세종";
+                                        continue;
+                                    } else if (addr[i].equals("경상북도")) {
+                                        showAddr = "경북";
+                                        continue;
+                                    } else if (addr[i].equals("경상남도")) {
+                                        showAddr = "경남";
+                                        continue;
+                                    } else if (addr[i].equals("충청북도")) {
+                                        showAddr = "충북";
+                                        continue;
+                                    } else if (addr[i].equals("충청남도")) {
+                                        showAddr = "충남";
+                                        continue;
+                                    } else if (addr[i].equals("제주특별자치도")) {
+                                        showAddr = "제주";
+                                        continue;
+                                    } else if (addr[i].equals("부산광역시")) {
+                                        showAddr = "부산";
+                                        continue;
+                                    } else if (addr[i].equals("울산광역시")) {
+                                        showAddr = "울산";
+                                        continue;
+                                    } else if (addr[i].equals("광주광역시")) {
+                                        showAddr = "광주";
+                                        continue;
+                                    } else {
+                                        showAddr = addr[i];
+                                        continue;
+                                    }
+                                }
+                                showAddr += " "+addr[i];
                             }
-                            showAddr += " "+addr[i];
+                            mOptions.snippet(showAddr);
                         }
-                        mOptions.snippet(showAddr);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
-                }
-                mMap.clear();
+                    mMap.clear();
 
-                // 마커의 스니펫(간단한 텍스트) 설정
+                    // 마커의 스니펫(간단한 텍스트) 설정
 //                mOptions.snippet(latitude.toString() + ", " + longitude.toString());
-                // LatLng: 위도 경도 쌍을 나타냄
-                mOptions.position(new LatLng(latitude, longitude));
-                // 마커(핀) 추가
-                googleMap.addMarker(mOptions);
-            }
-        });
+                    // LatLng: 위도 경도 쌍을 나타냄
+                    mOptions.position(new LatLng(latitude, longitude));
+                    // 마커(핀) 추가
+                    googleMap.addMarker(mOptions);
+                }
+            });
+        }
 
         // 버튼 이벤트
         ll_searchbtn_map.setOnClickListener(new Button.OnClickListener(){

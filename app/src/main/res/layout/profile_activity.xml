@@ -507,23 +507,24 @@
             android:id="@+id/iv_message_profile"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/img_addfriend_toolbarprofile"
+            android:layout_marginStart="22dp"
             android:src="@drawable/icon_message"
-            android:tint="@color/color_mentor"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="75dp"
-            />
+            android:tint="@color/color_mentor" />
 
         <ImageView
-            android:id="@+id/iv_share_profile"
+            android:id="@+id/img_addfriend_toolbarprofile"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/icon_share"
+            android:src="@drawable/icon_addfriend"
             android:tint="@color/color_mentor"
             android:layout_alignParentRight="true"
             android:layout_marginTop="75dp"
             android:layout_marginRight="20dp"
             />
+
+
 
 
 
