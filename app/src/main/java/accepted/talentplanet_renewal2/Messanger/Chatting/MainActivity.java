@@ -7,12 +7,16 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
@@ -20,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -92,6 +97,29 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
         receiverID = getIntent().getStringExtra("userID");
         roomID = getIntent().getIntExtra("roomID", 0);
         receiverName = getIntent().getStringExtra("userName");
+
+
+
+        ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener()
+        {
+            @Override public void onClick(View v)
+            {
+                finish();
+            }
+        });
+
+        ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText("User Name");
+        ((ImageView)findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.rgb(255, 102, 102));
+        }
+
+
+
         Log.d("receiverID : ",receiverID);
         Log.d("receiverID : ", String.valueOf(roomID));
         Log.d("receiverID : ",receiverName);

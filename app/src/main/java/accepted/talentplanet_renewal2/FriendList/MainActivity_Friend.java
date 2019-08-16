@@ -2,12 +2,18 @@ package accepted.talentplanet_renewal2.FriendList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,14 +36,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.graphics.Color.WHITE;
+
 public class MainActivity_Friend extends AppCompatActivity {
 
     Context mContext;
     private ListView friendList;
-    private  ArrayList<ItemData_Friend> oData;
+    private ArrayList<ItemData_Friend> oData;
     private ArrayList<String> removeFriendList;
     private StringBuilder strRemoveFriendList;
     ListAdapter_Friend oAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,66 +54,116 @@ public class MainActivity_Friend extends AppCompatActivity {
         setContentView(R.layout.friendlist_activity);
 
         mContext = getApplicationContext();
-        ((TextView)findViewById(R.id.tv_toolbar)).setText("친구 목록");
-        ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
-        ((ImageView) findViewById(R.id.img_rightbtn)).setImageResource(R.drawable.icon_trash_btn);
+        ((TextView) findViewById(R.id.tv_toolbar_talentlist)).setText("친구 목록");
+        ((ImageView) findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
 
-        int nDatCnt=0;
+        final Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+
+
+
+        int nDatCnt = 0;
 
 
         // 뒤로가기 이벤트
-        findViewById(R.id.img_open_dl).setOnClickListener(new View.OnClickListener() {
+        ((ImageView) findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
 
-        // 친구삭제 이벤트
-        findViewById(R.id.img_rightbtn).setOnClickListener(new View.OnClickListener() {
+        getFriendList();
+
+        ((Button)findViewById(R.id.btn_teahcer_friendlist)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeFriendList = new ArrayList<String>();
-                // 기본 적 UI 숨기기
-                ((ImageView) findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
 
-                // 삭제 전용 UI 보여주기
-                ((TextView)findViewById(R.id.tv_remove)).setVisibility(View.VISIBLE);
-                ((TextView)findViewById(R.id.tv_Choose)).setVisibility(View.VISIBLE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+                }
 
-                ((TextView)findViewById(R.id.tv_Choose)).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-
-                ((TextView)findViewById(R.id.tv_remove)).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        strRemoveFriendList = new StringBuilder();
-                        for(int i = 0; i < removeFriendList.size(); i++) {
-                            if(i == 0)
-                                strRemoveFriendList.append(removeFriendList.get(i));
-                            else
-                                strRemoveFriendList.append(",").append(removeFriendList.get(i));
-                        }
-                        removeFriend();
-                    }
-                });
-
-                friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                        removeFriendList.add(oData.get(position).getStrUserID());
-                    }
-                });
+                ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+                ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+                ((RelativeLayout)findViewById(R.id.rl_talentcate_friendlist)).setBackgroundResource(R.color.color_mentor);
+                ((Button)findViewById(R.id.btn_teahcer_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_clicekd);
+                ((Button)findViewById(R.id.btn_student_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_rightbtn_unclicekd);
+                ((Button)findViewById(R.id.btn_teahcer_friendlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+                ((Button)findViewById(R.id.btn_student_friendlist)).setTextColor(WHITE);
             }
         });
 
-        getFriendList();
+        ((Button)findViewById(R.id.btn_student_friendlist)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+                }
+
+
+                ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+                ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+                ((RelativeLayout)findViewById(R.id.rl_talentcate_friendlist)).setBackgroundResource(R.color.color_mentee);
+                ((Button)findViewById(R.id.btn_student_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_rightbtn_clicekd);
+                ((Button)findViewById(R.id.btn_teahcer_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_unclicekd);
+                ((Button)findViewById(R.id.btn_student_friendlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+                ((Button)findViewById(R.id.btn_teahcer_friendlist)).setTextColor(WHITE);
+            }
+        });
+
+
+
+
     }
+
+
+        // 친구삭제 이벤트
+//        findViewById(R.id.img_rightbtn).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                removeFriendList = new ArrayList<String>();
+//                // 기본 적 UI 숨기기
+//                ((ImageView) findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
+//
+//                // 삭제 전용 UI 보여주기
+//                ((TextView)findViewById(R.id.tv_remove)).setVisibility(View.VISIBLE);
+//                ((TextView)findViewById(R.id.tv_Choose)).setVisibility(View.VISIBLE);
+//
+//                ((TextView)findViewById(R.id.tv_Choose)).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                    }
+//                });
+//
+//                ((TextView)findViewById(R.id.tv_remove)).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        strRemoveFriendList = new StringBuilder();
+//                        for(int i = 0; i < removeFriendList.size(); i++) {
+//                            if(i == 0)
+//                                strRemoveFriendList.append(removeFriendList.get(i));
+//                            else
+//                                strRemoveFriendList.append(",").append(removeFriendList.get(i));
+//                        }
+//                        removeFriend();
+//                    }
+//                });
+//
+//                friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        view.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//                        removeFriendList.add(oData.get(position).getStrUserID());
+//                    }
+//                });
+//            }
+//        });
+//
+//        getFriendList();
+//    }
 
     public void getFriendList() {
         RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
@@ -114,7 +173,7 @@ public class MainActivity_Friend extends AppCompatActivity {
                 try {
                     oData = new ArrayList<>();
                     JSONArray array = new JSONArray(response);
-                    for(int i = 0; i < array.length(); i++){
+                    for (int i = 0; i < array.length(); i++) {
                         JSONObject obj = array.getJSONObject(i);
 
                         SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
@@ -130,7 +189,7 @@ public class MainActivity_Friend extends AppCompatActivity {
                     }
 
                     // ListView, Adapter 생성 및 연결 ------------------------
-                    friendList = (ListView)findViewById(R.id.lv_friend);
+                    friendList = (ListView) findViewById(R.id.lv_friend);
                     oAdapter = new ListAdapter_Friend(oData);
 
                     friendList.setAdapter(oAdapter);
@@ -165,52 +224,53 @@ public class MainActivity_Friend extends AppCompatActivity {
         postRequestQueue.add(postJsonRequest);
     }
 
-    public void removeFriend(){
-        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
-        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "FriendList/updateFriendList_new.do", new Response.Listener<String>(){
-            @Override
-            public void onResponse(String response){
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    if(obj.getString("result").equals("success")){
-                        Toast.makeText(mContext, "친구 삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+//    public void removeFriend(){
+//        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+//        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "FriendList/updateFriendList_new.do", new Response.Listener<String>(){
+//            @Override
+//            public void onResponse(String response){
+//                try {
+//                    JSONObject obj = new JSONObject(response);
+//                    if(obj.getString("result").equals("success")){
+//                        Toast.makeText(mContext, "친구 삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+//
+//                        for(int j = 0; j < oData.size(); j++) {
+//                            ItemData_Friend item =oData.get(j);
+//                            for (int i = 0; i < removeFriendList.size(); i++) {
+//                                if(item.getStrUserID().equals(removeFriendList.get(i))){
+//                                    oData.remove(j);
+//                                }
+//                            }
+//                        }
+//
+//                        oAdapter.notifyDataSetChanged();
+//
+//                        ((TextView)findViewById(R.id.tv_remove)).setVisibility(View.GONE);
+//                        ((TextView)findViewById(R.id.tv_Choose)).setVisibility(View.GONE);
+//
+//                        // 삭제 전용 UI 보여주기
+//                        ((ImageView) findViewById(R.id.img_rightbtn)).setVisibility(View.VISIBLE);
+//                        ((ImageView) findViewById(R.id.img_open_dl)).setVisibility(View.VISIBLE);
+//                    }
+//
+//                }
+//                catch(JSONException e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, SaveSharedPreference.getErrorListener(mContext)) {
+//            @Override
+//            protected Map<String, String> getParams(){
+//                Map<String, String> params = new HashMap();
+//                params.put("userID", SaveSharedPreference.getUserId(mContext));
+//                params.put("friendID", strRemoveFriendList.toString());
+//                params.put("updateFlag", "R");
+//                return params;
+//            }
+//        };
+//
+//        postRequestQueue.add(postJsonRequest);
+//    }
 
-                        for(int j = 0; j < oData.size(); j++) {
-                            ItemData_Friend item =oData.get(j);
-                            for (int i = 0; i < removeFriendList.size(); i++) {
-                                if(item.getStrUserID().equals(removeFriendList.get(i))){
-                                    oData.remove(j);
-                                }
-                            }
-                        }
-
-                        oAdapter.notifyDataSetChanged();
-
-                        ((TextView)findViewById(R.id.tv_remove)).setVisibility(View.GONE);
-                        ((TextView)findViewById(R.id.tv_Choose)).setVisibility(View.GONE);
-
-                        // 삭제 전용 UI 보여주기
-                        ((ImageView) findViewById(R.id.img_rightbtn)).setVisibility(View.VISIBLE);
-                        ((ImageView) findViewById(R.id.img_open_dl)).setVisibility(View.VISIBLE);
-                    }
-
-                }
-                catch(JSONException e){
-                    e.printStackTrace();
-                }
-            }
-        }, SaveSharedPreference.getErrorListener(mContext)) {
-            @Override
-            protected Map<String, String> getParams(){
-                Map<String, String> params = new HashMap();
-                params.put("userID", SaveSharedPreference.getUserId(mContext));
-                params.put("friendID", strRemoveFriendList.toString());
-                params.put("updateFlag", "R");
-                return params;
-            }
-        };
-
-        postRequestQueue.add(postJsonRequest);
-    }
 
 }

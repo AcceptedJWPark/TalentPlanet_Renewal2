@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import accepted.talentplanet_renewal2.Condition.MainActivity_Condition;
 import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.JoinLogin.MainActivity_Login;
 import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
@@ -447,26 +446,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     intent1.putExtra("alarmType", "Claim");
                 }
                 break;
-            case "Interest": {
-                if(conditionPushGrant) {
-                    int talentType = -1;
-                    try {
-                        JSONObject obj = new JSONObject(datas);
-                        talentType = (obj.getString("TALENT_FLAG").equals("Y")) ? 2 : 1;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                    if (talentType == 1) {
-                        alarmTxt = "멘티에게 요청이 왔습니다.";
-                        intent1 = new Intent(this, MainActivity_Condition.class);
-                        intent1.putExtra("ismyMentor", "2");
-                    } else {
-                        alarmTxt = "멘토에게 프로필이 왔습니다.";
-                    }
-                }
-                break;
-            }
+//            case "Interest": {
+//                if(conditionPushGrant) {
+//                    int talentType = -1;
+//                    try {
+//                        JSONObject obj = new JSONObject(datas);
+//                        talentType = (obj.getString("TALENT_FLAG").equals("Y")) ? 2 : 1;
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    if (talentType == 1) {
+//                        alarmTxt = "멘티에게 요청이 왔습니다.";
+//                        intent1 = new Intent(this, MainActivity_Condition.class);
+//                        intent1.putExtra("ismyMentor", "2");
+//                    } else {
+//                        alarmTxt = "멘토에게 프로필이 왔습니다.";
+//                    }
+//                }
+//                break;
+//            }
             case "InterestingMatching": {
 
                 int talentType = -1;
@@ -485,18 +484,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     SaveSharedPreference.setTakeTalentData(mContext, mt);
                 }
 
-                if(conditionPushGrant) {
-
-                    intent1 = new Intent(this, accepted.talentplanet_renewal2.Condition.MainActivity_Condition.class);
-                    if (talentType == 2) {
-                        alarmTxt = "재능 드림 상태가 진행중으로 변경되었습니다.";
-                        intent1.putExtra("TalentCondition_TalentFlag", "Give");
-                    } else {
-                        alarmTxt = "관심 재능 상태가 진행중으로 변경되었습니다.";
-                        intent1.putExtra("TalentCondition_TalentFlag", "Take");
-                    }
-                    break;
-                }
+//                if(conditionPushGrant) {
+//
+//                    intent1 = new Intent(this, accepted.talentplanet_renewal2.Condition.MainActivity_Condition.class);
+//                    if (talentType == 2) {
+//                        alarmTxt = "재능 드림 상태가 진행중으로 변경되었습니다.";
+//                        intent1.putExtra("TalentCondition_TalentFlag", "Give");
+//                    } else {
+//                        alarmTxt = "관심 재능 상태가 진행중으로 변경되었습니다.";
+//                        intent1.putExtra("TalentCondition_TalentFlag", "Take");
+//                    }
+//                    break;
+//                }
             }
 
             case "InterestingCancel":
@@ -545,19 +544,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     }else{
                         SaveSharedPreference.setTakeTalentData(mContext, mt);
                     }
-                    if (conditionPushGrant) {
-
-                        intent1 = new Intent(this, accepted.talentplanet_renewal2.Condition.MainActivity_Condition.class);
-                        if (talentType == 2) {
-                            alarmTxt = "진행 중인 재능 드림이 완료되었습니다.";
-                            intent1.putExtra("TalentCondition_TalentFlag", "Give");
-
-                        } else {
-                            alarmTxt = "진행 중인 관심 재능이완료 되었습니다.";
-                            intent1.putExtra("TalentCondition_TalentFlag", "Take");
-                        }
-                        break;
-                    }
+//                    if (conditionPushGrant) {
+//
+//                        intent1 = new Intent(this, accepted.talentplanet_renewal2.Condition.MainActivity_Condition.class);
+//                        if (talentType == 2) {
+//                            alarmTxt = "진행 중인 재능 드림이 완료되었습니다.";
+//                            intent1.putExtra("TalentCondition_TalentFlag", "Give");
+//
+//                        } else {
+//                            alarmTxt = "진행 중인 관심 재능이완료 되었습니다.";
+//                            intent1.putExtra("TalentCondition_TalentFlag", "Take");
+//                        }
+//                        break;
+//                    }
                 }
                 //
                 case "Share":

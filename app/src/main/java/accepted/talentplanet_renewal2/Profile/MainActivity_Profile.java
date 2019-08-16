@@ -475,7 +475,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     i.putExtra("roomID", roomID);
                     i.putExtra("userName", messageUserName);
                     startActivity(i);
-
                     finish();
                 }
             });
@@ -1884,6 +1883,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(GONE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(GONE);
 
+                                ((LinearLayout)findViewById(R.id.ll_notalent_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(VISIBLE);
@@ -1902,6 +1902,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(VISIBLE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(VISIBLE);
+                                ((LinearLayout)findViewById(R.id.ll_notalent_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(GONE);
@@ -1922,6 +1923,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 ((TextView)findViewById(R.id.tv_toolbarprofle)).setText(title);
                                 ((Spinner)findViewById(R.id.sp_talent_profile)).setVisibility(GONE);
 
+                                ((LinearLayout)findViewById(R.id.ll_notalent_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(VISIBLE);
@@ -1939,6 +1941,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(VISIBLE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(VISIBLE);
+                                ((LinearLayout)findViewById(R.id.ll_notalent_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent1_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent2_profile)).setVisibility(GONE);
                                 ((TextView)findViewById(R.id.tv_notalent3_profile)).setVisibility(GONE);

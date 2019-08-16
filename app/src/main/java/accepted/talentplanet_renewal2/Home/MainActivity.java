@@ -48,6 +48,7 @@ import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.Search.MainActivity_Search;
+import accepted.talentplanet_renewal2.SharingList.MainActivity_SharingList;
 import accepted.talentplanet_renewal2.TalentList.MainActivity_TalentList;
 import accepted.talentplanet_renewal2.TalentAdd.MainActivity_TalentAdd;
 import accepted.talentplanet_renewal2.VolleySingleton;
@@ -484,6 +485,15 @@ public class MainActivity extends AppCompatActivity {
 
                 dl.closeDrawers();
                 Intent intent = new Intent(context, MainActivity_Cs.class);
+                startActivity(intent);
+            }
+        });
+
+        ((LinearLayout)findViewById(R.id.ll_userpoint_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.closeDrawers();
+                Intent intent = new Intent(context, MainActivity_SharingList.class);
                 startActivity(intent);
             }
         });

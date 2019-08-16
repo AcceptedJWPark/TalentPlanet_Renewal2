@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -340,6 +341,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     // 해당 좌표로 화면 줌
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point,15));
                 }
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+
             }
         });
 
