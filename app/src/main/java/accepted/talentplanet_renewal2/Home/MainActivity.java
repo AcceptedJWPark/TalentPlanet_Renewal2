@@ -2,6 +2,7 @@ package accepted.talentplanet_renewal2.Home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -42,6 +43,7 @@ import accepted.talentplanet_renewal2.AddCategory.MainActivity_AddCategory;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
 import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
+import accepted.talentplanet_renewal2.MySQLiteOpenHelper;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
@@ -231,9 +233,8 @@ public class MainActivity extends AppCompatActivity {
         sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + dbName, null);
         Log.d("db path = ", getFilesDir() + dbName);
 
-
-        String sqlCreateTbl = "CREATE TABLE IF NOT EXISTS TB_CHAT_LOG (MESSAGE_ID INTEGER PRIMARY KEY, ROOM_ID INTEGER, MASTER_ID TEXT, USER_ID TEXT, CONTENT TEXT, CREATION_DATE TEXT, READED_FLAG TEXT)";
-        sqliteDatabase.execSQL(sqlCreateTbl);
+        MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(mContext, getFilesDir() + dbName, null, 4);
+        sqliteDatabase = dbHelper.getReadableDatabase();
 
         String sqlCreateTbl2 = "CREATE TABLE IF NOT EXISTS TB_CHAT_ROOM (ROOM_ID INTEGER, USER_ID TEXT, USER_NAME TEXT, MASTER_ID TEXT, START_MESSAGE_ID INTEGER, CREATION_DATE TEXT, LAST_UPDATE_DATE TEXT, ACTIVATE_FLAG TEXT, FILE_PATH TEXT, PRIMARY KEY(ROOM_ID, USER_ID, MASTER_ID))";
         sqliteDatabase.execSQL(sqlCreateTbl2);

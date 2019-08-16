@@ -2,10 +2,14 @@ package accepted.talentplanet_renewal2.Cs;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,8 +35,15 @@ public class MainActivity_Cs extends AppCompatActivity {
         setContentView(R.layout.customerservice_activity);
 
         mContext = getApplicationContext();
-        ((TextView)findViewById(R.id.tv_toolbar)).setText("고객센터");
-        ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
+        ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText("고객센터");
+        ((ImageView)findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.rgb(255, 102, 102));
+        }
+
 
 
         // ArrayAdapter, Adapter 생성 및 연결
@@ -41,7 +52,7 @@ public class MainActivity_Cs extends AppCompatActivity {
         csList.setAdapter(oAdapter);
 
         // 뒤로가기
-        ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
+        ((ImageView) findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

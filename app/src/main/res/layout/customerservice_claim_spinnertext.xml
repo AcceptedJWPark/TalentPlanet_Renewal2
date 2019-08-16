@@ -1,9 +1,0 @@
-<TextView android:id="@+id/CustomerService_Claim_Spinner_text"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:textSize="@dimen/SubTxt"
-    android:textColor="@color/textColor_subject"
-    android:paddingBottom="3dp"
-    android:paddingTop="3dp"
-    xmlns:android="http://schemas.android.com/apk/res/android" />

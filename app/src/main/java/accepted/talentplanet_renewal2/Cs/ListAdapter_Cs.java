@@ -17,7 +17,7 @@ import java.util.Arrays;
 public class ListAdapter_Cs extends BaseAdapter {
 
     LayoutInflater inflater = null;
-    private ArrayList<String> _listData = new ArrayList<String >(Arrays.asList("공지사항", "개인정보 이용동의", "텔런트플레넷 정보 이용동의", "신고 리스트", "질문과 답변"));
+    private ArrayList<String> _listData = new ArrayList<String >(Arrays.asList("공지사항", "개인정보 이용동의", "정보 이용동의", "신고 리스트", "질문과 답변"));
     private int _dataLeng = 0;
 
     public ListAdapter_Cs() {
@@ -52,7 +52,6 @@ public class ListAdapter_Cs extends BaseAdapter {
         }
 
         TextView oTextTitle = (TextView) convertView.findViewById(R.id.tv_ctgrName);
-        oTextTitle.setTextColor(R.color.colorPrimaryDark);
         oTextTitle.setText(this._listData.get(position));
 
         return convertView;

@@ -1,9 +1,13 @@
 package accepted.talentplanet_renewal2.Cs;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,9 +28,17 @@ public class MainActivity_Notice extends AppCompatActivity {
 
         Intent intent = getIntent();
         String title = intent.getStringExtra("ctgrTitle");
-        ((TextView)findViewById(R.id.tv_toolbar)).setText(title);
 
-        ((ImageView) findViewById(R.id.img_open_dl)).setImageResource(R.drawable.icon_back);
+        ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText("공지사항");
+        ((ImageView)findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.rgb(255, 102, 102));
+        }
+
+
 
         for (int i=1; i<4; i++) {
             NoticeData aData = new NoticeData();
@@ -42,7 +54,7 @@ public class MainActivity_Notice extends AppCompatActivity {
         noticeList.setAdapter(oAdapter);
 
         // 뒤로가기
-        ((ImageView) findViewById(R.id.img_open_dl)).setOnClickListener(new View.OnClickListener() {
+        ((ImageView) findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

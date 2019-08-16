@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.Profile.customDialog_PointSend;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.VolleySingleton;
@@ -88,6 +89,7 @@ public class Adapter extends BaseAdapter {
 
         holder.Messanger_Chatting_Picture = view.findViewById(R.id.Messanger_Chatting_Picture);
         holder.Messanger_Chatting_Txt = view.findViewById(R.id.Messanger_Chatting_Txt);
+        holder.Messanger_Chatting_Point = view.findViewById(R.id.Messanger_Chatting_Point);
         holder.Messanger_Chatting_Date = view.findViewById(R.id.Messanger_Chatting_Date);
         holder.Messanger_Chatting_DateLine = view.findViewById(R.id.Messanger_Chatting_DateLine);
         holder.Messanger_Chatting_Date_String = view.findViewById(R.id.Messanger_Chatting_Date_String);
@@ -107,11 +109,15 @@ public class Adapter extends BaseAdapter {
         int size = Math.round(5*dm.density);
 
         RelativeLayout.LayoutParams Messanger_ChattingTxt = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams Messanger_ChattingPoint = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         RelativeLayout.LayoutParams Messanger_ChattingDate = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         Messanger_ChattingTxt.setMargins(size,0,size,0);
+        Messanger_ChattingPoint.setMargins(size,0,size,0);
         holder.Messanger_Chatting_Txt.setLayoutParams(Messanger_ChattingTxt);
+        holder.Messanger_Chatting_Point.setLayoutParams(Messanger_ChattingPoint);
         int maxWidth = (int) (dm.widthPixels*0.7);
         holder.Messanger_Chatting_Txt.setMaxWidth(maxWidth);
+        holder.Messanger_Chatting_Point.setMaxWidth(maxWidth);
         holder.Messanger_Chatting_Date.setLayoutParams(Messanger_ChattingDate);
         Messanger_ChattingDate.addRule(RelativeLayout.ALIGN_BOTTOM,R.id.Messanger_Chatting_Txt);
 
@@ -124,16 +130,55 @@ public class Adapter extends BaseAdapter {
             }else{
                 holder.Messanger_Chatting_Picture.setBackgroundResource(messanger_Chatting_Arraylist.get(position).getPicture());
             }
-            holder.Messanger_Chatting_Txt.setBackgroundResource(R.drawable.bgr_messanger_chatting_get);
-            holder.Messanger_Chatting_Txt.setTextColor(BLACK);
-            Messanger_ChattingTxt.addRule(RelativeLayout.RIGHT_OF, R.id.Messanger_Chatting_Picture);
-            Messanger_ChattingDate.addRule(RelativeLayout.RIGHT_OF, R.id.Messanger_Chatting_Txt);
+
+            if(!messanger_Chatting_Arraylist.get(position).isPointSend()){
+                holder.Messanger_Chatting_Txt.setVisibility(View.GONE);
+                holder.Messanger_Chatting_Point.setVisibility(View.VISIBLE);
+                holder.Messanger_Chatting_Point.setBackgroundResource(R.drawable.bgr_messanger_chatting_get);
+                holder.Messanger_Chatting_Point.setTextColor(BLACK);
+                Messanger_ChattingPoint.addRule(RelativeLayout.RIGHT_OF, R.id.Messanger_Chatting_Picture);
+                Messanger_ChattingDate.addRule(RelativeLayout.RIGHT_OF, R.id.Messanger_Chatting_Point);
+                if(!messanger_Chatting_Arraylist.get(position).isCompleted()) {
+                    holder.Messanger_Chatting_Point.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(mContext, customDialog_PointSend.class);
+                            i.putExtra("mentorID", SaveSharedPreference.getUserId(mContext));
+                            i.putExtra("menteeID", messanger_Chatting_Arraylist.get(position).getTargetID());
+                            i.putExtra("isMentor", true);
+
+                            mContext.startActivity(i);
+                        }
+                    });
+                }
+            }else {
+                holder.Messanger_Chatting_Txt.setVisibility(View.VISIBLE);
+                holder.Messanger_Chatting_Point.setVisibility(View.GONE);
+
+                holder.Messanger_Chatting_Txt.setBackgroundResource(R.drawable.bgr_messanger_chatting_get);
+                holder.Messanger_Chatting_Txt.setTextColor(BLACK);
+                Messanger_ChattingTxt.addRule(RelativeLayout.RIGHT_OF, R.id.Messanger_Chatting_Picture);
+                Messanger_ChattingDate.addRule(RelativeLayout.RIGHT_OF, R.id.Messanger_Chatting_Txt);
+            }
         }else{
             holder.Messanger_Chatting_Picture.setVisibility(View.GONE);
-            holder.Messanger_Chatting_Txt.setBackgroundResource(R.drawable.bgr_messanger_chatting_send);
-            holder.Messanger_Chatting_Txt.setTextColor(WHITE);
-            Messanger_ChattingTxt.addRule( RelativeLayout.ALIGN_PARENT_RIGHT);
-            Messanger_ChattingDate.addRule(RelativeLayout.LEFT_OF, R.id.Messanger_Chatting_Txt);
+
+            if(messanger_Chatting_Arraylist.get(position).isPointSend()){
+                holder.Messanger_Chatting_Txt.setVisibility(View.GONE);
+                holder.Messanger_Chatting_Point.setVisibility(View.VISIBLE);
+                holder.Messanger_Chatting_Point.setBackgroundResource(R.drawable.bgr_messanger_chatting_send);
+                holder.Messanger_Chatting_Point.setTextColor(WHITE);
+                Messanger_ChattingPoint.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                Messanger_ChattingDate.addRule(RelativeLayout.LEFT_OF, R.id.Messanger_Chatting_Point);
+
+            }else {
+                holder.Messanger_Chatting_Txt.setVisibility(View.VISIBLE);
+                holder.Messanger_Chatting_Point.setVisibility(View.GONE);
+                holder.Messanger_Chatting_Txt.setBackgroundResource(R.drawable.bgr_messanger_chatting_send);
+                holder.Messanger_Chatting_Txt.setTextColor(WHITE);
+                Messanger_ChattingTxt.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                Messanger_ChattingDate.addRule(RelativeLayout.LEFT_OF, R.id.Messanger_Chatting_Txt);
+            }
         }
 
         if(messanger_Chatting_Arraylist.get(position).isPicture())
@@ -188,6 +233,7 @@ public class Adapter extends BaseAdapter {
         ImageView Messanger_Chatting_Picture;
         LinearLayout Messanger_Chatting_DateLine;
         TextView Messanger_Chatting_Txt;
+        TextView Messanger_Chatting_Point;
         TextView Messanger_Chatting_Date;
         TextView Messanger_Chatting_Date_String;
     }
