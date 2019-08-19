@@ -20,10 +20,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -34,6 +38,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import accepted.talentplanet_renewal2.Profile.customDialog_PointSend;
 
@@ -78,6 +84,8 @@ public class SaveSharedPreference{
     public static final String WIFI_STATE = "WIFI";
     public static final String MOBILE_STATE = "MOBILE";
     public static final String NONE_STATE = "NONE";
+
+
 
     public static final String CONNECTION_CONFIRM_CLIENT_URL = "http://clients3.google.com/generate_204";
 

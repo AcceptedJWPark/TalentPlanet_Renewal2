@@ -82,12 +82,11 @@
         android:id="@+id/et_edit_talent"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:hint="이곳에 텍스트를 입력하세요."
-        android:textSize="14dp"
-        android:gravity="left|top"
         android:background="#fff"
+        android:gravity="left|top"
+        android:hint="이곳에 텍스트를 입력하세요."
         android:padding="10dp"
-        />
+        android:textSize="14dp" />
     
     <!--<RelativeLayout-->
         <!--android:layout_width="match_parent"-->

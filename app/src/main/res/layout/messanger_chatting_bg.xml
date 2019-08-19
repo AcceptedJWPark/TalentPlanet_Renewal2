@@ -11,7 +11,7 @@
     android:clickable="true"
     android:focusableInTouchMode="true"
     android:focusable="true"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
 
@@ -63,17 +63,17 @@
     android:paddingBottom="5dp"
     >
 
-        <ImageView
-            android:id="@+id/Messanger_Chatting_Picture"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:adjustViewBounds="false"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:scaleType="fitXY"
-            android:visibility="invisible"
-            />
-
+    <ImageView
+        android:id="@+id/Messanger_Chatting_Picture"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="4dp"
+        android:adjustViewBounds="false"
+        android:gravity="center"
+        android:scaleType="fitXY"
+        android:visibility="invisible"
+        />
 
     <!--maxwidth를 디스플레이 가로 구해서 적용하기.-->
 

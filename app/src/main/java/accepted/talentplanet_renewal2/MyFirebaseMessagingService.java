@@ -422,7 +422,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     } else {
                         alarmType = "Message";
                         alarmTxt = "새로운 메세지가 도착했습니다.";
-                        intent1 = new Intent(this, MainActivity.class);
+                        intent1 = new Intent(this, accepted.talentplanet_renewal2.Messanger.List.MainActivity.class);
+//                        intent1.putExtra("userID", );
+//                        intent1.putExtra("roomID", );
                         intent1.putExtra("alarmType", "Message");
                     }
                 }

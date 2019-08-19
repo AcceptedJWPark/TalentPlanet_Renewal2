@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.VolleySingleton;
@@ -210,7 +211,7 @@ public class Adapter extends BaseAdapter {
         }
 
         if(messanger_Arraylist.get(position).getFilePath().equals("NODATA")) {
-            holder.messsanger_Pic.setBackgroundResource(messanger_Arraylist.get(position).getMesssanger_Pic());
+//            holder.messsanger_Pic.setBackgroundResource(messanger_Arraylist.get(position).getMesssanger_Pic());
         }
         else
         {
@@ -263,38 +264,33 @@ public class Adapter extends BaseAdapter {
                     final AlertDialog.Builder AlarmDeleteDialog = new AlertDialog.Builder(new ContextThemeWrapper(mContext, R.style.myDialog));
 
                     AlarmDeleteDialog.setMessage("상대방 프로필 보기")
-                            .setPositiveButton("관심 재능", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Teacher", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(takeTalentID == -1){
-                                        Toast.makeText(mContext,"상대방의 관심 재능이 등록되지 않았습니다.",Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        //TO-DO : 프로필 열기
-//                                        Intent intent = new Intent(mContext, com.accepted.acceptedtalentplanet.TalentSharing.Popup.MainActivity.class);
-//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        intent.putExtra("TalentID", String.valueOf(takeTalentID));
-//                                        intent.putExtra("TalentFlag", "Take");
-//                                        mContext.startActivity(intent);
-                                    }
+                                    Intent intent = new Intent(mContext, MainActivity_Profile.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("userID", userID);
+                                    intent.putExtra("fromFriend", true);
+                                    intent.putExtra("isMentor", true);
+                                    mContext.startActivity(intent);
+
                                     dialog.cancel();
                                 }
                             })
-                            .setNegativeButton("재능 드림", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("Student", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(giveTalentID == -1){
-                                        Toast.makeText(mContext,"상대방의 재능 드림이 등록되지 않았습니다.",Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        Intent intent = new Intent(mContext, MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        intent.putExtra("TalentID", String.valueOf(giveTalentID));
-                                        intent.putExtra("TalentFlag", "Give");
-                                        mContext.startActivity(intent);
-                                    }
+                                    Intent intent = new Intent(mContext, MainActivity_Profile.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("userID", userID);
+                                    intent.putExtra("fromFriend", true);
+                                    intent.putExtra("isMentor", false);
+                                    mContext.startActivity(intent);
+
                                     dialog.cancel();
                                 }
                             })
-                            .setNeutralButton("닫기", new DialogInterface.OnClickListener() {
+                            .setNeutralButton("신고하기", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();

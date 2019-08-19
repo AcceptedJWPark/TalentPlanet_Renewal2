@@ -46,11 +46,11 @@
     </Spinner>
 
     <ImageView
-        android:id="@+id/img_addfriend_toolbarprofile"
+        android:id="@+id/iv_share_profile"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:tint="#fff"
-        android:src="@drawable/icon_addfriend"
+        android:src="@drawable/icon_share"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"

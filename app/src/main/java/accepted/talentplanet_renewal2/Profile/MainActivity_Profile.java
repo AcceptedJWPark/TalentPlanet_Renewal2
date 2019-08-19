@@ -110,6 +110,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     String messageUserID;
     String messageUserName;
 
+    private double Lat;
+    private double Lng;
+
     RecyclerView lv_mentor_profile;
     RecyclerView lv_mentee_profile;
     private ArrayList<ItemData_Profile> userDate = new ArrayList<>();
@@ -172,6 +175,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     //프로필 수정 다이얼로그
     customDialog_Profile cd_profile;
     customDialog_PointSend cd_PointSend;
+    customDialog_Description cd_Description;
 
     SpinnerAdapter_Talent adapter_talent;
 
@@ -254,11 +258,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         tv_toolbarprofle = findViewById(R.id.tv_toolbarprofle);
 
         if (intent.getStringExtra("userName") != null) {
-            ((TextView)findViewById(R.id.tv_name_profile)).setText(intent.getStringExtra("userName"));
-            ((TextView)findViewById(R.id.tv_birth_profile)).setText(intent.getStringExtra("userInfo").replaceAll("-", "\\."));
-            ((TextView)findViewById(R.id.tv_profile_description)).setText(intent.getStringExtra("userDescription"));
             cateCode = intent.getStringExtra("cateCode");
-            targetUserID = intent.getStringExtra("targetUserID");
+            targetUserID = intent.getStringExtra("userID");
             messageUserID = targetUserID;
             messageUserName = intent.getStringExtra("userName");
             messageFilePath = intent.getStringExtra("FILE_PATH");
@@ -335,7 +336,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
 //asdf
             ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(View.GONE);
-            ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
 
             ((ImageView)findViewById(R.id.iv_edittalent_profile)).setColorFilter(Color.parseColor("#ffffff"));
@@ -392,120 +392,20 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
         } else {
-            ((TextView)findViewById(R.id.tv_isteacher_profile)).setVisibility(VISIBLE);
-            ((RelativeLayout) findViewById(R.id.rl_edittalent_profile)).setVisibility(View.GONE);
-            ((RelativeLayout) findViewById(R.id.rl_deltalent_profile)).setVisibility(View.GONE);
-
-            String gender = intent.getStringExtra("userGender");
-            if (gender.equals("남")) {
-                img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
-            } else {
-                img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
-            }
-
-            ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addFriend();
-                }
-            });
-
             userID = intent.getStringExtra("userID");
 
-            // 주소 관련
-            final double Lat = intent.getDoubleExtra("GP_LAT",0);
-            final double Lng = intent.getDoubleExtra("GP_LNG",0);
-            //  타유저의 프로필에서 주소 표시를 위한 geocoder
-            if (Lat != 0.0 && Lng != 0.0) {
-                final Geocoder geocoder = new Geocoder(mContext);
-                try {
-                    List<Address> list = geocoder.getFromLocation(Lat,Lng,10);
-                    if (list.size()==0) {
-                        ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
-                    } else {
-                        String[] addr = list.get(0).getAddressLine(0).split(" ");
+            boolean fromFriend = intent.getBooleanExtra("fromFriend",false);
 
-                        ((TextView)findViewById(R.id.tv_addr_profile)).setText(addr[1]+" "+addr[2]+" "+addr[3]);
-
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
+            if (fromFriend) {
+                boolean isMentor = intent.getBooleanExtra("isMentor",false);
+                if (isMentor) {
+                    mode = "N";
+                } else {
+                    mode = "Y";
                 }
-            } else {
-                ((TextView)findViewById(R.id.tv_addr_profile)).setText("위치 정보 없음");
             }
 
-            String byListGender = intent.getStringExtra("userGender");
-            //포인트 지급
-            cd_PointSend = new customDialog_PointSend(this, mode, userID, byListGender, intent);
-            WindowManager.LayoutParams wm2 = cd_PointSend.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
-            wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
-            wm2.width = (int) (width / 1.1);
-            wm2.height = (int) (height / 1.1);
-            ((ImageView)findViewById(R.id.iv_share_profile)).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    cd_PointSend.show();
-                }
-            });
-
-            // 타 유저의 공개여부에 맞게
-            String birthFlag = intent.getStringExtra("BIRTH_FLAG");
-            checkUserOpenData(birthFlag);
-
-            // 자신이 타유저를 볼때 반전되는 플래그
-            if (mode.equals("Y")) {
-                mode = "N";
-            } else {
-                mode = "Y";
-            }
-
-            iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
-
-            ((ImageView)findViewById(R.id.iv_message_profile)).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int roomID = SaveSharedPreference.makeChatRoom(mContext, messageUserID, messageUserName, messageFilePath);
-                    if (roomID < 0) {
-                        return;
-                    }
-                    Intent i = new Intent(mContext, accepted.talentplanet_renewal2.Messanger.Chatting.MainActivity.class);
-                    i.putExtra("userID", messageUserID);
-                    i.putExtra("roomID", roomID);
-                    i.putExtra("userName", messageUserName);
-                    startActivity(i);
-                    finish();
-                }
-            });
-
-            String imgResource = intent.getStringExtra("S_FILE_PATH");
-            final String bigImg = intent.getStringExtra("FILE_PATH");
-
-            if (!imgResource.equals("NODATA")) {
-                Glide.with(mContext).load(SaveSharedPreference.getImageUri() + imgResource).into(iv_cimg_pic_profile);
-                // 타인의 프로필을 볼 경우 전체화면 식으로
-                iv_cimg_pic_profile.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mContext, ImageActivity.class);
-                        intent.putExtra("bigImg", bigImg);
-                        startActivity(intent);
-                    }
-                });
-            }
-
-            // 타인이 자신의 주소를 볼경우
-            ((TextView)findViewById(R.id.tv_addr_profile)).setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, MapsActivity.class);
-                    intent.putExtra("GP_LAT", Lat);
-                    intent.putExtra("GP_LNG", Lng);
-                    intent.putExtra("isUser", true);
-                    startActivityForResult(intent, 2030);
-                }
-            });
+            getProfileData(intent);
         }
 
 
@@ -570,11 +470,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             final int finalI = i;
             view_Estimate[i].setBackgroundColor(colorGradient[i]);
         }
-
-
-
-
-
 
         // 지도
         // 07/18 11:32
@@ -681,6 +576,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         ImageView img_mappointer = findViewById(R.id.img_mappointer);
         ImageView iv_message_profile = findViewById(R.id.iv_message_profile);
         ImageView iv_share_profile = findViewById(R.id.iv_share_profile);
+        ImageView img_addfriend_toolbarprofile = findViewById(R.id.img_addfriend_toolbarprofile);
+
 
         String white = "#ffffff";
 
@@ -693,74 +590,182 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         img_gender_profile.setColorFilter(getResources().getColor(R.color.color_mentee));
         img_mappointer.setColorFilter(getResources().getColor(R.color.color_mentee));
         iv_message_profile.setColorFilter(getResources().getColor(R.color.color_mentee));
-        iv_share_profile.setColorFilter(getResources().getColor(R.color.color_mentee));
+        img_addfriend_toolbarprofile.setColorFilter(getResources().getColor(R.color.color_mentee));
     }
 
-//    private void getProfileData(){
-//        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
-//
-//        StringRequest stringRequest = new StringRequest(
-//                Request.Method.POST,
-//                SaveSharedPreference.getServerIp() + "Profile/getMyProfileInfo_new.do",
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            final JSONObject profileData = new JSONObject(response);
-//                            tv_profile_description.setText(SaveSharedPreference.getPrefUserDescription(mContext));
-//
-//                            tv_birth_profile.setText(SaveSharedPreference.getPrefUserBirth(mContext));
-//
-//                            Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-//
-//                            mCurrentLocation = new Location("");
-//                            mCurrentLocation.setLatitude(Double.parseDouble(SaveSharedPreference.getPrefUserGpLat(mContext)));
-//                            mCurrentLocation.setLongitude(Double.parseDouble(SaveSharedPreference.getPrefUserGpLng(mContext)));
-//
-//                            List<Address> list = null;
-//                            try{
-//                                list = geocoder.getFromLocation(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude() , 1);
-//                            }catch (Exception e){
-//                                e.printStackTrace();
-//                            }
-//
-//                            if(list == null){
-//                                Log.d("주소찾기", "실패");
-//                            }else if(list.size() > 0){
-//                                Address addr = list.get(0);
-//
-//                                Log.d("MyLocation", "location: " + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude() + ", " + addr.getAddressLine(0) + "," + addr.toString());
-//                                setCurrentLocation(mCurrentLocation,"기존위치" , addr.getAddressLine(0));
-//                            }
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        String gender = SaveSharedPreference.getPrefUserGender(mContext);
-//                        if (gender.equals("남")) {
-//                            img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
-//                        } else {
-//                            img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
-//            }
-//        }){
-//            @Override
-//            public Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<>();
-//                params.put("userID", targetUserID);
-//                return params;
-//            }
-//        };
-//
-//        // Add StringRequest to the RequestQueue
-//        requestQueue.add(stringRequest);
-//    }
+    private void getProfileData(final Intent intent){
+        final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                SaveSharedPreference.getServerIp() + "Profile/getMyProfileInfo_new.do",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            final JSONObject profileData = new JSONObject(response);
+
+                            DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
+                            double width = dm.widthPixels; //디바이스 화면 너비
+                            double height = dm.heightPixels; //디바이스 화면 높이
+
+                            String strLat = "";
+                            String strLng = "";
+                            if (profileData.has("GP_LAT")) {
+                                strLat = (String) profileData.get("GP_LAT");
+                                Lat = Double.parseDouble(strLat);
+                            }
+                            if (profileData.has("GP_LNG")) {
+                                strLng = (String) profileData.get("GP_LNG");
+                                Lng = Double.parseDouble(strLng);
+                        }
+
+                        final String bigImg = (String) profileData.get("FILE_PATH");
+
+                        String userName = (String) profileData.get("USER_NAME");
+                        String gender = (String) profileData.get("GENDER");
+                        String birthFlag = (String) profileData.get("BIRTH_FLAG");
+                        String imgResource = (String ) profileData.get("S_FILE_PATH");
+                        String userInfo = (String) profileData.get("USER_BIRTH");
+                        String userDescription = (String) profileData.get("PROFILE_DESCRIPTION");
+
+                        intent.putExtra("userGender", gender);
+                        intent.putExtra("BIRTH_FLAG", birthFlag);
+                        intent.putExtra("userInfo", userInfo);
+
+                        ((TextView)findViewById(R.id.tv_name_profile)).setText(userName);
+                        ((TextView)findViewById(R.id.tv_birth_profile)).setText(userInfo.replaceAll("-", "\\."));
+                        ((TextView)findViewById(R.id.tv_profile_description)).setText(userDescription);
+
+                        ((TextView)findViewById(R.id.tv_isteacher_profile)).setVisibility(VISIBLE);
+                        ((RelativeLayout) findViewById(R.id.rl_edittalent_profile)).setVisibility(View.GONE);
+                        ((RelativeLayout) findViewById(R.id.rl_deltalent_profile)).setVisibility(View.GONE);
+
+                        if (gender.equals("남")) {
+                            img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
+                        } else {
+                            img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
+                        }
+
+                        ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                addFriend();
+                            }
+                        });
+
+                        //  타유저의 프로필에서 주소 표시를 위한 geocoder
+                        if (Lat != 0.0 && Lng != 0.0) {
+                            final Geocoder geocoder = new Geocoder(mContext);
+                            try {
+                                List<Address> list = geocoder.getFromLocation(Lat,Lng,10);
+                                if (list.size()==0) {
+                                    ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
+                                } else {
+                                    String[] addr = list.get(0).getAddressLine(0).split(" ");
+
+                                    ((TextView)findViewById(R.id.tv_addr_profile)).setText(addr[1]+" "+addr[2]+" "+addr[3]);
+
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
+                            }
+                        } else {
+                            ((TextView)findViewById(R.id.tv_addr_profile)).setText("위치 정보 없음");
+                        }
+
+                        //포인트 지급
+                        mode = SaveSharedPreference.getPrefTalentFlag(mContext);
+                        cd_PointSend = new customDialog_PointSend(MainActivity_Profile.this, mode, userID, gender, intent);
+                        WindowManager.LayoutParams wm2 = cd_PointSend.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
+                        wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
+                        wm2.width = (int) (width / 1.1);
+                        wm2.height = (int) (height / 1.1);
+                        ((ImageView)findViewById(R.id.iv_share_profile)).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                cd_PointSend.show();
+                            }
+                        });
+
+                        // 타 유저의 공개여부에 맞게
+                        checkUserOpenData(birthFlag);
+
+                        // 자신이 타유저를 볼때 반전되는 플래그
+                        if (mode.equals("Y")) {
+                            mode = "N";
+                        } else {
+                            mode = "Y";
+                        }
+
+                        iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
+
+                        ((ImageView)findViewById(R.id.iv_message_profile)).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int roomID = SaveSharedPreference.makeChatRoom(mContext, messageUserID, messageUserName, messageFilePath);
+                                if (roomID < 0) {
+                                    return;
+                                }
+                                Intent i = new Intent(mContext, accepted.talentplanet_renewal2.Messanger.Chatting.MainActivity.class);
+                                i.putExtra("userID", messageUserID);
+                                i.putExtra("roomID", roomID);
+                                i.putExtra("userName", messageUserName);
+                                startActivity(i);
+                                finish();
+                            }
+                        });
+
+
+
+                        if (!imgResource.equals("NODATA")) {
+                            Glide.with(mContext).load(SaveSharedPreference.getImageUri() + imgResource).into(iv_cimg_pic_profile);
+                            // 타인의 프로필을 볼 경우 전체화면 식으로
+                            iv_cimg_pic_profile.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(mContext, ImageActivity.class);
+                                    intent.putExtra("bigImg", bigImg);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+
+                        // 타인이 자신의 주소를 볼경우
+                        ((TextView)findViewById(R.id.tv_addr_profile)).setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(mContext, MapsActivity.class);
+                                intent.putExtra("GP_LAT", Lat);
+                                intent.putExtra("GP_LNG", Lng);
+                                intent.putExtra("isUser", true);
+                                startActivityForResult(intent, 2030);
+                            }
+                        });
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(this.getClass().getName(), "test 1 [error]: " +error);
+            }
+        }){
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("userID", userID);
+                return params;
+            }
+        };
+
+        // Add StringRequest to the RequestQueue
+        requestQueue.add(stringRequest);
+    }
+
     public void getAllTalent(final String talentFlag) {
         final RequestQueue requestQueue = Volley.newRequestQueue(mContext);
 
@@ -962,17 +967,15 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             public Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 String flag = "";
-//                if (talentFlag.equals("Y")) {
-//                    flag = "N";
-//                } else if (talentFlag.equals("N")) {
-//                    flag = "Y";
-//                }
+                if (talentFlag.equals("Y")) {
+                    flag = "N";
+                } else if (talentFlag.equals("N")) {
+                    flag = "Y";
+                }
 
-//                if (inPerson) {
-//                    flag = talentFlag;
-//                }
-
-                flag = talentFlag;
+                if (inPerson) {
+                    flag = talentFlag;
+                }
                 params.put("UserID", userID);
                 params.put("CheckUserID", SaveSharedPreference.getUserId(mContext));
                 params.put("TalentFlag", flag);
@@ -1598,66 +1601,10 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     }
 
     public void updateMyProfileInfo(){
+        String text = ((TextView) findViewById(R.id.tv_profile_description)).getText().toString();
 
-        AlertDialog.Builder ad = new AlertDialog.Builder(MainActivity_Profile.this);
-        ad.setTitle("자기소개 변경");
-        ad.setTitle("변경할 내용을 입력해 주세요.");
-
-        final EditText et = new EditText(MainActivity_Profile.this);
-        et.setText(SaveSharedPreference.getPrefUserDescription(mContext));
-        ad.setView(et);
-
-        ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(final DialogInterface dialog, int which) {
-                RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
-                StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Profile/updateMyProfileInfo.do", new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response){
-                        try {
-                            JSONObject obj = new JSONObject(response);
-                            if(obj.getString("result").equals("success")){
-                                SaveSharedPreference.setPrefUserDescription(mContext, et.getText().toString());
-                                Toast.makeText(mContext, "프로필 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-
-                                String desctipt = SaveSharedPreference.getPrefUserDescription(mContext);
-
-                                if (desctipt.equals("")) {
-                                    ((TextView)findViewById(R.id.tv_profile_description)).setText("터치해서 자기소개를 입력해보세요.");
-                                    ((TextView)findViewById(R.id.tv_profile_description)).setBackgroundResource(R.drawable.white_dash_line);
-                                } else  {
-                                    ((TextView)findViewById(R.id.tv_profile_description)).setText(desctipt);
-                                    ((TextView)findViewById(R.id.tv_profile_description)).setBackgroundResource(0);
-                                }
-
-                                dialog.dismiss();
-                            }
-                        }
-                        catch(JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                }, SaveSharedPreference.getErrorListener(mContext)) {
-                    @Override
-                    protected Map<String, String> getParams(){
-                        Map<String, String> params = new HashMap();
-                        params.put("userID", SaveSharedPreference.getUserId(mContext));
-                        params.put("PROFILE_DESCRIPTION", et.getText().toString());
-                        return params;
-                    }
-                };
-
-                postRequestQueue.add(postJsonRequest);
-            }
-        });
-        ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        ad.show();
+        cd_Description = new customDialog_Description(MainActivity_Profile.this, text);
+        cd_Description.show();
     }
 
     public void updateMyLocation(final String lat, final String lng){
