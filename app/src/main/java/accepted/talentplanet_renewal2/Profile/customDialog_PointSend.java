@@ -110,7 +110,7 @@ public class customDialog_PointSend extends Dialog {
 
 
         if (isMentor.equals("Y")) {
-            MessageID = intent.getStringExtra("MessageID");
+            MessageID = String.valueOf(intent.getIntExtra("MessageID", 0));
 
             ll_pointsendbg_popup.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentor));
 
@@ -272,6 +272,7 @@ public class customDialog_PointSend extends Dialog {
                 params.put("user", SaveSharedPreference.getUserId(mContext));
                 params.put("isMentor", isMentor);
                 params.put("Score", String.valueOf(score));
+                Log.d("params : ", params.toString());
                 return params;
             }
         };
