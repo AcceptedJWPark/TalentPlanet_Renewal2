@@ -620,7 +620,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, obj.getString("S_FILE_PATH"));
 
             int roomID = SaveSharedPreference.makeChatRoom(mContext, obj.getString("USER_ID"), obj.getString("USER_NAME"), obj.getString("S_FILE_PATH"));
-            sqLiteDatabase.execSQL("INSERT OR REPLACE INTO TB_CHAT_LOG(MESSAGE_ID, ROOM_ID, MASTER_ID, USER_ID, CONTENT, CREATION_DATE, READED_FLAG) VALUES (" + obj.getString("MESSAGE_ID") + ", " + roomID + ",'" + SaveSharedPreference.getUserId(mContext) + "' , '" + obj.getString("USER_ID") + "','" + obj.getString("CONTENT").replace("'", "''") + "','" + obj.getString("CREATION_DATE_STRING") + "', 'N')");
+            sqLiteDatabase.execSQL("INSERT OR REPLACE INTO TB_CHAT_LOG(MESSAGE_ID, ROOM_ID, MASTER_ID, USER_ID, CONTENT, CREATION_DATE, READED_FLAG, POINT_MSG_FLAG) VALUES (" + obj.getString("MESSAGE_ID") + ", " + roomID + ",'" + SaveSharedPreference.getUserId(mContext) + "' , '" + obj.getString("USER_ID") + "','" + obj.getString("CONTENT").replace("'", "''") + "','" + obj.getString("CREATION_DATE_STRING") + "', 'N', '" + obj.getString("POINT_MSG_FLAG") + "')");
             sqLiteDatabase.close();
         }catch(Exception e){
             e.printStackTrace();

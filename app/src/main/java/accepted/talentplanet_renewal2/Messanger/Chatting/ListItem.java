@@ -6,6 +6,7 @@ package accepted.talentplanet_renewal2.Messanger.Chatting;
 
 public class ListItem {
 
+    private int messageID;
     private int picture;
     private String message;
     private String date;
@@ -115,5 +116,13 @@ public class ListItem {
 
     public void setCompleted(boolean completed) {
         isCompleted = completed;
+    }
+
+    public int getMessageID() {
+        return messageID;
+    }
+
+    public void setMessageID(int messageID) {
+        this.messageID = messageID;
     }
 }

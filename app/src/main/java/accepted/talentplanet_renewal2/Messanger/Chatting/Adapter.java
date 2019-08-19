@@ -142,12 +142,13 @@ public class Adapter extends BaseAdapter {
                     holder.Messanger_Chatting_Point.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent i = new Intent(mContext, customDialog_PointSend.class);
-                            i.putExtra("mentorID", SaveSharedPreference.getUserId(mContext));
-                            i.putExtra("menteeID", messanger_Chatting_Arraylist.get(position).getTargetID());
-                            i.putExtra("isMentor", true);
-
-                            mContext.startActivity(i);
+                            Intent i = new Intent();
+                            i.putExtra("S_FILE_PATH", filePath);
+                            i.putExtra("userGender", "남");
+                            i.putExtra("userName", messanger_Chatting_Arraylist.get(position).getTargetName());
+                            i.putExtra("BIRTH_FLAG", "Y");
+                            i.putExtra("MessageID", messanger_Chatting_Arraylist.get(position).getMessageID());
+                            SaveSharedPreference.showCustomDialog(mContext, SaveSharedPreference.getUserId(mContext), messanger_Chatting_Arraylist.get(position).getTargetID(), "Y", i);
                         }
                     });
                 }

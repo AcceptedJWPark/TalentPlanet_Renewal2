@@ -3,6 +3,7 @@ package accepted.talentplanet_renewal2.Profile;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
@@ -24,8 +25,11 @@ import com.bumptech.glide.Glide;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.R;
@@ -62,6 +66,13 @@ public class customDialog_PointSend extends Dialog {
     Context mContext;
 
     private int score;
+    private String MessageID;
+    private String userName;
+    private String imgResource;
+    private TimeZone time= TimeZone.getTimeZone("Asia/Seoul");
+    public SQLiteDatabase sqliteDatabase = null;
+    String dbName = "/accepted.db";
+
 
     // 파라미터로 받아야할 값들
     private String isMentor;
@@ -88,7 +99,7 @@ public class customDialog_PointSend extends Dialog {
         tv_userdescript_popup = findViewById(R.id.tv_userdescript_popup);
 
         // User Profile Image
-        String imgResource = intent.getStringExtra("S_FILE_PATH");
+        imgResource = intent.getStringExtra("S_FILE_PATH");
         if (imgResource != null && !imgResource.equals("")) {
             Glide.with(mContext).load(SaveSharedPreference.getImageUri() + imgResource).into(civ_user_profile);
         }
@@ -97,7 +108,10 @@ public class customDialog_PointSend extends Dialog {
             Glide.with(mContext).load(mContext.getResources().getDrawable(R.drawable.icon_female)).into((ImageView) findViewById(R.id.iv_gendericon_popup));
         }
 
+
         if (isMentor.equals("Y")) {
+            MessageID = intent.getStringExtra("MessageID");
+
             ll_pointsendbg_popup.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentor));
 
             iv_icon1_popup = findViewById(R.id.iv_icon1_popup);
@@ -132,7 +146,7 @@ public class customDialog_PointSend extends Dialog {
         }
 
         // 상대방의 아이디
-        String userName = intent.getStringExtra("userName");
+        userName = intent.getStringExtra("userName");
         tv_username_popup.setText(userName);
 
         if (intent.getStringExtra("BIRTH_FLAG").equals("N")) {
@@ -223,8 +237,17 @@ public class customDialog_PointSend extends Dialog {
 
                         if (isMentor.equals("Y")) {
                             userPoint = SaveSharedPreference.getTalentPoint(mContext) + 1;
+                            sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(mContext.getFilesDir() + dbName, null);
+                            sqliteDatabase.execSQL("UPDATE TB_CHAT_LOG SET POINT_SEND_FLAG = '1' WHERE MESSAGE_ID = '" + MessageID + "'");
                         } else if (isMentor.equals("N")) {
                             userPoint = SaveSharedPreference.getTalentPoint(mContext) - 1;
+                            int roomID = SaveSharedPreference.makeChatRoom(mContext, mentorID, userName, imgResource);
+                            final Date date = new Date();
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd,a hh:mm:ss");
+                            simpleDateFormat.setTimeZone(time);
+                            final String nowDateStr = simpleDateFormat.format(date);
+                            sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(mContext.getFilesDir() + dbName, null);
+                            sqliteDatabase.execSQL("INSERT INTO TB_CHAT_LOG(MESSAGE_ID, ROOM_ID, MASTER_ID, USER_ID, CONTENT, CREATION_DATE, POINT_MSG_FLAG) VALUES (" + obj.getString("MESSAGE_ID") + ","+roomID+" ,'" + SaveSharedPreference.getUserId(mContext) + "', '"+SaveSharedPreference.getUserId(mContext)+"','포인트 보내기','"+nowDateStr+"', '1')");
                         }
 
                         SaveSharedPreference.setPrefTalentPoint(mContext, userPoint);
