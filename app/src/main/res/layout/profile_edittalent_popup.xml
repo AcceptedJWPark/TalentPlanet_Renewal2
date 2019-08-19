@@ -22,11 +22,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:text="취소"
-            android:textSize="16dp"
-            android:textStyle="bold"
             android:textColor="#fff"
-            />
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -55,17 +55,29 @@
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/tv_save_edittalent_popup"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="저장"
-            android:textStyle="bold"
-            android:textSize="16dp"
-            android:textColor="#fff"
+            >
+            <TextView
+                android:id="@+id/tv_save_edittalent_popup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="저장"
+                android:textColor="#fff"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_profileclose_popup"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/icon_close"
+                android:visibility="gone"
             />
+        </LinearLayout>
 
 
     </RelativeLayout>
@@ -87,7 +99,17 @@
         android:hint="이곳에 텍스트를 입력하세요."
         android:padding="10dp"
         android:textSize="14dp" />
-    
+
+    <TextView
+        android:id="@+id/tv_userdescript_talent"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="#fff"
+        android:gravity="left|top"
+        android:padding="10dp"
+        android:textSize="14dp"
+        android:visibility="gone"
+        />
     <!--<RelativeLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="@dimen/Height40dp"-->

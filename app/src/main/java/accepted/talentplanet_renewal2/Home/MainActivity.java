@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + dbName, null);
         Log.d("db path = ", getFilesDir() + dbName);
 
-        MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(mContext, getFilesDir() + dbName, null, 4);
+        MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(mContext, getFilesDir() + dbName, null, 5);
         sqliteDatabase = dbHelper.getReadableDatabase();
 
         String sqlCreateTbl2 = "CREATE TABLE IF NOT EXISTS TB_CHAT_ROOM (ROOM_ID INTEGER, USER_ID TEXT, USER_NAME TEXT, MASTER_ID TEXT, START_MESSAGE_ID INTEGER, CREATION_DATE TEXT, LAST_UPDATE_DATE TEXT, ACTIVATE_FLAG TEXT, FILE_PATH TEXT, PRIMARY KEY(ROOM_ID, USER_ID, MASTER_ID))";
@@ -266,6 +266,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MainActivity_AddCategory.class);
+                startActivity(intent);
+            }
+        });
+
+        ((ImageView)findViewById(R.id.img_bgr_home)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.closeDrawers();
+                Intent intent = new Intent(mContext, MainActivity_TalentAdd.class);
                 startActivity(intent);
             }
         });

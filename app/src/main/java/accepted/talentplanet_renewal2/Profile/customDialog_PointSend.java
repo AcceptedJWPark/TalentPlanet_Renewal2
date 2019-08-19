@@ -100,7 +100,7 @@ public class customDialog_PointSend extends Dialog {
 
         // User Profile Image
         imgResource = intent.getStringExtra("S_FILE_PATH");
-        if (imgResource != null && !imgResource.equals("")) {
+        if (imgResource != null && !imgResource.equals("NODATA")) {
             Glide.with(mContext).load(SaveSharedPreference.getImageUri() + imgResource).into(civ_user_profile);
         }
         // User Gender Icon
@@ -110,7 +110,7 @@ public class customDialog_PointSend extends Dialog {
 
 
         if (isMentor.equals("Y")) {
-            MessageID = intent.getStringExtra("MessageID");
+            MessageID = String.valueOf(intent.getIntExtra("MessageID", 0));
 
             ll_pointsendbg_popup.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentor));
 
@@ -272,6 +272,7 @@ public class customDialog_PointSend extends Dialog {
                 params.put("user", SaveSharedPreference.getUserId(mContext));
                 params.put("isMentor", isMentor);
                 params.put("Score", String.valueOf(score));
+                Log.d("params : ", params.toString());
                 return params;
             }
         };

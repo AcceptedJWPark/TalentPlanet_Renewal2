@@ -77,6 +77,12 @@ public class MainActivity_Search extends AppCompatActivity {
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
             }
+
+            RelativeLayout ll_bar_talentlist = findViewById(R.id.ll_bar_talentlist);
+            TextView tv_listhaed_talentlist = findViewById(R.id.tv_listhaed_talentlist);
+
+            ll_bar_talentlist.setBackgroundColor(getResources().getColor(R.color.color_mentee));
+            tv_listhaed_talentlist.setText("Teacher List");
         }
 
         tv_Choose = findViewById(R.id.tv_toolbar_talentlist);
@@ -144,6 +150,7 @@ public class MainActivity_Search extends AppCompatActivity {
                             aUserData.put("birthFlag", aUser.getString("BIRTH_FLAG"));
                             aUserData.put("tags", aUser.getString("HASHTAG"));
                             aUserData.put("talentName", aUser.getString("TalentName"));
+                            aUserData.put("cateCode", aUser.getString("CateCode"));
                             aUserData.put("PROFILE_DESCRIPTION", aUser.getString("PROFILE_DESCRIPTION") == null ? "" : aUser.getString("PROFILE_DESCRIPTION"));
                             aUserData.put("searchTxt", titleTxt);
                             //
@@ -165,10 +172,12 @@ public class MainActivity_Search extends AppCompatActivity {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent intent = new Intent(MainActivity_Search.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
                                 // 필요한 데이터 추가로 넣기
+                                intent.putExtra("userID", (String) resultArr.get(position).get("userID"));
+                                intent.putExtra("cateCode", (String)resultArr.get(position).get("cateCode"));
+
                                 intent.putExtra("userName", (String)resultArr.get(position).get("userName"));
                                 intent.putExtra("userInfo", (String) resultArr.get(position).get("userBirth"));
                                 intent.putExtra("targetUserID", (String) resultArr.get(position).get("userID"));
-                                intent.putExtra("userID", (String) resultArr.get(position).get("userID"));
                                 intent.putExtra("userGender", (String) resultArr.get(position).get("gender"));
                                 intent.putExtra("userDescription", (String) resultArr.get(position).get("PROFILE_DESCRIPTION"));
                                 intent.putExtra("GP_LAT", (Double) resultArr.get(position).get("GP_LAT"));

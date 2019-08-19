@@ -204,6 +204,7 @@ public class MainActivity_Friend extends AppCompatActivity {
 
                             String userInfo = oData.get(position).strUserInfo;
                             String[] temp = userInfo.split(" / ");
+                            intent.putExtra("userID", oData.get(position).getStrUserID());
                             intent.putExtra("userName", oData.get(position).strUserName);
                             intent.putExtra("userInfo", temp[1]);
                             startActivity(intent);
