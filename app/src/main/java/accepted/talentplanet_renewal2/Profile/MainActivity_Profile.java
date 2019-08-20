@@ -205,6 +205,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         // 받은 값 구현
         Intent intent = new Intent(this.getIntent());
         inPerson = intent.getBooleanExtra("inPerson", false);
+        Log.d("inPerson_Profile", inPerson + "");
         isNewTalent = intent.getBooleanExtra("isNewTalent", false);
         listCateCode = intent.getStringExtra("cateCode");
         userTalentDescript = intent.getStringExtra("userTalentDescription");
@@ -466,16 +467,20 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         // 점수계산된값
         String userPoint = "";
+        Log.d("Profile InPerson", inPerson + "");
         if (inPerson) {
             userPoint = SaveSharedPreference.getPrefUserScore(mContext);
+            Log.d("User POint ", userPoint + "score");
         } else {
             userPoint = intent.getStringExtra("Score") == null ? "" : intent.getStringExtra("Score");
+            Log.d("User POint2 ", userPoint + "score");
         }
 
         if (!userPoint.equals("")) {
             averageScore = Double.parseDouble(userPoint) + 1;
         }
 
+        Log.d("AverageScore", averageScore + "");
         for(int i=0; i<Math.round(averageScore); i++)
         {
             final int finalI = i;
