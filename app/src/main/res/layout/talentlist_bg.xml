@@ -56,13 +56,13 @@
                 android:layout_marginTop="5dp"
                 android:gravity="left|center"
                 >
+
                 <ImageView
                     android:id="@+id/userGender_talentlist"
                     android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/icon_male"
-                    android:tint="@color/color_mentor"
-                    />
+                    android:tint="@color/color_mentor" />
                 <TextView
                     android:id="@+id/userBirth_talentlist"
                     android:layout_width="wrap_content"

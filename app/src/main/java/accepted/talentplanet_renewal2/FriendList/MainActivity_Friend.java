@@ -46,6 +46,7 @@ public class MainActivity_Friend extends AppCompatActivity {
     private ArrayList<String> removeFriendList;
     private StringBuilder strRemoveFriendList;
     ListAdapter_Friend oAdapter;
+    private String localMode;
 
     private Window window;
 
@@ -64,9 +65,8 @@ public class MainActivity_Friend extends AppCompatActivity {
 
         int nDatCnt = 0;
 
-        String mode = SaveSharedPreference.getPrefTalentFlag(mContext);
-
-        chengeMode(mode);
+        localMode = SaveSharedPreference.getPrefTalentFlag(mContext);
+        chengeMode(localMode);
 
         // 뒤로가기 이벤트
         ((ImageView) findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
@@ -81,8 +81,8 @@ public class MainActivity_Friend extends AppCompatActivity {
         ((Button)findViewById(R.id.btn_teahcer_friendlist)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
-                chengeMode(SaveSharedPreference.getPrefTalentFlag(mContext));
+                localMode = "Y";
+                chengeMode(localMode);
                 getFriendList();
             }
         });
@@ -90,8 +90,8 @@ public class MainActivity_Friend extends AppCompatActivity {
         ((Button)findViewById(R.id.btn_student_friendlist)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SaveSharedPreference.setPrefTalentFlag(mContext, "N");
-                chengeMode(SaveSharedPreference.getPrefTalentFlag(mContext));
+                localMode = "N";
+                chengeMode(localMode);
                 getFriendList();
             }
         });
@@ -183,11 +183,11 @@ public class MainActivity_Friend extends AppCompatActivity {
                     JSONArray array = new JSONArray(response);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject obj = array.getJSONObject(i);
-                        String mode = SaveSharedPreference.getPrefTalentFlag(mContext);
+                        String mode = localMode;
                         String isMentor = obj.getString("PARTNER_TALENT_FLAG");
 
                         // 친구리스트에서 모드에 따른 구분
-                        if (mode.equals(isMentor)) {
+                        if (!mode.equals(isMentor)) {
                             ItemData_Friend oItem = new ItemData_Friend();
                             oItem.setStrUserID(obj.getString("USER_ID"));
                             oItem.setStrUserName(obj.getString("USER_NAME"));
@@ -196,6 +196,8 @@ public class MainActivity_Friend extends AppCompatActivity {
                             oItem.setStrIsMentor(isMentor);
                             oItem.setGP_LAT(obj.getString("GP_LAT"));
                             oItem.setGP_LNG(obj.getString("GP_LNG"));
+                            oItem.setS_FILE_PATH(obj.getString("S_FILE_PATH"));
+                            oItem.setBIRTH_FLAG(obj.getString("BIRTH_FLAG"));
                             oData.add(oItem);
                         }
                     }
@@ -209,16 +211,8 @@ public class MainActivity_Friend extends AppCompatActivity {
                     friendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            // 토스트 테스트 성공
-                            //Toast.makeText(MainActivity_Friend.this , oData.get(position).strUserName,Toast.LENGTH_SHORT).show();
-                            // 테스트 데이터 전송
                             Intent intent = new Intent(MainActivity_Friend.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
-
-                            String userInfo = oData.get(position).strUserInfo;
-                            String[] temp = userInfo.split(" / ");
                             intent.putExtra("userID", oData.get(position).getStrUserID());
-//                            intent.putExtra("userName", oData.get(position).getStrUserName());
-//                            intent.putExtra("userInfo", temp[1]);
                             startActivity(intent);
                         }
                     });

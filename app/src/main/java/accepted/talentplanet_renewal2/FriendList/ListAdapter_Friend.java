@@ -6,12 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 
 import java.util.ArrayList;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 public class ListAdapter_Friend extends BaseAdapter {
 
@@ -42,17 +46,52 @@ public class ListAdapter_Friend extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final Context context = parent.getContext();
 
+        ViewHolder holder;
+        convertView = null;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.friend_list_bg, parent, false);
+
+            holder = new ViewHolder();
+            holder.oTextTitle = (TextView) convertView.findViewById(R.id.userName);
+            holder.oTextDate = (TextView) convertView.findViewById(R.id.userInfo);
+            holder.tv_userdistance_friend = (TextView) convertView.findViewById(R.id.tv_userdistance_friend);
+            holder.userBirth_friendlist = (TextView) convertView.findViewById(R.id.userBirth_friendlist);
+            holder.userGender_friendlist = (ImageView) convertView.findViewById(R.id.userGender_friendlist);
+            holder.user_profile= (CircularImageView) convertView.findViewById(R.id.user_profile);
+
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        TextView oTextTitle = (TextView) convertView.findViewById(R.id.userName);
-        TextView oTextDate = (TextView) convertView.findViewById(R.id.userInfo);
-        TextView tv_userdistance_friend = (TextView) convertView.findViewById(R.id.tv_userdistance_friend);
+        holder.oTextTitle.setText(userData.get(position).getStrUserName());
+        holder.oTextDate.setText(userData.get(position).getStrUserInfo());
 
-        oTextTitle.setText(userData.get(position).getStrUserName());
-        oTextDate.setText(userData.get(position).getStrUserInfo());
+        String flag = (String) userData.get(position).getBIRTH_FLAG();
+        if (flag.equals("N")) {
+            holder.userBirth_friendlist.setText(userData.get(position).getStrUserInfo());
+        } else {
+            holder.userBirth_friendlist.setText("비공개");
+        }
+
+
+
+        // 유저의 프로필
+        String userThumb = userData.get(position).getS_FILE_PATH();
+        if (!userThumb.equals("NODATA")) {
+            Glide.with(context).load(SaveSharedPreference.getImageUri() + userThumb).into(holder.user_profile);
+        }
+
+        if (SaveSharedPreference.getPrefTalentFlag(context).equals("N")) {
+            holder.user_profile.setBorderColor(context.getResources().getColor(R.color.color_mentee));
+        }
+
+        String userGender = userData.get(position).getStrUserGender();
+        if (userGender.equals("여")) {
+            holder.userGender_friendlist.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_female));
+        }
 
         // 내 위치 관련
         Location myLocation = new Location("My point");
@@ -81,11 +120,20 @@ public class ListAdapter_Friend extends BaseAdapter {
             String[] intToStr = value.split("\\,");
 
             // 현재 타 유저와의 거리
-            tv_userdistance_friend.setText(String.valueOf(intToStr[0]) + " km");
+            holder.tv_userdistance_friend.setText(String.valueOf(intToStr[0]) + " km");
         } else {
-            tv_userdistance_friend.setText("위치\n정보\n없음");
+            holder.tv_userdistance_friend.setText("위치\n정보\n없음");
         }
 
         return convertView;
+    }
+
+    static class ViewHolder {
+        TextView oTextTitle;
+        TextView oTextDate;
+        TextView tv_userdistance_friend;
+        TextView userBirth_friendlist;
+        ImageView userGender_friendlist;
+        CircularImageView user_profile;
     }
 }

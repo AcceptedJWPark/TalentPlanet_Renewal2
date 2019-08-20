@@ -122,6 +122,11 @@ public class MainActivity_Search extends AppCompatActivity {
             }
         });
 
+        if(getIntent().hasExtra("searchTag")){
+            et_searchbox_search.setText(getIntent().getStringExtra("searchTag"));
+            searchTalentListByHashtag();
+        }
+
     }
 
     private void searchTalentListByHashtag(){
@@ -151,6 +156,7 @@ public class MainActivity_Search extends AppCompatActivity {
                             aUserData.put("tags", aUser.getString("HASHTAG"));
                             aUserData.put("talentName", aUser.getString("TalentName"));
                             aUserData.put("cateCode", aUser.getString("CateCode"));
+                            aUserData.put("S_FILE_PATH", aUser.getString("S_FILE_PATH"));
                             aUserData.put("PROFILE_DESCRIPTION", aUser.getString("PROFILE_DESCRIPTION") == null ? "" : aUser.getString("PROFILE_DESCRIPTION"));
                             aUserData.put("searchTxt", titleTxt);
                             //

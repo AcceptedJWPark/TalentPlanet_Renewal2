@@ -105,7 +105,7 @@ public class customDialog_PointSend extends Dialog {
         }
         // User Gender Icon
         if (intent.getBooleanExtra("inPerson",false) == false && intent.getStringExtra("userGender").equals("여")) {
-            Glide.with(mContext).load(mContext.getResources().getDrawable(R.drawable.icon_female)).into((ImageView) findViewById(R.id.iv_gendericon_popup));
+            iv_gendericon_popup.setBackgroundResource(R.drawable.icon_female);
         }
 
 

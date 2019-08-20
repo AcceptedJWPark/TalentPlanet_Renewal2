@@ -8,6 +8,8 @@ public class ItemData_Friend {
     public String strUserGender;
     public String GP_LAT;
     public String GP_LNG;
+    public String S_FILE_PATH;
+    public String BIRTH_FLAG;
 
     public String getStrUserName() {
         return strUserName;
@@ -63,5 +65,21 @@ public class ItemData_Friend {
 
     public void setGP_LNG(String GP_LNG) {
         this.GP_LNG = GP_LNG;
+    }
+
+    public String getS_FILE_PATH() {
+        return S_FILE_PATH;
+    }
+
+    public void setS_FILE_PATH(String s_FILE_PATH) {
+        S_FILE_PATH = s_FILE_PATH;
+    }
+
+    public String getBIRTH_FLAG() {
+        return BIRTH_FLAG;
+    }
+
+    public void setBIRTH_FLAG(String BIRTH_FLAG) {
+        this.BIRTH_FLAG = BIRTH_FLAG;
     }
 }

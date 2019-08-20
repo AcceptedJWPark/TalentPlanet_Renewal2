@@ -629,6 +629,6 @@ public class SaveSharedPreference{
         Intent i = new Intent(mContext, MainActivity_Login.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(i);
-        ((Activity)mContext).finish();
+//        ((Activity)mContext).finish();
     }
 }

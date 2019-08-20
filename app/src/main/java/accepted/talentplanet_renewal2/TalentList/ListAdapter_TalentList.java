@@ -62,6 +62,7 @@ public class ListAdapter_TalentList extends BaseAdapter {
             holder.userBirth_talentlist = (TextView) convertView.findViewById(R.id.userBirth_talentlist);
             holder.hashTag_talentlist = (TextView) convertView.findViewById(R.id.hashTag_talentlist);
             holder.tv_userDistance_talentlist = (TextView) convertView.findViewById(R.id.tv_userDistance_talentlist);
+            holder.userGender_talentlist = (ImageView) convertView.findViewById(R.id.userGender_talentlist);
 
             convertView.setTag(holder);
         } else {
@@ -69,6 +70,11 @@ public class ListAdapter_TalentList extends BaseAdapter {
         }
 
         UserData_TalentList aItem = this.userList.get(position);
+
+        String userGender = aItem.getUserGender();
+        if (userGender.equals("여")) {
+            holder.userGender_talentlist.setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_female));
+        }
 
         // 내 위치 관련
         Location myLocation = new Location("My point");
@@ -147,6 +153,7 @@ public class ListAdapter_TalentList extends BaseAdapter {
         TextView userBirth_talentlist;
         TextView hashTag_talentlist;
         TextView tv_userDistance_talentlist;
+        ImageView userGender_talentlist;
     }
 
 }

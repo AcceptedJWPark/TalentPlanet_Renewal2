@@ -508,21 +508,38 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/img_addfriend_toolbarprofile"
+            android:layout_alignTop="@+id/ll_friendbox_profile"
             android:layout_marginStart="22dp"
             android:src="@drawable/icon_message"
             android:tint="@color/color_mentor" />
 
-        <ImageView
-            android:id="@+id/img_addfriend_toolbarprofile"
+        <LinearLayout
+            android:id="@+id/ll_friendbox_profile"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/icon_addfriend"
-            android:tint="@color/color_mentor"
             android:layout_alignParentRight="true"
             android:layout_marginTop="75dp"
             android:layout_marginRight="20dp"
-            />
+            >
+
+            <ImageView
+                android:id="@+id/img_addfriend_toolbarprofile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icon_addfriend"
+                android:tint="@color/color_mentor"
+                android:visibility="gone"
+                />
+
+            <ImageView
+                android:id="@+id/img_delfriend_toolbarprofile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icon_delfriend"
+                android:tint="@color/color_mentor"
+                android:visibility="gone"
+                />
+        </LinearLayout>
 
 
 
