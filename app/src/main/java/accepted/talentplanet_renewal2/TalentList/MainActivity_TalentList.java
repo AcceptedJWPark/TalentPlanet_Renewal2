@@ -40,6 +40,7 @@ import accepted.talentplanet_renewal2.Home.SpinnerAdapter_Toolbar;
 import accepted.talentplanet_renewal2.Home.SpinnerData_Toolbar;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
+import accepted.talentplanet_renewal2.Search.MainActivity_Search;
 
 public class MainActivity_TalentList extends AppCompatActivity {
 
@@ -145,6 +146,14 @@ public class MainActivity_TalentList extends AppCompatActivity {
             }
         });
 
+        rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(mContext, MainActivity_Search.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -221,8 +230,14 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         aUser.setPicturePath(obj.getString("FILE_PATH"));
                         aUser.setThumbPath(obj.getString("S_FILE_PATH"));
 
-                        if (obj.has("Score")) {
-                            aUser.setScore(obj.getString("Score"));
+                        if (obj.has("SumScore") && obj.has("CountScore")) {
+                            int sumScore = Integer.parseInt((String) obj.getString("SumScore"));
+                            int countScore = Integer.parseInt((String) obj.getString("CountScore"));
+
+                            int avgScore =  (sumScore + 9) / (countScore + 1);
+
+                            Log.d("ScoreTest", String.valueOf(avgScore));
+                            aUser.setScore(String.valueOf(avgScore));
                         }
 
                         try {

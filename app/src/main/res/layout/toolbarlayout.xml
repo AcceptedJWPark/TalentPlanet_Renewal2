@@ -79,12 +79,11 @@
 
         <ImageView
             android:id="@+id/img_search_talentadd"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/icon_search_student"
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
             android:adjustViewBounds="false"
-            android:visibility="gone"
-            />
+            android:src="@drawable/icon_search_student"
+            android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/img_rightbtn"
@@ -97,7 +96,7 @@
             android:id="@+id/img_alarm"
             android:layout_width="13dp"
             android:layout_height="13dp"
-            android:src="@drawable/icon_newalarm"
+
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             />

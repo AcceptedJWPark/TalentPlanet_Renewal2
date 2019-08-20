@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
@@ -223,7 +224,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         drawerlayoutEvent(mContext);
-        isAlaram = true;
+        isAlaram = SaveSharedPreference.getAnswerPushGrant(mContext);
+        if (isAlaram) {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
+        } else {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
+        }
+
         makeTestTalentArr();
 
         //기본 값
@@ -233,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
         sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + dbName, null);
         Log.d("db path = ", getFilesDir() + dbName);
 
-        MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(mContext, getFilesDir() + dbName, null, 4);
+        MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(mContext, getFilesDir() + dbName, null, 5);
         sqliteDatabase = dbHelper.getReadableDatabase();
 
         String sqlCreateTbl2 = "CREATE TABLE IF NOT EXISTS TB_CHAT_ROOM (ROOM_ID INTEGER, USER_ID TEXT, USER_NAME TEXT, MASTER_ID TEXT, START_MESSAGE_ID INTEGER, CREATION_DATE TEXT, LAST_UPDATE_DATE TEXT, ACTIVATE_FLAG TEXT, FILE_PATH TEXT, PRIMARY KEY(ROOM_ID, USER_ID, MASTER_ID))";
@@ -270,6 +277,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ((ImageView)findViewById(R.id.img_bgr_home)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl.closeDrawers();
+                Intent intent = new Intent(mContext, MainActivity_TalentAdd.class);
+                startActivity(intent);
+            }
+        });
+
+        ((ImageView)findViewById(R.id.img_rightbtn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isAlaram) {
+                    SaveSharedPreference.setPrefPushGrant(mContext, false, false, false);
+                    Toast.makeText(mContext,"알람이 비활성화되었습니다.",Toast.LENGTH_SHORT).show();
+                    ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
+                    isAlaram = SaveSharedPreference.getAnswerPushGrant(mContext);
+                } else {
+                    SaveSharedPreference.setPrefPushGrant(mContext, true, true, true);
+                    Toast.makeText(mContext,"알람이 활성화되었습니다.",Toast.LENGTH_SHORT).show();
+                    ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
+                    isAlaram = SaveSharedPreference.getAnswerPushGrant(mContext);
+                }
+            }
+        });
     }
 
     // 이벤트
@@ -498,35 +530,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        //알람 On Off
-
-//        ((ImageView)findViewById(R.id.iv_alarm_dl)).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(isAlaram)
-//                {
-//                    isAlaram=false;
-//                    Toast.makeText(mContext,"알람이 비활성화되었습니다.",Toast.LENGTH_SHORT).show();
-//                    ((ImageView)findViewById(R.id.iv_alarm_dl)).setImageResource(R.drawable.icon_dl_alarmoff);
-//                }else
-//                {
-//                    isAlaram=true;
-//                    Toast.makeText(mContext,"알람이 활성화되었습니다.",Toast.LENGTH_SHORT).show();
-//                    ((ImageView)findViewById(R.id.iv_alarm_dl)).setImageResource(R.drawable.icon_dl_alarmon);
-//                }
-//            }
-//        });
-
-
-
-
         ((LinearLayout)findViewById(R.id.ll_addtalent_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dl.closeDrawers();
                 Intent intent = new Intent(context, MainActivity_TalentAdd.class);
                 startActivity(intent);
+            }
+        });
+
+        ((LinearLayout)findViewById(R.id.ll_logout_dl)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SaveSharedPreference.logOut(mContext);
             }
         });
     }

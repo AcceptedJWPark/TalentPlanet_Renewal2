@@ -247,7 +247,7 @@ public class MainActivity_Join extends AppCompatActivity {
             return false;
         }
 
-        if(!phonecheck){
+        if(!isCheckCertNum){
             Toast.makeText(getApplicationContext(), "휴대폰 인증을 해주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -390,9 +390,9 @@ public class MainActivity_Join extends AppCompatActivity {
     public void goRegist() {
         String birthYearTxt, birthMonthTxt, birthDayTxt;
         try {
-            birthYearTxt = et_birthdate_join.getText().toString().substring(0, 1);
-            birthMonthTxt = et_birthdate_join.getText().toString().substring(2, 3);
-            birthDayTxt = et_birthdate_join.getText().toString().substring(4, 5);
+            birthYearTxt = et_birthdate_join.getText().toString().substring(0, 4);
+            birthMonthTxt = et_birthdate_join.getText().toString().substring(4, 6);
+            birthDayTxt = et_birthdate_join.getText().toString().substring(6, 8);
 
             if (birthYearTxt == null || birthYearTxt.isEmpty() || birthMonthTxt == null || birthMonthTxt.isEmpty() || birthDayTxt == null || birthDayTxt.isEmpty()) {
                 Toast.makeText(mContext, "생년월일을 입력해주세요.", Toast.LENGTH_SHORT).show();

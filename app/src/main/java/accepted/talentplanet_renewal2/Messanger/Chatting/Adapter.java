@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,6 +91,8 @@ public class Adapter extends BaseAdapter {
         holder.Messanger_Chatting_Picture = view.findViewById(R.id.Messanger_Chatting_Picture);
         holder.Messanger_Chatting_Txt = view.findViewById(R.id.Messanger_Chatting_Txt);
         holder.Messanger_Chatting_Point = view.findViewById(R.id.Messanger_Chatting_Point);
+        holder.Messanger_Chatting_Point_txt = view.findViewById(R.id.Messanger_Chatting_Point_txt);
+        holder.Messanger_Chatting_Point_image = view.findViewById(R.id.Messanger_Chatting_Point_image);
         holder.Messanger_Chatting_Date = view.findViewById(R.id.Messanger_Chatting_Date);
         holder.Messanger_Chatting_DateLine = view.findViewById(R.id.Messanger_Chatting_DateLine);
         holder.Messanger_Chatting_Date_String = view.findViewById(R.id.Messanger_Chatting_Date_String);
@@ -117,7 +120,7 @@ public class Adapter extends BaseAdapter {
         holder.Messanger_Chatting_Point.setLayoutParams(Messanger_ChattingPoint);
         int maxWidth = (int) (dm.widthPixels*0.7);
         holder.Messanger_Chatting_Txt.setMaxWidth(maxWidth);
-        holder.Messanger_Chatting_Point.setMaxWidth(maxWidth);
+        holder.Messanger_Chatting_Point_txt.setMaxWidth(maxWidth);
         holder.Messanger_Chatting_Date.setLayoutParams(Messanger_ChattingDate);
         Messanger_ChattingDate.addRule(RelativeLayout.ALIGN_BOTTOM,R.id.Messanger_Chatting_Txt);
 
@@ -131,23 +134,25 @@ public class Adapter extends BaseAdapter {
                 holder.Messanger_Chatting_Picture.setBackgroundResource(messanger_Chatting_Arraylist.get(position).getPicture());
             }
 
-            if(!messanger_Chatting_Arraylist.get(position).isPointSend()){
+            if(messanger_Chatting_Arraylist.get(position).isPointSend()){
                 holder.Messanger_Chatting_Txt.setVisibility(View.GONE);
                 holder.Messanger_Chatting_Point.setVisibility(View.VISIBLE);
                 holder.Messanger_Chatting_Point.setBackgroundResource(R.drawable.bgr_messanger_chatting_get);
-                holder.Messanger_Chatting_Point.setTextColor(BLACK);
+                holder.Messanger_Chatting_Point_txt.setTextColor(BLACK);
                 Messanger_ChattingPoint.addRule(RelativeLayout.RIGHT_OF, R.id.Messanger_Chatting_Picture);
                 Messanger_ChattingDate.addRule(RelativeLayout.RIGHT_OF, R.id.Messanger_Chatting_Point);
+                Messanger_ChattingDate.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.Messanger_Chatting_Point);
                 if(!messanger_Chatting_Arraylist.get(position).isCompleted()) {
                     holder.Messanger_Chatting_Point.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent i = new Intent(mContext, customDialog_PointSend.class);
-                            i.putExtra("mentorID", SaveSharedPreference.getUserId(mContext));
-                            i.putExtra("menteeID", messanger_Chatting_Arraylist.get(position).getTargetID());
-                            i.putExtra("isMentor", true);
-
-                            mContext.startActivity(i);
+                            Intent i = new Intent();
+                            i.putExtra("S_FILE_PATH", filePath);
+                            i.putExtra("userGender", "남");
+                            i.putExtra("userName", messanger_Chatting_Arraylist.get(position).getTargetName());
+                            i.putExtra("BIRTH_FLAG", "Y");
+                            i.putExtra("MessageID", messanger_Chatting_Arraylist.get(position).getMessageID());
+                            SaveSharedPreference.showCustomDialog(mContext, SaveSharedPreference.getUserId(mContext), messanger_Chatting_Arraylist.get(position).getTargetID(), "N", i);
                         }
                     });
                 }
@@ -167,9 +172,11 @@ public class Adapter extends BaseAdapter {
                 holder.Messanger_Chatting_Txt.setVisibility(View.GONE);
                 holder.Messanger_Chatting_Point.setVisibility(View.VISIBLE);
                 holder.Messanger_Chatting_Point.setBackgroundResource(R.drawable.bgr_messanger_chatting_send);
-                holder.Messanger_Chatting_Point.setTextColor(WHITE);
+                holder.Messanger_Chatting_Point_image.setBackgroundResource(R.drawable.bgr_messanger_chatting_get);
+                holder.Messanger_Chatting_Point_txt.setTextColor(WHITE);
                 Messanger_ChattingPoint.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
                 Messanger_ChattingDate.addRule(RelativeLayout.LEFT_OF, R.id.Messanger_Chatting_Point);
+                Messanger_ChattingDate.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.Messanger_Chatting_Point);
 
             }else {
                 holder.Messanger_Chatting_Txt.setVisibility(View.VISIBLE);
@@ -233,7 +240,9 @@ public class Adapter extends BaseAdapter {
         ImageView Messanger_Chatting_Picture;
         LinearLayout Messanger_Chatting_DateLine;
         TextView Messanger_Chatting_Txt;
-        TextView Messanger_Chatting_Point;
+        LinearLayout Messanger_Chatting_Point;
+        TextView Messanger_Chatting_Point_txt;
+        ImageView Messanger_Chatting_Point_image;
         TextView Messanger_Chatting_Date;
         TextView Messanger_Chatting_Date_String;
     }

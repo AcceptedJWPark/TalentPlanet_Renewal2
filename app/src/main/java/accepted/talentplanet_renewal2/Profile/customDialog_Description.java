@@ -51,12 +51,14 @@ public class customDialog_Description extends Dialog {
     EditText et_edit_talent;
     int talentID = 0;
     private int code;
+    private boolean inPerson;
 
-    public customDialog_Description(@NonNull Context context, String userDescription) {
+    public customDialog_Description(@NonNull Context context, String userDescription, boolean isUser) {
         super(context);
 
         mContext = context;
         String flag = SaveSharedPreference.getPrefTalentFlag(mContext);
+        inPerson = isUser;
         requestWindowFeature(Window.FEATURE_NO_TITLE);   //다이얼로그의 타이틀바를 없애주는 옵션입니다.
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));  //다이얼로그의 배경을 투명으로 만듭니다.
         setContentView(R.layout.profile_edittalent_popup);     //다이얼로그에서 사용할 레이아웃입니다.
@@ -91,6 +93,27 @@ public class customDialog_Description extends Dialog {
                 test();
             }
         });
+
+        if (!inPerson) {
+            tv_cancel_edittalent_popup.setVisibility(View.GONE);
+            tv_save_edittalent_popup.setVisibility(View.GONE);
+            tv_edittalent_title_popup.setVisibility(View.GONE);
+            et_edit_talent.setVisibility(View.GONE);
+
+            ((ImageView)findViewById(R.id.iv_profileclose_popup)).setVisibility(View.VISIBLE);
+            ((ImageView)findViewById(R.id.iv_profileclose_popup)).setColorFilter(Color.WHITE);
+            ((ImageView)findViewById(R.id.iv_profileclose_popup)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+
+            ((TextView)findViewById(R.id.tv_userdescript_talent)).setVisibility(View.VISIBLE);
+            if (userDescription != null && userDescription.length() != 0) {
+                ((TextView)findViewById(R.id.tv_userdescript_talent)).setText(userDescription);
+            }
+        }
     }
 
     private void test() {
@@ -130,5 +153,9 @@ public class customDialog_Description extends Dialog {
         };
 
         postRequestQueue.add(postJsonRequest);
+    }
+
+    public void setInPerson(boolean flag) {
+        this.inPerson = flag;
     }
 }

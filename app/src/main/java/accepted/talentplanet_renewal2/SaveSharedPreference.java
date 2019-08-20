@@ -41,6 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.JoinLogin.MainActivity_Login;
 import accepted.talentplanet_renewal2.Profile.customDialog_PointSend;
 
 /**
@@ -590,5 +591,44 @@ public class SaveSharedPreference{
         wm2.height = (int) (height / 1.1);
 
         cd_PointSend.show();
+    }
+
+    public static void logOut(Context mContext) {
+        removePrefFcmToken(mContext);
+        final String userID = getUserId(mContext);
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Login/saveFCMToken.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")){
+                        Log.d("saveToken", "토큰 저장 성공");
+                    }else{
+                        Log.d("saveToken", "토큰 저장 실패");
+                    }
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("userID", userID);
+                params.put("fcmToken", "");
+
+
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+        clearUserInfo(mContext);
+        Intent i = new Intent(mContext, MainActivity_Login.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(i);
+        ((Activity)mContext).finish();
     }
 }

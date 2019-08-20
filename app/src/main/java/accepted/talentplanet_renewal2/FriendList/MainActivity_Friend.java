@@ -47,6 +47,7 @@ public class MainActivity_Friend extends AppCompatActivity {
     private StringBuilder strRemoveFriendList;
     ListAdapter_Friend oAdapter;
 
+    private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +58,15 @@ public class MainActivity_Friend extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv_toolbar_talentlist)).setText("친구 목록");
         ((ImageView) findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
 
-        final Window window = getWindow();
+        window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
 
-
-
         int nDatCnt = 0;
 
+        String mode = SaveSharedPreference.getPrefTalentFlag(mContext);
+
+        chengeMode(mode);
 
         // 뒤로가기 이벤트
         ((ImageView) findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
@@ -79,45 +81,51 @@ public class MainActivity_Friend extends AppCompatActivity {
         ((Button)findViewById(R.id.btn_teahcer_friendlist)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
-                }
-
-                ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
-                ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
-                ((RelativeLayout)findViewById(R.id.rl_talentcate_friendlist)).setBackgroundResource(R.color.color_mentor);
-                ((Button)findViewById(R.id.btn_teahcer_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_clicekd);
-                ((Button)findViewById(R.id.btn_student_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_rightbtn_unclicekd);
-                ((Button)findViewById(R.id.btn_teahcer_friendlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
-                ((Button)findViewById(R.id.btn_student_friendlist)).setTextColor(WHITE);
+                SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
+                chengeMode(SaveSharedPreference.getPrefTalentFlag(mContext));
+                getFriendList();
             }
         });
 
         ((Button)findViewById(R.id.btn_student_friendlist)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-                }
-
-
-                ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-                ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-                ((RelativeLayout)findViewById(R.id.rl_talentcate_friendlist)).setBackgroundResource(R.color.color_mentee);
-                ((Button)findViewById(R.id.btn_student_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_rightbtn_clicekd);
-                ((Button)findViewById(R.id.btn_teahcer_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_unclicekd);
-                ((Button)findViewById(R.id.btn_student_friendlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-                ((Button)findViewById(R.id.btn_teahcer_friendlist)).setTextColor(WHITE);
+                SaveSharedPreference.setPrefTalentFlag(mContext, "N");
+                chengeMode(SaveSharedPreference.getPrefTalentFlag(mContext));
+                getFriendList();
             }
         });
-
-
-
-
     }
 
+    public void chengeMode(String flag) {
+
+        if (flag.equals("Y")) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+            }
+
+            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+            ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+            ((RelativeLayout)findViewById(R.id.rl_talentcate_friendlist)).setBackgroundResource(R.color.color_mentor);
+            ((Button)findViewById(R.id.btn_teahcer_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_clicekd);
+            ((Button)findViewById(R.id.btn_student_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_rightbtn_unclicekd);
+            ((Button)findViewById(R.id.btn_teahcer_friendlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+            ((Button)findViewById(R.id.btn_student_friendlist)).setTextColor(WHITE);
+        } else if (flag.equals("N")) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+            }
+
+            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+            ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+            ((RelativeLayout)findViewById(R.id.rl_talentcate_friendlist)).setBackgroundResource(R.color.color_mentee);
+            ((Button)findViewById(R.id.btn_student_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_rightbtn_clicekd);
+            ((Button)findViewById(R.id.btn_teahcer_friendlist)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_unclicekd);
+            ((Button)findViewById(R.id.btn_student_friendlist)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+            ((Button)findViewById(R.id.btn_teahcer_friendlist)).setTextColor(WHITE);
+        }
+    }
 
         // 친구삭제 이벤트
 //        findViewById(R.id.img_rightbtn).setOnClickListener(new View.OnClickListener() {
@@ -175,17 +183,21 @@ public class MainActivity_Friend extends AppCompatActivity {
                     JSONArray array = new JSONArray(response);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject obj = array.getJSONObject(i);
+                        String mode = SaveSharedPreference.getPrefTalentFlag(mContext);
+                        String isMentor = obj.getString("PARTNER_TALENT_FLAG");
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
-
-                        ItemData_Friend oItem = new ItemData_Friend();
-                        oItem.setStrUserName(obj.getString("USER_NAME"));
-                        String Gender = obj.getString("GENDER").equals("남") ? "남성" : "여성";
-                        int Age = Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(obj.getString("USER_BIRTH").split("-")[0]) + 1;
-
-                        oItem.setStrUserInfo(Gender + " / " + Age + "세");
-                        oItem.setStrUserID(obj.getString("USER_ID"));
-                        oData.add(oItem);
+                        // 친구리스트에서 모드에 따른 구분
+                        if (mode.equals(isMentor)) {
+                            ItemData_Friend oItem = new ItemData_Friend();
+                            oItem.setStrUserID(obj.getString("USER_ID"));
+                            oItem.setStrUserName(obj.getString("USER_NAME"));
+                            oItem.setStrUserGender(obj.getString("GENDER"));
+                            oItem.setStrUserInfo(obj.getString("USER_BIRTH"));
+                            oItem.setStrIsMentor(isMentor);
+                            oItem.setGP_LAT(obj.getString("GP_LAT"));
+                            oItem.setGP_LNG(obj.getString("GP_LNG"));
+                            oData.add(oItem);
+                        }
                     }
 
                     // ListView, Adapter 생성 및 연결 ------------------------
@@ -204,8 +216,9 @@ public class MainActivity_Friend extends AppCompatActivity {
 
                             String userInfo = oData.get(position).strUserInfo;
                             String[] temp = userInfo.split(" / ");
-                            intent.putExtra("userName", oData.get(position).strUserName);
-                            intent.putExtra("userInfo", temp[1]);
+                            intent.putExtra("userID", oData.get(position).getStrUserID());
+//                            intent.putExtra("userName", oData.get(position).getStrUserName());
+//                            intent.putExtra("userInfo", temp[1]);
                             startActivity(intent);
                         }
                     });

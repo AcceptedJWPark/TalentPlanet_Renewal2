@@ -186,6 +186,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     private int bgID;
     private int spinnerIdx;
 
+    //
+    private int talentCnt;
+
 
     View [] view_Estimate = new View[10];
     int [] colorGradient = new int[10];
@@ -337,6 +340,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 //asdf
             ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
+            ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
 
             ((ImageView)findViewById(R.id.iv_edittalent_profile)).setColorFilter(Color.parseColor("#ffffff"));
             ((ImageView)findViewById(R.id.iv_deltalent_profile)).setColorFilter(Color.parseColor("#ffffff"));
@@ -406,6 +410,13 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
             getProfileData(intent);
+
+            ((TextView)findViewById(R.id.tv_profile_description)).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    showProfileInfo();
+                }
+            });
         }
 
 
@@ -632,6 +643,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         intent.putExtra("userGender", gender);
                         intent.putExtra("BIRTH_FLAG", birthFlag);
                         intent.putExtra("userInfo", userInfo);
+                        intent.putExtra("S_FILE_PATH", imgResource);
 
                         ((TextView)findViewById(R.id.tv_name_profile)).setText(userName);
                         ((TextView)findViewById(R.id.tv_birth_profile)).setText(userInfo.replaceAll("-", "\\."));
@@ -647,12 +659,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                             img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
                         }
 
-                        ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                addFriend();
-                            }
-                        });
+
 
                         //  타유저의 프로필에서 주소 표시를 위한 geocoder
                         if (Lat != 0.0 && Lng != 0.0) {
@@ -797,6 +804,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 item.setUserID(obj.getString("UserID"));
                                 item.setTalentDescription(obj.getString("TalentDescription"));
                                 item.setTalentFlag(obj.getString("TalentFlag"));
+
                                 ((RelativeLayout)findViewById(R.id.rl_picarea_profile)).setVisibility(VISIBLE);
                                 ((LinearLayout)findViewById(R.id.ll_introarea_profile)).setVisibility(VISIBLE);
 
@@ -926,7 +934,18 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                             ((RelativeLayout)findViewById(R.id.rl_deltalent_profile)).setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    disableUserTalent(String.valueOf(nowTalentCode));
+                                                    boolean checkCount = false;
+
+                                                    if (0 == talentCnt - 1) {
+                                                        Toast.makeText(mContext, "재능은 최소 한 가지가 있어야 합니다.", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        checkCount = true;
+                                                        talentCnt = talentCnt - 1;
+                                                    }
+
+                                                    if (checkCount) {
+                                                        disableUserTalent(String.valueOf(nowTalentCode));
+                                                    }
                                                 }
                                             });
                                         } else {
@@ -934,7 +953,18 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                             ((RelativeLayout)findViewById(R.id.rl_deltalent_profile)).setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    disableUserTalent(String.valueOf(nowTalentCode));
+                                                    boolean checkCount = false;
+
+                                                    if (0 == talentCnt - 1) {
+                                                        Toast.makeText(mContext, "재능은 최소 한 가지가 있어야 합니다.", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        checkCount = true;
+                                                        talentCnt = talentCnt - 1;
+                                                    }
+
+                                                    if (checkCount) {
+                                                        disableUserTalent(String.valueOf(nowTalentCode));
+                                                    }
                                                 }
                                             });
                                         }
@@ -950,6 +980,23 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 }
 
                                 friendFlag = obj.getInt("FriendFlag") > 0;
+
+                                if (!friendFlag) {
+                                    ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            addFriend();
+                                        }
+                                    });
+                                } else {
+                                    ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setColorFilter(Color.GRAY);
+                                    ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Toast.makeText(mContext, "해당 유저는 이미 친구입니다.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1603,7 +1650,14 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     public void updateMyProfileInfo(){
         String text = ((TextView) findViewById(R.id.tv_profile_description)).getText().toString();
 
-        cd_Description = new customDialog_Description(MainActivity_Profile.this, text);
+        cd_Description = new customDialog_Description(MainActivity_Profile.this, text, true);
+        cd_Description.show();
+    }
+
+    public void showProfileInfo(){
+        String text = ((TextView) findViewById(R.id.tv_profile_description)).getText().toString();
+
+        cd_Description = new customDialog_Description(MainActivity_Profile.this, text, false);
         cd_Description.show();
     }
 
@@ -1813,7 +1867,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         JSONObject obj = objArr.getJSONObject(i);
                         String talentFlag = obj.getString("TalentFlag");
 
-                        int talentCnt = 0;
                         talentCnt = obj.getInt("TalentCount");
                         Log.d("TalentRegistCount", talentFlag + " : " + talentCnt);
                         // Y인 경우 Teacher
@@ -1935,8 +1988,13 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
                     }
 
-                    if (obj.has("Score")) {
-                        SaveSharedPreference.setPrefUserScore(mContext, obj.getString("Score"));
+                    if (obj.has("SumScore") && obj.has("CountScore")) {
+                        int sumScore = Integer.parseInt((String) obj.getString("SumScore"));
+                        int countScore = Integer.parseInt((String) obj.getString("CountScore"));
+
+                        int avgScore =  (sumScore + 9) / (countScore + 1);
+
+                        SaveSharedPreference.setPrefUserScore(mContext, String.valueOf(avgScore));
                     } else {
                         SaveSharedPreference.setPrefUserScore(mContext, "");
                     }

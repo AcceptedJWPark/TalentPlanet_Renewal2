@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
     }
 
     public boolean refreshChatLog(){
-        String selectBasicChat = "SELECT USER_ID, CONTENT, CREATION_DATE, POINT_MSG_FLAG, POINT_SEND_FLAG FROM TB_CHAT_LOG WHERE ROOM_ID = " + roomID +" AND MASTER_ID = '"+ SaveSharedPreference.getUserId(mContext) +"' AND MESSAGE_ID > "+lastMessageID+"";
+        String selectBasicChat = "SELECT USER_ID, CONTENT, CREATION_DATE, POINT_MSG_FLAG, POINT_SEND_FLAG, MESSAGE_ID FROM TB_CHAT_LOG WHERE ROOM_ID = " + roomID +" AND MASTER_ID = '"+ SaveSharedPreference.getUserId(mContext) +"' AND MESSAGE_ID > "+lastMessageID+"";
         Cursor cursor = sqliteDatabase.rawQuery(selectBasicChat, null);
         cursor.moveToFirst();
         boolean isRunning = false;
@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
             String[] nowDateTemp = creationDate.split(",");
             boolean isPoint = Integer.parseInt(cursor.getString(3)) > 0;
             boolean isCompleted = Integer.parseInt(cursor.getString(4)) > 0;
+            int messageID = Integer.parseInt(String.valueOf(cursor.getLong(5)));
             final String nowDate = nowDateTemp[0];
             final String nowTime = nowDateTemp[1].substring(0, 8);
 
@@ -248,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
                 item.setCompleted(isCompleted);
                 item.setTargetID(receiverID);
                 item.setTargetName(receiverName);
+                item.setMessageID(messageID);
                 arrayList.add(item);
             }else{
                 int prevPosition = arrayList.size() - 1;
@@ -280,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
                 item.setCompleted(isCompleted);
                 item.setTargetID(receiverID);
                 item.setTargetName(receiverName);
+                item.setMessageID(messageID);
                 arrayList.add(item);
 
             }
