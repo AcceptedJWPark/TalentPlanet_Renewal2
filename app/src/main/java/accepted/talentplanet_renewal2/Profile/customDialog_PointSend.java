@@ -132,7 +132,6 @@ public class customDialog_PointSend extends Dialog {
             menteeID = targetID;
 
           } else {
-            ((ImageView) findViewById(R.id.iv_cancel_pointsend)).setImageResource(R.drawable.icon_teacher);
 
             ll_pointsendbg_popup.setBackgroundColor(mContext.getResources().getColor(R.color.color_mentee));
             mentorID = targetID;

@@ -26,14 +26,15 @@
         <include
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            layout="@layout/toolbarlayout"/>
+            layout="@layout/toolbarlayout_talentlist"/>
 
     </android.support.v7.widget.Toolbar>
 
     <ExpandableListView
         android:id="@+id/elv_cs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
     </ExpandableListView>
 
 
