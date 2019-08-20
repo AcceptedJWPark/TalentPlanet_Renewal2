@@ -95,6 +95,15 @@
             android:name=".SharingList.MainActivity_SharingList"
             android:theme="@style/AppTheme_Home" />
 
+        <activity
+            android:name=".Cs.MainActivity_Qna"
+            android:theme="@style/AppTheme_Home" />
+
+        <activity
+            android:name=".Cs.MainActivity_DeleteId"
+            android:theme="@style/AppTheme_Home" />
+
+
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>

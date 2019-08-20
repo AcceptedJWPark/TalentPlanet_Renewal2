@@ -122,6 +122,11 @@ public class MainActivity_Search extends AppCompatActivity {
             }
         });
 
+        if(getIntent().hasExtra("searchTag")){
+            et_searchbox_search.setText(getIntent().getStringExtra("searchTag"));
+            searchTalentListByHashtag();
+        }
+
     }
 
     private void searchTalentListByHashtag(){

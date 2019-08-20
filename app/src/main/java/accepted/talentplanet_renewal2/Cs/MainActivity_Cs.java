@@ -75,6 +75,7 @@ public class MainActivity_Cs extends AppCompatActivity {
                         intent2.putExtra("ctgrTitle", status);
                         startActivity(intent2);
                         break;
+
                 }
             }
         });

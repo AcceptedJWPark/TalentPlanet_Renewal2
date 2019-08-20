@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final long FINISH_INTERVAL_TIME = 2000;
     private long backPressedTime = 0;
-
+    private ArrayList<HotTagItem> arrHotTags;
 
 
     boolean mentorClicked;
@@ -144,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SaveSharedPreference.setPrefTalentFlag(mContext, arrayList_spinner.get(position).getTalentFlag());
 //                getCateList();
-
                 if(position==0)
                     {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -179,6 +178,8 @@ public class MainActivity extends AppCompatActivity {
 
                         selectStudent();
                 }
+
+                getHotTags();
 
             }
 
@@ -240,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + dbName, null);
         Log.d("db path = ", getFilesDir() + dbName);
 
-        MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(mContext, getFilesDir() + dbName, null, 5);
+        MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(mContext, getFilesDir() + dbName, null, 7);
         sqliteDatabase = dbHelper.getReadableDatabase();
 
         String sqlCreateTbl2 = "CREATE TABLE IF NOT EXISTS TB_CHAT_ROOM (ROOM_ID INTEGER, USER_ID TEXT, USER_NAME TEXT, MASTER_ID TEXT, START_MESSAGE_ID INTEGER, CREATION_DATE TEXT, LAST_UPDATE_DATE TEXT, ACTIVATE_FLAG TEXT, FILE_PATH TEXT, PRIMARY KEY(ROOM_ID, USER_ID, MASTER_ID))";
@@ -263,11 +264,7 @@ public class MainActivity extends AppCompatActivity {
         // 07-18
         addTalentEvent();
 
-        vp = (ViewPager) findViewById(R.id.vp_pop_talent_home);
-
-        ViewPager_PopTalent adapter = new ViewPager_PopTalent(getSupportFragmentManager() ,mContext);
-        vp.setAdapter(adapter);
-
+        getHotTags();
 
         ((LinearLayout)findViewById(R.id.ll_bgr_addcate)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -478,6 +475,7 @@ public class MainActivity extends AppCompatActivity {
                 dl.closeDrawers();
                 Intent intent = new Intent(context, MainActivity_Profile.class);
                 intent.putExtra ("inPerson", true);
+                Log.d("inPerson", true + "");
                 startActivity(intent);
             }
         });
@@ -694,6 +692,7 @@ public class MainActivity extends AppCompatActivity {
             Glide.with(mContext).load(SaveSharedPreference.getServerIp()+myPicture).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
         }
 
+        drawerlayoutEvent(mContext);
         getCateList();
     }
 
@@ -752,6 +751,40 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap();
                 params.put("userID", SaveSharedPreference.getUserId(mContext));
                 params.put("talentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
+
+    public void getHotTags(){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "TalentSharing/getHotTags.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    arrHotTags = new ArrayList();
+                    JSONArray objArr = new JSONArray(response);
+                    for (int i = 0; i < objArr.length(); i++) {
+                        JSONObject obj = objArr.getJSONObject(i);
+                        arrHotTags.add(new HotTagItem(obj.getString("Tag"), obj.getString("BackgroundID")));
+                    }
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+
+                vp = (ViewPager) findViewById(R.id.vp_pop_talent_home);
+
+                ViewPager_PopTalent adapter = new ViewPager_PopTalent(getSupportFragmentManager() ,mContext, arrHotTags);
+                vp.setAdapter(adapter);
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("TalentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
                 return params;
             }
         };
