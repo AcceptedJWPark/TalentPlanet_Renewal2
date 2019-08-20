@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -54,23 +55,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bgr_edittxt_join"
-            android:textSize="12dp"
-            android:textColorHint="#fff"
-            android:textColor="#fff"
             android:hint="핸드폰 번호 ('-'구분없이 입력)"
+            android:inputType="number"
+            android:maxLength="11"
             android:paddingLeft="10dp"
-            />
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="12dp" />
 
         <Button
             android:id="@+id/btn_chkphonenum_id"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:text="인증번호 전송"
-            android:textSize="12dp"
-            android:textColor="@color/color_mentor"
             android:background="@drawable/bgr_joinbtn1"
-            />
+            android:text="인증번호 전송"
+            android:textColor="@color/color_mentor"
+            android:textSize="12dp" />
 
     </RelativeLayout>
 
@@ -88,24 +89,22 @@
             android:id="@+id/et_admit_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="인증번호 입력"
             android:background="@drawable/bgr_edittxt_join"
-            android:textSize="12dp"
-            android:textColorHint="#fff"
-            android:textColor="#fff"
+            android:hint="인증번호 입력"
             android:paddingLeft="5dp"
-            />
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="12dp" />
 
         <Button
             android:id="@+id/btn_chkcertnum_id"
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bgr_joinbtn1"
             android:text="인증완료"
             android:textColor="@color/color_mentor"
-            android:background="@drawable/bgr_joinbtn1"
-            android:layout_alignParentRight="true"
-            android:textSize="12dp"
-            />
+            android:textSize="12dp" />
 
 
     </RelativeLayout>
@@ -137,12 +136,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bgr_edittxt_join"
-            android:textSize="12dp"
-            android:textColorHint="#fff"
-            android:textColor="#fff"
             android:hint="ID (E-mail 주소)"
             android:paddingLeft="10dp"
-            />
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="12dp" />
 
 
     </RelativeLayout>
@@ -161,24 +159,24 @@
             android:id="@+id/et_phone_pw"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="핸드폰 번호 ('-'구분없이 입력)"
             android:background="@drawable/bgr_edittxt_join"
-            android:textSize="12dp"
-            android:textColorHint="#fff"
-            android:textColor="#fff"
+            android:hint="핸드폰 번호 ('-'구분없이 입력)"
+            android:inputType="number"
+            android:maxLength="11"
             android:paddingLeft="5dp"
-            />
+            android:textColor="#fff"
+            android:textColorHint="#fff"
+            android:textSize="12dp" />
 
         <Button
             android:id="@+id/btn_chkphonenum_pw"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:text="인증완료"
-            android:textColor="@color/color_mentor"
-            android:background="@drawable/bgr_joinbtn1"
             android:layout_alignParentRight="true"
-            android:textSize="12dp"
-            />
+            android:background="@drawable/bgr_joinbtn1"
+            android:text="인증번호 전송"
+            android:textColor="@color/color_mentor"
+            android:textSize="12dp" />
 
 
     </RelativeLayout>
@@ -194,30 +192,85 @@
 
 
         <EditText
-            android:id="@+id/et_admit_pw"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="인증번호 입력"
-            android:background="@drawable/bgr_edittxt_join"
-            android:textSize="12dp"
-            android:textColorHint="#fff"
-            android:textColor="#fff"
-            android:paddingLeft="5dp"
-            />
+        android:id="@+id/et_admit_pw"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="인증번호 입력"
+        android:background="@drawable/bgr_edittxt_join"
+        android:textSize="12dp"
+        android:textColorHint="#fff"
+        android:textColor="#fff"
+        android:paddingLeft="5dp"
+        />
 
         <Button
             android:id="@+id/btn_chkcertnum_pw"
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/bgr_joinbtn1"
             android:text="인증완료"
             android:textColor="@color/color_mentor"
-            android:background="@drawable/bgr_joinbtn1"
-            android:layout_alignParentRight="true"
-            android:textSize="12dp"
-            />
-
+            android:textSize="12dp" />
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_chgpassword_pw"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+    <EditText
+        android:id="@+id/et_chgpassword_pw"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="textPassword"
+        android:hint="변경 비밀번호"
+        android:background="@drawable/bgr_edittxt_join"
+        android:textSize="12dp"
+        android:textColorHint="#fff"
+        android:textColor="#fff"
+        android:paddingLeft="5dp"
+        />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_chgpasswordcomp_pw"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+    <EditText
+        android:id="@+id/et_chgpasswordcomp_pw"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="변경 비밀번호 확인"
+        android:inputType="textPassword"
+        android:background="@drawable/bgr_edittxt_join"
+        android:textSize="12dp"
+        android:textColorHint="#fff"
+        android:textColor="#fff"
+        android:paddingLeft="5dp"
+        />
+
+    <Button
+        android:id="@+id/btn_chgpassword_pw"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/bgr_joinbtn1"
+        android:text="비밀번호 변경"
+        android:textColor="@color/color_mentor"
+        android:textSize="12dp" />
+    </RelativeLayout>
     </LinearLayout>
 

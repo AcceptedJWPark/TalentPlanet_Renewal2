@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -105,7 +106,7 @@ public class customDialog_PointSend extends Dialog {
         }
         // User Gender Icon
         if (intent.getBooleanExtra("inPerson",false) == false && intent.getStringExtra("userGender").equals("여")) {
-            Glide.with(mContext).load(mContext.getResources().getDrawable(R.drawable.icon_female)).into((ImageView) findViewById(R.id.iv_gendericon_popup));
+            Glide.with(mContext).load(R.drawable.icon_female).into((ImageView) findViewById(R.id.iv_gendericon_popup));
         }
 
 

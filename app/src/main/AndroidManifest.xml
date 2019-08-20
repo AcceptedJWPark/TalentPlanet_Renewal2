@@ -95,6 +95,9 @@
             android:name=".SharingList.MainActivity_SharingList"
             android:theme="@style/AppTheme_Home" />
 
+        <activity
+            android:name=".JoinLogin.MainActivity_Find"
+            android:theme="@style/AppTheme_Home" />
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>

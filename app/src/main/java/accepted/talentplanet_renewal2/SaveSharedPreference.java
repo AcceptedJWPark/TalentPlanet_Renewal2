@@ -627,8 +627,8 @@ public class SaveSharedPreference{
         postRequestQueue.add(postJsonRequest);
         clearUserInfo(mContext);
         Intent i = new Intent(mContext, MainActivity_Login.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mContext.startActivity(i);
-        ((Activity)mContext).finish();
+//        ((Activity)mContext).finish();
     }
 }
