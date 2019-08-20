@@ -85,7 +85,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
 
         ((ImageView)findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
         ((ImageView)findViewById(R.id.img_back_toolbar)).setVisibility(View.VISIBLE);
-        ((ImageView)findViewById(R.id.img_search_talentadd)).setVisibility(View.VISIBLE);
+//        ((ImageView)findViewById(R.id.img_search_talentadd)).setVisibility(View.VISIBLE);
 
         ((TextView)findViewById(R.id.tv_toolbar)).setText("재능 등록");
         ((TextView)findViewById(R.id.tv_toolbar)).setVisibility(View.VISIBLE);

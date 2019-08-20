@@ -186,6 +186,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
     private int bgID;
     private int spinnerIdx;
 
+    //
+    private int talentCnt;
+
 
     View [] view_Estimate = new View[10];
     int [] colorGradient = new int[10];
@@ -337,6 +340,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 //asdf
             ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
+            ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
 
             ((ImageView)findViewById(R.id.iv_edittalent_profile)).setColorFilter(Color.parseColor("#ffffff"));
             ((ImageView)findViewById(R.id.iv_deltalent_profile)).setColorFilter(Color.parseColor("#ffffff"));
@@ -406,6 +410,13 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             }
 
             getProfileData(intent);
+
+            ((TextView)findViewById(R.id.tv_profile_description)).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    showProfileInfo();
+                }
+            });
         }
 
 
@@ -632,6 +643,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         intent.putExtra("userGender", gender);
                         intent.putExtra("BIRTH_FLAG", birthFlag);
                         intent.putExtra("userInfo", userInfo);
+                        intent.putExtra("S_FILE_PATH", imgResource);
 
                         ((TextView)findViewById(R.id.tv_name_profile)).setText(userName);
                         ((TextView)findViewById(R.id.tv_birth_profile)).setText(userInfo.replaceAll("-", "\\."));
@@ -926,7 +938,16 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                             ((RelativeLayout)findViewById(R.id.rl_deltalent_profile)).setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
-                                                    disableUserTalent(String.valueOf(nowTalentCode));
+                                                    boolean checkCount = false;
+
+                                                    if (0 < talentCnt) {
+                                                        checkCount = true;
+                                                        Toast.makeText(mContext, "재능은 최소 한 가지가 있어야 합니다.", Toast.LENGTH_SHORT).show();
+                                                    }
+
+                                                    if (checkCount) {
+                                                        disableUserTalent(String.valueOf(nowTalentCode));
+                                                    }
                                                 }
                                             });
                                         } else {
@@ -1604,6 +1625,15 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         String text = ((TextView) findViewById(R.id.tv_profile_description)).getText().toString();
 
         cd_Description = new customDialog_Description(MainActivity_Profile.this, text);
+        cd_Description.setInPerson(true);
+        cd_Description.show();
+    }
+
+    public void showProfileInfo(){
+        String text = ((TextView) findViewById(R.id.tv_profile_description)).getText().toString();
+
+        cd_Description = new customDialog_Description(MainActivity_Profile.this, text);
+        cd_Description.setInPerson(false);
         cd_Description.show();
     }
 
@@ -1813,7 +1843,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         JSONObject obj = objArr.getJSONObject(i);
                         String talentFlag = obj.getString("TalentFlag");
 
-                        int talentCnt = 0;
                         talentCnt = obj.getInt("TalentCount");
                         Log.d("TalentRegistCount", talentFlag + " : " + talentCnt);
                         // Y인 경우 Teacher

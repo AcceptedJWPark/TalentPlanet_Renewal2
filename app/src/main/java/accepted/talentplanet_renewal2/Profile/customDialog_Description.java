@@ -51,6 +51,7 @@ public class customDialog_Description extends Dialog {
     EditText et_edit_talent;
     int talentID = 0;
     private int code;
+    private boolean inPerson;
 
     public customDialog_Description(@NonNull Context context, String userDescription) {
         super(context);
@@ -91,6 +92,27 @@ public class customDialog_Description extends Dialog {
                 test();
             }
         });
+
+        if (!inPerson) {
+            tv_cancel_edittalent_popup.setVisibility(View.GONE);
+            tv_save_edittalent_popup.setVisibility(View.GONE);
+            tv_edittalent_title_popup.setVisibility(View.GONE);
+            et_edit_talent.setVisibility(View.GONE);
+
+            ((ImageView)findViewById(R.id.iv_profileclose_popup)).setVisibility(View.VISIBLE);
+            ((ImageView)findViewById(R.id.iv_profileclose_popup)).setColorFilter(Color.WHITE);
+            ((ImageView)findViewById(R.id.iv_profileclose_popup)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+
+            ((TextView)findViewById(R.id.tv_userdescript_talent)).setVisibility(View.VISIBLE);
+            if (userDescription != null && userDescription.length() != 0) {
+                ((TextView)findViewById(R.id.tv_userdescript_talent)).setText(userDescription);
+            }
+        }
     }
 
     private void test() {
@@ -130,5 +152,9 @@ public class customDialog_Description extends Dialog {
         };
 
         postRequestQueue.add(postJsonRequest);
+    }
+
+    public void setInPerson(boolean flag) {
+        this.inPerson = flag;
     }
 }

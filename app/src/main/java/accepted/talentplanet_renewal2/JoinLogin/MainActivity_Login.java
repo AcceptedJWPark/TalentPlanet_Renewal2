@@ -184,10 +184,13 @@ public class MainActivity_Login extends AppCompatActivity {
                         SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
                     }
 
-                    if (obj.has("Score")) {
-                        SaveSharedPreference.setPrefUserScore(mContext, obj.getString("Score"));
-                    } else if (!obj.has("MentorScore")) {
-                        SaveSharedPreference.setPrefUserScore(mContext, "");
+                    if (obj.has("SumScore") && obj.has("CountScore")) {
+                        int sumScore = Integer.parseInt((String) obj.getString("SumScore"));
+                        int countScore = Integer.parseInt((String) obj.getString("CountScore"));
+
+                        int avgScore =  (sumScore + 9) / (countScore + 1);
+
+                        SaveSharedPreference.setPrefUserScore(mContext, String.valueOf(avgScore));
                     }
 
 
