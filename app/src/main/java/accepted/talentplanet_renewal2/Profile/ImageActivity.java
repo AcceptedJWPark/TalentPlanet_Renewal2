@@ -28,8 +28,6 @@ public class ImageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String userImg  = intent.getStringExtra("bigImg");
 
-        ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
-
         iv_userimg_image = findViewById(R.id.iv_userimg_image);
         Glide.with(mContext).load(SaveSharedPreference.getImageUri() + userImg).into(iv_userimg_image);
 

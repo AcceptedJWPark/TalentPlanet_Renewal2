@@ -24,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
@@ -271,7 +272,7 @@ public class Adapter extends BaseAdapter {
     }
 
     public void getTalentID(final String userID, final View finalView, final String sFilePath, final String userName) {
-        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        RequestQueue postRequestQueue = Volley.newRequestQueue(mContext);
         StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Chat/getTalentID.do", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
