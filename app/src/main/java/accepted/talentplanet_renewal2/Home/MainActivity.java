@@ -30,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
@@ -242,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("db path = ", getFilesDir() + dbName);
 
         MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(mContext, getFilesDir() + dbName, null, 7);
-        sqliteDatabase = dbHelper.getReadableDatabase();
+//        sqliteDatabase = dbHelper.getReadableDatabase();
 
         String sqlCreateTbl2 = "CREATE TABLE IF NOT EXISTS TB_CHAT_ROOM (ROOM_ID INTEGER, USER_ID TEXT, USER_NAME TEXT, MASTER_ID TEXT, START_MESSAGE_ID INTEGER, CREATION_DATE TEXT, LAST_UPDATE_DATE TEXT, ACTIVATE_FLAG TEXT, FILE_PATH TEXT, PRIMARY KEY(ROOM_ID, USER_ID, MASTER_ID))";
         sqliteDatabase.execSQL(sqlCreateTbl2);
@@ -472,7 +473,11 @@ public class MainActivity extends AppCompatActivity {
         String myPicture = SaveSharedPreference.getMyPicturePath();
 
         if (myPicture != null && !myPicture.equals("NODATA")) {
-            Glide.with(mContext).load(SaveSharedPreference.getServerIp()+myPicture).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
+            Glide.with(mContext)
+                    .load(SaveSharedPreference.getServerIp()+myPicture)
+                    .asBitmap()
+                    .format(DecodeFormat.PREFER_ARGB_8888)
+                    .into(((ImageView)findViewById(R.id.cimg_pic_dl)));
         }
 
         ((LinearLayout)findViewById(R.id.ll_myprofile_dl)).setOnClickListener(new View.OnClickListener() {

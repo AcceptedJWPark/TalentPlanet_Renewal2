@@ -22,16 +22,14 @@
         />
 
 
-
     <ImageView
         android:id="@+id/img_open_dl"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:src="@drawable/icon_menu_teacher"
-        android:layout_centerVertical="true"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        />
+        android:src="@drawable/icon_menu_teacher" />
 
     <TextView
         android:id="@+id/tv_Choose"

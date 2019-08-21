@@ -67,6 +67,7 @@
                     />
 
                     <EditText
+                        android:id="@+id/et_question_title"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:background="@drawable/bgr_claim_edittxtbgr"
@@ -128,6 +129,7 @@
 
 
             <Button
+                android:id="@+id/btn_requset_question"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
                 android:text="문의하기"

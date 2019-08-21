@@ -54,6 +54,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -307,9 +308,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             });
 
             if (gender.equals("남")) {
-                img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
+                ((ImageView)findViewById(R.id.img_gender_profile)).setImageDrawable(getResources().getDrawable(R.drawable.icon_male));
             } else {
-                img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
+                ((ImageView)findViewById(R.id.img_gender_profile)).setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
             }
 
             ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(View.GONE);
@@ -734,7 +735,10 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
 
                         if (!imgResource.equals("NODATA")) {
-                            Glide.with(mContext).load(SaveSharedPreference.getImageUri() + imgResource).into(iv_cimg_pic_profile);
+                            Glide.with(mContext).load(SaveSharedPreference.getImageUri() + imgResource)
+                                    .asBitmap()
+                                    .format(DecodeFormat.PREFER_ARGB_8888)
+                                    .into(iv_cimg_pic_profile);
                             // 타인의 프로필을 볼 경우 전체화면 식으로
                             iv_cimg_pic_profile.setOnClickListener(new View.OnClickListener() {
                                 @Override
