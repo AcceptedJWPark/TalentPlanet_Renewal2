@@ -201,6 +201,17 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         setContentView(R.layout.profile_activity);
 
         mContext = getApplicationContext();
+
+        img_gender_profile = findViewById(R.id.img_gender_profile);
+        tv_profile_description = findViewById(R.id.tv_profile_description);
+        tv_birth_profile = findViewById(R.id.tv_birth_profile);
+
+        sp_talent_profile = findViewById(R.id.sp_talent_profile);
+
+        mentorTalentList = new ArrayList<>();
+        menteeTalentList = new ArrayList<>();
+
+        tv_toolbarprofle = findViewById(R.id.tv_toolbarprofle);
         mActivity = this;
 
         // 받은 값 구현
@@ -397,19 +408,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
         double width = dm.widthPixels; //디바이스 화면 너비
         double height = dm.heightPixels; //디바이스 화면 높이
-
-
-
-        img_gender_profile = findViewById(R.id.img_gender_profile);
-        tv_profile_description = findViewById(R.id.tv_profile_description);
-        tv_birth_profile = findViewById(R.id.tv_birth_profile);
-
-        sp_talent_profile = findViewById(R.id.sp_talent_profile);
-
-        mentorTalentList = new ArrayList<>();
-        menteeTalentList = new ArrayList<>();
-
-        tv_toolbarprofle = findViewById(R.id.tv_toolbarprofle);
 
         if (intent.getStringExtra("userName") != null) {
             cateCode = intent.getStringExtra("cateCode");
@@ -1886,8 +1884,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     }else {
                         ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
                     }
-
-                    if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("N")) {
+                    Log.d("flags :", fromFriend + " " + mode);
+                    if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("N") && (fromFriend && !mode.equals("Y"))) {
                         ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(VISIBLE);
                     }
                 }

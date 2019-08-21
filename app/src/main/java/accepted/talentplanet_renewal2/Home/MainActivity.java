@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("db path = ", getFilesDir() + dbName);
 
         MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(mContext, getFilesDir() + dbName, null, 7);
-        sqliteDatabase = dbHelper.getReadableDatabase();
+//        sqliteDatabase = dbHelper.getReadableDatabase();
 
         String sqlCreateTbl2 = "CREATE TABLE IF NOT EXISTS TB_CHAT_ROOM (ROOM_ID INTEGER, USER_ID TEXT, USER_NAME TEXT, MASTER_ID TEXT, START_MESSAGE_ID INTEGER, CREATION_DATE TEXT, LAST_UPDATE_DATE TEXT, ACTIVATE_FLAG TEXT, FILE_PATH TEXT, PRIMARY KEY(ROOM_ID, USER_ID, MASTER_ID))";
         sqliteDatabase.execSQL(sqlCreateTbl2);
