@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_profilebg_profile"
+    android:background="#fff"
+    android:orientation="vertical"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:fitsSystemWindows="true"
+        >
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/toolbarlayout_talentlist"/>
+    </android.support.v7.widget.Toolbar>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="#ff6666"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:src="@drawable/icon_deleteid"
+                    />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="탈퇴 사유를 선택해주세요."
+                    android:textColor="#787878"
+                    android:textSize="12dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/ll1_deleteid"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/iv1_deleteid"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/icon_checkbox_unselected"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="회원 간 매칭확률 낮음"
+                            android:textColor="@color/color_mentor"
+                            android:textSize="14dp"
+                            android:layout_marginLeft="5dp"
+                            />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/ll2_deleteid"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/iv2_deleteid"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/icon_checkbox_unselected"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Teacher의 전문성 부족"
+                            android:textColor="@color/color_mentor"
+                            android:textSize="14dp"
+                            android:layout_marginLeft="5dp"
+                            />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/ll3_deleteid"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/iv3_deleteid"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/icon_checkbox_unselected"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="부적절한 회원이 많음"
+                            android:textColor="@color/color_mentor"
+                            android:textSize="14dp"
+                            android:layout_marginLeft="5dp"
+                            />
+                    </LinearLayout>
+
+
+
+
+                    <LinearLayout
+                        android:id="@+id/ll4_deleteid"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/iv4_deleteid"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/icon_checkbox_unselected"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="시스템 오류 등 사용 불편"
+                            android:textColor="@color/color_mentor"
+                            android:textSize="14dp"
+                            android:layout_marginLeft="5dp"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center_vertical"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/ll5_deleteid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        >
+
+                        <ImageView
+                            android:id="@+id/iv5_deleteid"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/icon_checkbox_unselected"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="기타"
+                            android:textColor="@color/color_mentor"
+                            android:textSize="14dp"
+                            android:layout_marginLeft="5dp"
+                            />
+                    </LinearLayout>
+
+
+                    <EditText
+                        android:layout_width="250dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/bgr_claim_edittxtbgr"
+                        android:gravity="top|left"
+                        android:padding="5dp"
+                        android:textSize="12dp"
+                        android:layout_marginLeft="10dp"
+                        />
+
+
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="기타 의견을 입력해주세요. 적극 반영하겠습니다."
+                    android:textColor="#787878"
+                    android:textSize="12dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="20dp"
+                    />
+
+                <EditText
+                    android:id="@+id/et_deleteid_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/bgr_claim_edittxtbgr"
+                    android:gravity="top|left"
+                    android:padding="5dp"
+                    android:textSize="12dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_deleteid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_deleteid"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/icon_checkbox_unselected"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="모든 정보를 삭제하는 것에 동의합니다."
+                    android:textColor="@color/color_mentor"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="10dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                >
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:text="신청하기"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:background="@drawable/bgr_claim_claimbtnbgr2"
+                    android:textSize="14dp"
+                    />
+
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:text="탈퇴하기"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:background="@drawable/bgr_claim_claimbtnbgr"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="20dp"
+                />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+</LinearLayout>
