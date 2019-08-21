@@ -338,7 +338,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 img_gender_profile.setImageDrawable(getResources().getDrawable(R.drawable.icon_female));
             }
 
-//asdf
             ((ImageView)findViewById(R.id.iv_message_profile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
             ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
@@ -593,6 +592,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         ImageView iv_message_profile = findViewById(R.id.iv_message_profile);
         ImageView iv_share_profile = findViewById(R.id.iv_share_profile);
         ImageView img_addfriend_toolbarprofile = findViewById(R.id.img_addfriend_toolbarprofile);
+        ImageView img_delfriend_toolbarprofile = findViewById(R.id.img_delfriend_toolbarprofile);
 
 
         String white = "#ffffff";
@@ -607,6 +607,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         img_mappointer.setColorFilter(getResources().getColor(R.color.color_mentee));
         iv_message_profile.setColorFilter(getResources().getColor(R.color.color_mentee));
         img_addfriend_toolbarprofile.setColorFilter(getResources().getColor(R.color.color_mentee));
+        img_delfriend_toolbarprofile.setColorFilter(getResources().getColor(R.color.color_mentee));
     }
 
     private void getProfileData(final Intent intent){
@@ -694,6 +695,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
                         wm2.width = (int) (width / 1.1);
                         wm2.height = (int) (height / 1.1);
+
                         ((ImageView)findViewById(R.id.iv_share_profile)).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -985,23 +987,29 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 }
 
                                 friendFlag = obj.getInt("FriendFlag") > 0;
+                                if (!inPerson) {
+                                    if (friendFlag) {
+                                        ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
+                                        ((ImageView) findViewById(R.id.img_delfriend_toolbarprofile)).setVisibility(View.VISIBLE);
+                                    } else {
+                                        ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.VISIBLE);
+                                        ((ImageView) findViewById(R.id.img_delfriend_toolbarprofile)).setVisibility(View.GONE);
+                                    }
 
-                                if (!friendFlag) {
                                     ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             addFriend();
                                         }
                                     });
-                                } else {
-                                    ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setColorFilter(Color.GRAY);
-                                    ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
+                                    ((ImageView) findViewById(R.id.img_delfriend_toolbarprofile)).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Toast.makeText(mContext, "해당 유저는 이미 친구입니다.", Toast.LENGTH_SHORT).show();
+                                            delFriend();
                                         }
                                     });
                                 }
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1630,6 +1638,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 try {
                     JSONObject obj = new JSONObject(response);
                     if(obj.getString("result").equals("success")){
+                        ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.GONE);
+                        ((ImageView) findViewById(R.id.img_delfriend_toolbarprofile)).setVisibility(View.VISIBLE);
                         Toast.makeText(mContext, "친구 등록이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                     }
 
@@ -1645,6 +1655,48 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 params.put("userID", SaveSharedPreference.getUserId(mContext));
                 params.put("friendID", targetUserID);
                 params.put("updateFlag", "I");
+                String flag = "Y";
+                if (mode.equals("Y")) {
+                    flag = "N";
+                }
+                params.put("talentFlag", flag);
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
+
+    public void delFriend(){
+        RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "FriendList/updateFriendList_new.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")){
+                        ((ImageView) findViewById(R.id.img_addfriend_toolbarprofile)).setVisibility(View.VISIBLE);
+                        ((ImageView) findViewById(R.id.img_delfriend_toolbarprofile)).setVisibility(View.GONE);
+                        Toast.makeText(mContext, "친구 삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
+                params.put("friendID", targetUserID);
+                params.put("updateFlag", "D");
+                String flag = "Y";
+                if (mode.equals("Y")) {
+                    flag = "N";
+                }
+                params.put("talentFlag", flag);
                 return params;
             }
         };

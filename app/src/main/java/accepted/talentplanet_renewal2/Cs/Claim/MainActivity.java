@@ -38,6 +38,8 @@ import accepted.talentplanet_renewal2.VolleySingleton;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.bumptech.glide.Glide;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,11 +72,13 @@ public class MainActivity extends AppCompatActivity {
     private boolean isConfirm;
     private ImageView iv_confirmClaim;
     private LinearLayout ll_confirmClaim;
+    private TextView tv_SharingList_Claim;
+    private CircularImageView civ_user_claim;
 
     private String claimChecked;
 
-    private String name, hashtag, tarUserID, talentFlag, status;
-    private int matchingID;
+    private String userName, hashtag, tarUserID, talentFlag, sFilePath;
+
     private final int GALLERY_CODE = 1112;
     private final int CLAIM_CODE = 1113;
     private boolean isSelect;
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.customerservice_claimactivity);
 
+        mContext = getApplicationContext();
 
         ((ImageView)findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
         ((ImageView)findViewById(R.id.img_back_toolbar)).setVisibility(View.VISIBLE);
@@ -103,20 +108,28 @@ public class MainActivity extends AppCompatActivity {
         ((ImageView)findViewById(R.id.img_rightbtn)).setVisibility(View.GONE);
         ((ImageView)findViewById(R.id.img_alarm)).setVisibility(View.GONE);
 
+        civ_user_claim = findViewById(R.id.civ_user_claim);
+
+        tv_SharingList_Claim = findViewById(R.id.tv_SharingList_Claim);
+        tv_SharingList_Claim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, accepted.talentplanet_renewal2.Messanger.List.MainActivity.class);
+                i.putExtra("isClaim", true);
+                startActivityForResult(i, 100);
+            }
+        });
 
 
 
         isSelect = getIntent().getBooleanExtra("isSelected", false);
         if (isSelect) {
-            name = getIntent().getStringExtra("name");
-            hashtag = getIntent().getStringExtra("hashtag");
-            tarUserID = getIntent().getStringExtra("tarUserID");
-            matchingID = getIntent().getIntExtra("matchingID", -1);
-            tarUserID = getIntent().getStringExtra("tarUserID");
-            talentFlag = getIntent().getStringExtra("talentFlag");
-            status = getIntent().getStringExtra("status");
+            tarUserID = getIntent().getStringExtra("userID");
+            userName = getIntent().getStringExtra("userName");
+            tv_SharingList_Claim.setText(userName);
+            if(!getIntent().getStringExtra("S_FILE_PATH").equals("NODATA"))
+                Glide.with(mContext).load(SaveSharedPreference.getImageUri() + getIntent().getStringExtra("S_FILE_PATH")).into(civ_user_claim);
         }
-        mContext = getApplicationContext();
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -124,23 +137,6 @@ public class MainActivity extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.rgb(255, 102, 102));
         }
-
-        //TODO : ??
-        if (isSelect) {
-            String str = talentFlag;
-            String[] arrHashtag = hashtag.split("\\|");
-            StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < arrHashtag.length; i++){
-                if(i < 3 && !arrHashtag[i].isEmpty()){
-                    if(i != 0){
-                        sb.append(", ");
-                    }
-
-                    sb.append(arrHashtag);
-                }
-            }
-        }
-
 
         et_Claim = (EditText) findViewById(R.id.et_Content_Claim);
         et_Claim.setPrivateImeOptions("defaultInputmode=korean;");
@@ -316,12 +312,10 @@ public class MainActivity extends AppCompatActivity {
                         claimType = 5;
                 }
 
-                params.put("matchingID", String.valueOf(matchingID));
                 params.put("tarUserID", tarUserID);
                 params.put("userID", SaveSharedPreference.getUserId(mContext));
                 params.put("claimType", String.valueOf(claimType));
                 params.put("claimSummary", et_Claim.getText().toString());
-                params.put("status", status);
                 return params;
             }
 
@@ -353,6 +347,14 @@ public class MainActivity extends AppCompatActivity {
 
         if(resultCode == RESULT_OK){
             switch(requestCode){
+                case 100:
+                    // 메신저에서 선택하는 경우
+                    if(!data.getStringExtra("S_FILE_PATH").equals("NODATA"))
+                        Glide.with(mContext).load(SaveSharedPreference.getImageUri() + data.getStringExtra("S_FILE_PATH")).into(civ_user_claim);
+                    tv_SharingList_Claim.setText(data.getStringExtra("userName"));
+                    tarUserID = data.getStringExtra("userID");
+                    isSelect = true;
+                    break;
                 case GALLERY_CODE:
                     //sendPicture(data.getData());
 
@@ -370,43 +372,12 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     break;
                 case CLAIM_CODE:
-                    name = data.getStringExtra("name");
+                    userName = data.getStringExtra("name");
                     hashtag = data.getStringExtra("hashtag");
                     tarUserID = data.getStringExtra("tarUserID");
-                    matchingID = data.getIntExtra("matchingID", -1);
                     tarUserID = data.getStringExtra("tarUserID");
                     talentFlag = data.getStringExtra("talentFlag");
-                    status = data.getStringExtra("status");
                     isSelect = true;
-
-                    String strStatus = null;
-                    if(status.equals("Y"))
-                    {
-                        strStatus = "진행";
-                    }else if(status.equals("H"))
-                    {
-                        strStatus = "멘토 완료";
-                    }else if(status.equals("C"))
-                    {
-                        strStatus = "완료";
-                    }else{
-                        strStatus = "취소";
-                    }
-
-                    String str = talentFlag;
-
-                    String[] arrHashtag = hashtag.split("\\|");
-                    StringBuilder sb = new StringBuilder();
-                    for(int i = 0; i < arrHashtag.length; i++){
-                        if(i < 3 && !arrHashtag[i].isEmpty()){
-                            if(i != 0){
-                                sb.append(", ");
-                            }
-
-                            sb.append(arrHashtag[i]);
-                        }
-                    }
-                    break;
 
             }
         }

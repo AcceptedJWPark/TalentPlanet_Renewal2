@@ -1,5 +1,6 @@
 package accepted.talentplanet_renewal2.Messanger.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,10 +33,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.Cs.Claim.MainActivity;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.VolleySingleton;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Accepted on 2018-03-05.
@@ -45,11 +49,12 @@ public class Adapter extends BaseAdapter {
 
     private ArrayList<ListItem> messanger_Arraylist = new ArrayList<>();
     Context mContext;
+    private boolean isClaim;
 
-
-    public Adapter(ArrayList<ListItem> messanger_Arraylist, Context mContext) {
+    public Adapter(ArrayList<ListItem> messanger_Arraylist, Context mContext, boolean isClaim) {
         this.messanger_Arraylist = messanger_Arraylist;
         this.mContext = mContext;
+        this.isClaim = isClaim;
     }
 
     public Adapter()
@@ -121,16 +126,30 @@ public class Adapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(mContext, accepted.talentplanet_renewal2.Messanger.Chatting.MainActivity.class);
-                i.putExtra("roomID", roomID);
-                i.putExtra("userID", userID);
-                i.putExtra("userName", messanger_Arraylist.get(position).getMessanger_Name());
-                mContext.startActivity(i);
-            }
-        });
+        if(isClaim){
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent();
+                    i.putExtra("userID", userID);
+                    i.putExtra("userName", messanger_Arraylist.get(position).getMessanger_Name());
+                    i.putExtra("S_FILE_PATH", messanger_Arraylist.get(position).getFilePath());
+                    ((Activity)mContext).setResult(RESULT_OK, i);
+                    ((Activity)mContext).finish();
+                }
+            });
+        }else {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(mContext, accepted.talentplanet_renewal2.Messanger.Chatting.MainActivity.class);
+                    i.putExtra("roomID", roomID);
+                    i.putExtra("userID", userID);
+                    i.putExtra("userName", messanger_Arraylist.get(position).getMessanger_Name());
+                    mContext.startActivity(i);
+                }
+            });
+        }
 
 
 
@@ -138,7 +157,7 @@ public class Adapter extends BaseAdapter {
         holder.ll_pictureContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            getTalentID(messanger_Arraylist.get(position).getMessanger_userID(), finalView);
+            getTalentID(messanger_Arraylist.get(position).getMessanger_userID(), finalView, messanger_Arraylist.get(position).getFilePath(), messanger_Arraylist.get(position).getMessanger_Name());
             }
         });
 
@@ -251,7 +270,7 @@ public class Adapter extends BaseAdapter {
         RelativeLayout rl_dateContainer;
     }
 
-    public void getTalentID(final String userID, final View finalView) {
+    public void getTalentID(final String userID, final View finalView, final String sFilePath, final String userName) {
         RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
         StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Chat/getTalentID.do", new Response.Listener<String>() {
             @Override
@@ -293,6 +312,12 @@ public class Adapter extends BaseAdapter {
                             .setNeutralButton("신고하기", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(mContext, MainActivity.class);
+                                    intent.putExtra("isSelected", true);
+                                    intent.putExtra("userID", userID);
+                                    intent.putExtra("userName", userName);
+                                    intent.putExtra("S_FILE_PATH", sFilePath);
+                                    mContext.startActivity(intent);
                                     dialog.cancel();
                                 }
                             });

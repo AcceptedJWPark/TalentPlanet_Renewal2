@@ -17,7 +17,7 @@ import java.util.Arrays;
 public class ListAdapter_Cs extends BaseAdapter {
 
     LayoutInflater inflater = null;
-    private ArrayList<String> _listData = new ArrayList<String >(Arrays.asList("공지사항", "개인정보 이용동의", "정보 이용동의", "신고 리스트", "질문과 답변"));
+    private ArrayList<String> _listData = new ArrayList<String >(Arrays.asList("공지사항", "개인정보 이용동의", "정보 이용동의", "신고 리스트", "질문과 답변", "회원탈퇴"));
     private int _dataLeng = 0;
 
     public ListAdapter_Cs() {

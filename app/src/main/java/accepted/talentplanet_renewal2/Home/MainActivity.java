@@ -294,7 +294,12 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     SaveSharedPreference.setPrefPushGrant(mContext, true, true, true);
                     Toast.makeText(mContext,"알람이 활성화되었습니다.",Toast.LENGTH_SHORT).show();
-                    ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
+                    String mode = SaveSharedPreference.getPrefTalentFlag(mContext);
+                    if (mode.equals("Y")) {
+                        ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(getColor(R.color.color_mentor));
+                    } else {
+                        ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(getColor(R.color.color_mentee));
+                    }
                     isAlaram = SaveSharedPreference.getAnswerPushGrant(mContext);
                 }
             }
