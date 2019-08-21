@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import accepted.talentplanet_renewal2.Cs.Claim.MainActivity;
+import accepted.talentplanet_renewal2.Cs.Notice.NoticeData;
 import accepted.talentplanet_renewal2.R;
 
 import android.widget.AdapterView;
