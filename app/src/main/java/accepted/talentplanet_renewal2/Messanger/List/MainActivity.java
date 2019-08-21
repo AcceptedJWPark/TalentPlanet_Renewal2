@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
     ArrayList<ListItem> messanger_Arraylist;
     Adapter messanger_ArrayAdapter;
     ListView messanger_Listview;
+    boolean isClaim;
 
     boolean deleteBtn_Clicked;
 
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
             window.setStatusBarColor(Color.rgb(255, 102, 102));
         }
 
-
+        isClaim = getIntent().hasExtra("isClaim");
 
         messanger_Listview = (ListView) findViewById(R.id.Messanger_List_ListView);
         messanger_Listview.setAdapter(messanger_ArrayAdapter);
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
 
     public void refreshChatLog(){
         messanger_Arraylist = new ArrayList<>();
-        messanger_ArrayAdapter = new Adapter(messanger_Arraylist, MainActivity.this);
+        messanger_ArrayAdapter = new Adapter(messanger_Arraylist, MainActivity.this, isClaim);
 
         String dbName = "/accepted.db";
         try {
