@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -84,6 +85,14 @@ public class MainActivity_Login extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MainActivity_Join.class);
                 startActivity(intent);
+            }
+        });
+
+        ((TextView)findViewById(R.id.tv_login_find)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, MainActivity_Find.class);
+                startActivity(i);
             }
         });
 

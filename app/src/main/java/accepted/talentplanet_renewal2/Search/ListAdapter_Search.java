@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
@@ -58,9 +59,23 @@ public class ListAdapter_Search extends BaseAdapter {
         TextView userBirth_talentlist = (TextView) convertView.findViewById(R.id.userBirth_talentlist);
         TextView hashTag_talentlist = (TextView) convertView.findViewById(R.id.hashTag_talentlist);
         TextView tv_userDistance_talentlist = (TextView) convertView.findViewById(R.id.tv_userDistance_talentlist);
+        ImageView userGender_talentlist = (ImageView) convertView.findViewById(R.id.userGender_talentlist);
+
+
 
         // 유저 정보 맵
         Map<String, Object> aUserData = itemArr.get(position);
+
+        // 유저의 프로필
+        String userThumb = (String) aUserData.get("S_FILE_PATH");
+        if (!userThumb.equals("NODATA")) {
+            Glide.with(mContext).load(SaveSharedPreference.getImageUri() + userThumb).into(civ_user_profile);
+        }
+
+        String userGender = (String) aUserData.get("gender");
+        if (userGender.equals("여")) {
+            userGender_talentlist.setImageDrawable(mContext.getResources().getDrawable(R.drawable.icon_female));
+        }
 
         Location myLocation = new Location("My point");
         try {
