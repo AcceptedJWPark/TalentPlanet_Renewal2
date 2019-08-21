@@ -22,11 +22,11 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-        Log.d(TAG, "ALTER TABLE");
-        String sql = "ALTER TABLE TB_CHAT_LOG ADD POINT_SEND_FLAG TEXT DEFAULT 0";
-        db.execSQL(sql);
-
-        sql = "ALTER TABLE TB_CHAT_LOG ADD POINT_MSG_FLAG TEXT DEFAULT 0";
-        db.execSQL(sql);
+//        Log.d(TAG, "ALTER TABLE");
+//        String sql = "ALTER TABLE TB_CHAT_LOG ADD POINT_SEND_FLAG TEXT DEFAULT 0";
+//        db.execSQL(sql);
+//
+//        sql = "ALTER TABLE TB_CHAT_LOG ADD POINT_MSG_FLAG TEXT DEFAULT 0";
+//        db.execSQL(sql);
     }
 }
