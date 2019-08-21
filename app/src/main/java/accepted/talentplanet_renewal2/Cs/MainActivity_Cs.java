@@ -76,6 +76,15 @@ public class MainActivity_Cs extends AppCompatActivity {
                         startActivity(intent2);
                         break;
 
+                    case "질문과 답변" :
+                        Intent intent3 = new Intent(MainActivity_Cs.this, MainActivity_Qna.class);
+                        startActivity(intent3);
+                        break;
+
+                    case "회원탈퇴" :
+                        Intent intent4 = new Intent(MainActivity_Cs.this, MainActivity_DeleteId.class);
+                        startActivity(intent4);
+                        break;
                 }
             }
         });
