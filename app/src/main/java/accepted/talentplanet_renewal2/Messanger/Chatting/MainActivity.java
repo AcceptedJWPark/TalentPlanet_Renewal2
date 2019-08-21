@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
 
         if(isRunning){
             cursor.moveToPrevious();
-            lastMessageID = String.valueOf(cursor.getInt(0));
+            lastMessageID = String.valueOf(cursor.getInt(5));
             Log.d("lastMessageID", lastMessageID);
 
             String updateSql = "UPDATE TB_CHAT_LOG SET READED_FLAG = 'Y' WHERE ROOM_ID = " + roomID;

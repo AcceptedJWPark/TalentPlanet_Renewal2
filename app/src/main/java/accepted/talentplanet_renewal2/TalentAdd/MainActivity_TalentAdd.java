@@ -142,7 +142,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
         talentFlag = getIntent().getStringExtra("TalentFlag");
         if(talentFlag != null) {
             getAllTalent(talentFlag);
-            Log.d("talentFlag 222", talentFlag);
+
             if(talentFlag.equals("Y")){
                 ((Button)findViewById(R.id.btn_teahcer_talentadd)).callOnClick();
             }else{
@@ -155,14 +155,22 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(mContext, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
         getAllTalent(SaveSharedPreference.getPrefTalentFlag(mContext));
     }
 
-    public void registedBgr()
-    {
+    public void registedBgr() {
         if(isTeacher) {
             int idx = 0;
 
