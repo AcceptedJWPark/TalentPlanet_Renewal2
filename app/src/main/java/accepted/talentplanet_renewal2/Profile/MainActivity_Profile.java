@@ -164,6 +164,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
     // 리스트 뷰를 초기화 하기 위한 변수
     private String listReset;
+    private boolean fromFriend;
 
     private String userID;
 
@@ -209,10 +210,22 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         isNewTalent = intent.getBooleanExtra("isNewTalent", false);
         listCateCode = intent.getStringExtra("cateCode");
         userTalentDescript = intent.getStringExtra("userTalentDescription");
-
+        fromFriend = intent.getBooleanExtra("fromFriend",false);
         mode = SaveSharedPreference.getPrefTalentFlag(mContext);
 
         //statusbar 변경
+        if(fromFriend){
+            boolean isMentor = intent.getBooleanExtra("isMentor",false);
+            if (isMentor) {
+                mode = "N";
+            } else {
+                mode = "Y";
+            }
+        }
+
+        // 재능 등록 개수 확인
+        getTalentCount();
+
         if (mode.equals("Y")) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getWindow();
@@ -228,45 +241,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
             }
-        }
-
-        // 재능 등록 개수 확인
-        getTalentCount();
-
-        ((ImageView)findViewById(R.id.iv_addtalent_profile)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cd_profile.show();
-            }
-        });
-
-        ((TextView)findViewById(R.id.tv_description_profile)).setMovementMethod(new ScrollingMovementMethod());
-        ((TextView)findViewById(R.id.tv_tag_profile)).setMovementMethod(new ScrollingMovementMethod());
-
-        //재능 수정
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
-        double width = dm.widthPixels; //디바이스 화면 너비
-        double height = dm.heightPixels; //디바이스 화면 높이
-
-
-
-        img_gender_profile = findViewById(R.id.img_gender_profile);
-        tv_profile_description = findViewById(R.id.tv_profile_description);
-        tv_birth_profile = findViewById(R.id.tv_birth_profile);
-
-        sp_talent_profile = findViewById(R.id.sp_talent_profile);
-
-        mentorTalentList = new ArrayList<>();
-        menteeTalentList = new ArrayList<>();
-
-        tv_toolbarprofle = findViewById(R.id.tv_toolbarprofle);
-
-        if (intent.getStringExtra("userName") != null) {
-            cateCode = intent.getStringExtra("cateCode");
-            targetUserID = intent.getStringExtra("userID");
-            messageUserID = targetUserID;
-            messageUserName = intent.getStringExtra("userName");
-            messageFilePath = intent.getStringExtra("FILE_PATH");
         }
 
         if (inPerson) {
@@ -398,17 +372,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         } else {
             userID = intent.getStringExtra("userID");
 
-            boolean fromFriend = intent.getBooleanExtra("fromFriend",false);
-
-            if (fromFriend) {
-                boolean isMentor = intent.getBooleanExtra("isMentor",false);
-                if (isMentor) {
-                    mode = "N";
-                } else {
-                    mode = "Y";
-                }
-            }
-
             getProfileData(intent);
 
             ((TextView)findViewById(R.id.tv_profile_description)).setOnClickListener(new View.OnClickListener(){
@@ -417,6 +380,43 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     showProfileInfo();
                 }
             });
+        }
+
+
+        ((ImageView)findViewById(R.id.iv_addtalent_profile)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cd_profile.show();
+            }
+        });
+
+        ((TextView)findViewById(R.id.tv_description_profile)).setMovementMethod(new ScrollingMovementMethod());
+        ((TextView)findViewById(R.id.tv_tag_profile)).setMovementMethod(new ScrollingMovementMethod());
+
+        //재능 수정
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics(); //디바이스 화면크기를 구하기위해
+        double width = dm.widthPixels; //디바이스 화면 너비
+        double height = dm.heightPixels; //디바이스 화면 높이
+
+
+
+        img_gender_profile = findViewById(R.id.img_gender_profile);
+        tv_profile_description = findViewById(R.id.tv_profile_description);
+        tv_birth_profile = findViewById(R.id.tv_birth_profile);
+
+        sp_talent_profile = findViewById(R.id.sp_talent_profile);
+
+        mentorTalentList = new ArrayList<>();
+        menteeTalentList = new ArrayList<>();
+
+        tv_toolbarprofle = findViewById(R.id.tv_toolbarprofle);
+
+        if (intent.getStringExtra("userName") != null) {
+            cateCode = intent.getStringExtra("cateCode");
+            targetUserID = intent.getStringExtra("userID");
+            messageUserID = targetUserID;
+            messageUserName = intent.getStringExtra("userName");
+            messageFilePath = intent.getStringExtra("FILE_PATH");
         }
 
 
@@ -2018,7 +2018,11 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
             protected Map<String, String> getParams(){
                 Map<String, String> params = new HashMap();
                 params.put("userID", SaveSharedPreference.getUserId(mContext));
-                params.put("talentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
+                if(fromFriend){
+                    params.put("talentFlag", mode);
+                }else {
+                    params.put("talentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
+                }
                 return params;
             }
         };
