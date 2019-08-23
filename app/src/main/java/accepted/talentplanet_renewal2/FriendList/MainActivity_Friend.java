@@ -213,6 +213,12 @@ public class MainActivity_Friend extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             Intent intent = new Intent(MainActivity_Friend.this, accepted.talentplanet_renewal2.Profile.MainActivity_Profile.class);
                             intent.putExtra("userID", oData.get(position).getStrUserID());
+                            intent.putExtra("userName", oData.get(position).getStrUserName());
+                            String isMentor = oData.get(position).getStrIsMentor();
+                            if (isMentor.equals("N")) {
+                                intent.putExtra("isMentor", true);
+                            }
+                            intent.putExtra("fromFriend", true);
                             startActivity(intent);
                         }
                     });

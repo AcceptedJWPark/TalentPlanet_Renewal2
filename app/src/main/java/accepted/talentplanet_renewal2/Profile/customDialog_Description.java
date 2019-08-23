@@ -52,17 +52,25 @@ public class customDialog_Description extends Dialog {
     int talentID = 0;
     private int code;
     private boolean inPerson;
+    private boolean fromFriendFlag;
+    private String friendTK;
+    private String flag;
+    private String userDescription;
 
-    public customDialog_Description(@NonNull Context context, String userDescription, boolean isUser) {
+    public customDialog_Description(@NonNull Context context, String description, boolean isUser) {
         super(context);
 
         mContext = context;
-        String flag = SaveSharedPreference.getPrefTalentFlag(mContext);
+        flag = SaveSharedPreference.getPrefTalentFlag(mContext);
         inPerson = isUser;
+        userDescription = description;
         requestWindowFeature(Window.FEATURE_NO_TITLE);   //다이얼로그의 타이틀바를 없애주는 옵션입니다.
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));  //다이얼로그의 배경을 투명으로 만듭니다.
         setContentView(R.layout.profile_edittalent_popup);     //다이얼로그에서 사용할 레이아웃입니다.
 
+    }
+
+    public void makeLayout() {
         rl_editorhead_popup = findViewById(R.id.rl_editorhead_popup);
         if (flag.equals("N")) {
             rl_editorhead_popup.setBackgroundColor( mContext.getResources().getColor(R.color.color_mentee));
@@ -113,6 +121,12 @@ public class customDialog_Description extends Dialog {
             if (userDescription != null && userDescription.length() != 0) {
                 ((TextView)findViewById(R.id.tv_userdescript_talent)).setText(userDescription);
             }
+
+            if (fromFriendFlag) {
+                if (friendTK.equals("N")) {
+                    rl_editorhead_popup.setBackgroundColor( mContext.getResources().getColor(R.color.color_mentee));
+                }
+            }
         }
     }
 
@@ -158,4 +172,13 @@ public class customDialog_Description extends Dialog {
     public void setInPerson(boolean flag) {
         this.inPerson = flag;
     }
+
+    public void setFriendFlag(boolean flag2) {
+        this.fromFriendFlag = flag2;
+    }
+
+    public void setFriendTelantKind(String kind) {
+        this.friendTK = kind;
+    }
+
 }

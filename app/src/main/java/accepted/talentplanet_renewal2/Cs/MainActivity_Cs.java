@@ -72,7 +72,7 @@ public class MainActivity_Cs extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case "신고 리스트" :
-                        Intent intent2 = new Intent(MainActivity_Cs.this, MainActivity.class);
+                        Intent intent2 = new Intent(MainActivity_Cs.this, accepted.talentplanet_renewal2.Cs.Claim.ClaimList.MainActivity.class);
                         intent2.putExtra("ctgrTitle", status);
                         startActivity(intent2);
                         break;
