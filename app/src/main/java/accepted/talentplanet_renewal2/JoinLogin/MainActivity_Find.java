@@ -2,12 +2,14 @@ package accepted.talentplanet_renewal2.JoinLogin;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,8 @@ public class MainActivity_Find extends AppCompatActivity {
 
     private Context mContext;
     private String certNum_id, certNum_pw;
+    private ImageView iv_toolbar_search_talentlist;
+    private ImageView img_back_toolbar_talentlist;
     private EditText et_admit_id, et_phone_id;
     private EditText et_admit_pw, et_phone_pw, et_id_idpw;
     private EditText et_chgpassword_pw, et_chgpasswordcomp_pw;
@@ -47,6 +51,9 @@ public class MainActivity_Find extends AppCompatActivity {
         mContext = this;
         setContentView(R.layout.idpw_activity);
         ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText("Find ID/PW");
+        iv_toolbar_search_talentlist = (ImageView) findViewById(R.id.iv_toolbar_search_talentlist);
+        img_back_toolbar_talentlist = (ImageView) findViewById(R.id.img_back_toolbar_talentlist);
+
         et_phone_id = findViewById(R.id.et_phone_id);
         et_admit_id = findViewById(R.id.et_admit_id);
         et_admit_pw = findViewById(R.id.et_admit_pw);
@@ -104,6 +111,12 @@ public class MainActivity_Find extends AppCompatActivity {
             }
         });
 
+        img_back_toolbar_talentlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void sendSMS(final String phone,final boolean isFindID){
@@ -174,7 +187,13 @@ public class MainActivity_Find extends AppCompatActivity {
         if(certNum.equals(inputStr)){
             if(isFindID) {
                 isCheckCertNum_id = true;
-                Toast.makeText(mContext, "회원님의 아이디는 " + MemID + " 입니다.", Toast.LENGTH_SHORT).show();
+                // TODO 다이얼로그로 교체
+                AlertDialog.Builder ad = new AlertDialog.Builder(mContext);
+                ad.setTitle("아이디 찾기");
+                ad.setMessage("회원님의 아이디는 \n"+ "\"" + MemID + "\"" + " 입니다.");
+                ad.show();
+
+//                Toast.makeText(mContext, "회원님의 아이디는 " + MemID + " 입니다.", Toast.LENGTH_SHORT).show();
             }else{
                 isCheckCertNum_pw = true;
                 Toast.makeText(mContext, "인증이 완료되었습니다. 비밀번호를 변경해주세요.", Toast.LENGTH_SHORT).show();

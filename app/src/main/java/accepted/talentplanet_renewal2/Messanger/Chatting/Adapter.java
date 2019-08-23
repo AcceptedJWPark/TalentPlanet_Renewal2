@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.Cs.Claim.MainActivity;
+import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.Profile.customDialog_PointSend;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
@@ -47,6 +49,7 @@ public class Adapter extends BaseAdapter {
     Context mContext;
     String filePath;
     String receiverID;
+    String userName;
 
 
     public Adapter(ArrayList<ListItem> messanger_Chatting_Arraylist, Context mContext, String filePath, String receiverID) {
@@ -146,13 +149,38 @@ public class Adapter extends BaseAdapter {
                     holder.Messanger_Chatting_Point.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent i = new Intent();
-                            i.putExtra("S_FILE_PATH", filePath);
-                            i.putExtra("userGender", "남");
-                            i.putExtra("userName", messanger_Chatting_Arraylist.get(position).getTargetName());
-                            i.putExtra("BIRTH_FLAG", "Y");
-                            i.putExtra("MessageID", messanger_Chatting_Arraylist.get(position).getMessageID());
-                            SaveSharedPreference.showCustomDialog(mContext, SaveSharedPreference.getUserId(mContext), messanger_Chatting_Arraylist.get(position).getTargetID(), "N", i);
+
+                            RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
+                            StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "/Profile/getMyProfileInfo_new.do", new Response.Listener<String>(){
+                                @Override
+                                public void onResponse(String response){
+                                    try {
+                                        JSONObject obj = new JSONObject(response);
+
+                                        Intent i = new Intent();
+
+                                        i.putExtra("userInfo", obj.getString("USER_BIRTH"));
+                                        i.putExtra("S_FILE_PATH", obj.getString("S_FILE_PATH"));
+                                        i.putExtra("userGender", obj.getString("GENDER"));
+                                        i.putExtra("userName", messanger_Chatting_Arraylist.get(position).getTargetName());
+                                        i.putExtra("BIRTH_FLAG", obj.getString("BIRTH_FLAG"));
+                                        i.putExtra("MessageID", messanger_Chatting_Arraylist.get(position).getMessageID());
+                                        i.putExtra("userDescription", obj.getString("PROFILE_DESCRIPTION"));
+                                        SaveSharedPreference.showCustomDialog(mContext, SaveSharedPreference.getUserId(mContext), messanger_Chatting_Arraylist.get(position).getTargetID(), "N", i);
+
+                                    } catch(JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, SaveSharedPreference.getErrorListener(mContext)) {
+                                @Override
+                                protected Map<String, String> getParams(){
+                                    Map<String, String> params = new HashMap();
+                                    params.put("userID", receiverID);
+                                    return params;
+                                }
+                            };
+                            postRequestQueue.add(postJsonRequest);
                         }
                     });
                 }
@@ -198,7 +226,7 @@ public class Adapter extends BaseAdapter {
 
                     final AlertDialog.Builder AlarmDeleteDialog = new AlertDialog.Builder(new ContextThemeWrapper(mContext, R.style.myDialog));
 
-                            getTalentID(receiverID, finalView);
+                            getTalentID(receiverID, finalView,filePath,messanger_Chatting_Arraylist.get(position).getTargetName());
 
                         }
                     });
@@ -253,7 +281,7 @@ public class Adapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void getTalentID(final String userID, final View finalView) {
+    public void getTalentID(final String userID, final View finalView, final String sFilePath, final String userName) {
         RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
         StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Chat/getTalentID.do", new Response.Listener<String>() {
             @Override
@@ -266,43 +294,49 @@ public class Adapter extends BaseAdapter {
                     final AlertDialog.Builder AlarmDeleteDialog = new AlertDialog.Builder(new ContextThemeWrapper(mContext, R.style.myDialog));
 
                     AlarmDeleteDialog.setMessage("상대방 프로필 보기")
-                            .setPositiveButton("관심 재능", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if(takeTalentID == -1){
-                                        Toast.makeText(mContext,"상대방의 관심 재능이 등록되지 않았습니다.",Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        // TO-DO : 프로필 열기
-//                                        Intent intent = new Intent(mContext, com.accepted.acceptedtalentplanet.TalentSharing.Popup.MainActivity.class);
-//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        intent.putExtra("TalentID", String.valueOf(takeTalentID));
-//                                        intent.putExtra("TalentFlag", "Take");
-//                                        mContext.startActivity(intent);
-                                    }
-                                    dialog.cancel();
+                        .setPositiveButton("Teacher", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                int userPoint = SaveSharedPreference.getTalentPoint(mContext);
+                                if (userPoint <= 0) {
+                                    Toast.makeText(mContext, "현재 포인트가 없어 보실 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Intent intent = new Intent(mContext, MainActivity_Profile.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.putExtra("userID", userID);
+                                    intent.putExtra("fromFriend", true);
+                                    intent.putExtra("isMentor", false);
+                                    mContext.startActivity(intent);
                                 }
-                            })
-                            .setNegativeButton("재능 드림", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if(giveTalentID == -1){
-                                        Toast.makeText(mContext,"상대방의 재능 드림이 등록되지 않았습니다.",Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        Intent intent = new Intent(mContext, MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        intent.putExtra("TalentID", String.valueOf(giveTalentID));
-                                        intent.putExtra("TalentFlag", "Give");
-                                        mContext.startActivity(intent);
-                                    }
-                                    dialog.cancel();
-                                }
-                            })
-                            .setNeutralButton("닫기", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
+
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("Student", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(mContext, MainActivity_Profile.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("userID", userID);
+                                intent.putExtra("fromFriend", true);
+                                intent.putExtra("isMentor", true);
+                                mContext.startActivity(intent);
+
+                                dialog.cancel();
+                            }
+                        })
+                        .setNeutralButton("신고하기", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(mContext, MainActivity.class);
+                                intent.putExtra("isSelected", true);
+                                intent.putExtra("userID", userID);
+                                intent.putExtra("userName", userName);
+                                intent.putExtra("S_FILE_PATH", sFilePath);
+                                mContext.startActivity(intent);
+                                dialog.cancel();
+                            }
+                        });
 
                     AlertDialog alertDialog = AlarmDeleteDialog.create();
                     alertDialog.show();

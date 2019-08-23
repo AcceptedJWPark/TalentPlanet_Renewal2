@@ -287,12 +287,17 @@ public class Adapter extends BaseAdapter {
                             .setPositiveButton("Teacher", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(mContext, MainActivity_Profile.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.putExtra("userID", userID);
-                                    intent.putExtra("fromFriend", true);
-                                    intent.putExtra("isMentor", true);
-                                    mContext.startActivity(intent);
+                                    int userPoint = SaveSharedPreference.getTalentPoint(mContext);
+                                    if (userPoint <= 0) {
+                                        Toast.makeText(mContext, "현재 포인트가 없어 보실 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Intent intent = new Intent(mContext, MainActivity_Profile.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.putExtra("userID", userID);
+                                        intent.putExtra("fromFriend", true);
+                                        intent.putExtra("isMentor", false);
+                                        mContext.startActivity(intent);
+                                    }
 
                                     dialog.cancel();
                                 }
@@ -304,7 +309,7 @@ public class Adapter extends BaseAdapter {
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.putExtra("userID", userID);
                                     intent.putExtra("fromFriend", true);
-                                    intent.putExtra("isMentor", false);
+                                    intent.putExtra("isMentor", true);
                                     mContext.startActivity(intent);
 
                                     dialog.cancel();

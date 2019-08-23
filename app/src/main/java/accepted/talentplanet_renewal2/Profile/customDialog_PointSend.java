@@ -80,6 +80,10 @@ public class customDialog_PointSend extends Dialog {
     private String mentorID;
     private String menteeID;
 
+    // message 를 위한 파라미터
+    private String messageTarget;
+    private int messageRoomID;
+
     public customDialog_PointSend(@NonNull Context context, String mode, String targetID, String gender, Intent intent) {
         super(context);
         mContext = context;
@@ -108,7 +112,6 @@ public class customDialog_PointSend extends Dialog {
         if (intent.getBooleanExtra("inPerson",false) == false && intent.getStringExtra("userGender").equals("여")) {
             Glide.with(mContext).load(R.drawable.icon_female).into((ImageView) findViewById(R.id.iv_gendericon_popup));
         }
-
 
         if (isMentor.equals("Y")) {
             MessageID = String.valueOf(intent.getIntExtra("MessageID", 0));
@@ -141,13 +144,13 @@ public class customDialog_PointSend extends Dialog {
 
             ((TextView)findViewById(R.id.tv_text_pointsend)).setText("Teacher에게 포인트를 보냅니다.");
             ((TextView)findViewById(R.id.btn_reviewuser_popup)).setText("포인트 보내기");
-
-
         }
 
         // 상대방의 아이디
         userName = intent.getStringExtra("userName");
         tv_username_popup.setText(userName);
+        // message 대상
+        messageTarget = targetID;
 
         if (intent.getStringExtra("BIRTH_FLAG").equals("N")) {
             String userBirth = intent.getStringExtra("userInfo");
@@ -239,23 +242,38 @@ public class customDialog_PointSend extends Dialog {
                             userPoint = SaveSharedPreference.getTalentPoint(mContext) + 1;
                             sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(mContext.getFilesDir() + dbName, null);
                             sqliteDatabase.execSQL("UPDATE TB_CHAT_LOG SET POINT_SEND_FLAG = '1' WHERE MESSAGE_ID = '" + MessageID + "'");
+
+                            Intent intent = new Intent(mContext, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mContext.startActivity(intent);
+
                         } else if (isMentor.equals("N")) {
                             userPoint = SaveSharedPreference.getTalentPoint(mContext) - 1;
                             int roomID = SaveSharedPreference.makeChatRoom(mContext, mentorID, userName, imgResource);
+                            messageRoomID = roomID;
                             final Date date = new Date();
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd,a hh:mm:ss");
                             simpleDateFormat.setTimeZone(time);
                             final String nowDateStr = simpleDateFormat.format(date);
                             sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(mContext.getFilesDir() + dbName, null);
                             sqliteDatabase.execSQL("INSERT INTO TB_CHAT_LOG(MESSAGE_ID, ROOM_ID, MASTER_ID, USER_ID, CONTENT, CREATION_DATE, POINT_MSG_FLAG) VALUES (" + obj.getString("MESSAGE_ID") + ","+roomID+" ,'" + SaveSharedPreference.getUserId(mContext) + "', '"+SaveSharedPreference.getUserId(mContext)+"','포인트 보내기','"+nowDateStr+"', '1')");
+
+                            Intent i = new Intent(mContext, accepted.talentplanet_renewal2.Messanger.Chatting.MainActivity.class);
+                            i.putExtra("roomID", messageRoomID);
+                            i.putExtra("userID", messageTarget);
+                            i.putExtra("userName", userName);
+                            mContext.startActivity(i);
                         }
 
                         SaveSharedPreference.setPrefTalentPoint(mContext, userPoint);
 
                         Toast.makeText(mContext, "평가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(mContext, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        mContext.startActivity(intent);
+                        // 2019-08-25
+//                        Intent intent = new Intent(mContext, MainActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        mContext.startActivity(intent);
+                        // 2019-08-26
+
                         dismiss();
                     }
                 }
@@ -279,5 +297,4 @@ public class customDialog_PointSend extends Dialog {
 
         postRequestQueue.add(postJsonRequest);
     }
-
 }

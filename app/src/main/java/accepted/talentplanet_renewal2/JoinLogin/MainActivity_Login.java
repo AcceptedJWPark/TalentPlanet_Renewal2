@@ -188,6 +188,11 @@ public class MainActivity_Login extends AppCompatActivity {
                     SaveSharedPreference.setMyPicturePath(obj.getString("FILE_PATH"), obj.getString("S_FILE_PATH"));
                     SaveSharedPreference.setPrefUserBirthFlag(mContext, obj.getString("BIRTH_FLAG"));
 
+                    boolean isAlarm = SaveSharedPreference.getAnswerPushGrant(mContext);
+                    if (!isAlarm) {
+                        SaveSharedPreference.setPrefPushGrant(mContext, false, false, false);
+                    }
+
                     if (obj.has("GP_LNG") && obj.has("GP_LAT")) {
                         SaveSharedPreference.setPrefUserGpLng(mContext, obj.getString("GP_LNG"));
                         SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));

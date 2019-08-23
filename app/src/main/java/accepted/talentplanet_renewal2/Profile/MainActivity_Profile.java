@@ -229,9 +229,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         if(fromFriend){
             boolean isMentor = intent.getBooleanExtra("isMentor",false);
             if (isMentor) {
-                mode = "N";
-            } else {
                 mode = "Y";
+            } else {
+                mode = "N";
             }
         }
 
@@ -383,6 +383,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         } else {
             userID = intent.getStringExtra("userID");
+            targetUserID = userID;
 
             getProfileData(intent);
 
@@ -645,10 +646,12 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         String userInfo = (String) profileData.get("USER_BIRTH");
                         String userDescription = (String) profileData.get("PROFILE_DESCRIPTION");
 
+                        intent.putExtra("userName", userName);
                         intent.putExtra("userGender", gender);
                         intent.putExtra("BIRTH_FLAG", birthFlag);
                         intent.putExtra("userInfo", userInfo);
                         intent.putExtra("S_FILE_PATH", imgResource);
+                        intent.putExtra("userDescription", userDescription);
 
                         ((TextView)findViewById(R.id.tv_name_profile)).setText(userName);
                         ((TextView)findViewById(R.id.tv_birth_profile)).setText(userInfo.replaceAll("-", "\\."));
@@ -688,7 +691,10 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         }
 
                         //포인트 지급
-                        mode = SaveSharedPreference.getPrefTalentFlag(mContext);
+                        if (!fromFriend) {
+                            mode = SaveSharedPreference.getPrefTalentFlag(mContext);
+                        }
+
                         cd_PointSend = new customDialog_PointSend(MainActivity_Profile.this, mode, userID, gender, intent);
                         WindowManager.LayoutParams wm2 = cd_PointSend.getWindow().getAttributes();  //다이얼로그의 높이 너비 설정하기위해
                         wm2.copyFrom(cd_PointSend.getWindow().getAttributes());  //여기서 설정한값을 그대로 다이얼로그에 넣겠다는의미
@@ -698,18 +704,25 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         ((ImageView)findViewById(R.id.iv_share_profile)).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                cd_PointSend.show();
+                                int userPoint = SaveSharedPreference.getTalentPoint(mContext);
+                                if (userPoint <= 0) {
+                                    Toast.makeText(mContext, "현재 포인트가 없어 공유하실 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    cd_PointSend.show();
+                                }
                             }
                         });
 
                         // 타 유저의 공개여부에 맞게
                         checkUserOpenData(birthFlag);
 
-                        // 자신이 타유저를 볼때 반전되는 플래그
-                        if (mode.equals("Y")) {
-                            mode = "N";
-                        } else {
-                            mode = "Y";
+                        if (inPerson) {
+                            // 자신이 타유저를 볼때 반전되는 플래그
+                            if (mode.equals("Y")) {
+                                mode = "N";
+                            } else {
+                                mode = "Y";
+                            }
                         }
 
                         iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
@@ -1661,7 +1674,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 if (mode.equals("Y")) {
                     flag = "N";
                 }
-                params.put("talentFlag", flag);
+                params.put("talentFlag", mode);
                 return params;
             }
         };
@@ -1694,11 +1707,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 params.put("userID", SaveSharedPreference.getUserId(mContext));
                 params.put("friendID", targetUserID);
                 params.put("updateFlag", "D");
-                String flag = "Y";
-                if (mode.equals("Y")) {
-                    flag = "N";
-                }
-                params.put("talentFlag", flag);
+
+                params.put("talentFlag", mode);
                 return params;
             }
         };
@@ -1710,6 +1720,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         String text = ((TextView) findViewById(R.id.tv_profile_description)).getText().toString();
 
         cd_Description = new customDialog_Description(MainActivity_Profile.this, text, true);
+        cd_Description.makeLayout();
         cd_Description.show();
     }
 
@@ -1717,6 +1728,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
         String text = ((TextView) findViewById(R.id.tv_profile_description)).getText().toString();
 
         cd_Description = new customDialog_Description(MainActivity_Profile.this, text, false);
+        cd_Description.setFriendFlag(fromFriend);
+        cd_Description.setFriendTelantKind(mode);
+        cd_Description.makeLayout();
         cd_Description.show();
     }
 
@@ -1888,10 +1902,18 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     }else {
                         ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(View.GONE);
                     }
-                    Log.d("flags :", fromFriend + " " + mode);
-                    if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("N") && (fromFriend && !mode.equals("Y"))) {
+
+                    if (SaveSharedPreference.getPrefTalentFlag(mContext).equals("N") && (!mode.equals("Y"))) {
                         ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(VISIBLE);
                     }
+
+                    // 친구리스트의 경우
+                    if(fromFriend){
+                        if (mode.equals("N")) {
+                            ((ImageView)findViewById(R.id.iv_share_profile)).setVisibility(VISIBLE);
+                        }
+                    }
+
                 }
                 catch(JSONException e){
                     e.printStackTrace();

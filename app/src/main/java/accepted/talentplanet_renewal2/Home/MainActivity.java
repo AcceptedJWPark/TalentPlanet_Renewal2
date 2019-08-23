@@ -473,11 +473,7 @@ public class MainActivity extends AppCompatActivity {
         String myPicture = SaveSharedPreference.getMyPicturePath();
 
         if (myPicture != null && !myPicture.equals("NODATA")) {
-            Glide.with(mContext)
-                    .load(SaveSharedPreference.getServerIp()+myPicture)
-                    .asBitmap()
-                    .format(DecodeFormat.PREFER_ARGB_8888)
-                    .into(((ImageView)findViewById(R.id.cimg_pic_dl)));
+            Glide.with(mContext).load(SaveSharedPreference.getServerIp()+myPicture).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
         }
 
         ((LinearLayout)findViewById(R.id.ll_myprofile_dl)).setOnClickListener(new View.OnClickListener() {

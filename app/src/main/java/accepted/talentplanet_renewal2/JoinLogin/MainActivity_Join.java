@@ -214,15 +214,14 @@ public class MainActivity_Join extends AppCompatActivity {
     public void checkGender(String gender)
     {
         gendercheck = true;
-        if (gender.equals("male"))
-        {
+        if (gender.equals("male")) {
             img_malecheck.setImageResource(R.drawable.icon_check1on);
             img_femalecheck.setImageResource(R.drawable.icon_check1off);
-        }
-        else
-        {
+            malecheck = true;
+        } else {
             img_malecheck.setImageResource(R.drawable.icon_check1off);
             img_femalecheck.setImageResource(R.drawable.icon_check1on);
+            malecheck = false;
         }
     }
 
