@@ -145,6 +145,8 @@ public class MainActivity_Login extends AppCompatActivity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra("Activity", true);
                                 SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
+                                SaveSharedPreference.setPrefUserGpLat(mContext, "0");
+                                SaveSharedPreference.setPrefUserGpLng(mContext, "0");
                                 startActivity(intent);
                             }
                         },500);

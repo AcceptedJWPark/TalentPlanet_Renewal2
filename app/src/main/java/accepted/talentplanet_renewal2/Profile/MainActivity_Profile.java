@@ -287,7 +287,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                 ((TextView)findViewById(R.id.tv_profile_description)).setBackgroundResource(R.drawable.white_dash_line);
             }
 
-            if (lat.equals("") || lng.equals("")) {
+            if (lat.equals("0") || lng.equals("0")) {
                 ((ImageView)findViewById(R.id.img_mappointer)).setVisibility(GONE);
                 ((TextView)findViewById(R.id.tv_addr_profile)).setText("터치해서 위치를 등록해보세요.");
                 ((TextView)findViewById(R.id.tv_addr_profile)).setBackgroundResource(R.drawable.white_dash_line);
@@ -1436,7 +1436,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                             ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
                         } else {
                             String[] addr = list.get(0).getAddressLine(0).split(" ");
-
+                            ((TextView)findViewById(R.id.tv_addr_profile)).setBackgroundResource(0);
                             ((TextView)findViewById(R.id.tv_addr_profile)).setText(addr[1]+" "+addr[2]+" "+addr[3]);
                         }
                     } catch (IOException e) {

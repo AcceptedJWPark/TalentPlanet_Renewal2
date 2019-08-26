@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         ((Spinner)findViewById(R.id.sp_toolbar)).setVisibility(View.GONE);
 
         ((ImageView)findViewById(R.id.img_rightbtn)).setVisibility(View.GONE);
-        ((ImageView)findViewById(R.id.img_alarm)).setVisibility(View.GONE);
 
         civ_user_claim = findViewById(R.id.civ_user_claim);
 

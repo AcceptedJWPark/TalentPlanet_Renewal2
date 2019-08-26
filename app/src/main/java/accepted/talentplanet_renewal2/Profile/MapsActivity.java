@@ -55,7 +55,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     ImageView img_rightbtn;
     ImageView img_open_dl;
-    ImageView img_alarm;
     TextView tv_Choose;
     EditText et_searchaddr_map;
     LinearLayout ll_searchbtn_map;
@@ -98,7 +97,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         img_rightbtn = findViewById(R.id.img_rightbtn);
         img_open_dl = findViewById(R.id.img_open_dl);
-        img_alarm = findViewById(R.id.img_alarm);
         tv_Choose = findViewById(R.id.tv_Choose);
         ll_searchbtn_map = findViewById(R.id.ll_searchbtn_map);
         et_searchaddr_map = findViewById(R.id.et_searchaddr_map);
@@ -114,7 +112,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         img_rightbtn.setVisibility(View.GONE);
-        img_alarm.setVisibility(View.GONE);
         img_open_dl.setImageResource(R.drawable.icon_back);
 
         img_open_dl.setOnClickListener(new View.OnClickListener() {

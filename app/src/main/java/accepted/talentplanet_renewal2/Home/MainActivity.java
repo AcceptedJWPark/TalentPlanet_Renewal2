@@ -3,7 +3,9 @@ package accepted.talentplanet_renewal2.Home;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -45,6 +47,7 @@ import accepted.talentplanet_renewal2.AddCategory.MainActivity_AddCategory;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
 import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
+import accepted.talentplanet_renewal2.MyFirebaseMessagingService;
 import accepted.talentplanet_renewal2.MySQLiteOpenHelper;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
@@ -228,9 +231,9 @@ public class MainActivity extends AppCompatActivity {
         drawerlayoutEvent(mContext);
         isAlaram = SaveSharedPreference.getAnswerPushGrant(mContext);
         if (isAlaram) {
-            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
-        } else {
             ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
+        } else {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
         }
 
         makeTestTalentArr();
@@ -243,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("db path = ", getFilesDir() + dbName);
 
         MySQLiteOpenHelper dbHelper = new MySQLiteOpenHelper(mContext, getFilesDir() + dbName, null, 7);
-//        sqliteDatabase = dbHelper.getReadableDatabase();
+        sqliteDatabase = dbHelper.getReadableDatabase();
 
         String sqlCreateTbl2 = "CREATE TABLE IF NOT EXISTS TB_CHAT_ROOM (ROOM_ID INTEGER, USER_ID TEXT, USER_NAME TEXT, MASTER_ID TEXT, START_MESSAGE_ID INTEGER, CREATION_DATE TEXT, LAST_UPDATE_DATE TEXT, ACTIVATE_FLAG TEXT, FILE_PATH TEXT, PRIMARY KEY(ROOM_ID, USER_ID, MASTER_ID))";
         sqliteDatabase.execSQL(sqlCreateTbl2);
@@ -590,7 +593,12 @@ public class MainActivity extends AppCompatActivity {
         talentCateFindView();
         Glide.with(mContext).load(R.drawable.pic_home_teacher).into((ImageView)findViewById(R.id.img_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
-        ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+        if (isAlaram) {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+        } else {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
+        }
+
         ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(WHITE);
         ((ImageView)findViewById(R.id.img_addcate)).setImageResource(R.drawable.icon_addcate_teacher);
 
@@ -629,7 +637,11 @@ public class MainActivity extends AppCompatActivity {
         talentCateFindView();
         Glide.with(mContext).load(R.drawable.pic_home_student).into((ImageView)findViewById(R.id.img_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-        ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+        if (isAlaram) {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+        } else {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
+        }
         ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         ((ImageView)findViewById(R.id.img_addcate)).setImageResource(R.drawable.icon_addcate_student);
 
@@ -701,6 +713,7 @@ public class MainActivity extends AppCompatActivity {
 
         drawerlayoutEvent(mContext);
         getCateList();
+        haveNewMessage();
     }
 
     @Override
@@ -799,5 +812,29 @@ public class MainActivity extends AppCompatActivity {
         postRequestQueue.add(postJsonRequest);
     }
 
+    public void haveNewMessage() {
+
+        int newMessageCount = 0;
+        String dbName = "/accepted.db";
+        sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + dbName, null);
+        String selectBasicChat = "SELECT COUNT(ROOM_ID) AS UNREADED_COUNT FROM TB_CHAT_LOG WHERE READED_FLAG = 'N' AND MASTER_ID ='"+ SaveSharedPreference.getUserId(mContext) +"'";
+        Cursor cursor = sqliteDatabase.rawQuery(selectBasicChat, null);
+
+        while(cursor.moveToNext()==true){
+            int aData = cursor.getInt(0);
+            if (aData > 0) {
+                newMessageCount++;
+            }
+        }
+        cursor.close();
+
+        if (newMessageCount > 0) {
+            ((ImageView) findViewById(R.id.img_alarm1)).setVisibility(View.VISIBLE);
+            ((ImageView) findViewById(R.id.img_alarm2)).setVisibility(View.VISIBLE);
+        } else {
+            ((ImageView) findViewById(R.id.img_alarm1)).setVisibility(View.GONE);
+            ((ImageView) findViewById(R.id.img_alarm2)).setVisibility(View.GONE);
+        }
+    }
 
 }

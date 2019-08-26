@@ -63,7 +63,6 @@ public class MainActivity_SharingList extends AppCompatActivity {
         ((Spinner)findViewById(R.id.sp_toolbar)).setVisibility(View.GONE);
 
         ((ImageView)findViewById(R.id.img_rightbtn)).setVisibility(View.GONE);
-        ((ImageView)findViewById(R.id.img_alarm)).setVisibility(View.GONE);
 
         final Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
