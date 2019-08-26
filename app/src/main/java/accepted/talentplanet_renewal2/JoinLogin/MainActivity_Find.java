@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,7 +76,6 @@ public class MainActivity_Find extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String phone = et_phone_id.getText().toString();
-                Log.d("asdasaa", phone);
                 sendSMS(phone, true);
             }
         });
@@ -92,6 +92,14 @@ public class MainActivity_Find extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String phone = et_phone_pw.getText().toString();
+                if(et_id_idpw.getText().toString().isEmpty()){
+                    Toast.makeText(mContext, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if(!Patterns.EMAIL_ADDRESS.matcher(et_id_idpw.getText().toString()).matches())
+                {
+                    Toast.makeText(getApplicationContext(),"잘못된 아이디 형식입니다.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 sendSMS(phone, false);
             }
         });
@@ -127,6 +135,7 @@ public class MainActivity_Find extends AppCompatActivity {
         //E-mail 주소 패턴 확인
         if(TextUtils.isEmpty(phone))
         {
+            Toast.makeText(mContext, "핸드폰 번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
         else if(!Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", phone))
