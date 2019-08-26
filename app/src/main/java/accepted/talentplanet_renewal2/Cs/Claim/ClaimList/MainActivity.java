@@ -1,9 +1,13 @@
 package accepted.talentplanet_renewal2.Cs.Claim.ClaimList;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -44,12 +48,18 @@ public class MainActivity extends AppCompatActivity {
 
     private String networkState;
 
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mContext = getApplicationContext();
         networkState = SaveSharedPreference.getWhatKindOfNetwork(mContext);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.rgb(255, 102, 102));
+        }
+
         if(networkState.equals(SaveSharedPreference.NONE_STATE) || (networkState.equals(SaveSharedPreference.WIFI_STATE) && !SaveSharedPreference.isOnline())){
             setContentView(R.layout.error_page);
             ((Button)findViewById(R.id.btn_RefreshErrorPage)).setOnClickListener(new View.OnClickListener() {
@@ -60,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
             });
         }else {
             setContentView(R.layout.customerservice_claimlist_activity);
+
+            ((ImageView) findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
+
+            TextView tv_toolbar_talentlist = (TextView) findViewById(R.id.tv_toolbar_talentlist);
+            ImageView img_back_toolbar_talentlist = (ImageView) findViewById(R.id.img_back_toolbar_talentlist);
+
+            img_back_toolbar_talentlist.setVisibility(View.VISIBLE);
+            tv_toolbar_talentlist.setText("신고 리스트");
 
             expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView_ClaimList);
             getClaimList();
@@ -78,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            // 뒤로가기
+            img_back_toolbar_talentlist.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
         }
     }
 
@@ -92,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getClaimList() {
         RequestQueue postRequestQueue = VolleySingleton.getInstance(mContext).getRequestQueue();
-        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Customer/getClaimList.do", new Response.Listener<String>() {
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Customer/getClaimList_new.do", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -113,23 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         arrayList_Parent.add(new ListItem_Question(o.getString("CLAIM_SUMMARY"), answerFlag, "등록일자 : " +dateStr));
                         ArrayList<ListItem_Answer> arrayList = new ArrayList<ListItem_Answer>();
 
-
-                        String talentType = null;
-                        String str = null;
-                        if(o.getString("TALENT_FLAG").equals("Y"))
-                        {
-                            talentType="재능 드림";
-                            str = o.getString("PARTNER_NAME")+ "님과 " + talentType +" "+ o.getString("TALENT_KEYWORD1") + ", " + o.getString("TALENT_KEYWORD2") + ", " +o.getString("TALENT_KEYWORD3") + " 진행의 건";
-                        }else if(o.getString("TALENT_FLAG").equals("C"))
-                        {
-                            talentType="관심 재능";
-                            str = o.getString("PARTNER_NAME")+ "님과 " + talentType +" "+ o.getString("TALENT_KEYWORD1") + ", " + o.getString("TALENT_KEYWORD2") + ", " +o.getString("TALENT_KEYWORD3") + " 진행의 건";
-
-                        }else
-                        {
-                            talentType="등록 안됨";
-                            str = "등록 안됨";
-                        }
+                        String str = o.getString("TARGET_USER_ID");
 
                         String claimType;
                         switch (o.getString("CLAIM_TYPE")){
@@ -171,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap();
 
-                params.put("userID", SaveSharedPreference.getUserId(getBaseContext()));
+                params.put("userID", SaveSharedPreference.getUserId(mContext));
                 return params;
             }
         };

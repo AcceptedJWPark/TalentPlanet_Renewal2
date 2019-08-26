@@ -84,7 +84,8 @@ public class ListAdapter_Friend extends BaseAdapter {
             Glide.with(context).load(SaveSharedPreference.getImageUri() + userThumb).into(holder.user_profile);
         }
 
-        if (SaveSharedPreference.getPrefTalentFlag(context).equals("N")) {
+        String isMentor = userData.get(position).getStrIsMentor();
+        if (isMentor.equals("Y")) {
             holder.user_profile.setBorderColor(context.getResources().getColor(R.color.color_mentee));
         }
 
