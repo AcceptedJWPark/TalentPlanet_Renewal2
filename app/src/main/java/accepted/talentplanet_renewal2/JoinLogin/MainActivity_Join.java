@@ -281,6 +281,7 @@ public class MainActivity_Join extends AppCompatActivity {
         //E-mail 주소 패턴 확인
         if(TextUtils.isEmpty(jEmail))
         {
+            Toast.makeText(getApplicationContext(),"아이디를 입력해주세요.",Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -369,7 +370,33 @@ public class MainActivity_Join extends AppCompatActivity {
             }
         };
 
-        postRequestQueue.add(sendSMSRequest);
+        final StringRequest checkDupPhoneRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "/Regist/checkDupPhone.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")) {
+                        postRequestQueue.add(sendSMSRequest);
+                    }else{
+                        Toast.makeText(mContext, "이미 가입 된 핸드폰 입니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)
+        ) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("phone", phone);
+
+                return params;
+            }
+        };
+
+
+        postRequestQueue.add(checkDupPhoneRequest);
     }
 
     public void confirmPhone(){
