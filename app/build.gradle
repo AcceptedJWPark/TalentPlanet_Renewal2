@@ -5,11 +5,11 @@ android {
     buildToolsVersion '26.0.2'
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
-        applicationId "accepted.talentplanet_renewal2"
-        minSdkVersion 23
+        applicationId "com.accepted.acceptedtalentplanet"
+        minSdkVersion 21
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -49,6 +49,8 @@ dependencies {
     compile 'com.github.katoro:typekit:1.0.1'
     // 해시태그
     compile 'com.github.danylovolokh:hashtag-helper:1.1.0'
+    // jsoup
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.10.2'
 }
 
 apply plugin: 'com.google.gms.google-services'
