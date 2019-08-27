@@ -26,7 +26,8 @@ public class ViewPager_PopTalent extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         ArrayList<HotTagItem> tagItems = new ArrayList();
         for(int i = 0; i <= 2; i++){
-            tagItems.add(items.get(position * 3 + i));
+            if(position * 3 + i < items.size())
+                tagItems.add(items.get(position * 3 + i));
         }
         Fragment_PopTalent view = new Fragment_PopTalent();
 

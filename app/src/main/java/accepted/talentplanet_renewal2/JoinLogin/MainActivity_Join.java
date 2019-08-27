@@ -493,8 +493,8 @@ public class MainActivity_Join extends AppCompatActivity {
                     params.put("userGender", malecheck ? "남자" : "여자");
                     params.put("userBirth", birth);
                     params.put("phone", et_phone_join.getText().toString());
-                    params.put("genderFlag", (!cb_hide_gender.isChecked())?"Y":"N");
-                    params.put("birthFlag", (!cb_hide_birth.isChecked())?"Y":"N");
+                    params.put("genderFlag", (cb_hide_gender.isChecked())?"Y":"N");
+                    params.put("birthFlag", (cb_hide_birth.isChecked())?"Y":"N");
                     return params;
                 }
             };
