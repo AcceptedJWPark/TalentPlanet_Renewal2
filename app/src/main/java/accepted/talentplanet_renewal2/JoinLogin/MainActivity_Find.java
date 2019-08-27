@@ -54,6 +54,7 @@ public class MainActivity_Find extends AppCompatActivity {
         ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText("Find ID/PW");
         iv_toolbar_search_talentlist = (ImageView) findViewById(R.id.iv_toolbar_search_talentlist);
         img_back_toolbar_talentlist = (ImageView) findViewById(R.id.img_back_toolbar_talentlist);
+        ((ImageView)findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
 
         et_phone_id = findViewById(R.id.et_phone_id);
         et_admit_id = findViewById(R.id.et_admit_id);

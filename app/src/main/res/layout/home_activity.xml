@@ -52,7 +52,7 @@
                 >
 
             <ImageView
-                android:id="@+id/img_bgr_home"
+                android:id="@+id/iv_bgr_home"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
@@ -149,6 +149,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_bgr_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
