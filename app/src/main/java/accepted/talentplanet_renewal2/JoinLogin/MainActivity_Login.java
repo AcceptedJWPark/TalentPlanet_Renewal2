@@ -183,7 +183,9 @@ public class MainActivity_Login extends AppCompatActivity {
                     JSONObject obj = new JSONObject(response);
                     SaveSharedPreference.setPrefGender(mContext, obj.getString("GENDER"));
                     SaveSharedPreference.setPrefUserBirth(mContext, obj.getString("USER_BIRTH"));
-                    SaveSharedPreference.setPrefUserDescription(mContext, obj.getString("PROFILE_DESCRIPTION"));
+                    if(obj.has("PROFILE_DESCRIPTION")) {
+                        SaveSharedPreference.setPrefUserDescription(mContext, obj.getString("PROFILE_DESCRIPTION"));
+                    }
                     SaveSharedPreference.setPrefTalentPoint(mContext, obj.getInt("TALENT_POINT"));
                     SaveSharedPreference.setMyPicturePath(obj.getString("FILE_PATH"), obj.getString("S_FILE_PATH"));
                     SaveSharedPreference.setPrefUserBirthFlag(mContext, obj.getString("BIRTH_FLAG"));
