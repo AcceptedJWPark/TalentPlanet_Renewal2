@@ -23,7 +23,6 @@ public class Fragment_PopTalent extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
         // 파라미터 처리
         ArrayList<HotTagItem> items = (ArrayList)getArguments().getSerializable("tagItems");
-        Log.d("Tag ArrayList", items.get(0).getTag());
         ImageView[] imgs = new ImageView[3];
         TextView[] tags = new TextView[3];
         View view = inflater.inflate(R.layout.home_pager, container, false);
