@@ -633,7 +633,7 @@ public class MainActivity extends AppCompatActivity {
         if (!isAlaram) {
             ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
         } else {
-            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         }
         ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         ((ImageView)findViewById(R.id.img_addcate)).setImageResource(R.drawable.icon_addcate_student);
