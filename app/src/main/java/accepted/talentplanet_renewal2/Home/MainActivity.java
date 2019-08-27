@@ -2,11 +2,8 @@ package accepted.talentplanet_renewal2.Home;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -30,7 +27,6 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
@@ -270,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((ImageView)findViewById(R.id.img_bgr_home)).setOnClickListener(new View.OnClickListener() {
+        ((LinearLayout)findViewById(R.id.ll_bgr_home)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dl.closeDrawers();
@@ -583,7 +579,7 @@ public class MainActivity extends AppCompatActivity {
     public void selectTeacher()
     {
         talentCateFindView();
-        Glide.with(mContext).load(R.drawable.pic_home_teacher).into((ImageView)findViewById(R.id.img_bgr_home));
+        Glide.with(mContext).load(R.drawable.pic_home_teacher).into((ImageView)findViewById(R.id.iv_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
         ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
         if (!isAlaram) {
@@ -627,7 +623,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         talentCateFindView();
-        Glide.with(mContext).load(R.drawable.pic_home_student).into((ImageView)findViewById(R.id.img_bgr_home));
+        Glide.with(mContext).load(R.drawable.pic_home_student).into((ImageView)findViewById(R.id.iv_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         if (!isAlaram) {
