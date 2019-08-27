@@ -466,13 +466,10 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
         // 점수계산된값
         String userPoint = "";
-        Log.d("Profile InPerson", inPerson + "");
         if (inPerson) {
             userPoint = SaveSharedPreference.getPrefUserScore(mContext);
-            Log.d("User POint ", userPoint + "score");
         } else {
             userPoint = intent.getStringExtra("Score") == null ? "" : intent.getStringExtra("Score");
-            Log.d("User POint2 ", userPoint + "score");
         }
 
         if (!userPoint.equals("")) {
@@ -1955,7 +1952,6 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                             ((TextView)findViewById(R.id.tv_isteacher_profile)).setText("Student의 프로필");
                             // Teacher 등록한게 없는 경우
                             if (isNewTalent){
-                                Toast.makeText(mContext,"등록 안됨",Toast.LENGTH_SHORT).show();
                                 ((RelativeLayout)findViewById(R.id.rl_toolbar_profile)).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
                                 ((TextView)findViewById(R.id.tv_toolbarprofle)).setVisibility(VISIBLE);
                                 ((TextView)findViewById(R.id.tv_toolbarprofle)).setText(title);
@@ -1974,6 +1970,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 ((ImageView)findViewById(R.id.iv_notalent_profile)).setVisibility(VISIBLE);
                                 ((ImageView)findViewById(R.id.iv_notalent_profile)).setImageResource(R.drawable.pic_notalent_teacher);
                                 ((ImageView)findViewById(R.id.iv_addtalent_profile)).setVisibility(VISIBLE);
+                                changeOpenFlagImage();
                             }
                             else
                             {
@@ -2063,7 +2060,9 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                     JSONObject obj = new JSONObject(response);
                     SaveSharedPreference.setPrefGender(mContext, obj.getString("GENDER"));
                     SaveSharedPreference.setPrefUserBirth(mContext, obj.getString("USER_BIRTH"));
-                    SaveSharedPreference.setPrefUserDescription(mContext, obj.getString("PROFILE_DESCRIPTION"));
+                    if(obj.has("PROFILE_DESCRIPTION")) {
+                        SaveSharedPreference.setPrefUserDescription(mContext, obj.getString("PROFILE_DESCRIPTION"));
+                    }
                     SaveSharedPreference.setPrefTalentPoint(mContext, obj.getInt("TALENT_POINT"));
                     SaveSharedPreference.setMyPicturePath(obj.getString("FILE_PATH"), obj.getString("S_FILE_PATH"));
                     SaveSharedPreference.setPrefUserBirthFlag(mContext, obj.getString("BIRTH_FLAG"));

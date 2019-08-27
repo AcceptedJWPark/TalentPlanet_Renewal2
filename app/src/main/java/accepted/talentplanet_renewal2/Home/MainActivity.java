@@ -47,7 +47,6 @@ import accepted.talentplanet_renewal2.AddCategory.MainActivity_AddCategory;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
 import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
-import accepted.talentplanet_renewal2.MyFirebaseMessagingService;
 import accepted.talentplanet_renewal2.MySQLiteOpenHelper;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
@@ -231,9 +230,9 @@ public class MainActivity extends AppCompatActivity {
         drawerlayoutEvent(mContext);
         isAlaram = SaveSharedPreference.getAnswerPushGrant(mContext);
         if (isAlaram) {
-            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
-        } else {
             ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
+        } else {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
         }
 
         makeTestTalentArr();

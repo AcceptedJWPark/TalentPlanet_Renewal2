@@ -145,8 +145,6 @@ public class MainActivity_Login extends AppCompatActivity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                                 intent.putExtra("Activity", true);
                                 SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
-                                SaveSharedPreference.setPrefUserGpLat(mContext, "0");
-                                SaveSharedPreference.setPrefUserGpLng(mContext, "0");
                                 startActivity(intent);
                             }
                         },500);
@@ -190,14 +188,14 @@ public class MainActivity_Login extends AppCompatActivity {
                     SaveSharedPreference.setMyPicturePath(obj.getString("FILE_PATH"), obj.getString("S_FILE_PATH"));
                     SaveSharedPreference.setPrefUserBirthFlag(mContext, obj.getString("BIRTH_FLAG"));
 
-                    boolean isAlarm = SaveSharedPreference.getAnswerPushGrant(mContext);
-                    if (!isAlarm) {
-                        SaveSharedPreference.setPrefPushGrant(mContext, false, false, false);
-                    }
-
                     if (obj.has("GP_LNG") && obj.has("GP_LAT")) {
-                        SaveSharedPreference.setPrefUserGpLng(mContext, obj.getString("GP_LNG"));
-                        SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
+                        if(obj.getString("GP_LNG").isEmpty()){
+                            SaveSharedPreference.setPrefUserGpLng(mContext,"0");
+                            SaveSharedPreference.setPrefUserGpLat(mContext, "0");
+                        }else{
+                            SaveSharedPreference.setPrefUserGpLng(mContext, obj.getString("GP_LNG"));
+                            SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
+                        }
                     }
 
                     if (obj.has("SumScore") && obj.has("CountScore")) {
