@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
                 "\t\t\t\t\t\t\t\t   FROM   TB_CHAT_LOG D05\n" +
                 "                                   GROUP BY D05.ROOM_ID)) D06 ON D01.ROOM_ID = D06.ROOM_ID" +
                 " WHERE D01.ACTIVATE_FLAG = 'Y'\n" +
-                " AND   D01.MASTER_ID = '" + SaveSharedPreference.getUserId(MainActivity.this) + "'";
+                " AND   D01.MASTER_ID = '" + SaveSharedPreference.getUserId(MainActivity.this) + "' ORDER BY D06.CREATION_DATE ASC";
         Cursor cursor = sqliteDatabase.rawQuery(selectBasicChat, null);
         cursor.moveToFirst();
 
