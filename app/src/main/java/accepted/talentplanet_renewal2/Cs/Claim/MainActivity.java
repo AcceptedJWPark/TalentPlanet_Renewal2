@@ -38,6 +38,7 @@ import accepted.talentplanet_renewal2.VolleySingleton;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         et_Claim = (EditText) findViewById(R.id.et_Content_Claim);
-        et_Claim.setPrivateImeOptions("defaultInputmode=korean;");
+        //et_Claim.setPrivateImeOptions("defaultInputmode=korean;");
         et_Claim.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -244,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
                                                              .setPositiveButton("신고하기", new DialogInterface.OnClickListener() {
                                                                  @Override
                                                                  public void onClick(DialogInterface dialog, int which) {
+
                                                                      requestClaim();
                                                                      dialog.cancel();
                                                                      finish();
@@ -271,12 +273,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void requestClaim() {
 
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Customer/requestClaim_new.do", new Response.Listener<NetworkResponse>() {
+        StringRequest volleyMultipartRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Customer/requestClaim_new.do", new Response.Listener<String>() {
             @Override
-            public void onResponse(NetworkResponse response) {
+            public void onResponse(String response) {
                 try {
 
-                    JSONObject obj = new JSONObject(new String(response.data));
+                    JSONObject obj = new JSONObject(response);
                         Toast.makeText(mContext, "신고가 정상적으로 접수되었습니다.", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(mContext, accepted.talentplanet_renewal2.Cs.MainActivity_Cs.class);
                         startActivity(i);
@@ -316,14 +318,7 @@ public class MainActivity extends AppCompatActivity {
                 params.put("userID", SaveSharedPreference.getUserId(mContext));
                 params.put("claimType", String.valueOf(claimType));
                 params.put("claimSummary", et_Claim.getText().toString());
-                return params;
-            }
 
-            @Override
-            protected Map<String, VolleyMultipartRequest.DataPart> getByteData(){
-                Map<String, VolleyMultipartRequest.DataPart> params = new HashMap<>();
-                long imagename = System.currentTimeMillis();
-                //params.put("pic", new VolleyMultipartRequest.DataPart(imagename + ".png", getFileDataFromDrawable()));
                 return params;
             }
         };

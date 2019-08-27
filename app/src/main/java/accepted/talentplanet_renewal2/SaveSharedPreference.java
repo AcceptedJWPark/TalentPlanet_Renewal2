@@ -86,7 +86,7 @@ public class SaveSharedPreference{
     public static final String MOBILE_STATE = "MOBILE";
     public static final String NONE_STATE = "NONE";
 
-
+    HashMap<String, Object> userMap;
 
     public static final String CONNECTION_CONFIRM_CLIENT_URL = "http://clients3.google.com/generate_204";
 
@@ -631,4 +631,5 @@ public class SaveSharedPreference{
         mContext.startActivity(i);
 //        ((Activity)mContext).finish();
     }
+
 }

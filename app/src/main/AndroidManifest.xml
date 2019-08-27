@@ -95,14 +95,12 @@
             android:theme="@style/AppTheme_Home" />
 
         <activity
-            android:name=".Cs.MainActivity_Qna"
-            android:theme="@style/AppTheme_Home" />
-
-        <activity
             android:name=".Cs.MainActivity_DeleteId"
             android:theme="@style/AppTheme_Home" />
 
-
+        <activity
+            android:name=".Cs.MainActivity_Qna"
+            android:theme="@style/AppTheme_Home" />
         <activity
             android:name=".JoinLogin.MainActivity_Find"
             android:theme="@style/AppTheme_Home" />

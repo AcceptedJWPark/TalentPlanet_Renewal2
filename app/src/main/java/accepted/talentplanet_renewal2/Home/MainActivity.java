@@ -227,11 +227,6 @@ public class MainActivity extends AppCompatActivity {
 
         drawerlayoutEvent(mContext);
         isAlaram = SaveSharedPreference.getAnswerPushGrant(mContext);
-        if (isAlaram) {
-            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
-        } else {
-            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
-        }
 
         makeTestTalentArr();
 
@@ -473,11 +468,7 @@ public class MainActivity extends AppCompatActivity {
         String myPicture = SaveSharedPreference.getMyPicturePath();
 
         if (myPicture != null && !myPicture.equals("NODATA")) {
-            Glide.with(mContext)
-                    .load(SaveSharedPreference.getServerIp()+myPicture)
-                    .asBitmap()
-                    .format(DecodeFormat.PREFER_ARGB_8888)
-                    .into(((ImageView)findViewById(R.id.cimg_pic_dl)));
+            Glide.with(mContext).load(SaveSharedPreference.getServerIp()+myPicture).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
         }
 
         ((LinearLayout)findViewById(R.id.ll_myprofile_dl)).setOnClickListener(new View.OnClickListener() {
@@ -595,6 +586,11 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(mContext).load(R.drawable.pic_home_teacher).into((ImageView)findViewById(R.id.img_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
         ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+        if (!isAlaram) {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
+        } else {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
+        }
         ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(WHITE);
         ((ImageView)findViewById(R.id.img_addcate)).setImageResource(R.drawable.icon_addcate_teacher);
 
@@ -634,6 +630,11 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(mContext).load(R.drawable.pic_home_student).into((ImageView)findViewById(R.id.img_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+        if (!isAlaram) {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
+        } else {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
+        }
         ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         ((ImageView)findViewById(R.id.img_addcate)).setImageResource(R.drawable.icon_addcate_student);
 

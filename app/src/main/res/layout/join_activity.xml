@@ -357,25 +357,24 @@
                     <EditText
                         android:id="@+id/et_birthdate_join"
                         android:layout_width="0dp"
-                        android:layout_weight="3"
                         android:layout_height="match_parent"
-                        android:hint="생년월일(19010101)"
+                        android:layout_weight="3"
                         android:background="@drawable/bgr_edittxt_join"
-                        android:textSize="14dp"
-                        android:textColorHint="#fff"
-                        android:textColor="#fff"
+                        android:hint="생년월일(19010101)"
+                        android:maxLength="8"
                         android:paddingLeft="10dp"
-                        />
+                        android:textColor="#fff"
+                        android:textColorHint="#fff"
+                        android:textSize="14dp" />
 
                     <CheckBox
+                        android:id="@+id/cb_hide_birth"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="30dp"
                         android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
                         android:text="비공개"
-                        android:id="@+id/cb_hide_birth"
-                        android:textColor="#fff"
-                        />
+                        android:textColor="#fff" />
 
                 </LinearLayout>
 

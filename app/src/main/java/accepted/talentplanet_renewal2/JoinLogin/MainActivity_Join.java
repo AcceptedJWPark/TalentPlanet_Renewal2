@@ -214,15 +214,14 @@ public class MainActivity_Join extends AppCompatActivity {
     public void checkGender(String gender)
     {
         gendercheck = true;
-        if (gender.equals("male"))
-        {
+        if (gender.equals("male")) {
             img_malecheck.setImageResource(R.drawable.icon_check1on);
             img_femalecheck.setImageResource(R.drawable.icon_check1off);
-        }
-        else
-        {
+            malecheck = true;
+        } else {
             img_malecheck.setImageResource(R.drawable.icon_check1off);
             img_femalecheck.setImageResource(R.drawable.icon_check1on);
+            malecheck = false;
         }
     }
 
@@ -281,6 +280,7 @@ public class MainActivity_Join extends AppCompatActivity {
         //E-mail 주소 패턴 확인
         if(TextUtils.isEmpty(jEmail))
         {
+            Toast.makeText(getApplicationContext(),"아이디를 입력해주세요.",Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -369,7 +369,33 @@ public class MainActivity_Join extends AppCompatActivity {
             }
         };
 
-        postRequestQueue.add(sendSMSRequest);
+        final StringRequest checkDupPhoneRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "/Regist/checkDupPhone.do", new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("result").equals("success")) {
+                        postRequestQueue.add(sendSMSRequest);
+                    }else{
+                        Toast.makeText(mContext, "이미 가입 된 핸드폰 입니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)
+        ) {
+            @Override
+            protected Map<String, String> getParams(){
+                Map<String, String> params = new HashMap();
+                params.put("phone", phone);
+
+                return params;
+            }
+        };
+
+
+        postRequestQueue.add(checkDupPhoneRequest);
     }
 
     public void confirmPhone(){
@@ -464,7 +490,7 @@ public class MainActivity_Join extends AppCompatActivity {
                     params.put("userID", et_email_join.getText().toString());
                     params.put("userPW", et_pw_join.getText().toString());
                     params.put("userName", et_name_join.getText().toString());
-                    params.put("userGender", malecheck ? "남" : "여");
+                    params.put("userGender", malecheck ? "남자" : "여자");
                     params.put("userBirth", birth);
                     params.put("phone", et_phone_join.getText().toString());
                     params.put("genderFlag", (!cb_hide_gender.isChecked())?"Y":"N");

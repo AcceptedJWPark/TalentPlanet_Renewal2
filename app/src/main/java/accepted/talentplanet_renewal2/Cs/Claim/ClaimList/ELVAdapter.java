@@ -79,9 +79,12 @@ public class ELVAdapter extends BaseExpandableListAdapter {
             v=(LinearLayout) inflater.inflate(R.layout.customerservice_claimlist_parentbg,  parent,false);
 
         }
+
         TextView tv_Title_ClaimList = (TextView) v.findViewById(R.id.tv_ClaimList_Title);
         TextView tv_Condition_ClaimList = (TextView) v.findViewById(R.id.tv_ClaimList_Condition);
         TextView tv_Date_ClaimList = (TextView) v.findViewById(R.id.tv_ClaimList_Date);
+
+        //
         tv_Title_ClaimList.setText(QuestionTitle);
         tv_Date_ClaimList.setText(date);
         tv_Condition_ClaimList.setText(isAnswered);

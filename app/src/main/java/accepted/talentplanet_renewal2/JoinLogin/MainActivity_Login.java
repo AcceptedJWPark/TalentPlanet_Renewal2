@@ -189,8 +189,13 @@ public class MainActivity_Login extends AppCompatActivity {
                     SaveSharedPreference.setPrefUserBirthFlag(mContext, obj.getString("BIRTH_FLAG"));
 
                     if (obj.has("GP_LNG") && obj.has("GP_LAT")) {
-                        SaveSharedPreference.setPrefUserGpLng(mContext, obj.getString("GP_LNG"));
-                        SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
+                        if(obj.getString("GP_LNG").isEmpty()){
+                            SaveSharedPreference.setPrefUserGpLng(mContext,"0");
+                            SaveSharedPreference.setPrefUserGpLat(mContext, "0");
+                        }else{
+                            SaveSharedPreference.setPrefUserGpLng(mContext, obj.getString("GP_LNG"));
+                            SaveSharedPreference.setPrefUserGpLat(mContext, obj.getString("GP_LAT"));
+                        }
                     }
 
                     if (obj.has("SumScore") && obj.has("CountScore")) {
