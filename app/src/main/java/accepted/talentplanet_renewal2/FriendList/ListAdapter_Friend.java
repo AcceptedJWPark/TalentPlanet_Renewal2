@@ -81,7 +81,9 @@ public class ListAdapter_Friend extends BaseAdapter {
         // 유저의 프로필
         String userThumb = userData.get(position).getS_FILE_PATH();
         if (!userThumb.equals("NODATA")) {
-            Glide.with(context).load(SaveSharedPreference.getImageUri() + userThumb).into(holder.user_profile);
+            Glide.with(context).load(SaveSharedPreference.getImageUri() + userThumb)
+                    .thumbnail(1.0f)
+                    .into(holder.user_profile);
         }
 
         String isMentor = userData.get(position).getStrIsMentor();

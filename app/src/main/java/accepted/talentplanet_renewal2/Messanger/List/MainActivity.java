@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
 
     Activity activity;
 
+    // 푸쉬알람 방지
+    private boolean lastPushGant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,24 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
         deleteBtn_Clicked = false;
 
         refreshChatLog();
+
+        lastPushGant = SaveSharedPreference.getMessagePushGrant(mContext);
+        if (lastPushGant) {
+            SaveSharedPreference.setPrefPushGrant(mContext, true, false, false);
+
+            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    SaveSharedPreference.setPrefPushGrant(mContext, false, false, false);
+                    finish();
+                }
+            });
+        } else {
+            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
     }
 
     @Override

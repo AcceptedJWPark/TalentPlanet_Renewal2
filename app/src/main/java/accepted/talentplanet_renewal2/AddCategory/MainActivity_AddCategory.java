@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 import accepted.talentplanet_renewal2.VolleySingleton;
@@ -125,19 +126,25 @@ public class MainActivity_AddCategory extends AppCompatActivity {
         ((Button)findViewById(R.id.btn_SaveClaim_addCategory)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isteacher_category&&!isstudent_category)
-                {
+                if(!isteacher_category&&!isstudent_category) {
                     Toast.makeText(mContext,"누구의 카테고리인지 선택해주세요.",Toast.LENGTH_SHORT).show();
-                }if(et_addcategory_title.length()==0)
-                {
-                    Toast.makeText(mContext,"카테고리 명을 입력해주세요.",Toast.LENGTH_SHORT).show();
+                    return;
                 }
-                if(et_addcategory_content.length()==0)
-                {
+
+                if(et_addcategory_title.length()==0) {
+                    Toast.makeText(mContext,"카테고리 명을 입력해주세요.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(et_addcategory_content.length()==0) {
                     Toast.makeText(mContext,"카테고리의 설명을 입력해주세요.",Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 Toast.makeText(mContext,"신청이 완료되었습니다.",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity_AddCategory.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
 

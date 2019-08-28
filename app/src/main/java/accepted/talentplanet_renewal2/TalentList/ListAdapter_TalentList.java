@@ -109,7 +109,7 @@ public class ListAdapter_TalentList extends BaseAdapter {
         }
 
         // 유저의 프로필
-        String userThumb = aItem.getThumbPath();
+        String userThumb = aItem.getPicturePath();
         if (!userThumb.equals("NODATA")) {
             Glide.with(mContext).load(SaveSharedPreference.getImageUri() + userThumb).into(holder.user_profile);
         }

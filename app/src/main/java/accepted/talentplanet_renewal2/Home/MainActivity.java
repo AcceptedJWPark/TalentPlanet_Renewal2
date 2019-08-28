@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +22,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,7 @@ import accepted.talentplanet_renewal2.AddCategory.MainActivity_AddCategory;
 import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.Cs.MainActivity_Cs;
 import accepted.talentplanet_renewal2.FriendList.MainActivity_Friend;
+import accepted.talentplanet_renewal2.MyFirebaseMessagingService;
 import accepted.talentplanet_renewal2.MySQLiteOpenHelper;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
 import accepted.talentplanet_renewal2.R;
@@ -60,7 +62,7 @@ import static android.graphics.Color.WHITE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyFirebaseMessagingService.MessageReceivedListener {
 
     Context mContext;
 
@@ -298,6 +300,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onMessageRecieved(){
+        Message msg = handler.obtainMessage();
+        handler.sendMessage(msg);
+    }
+
+    Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+            haveNewMessage();
+        }
+    };
+
     // 이벤트
     private void addTalentEvent() {
         final LinearLayout ll_1 = findViewById(R.id.ll_home_con1);
@@ -519,14 +533,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((LinearLayout)findViewById(R.id.ll_userpoint_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dl.closeDrawers();
-                Intent intent = new Intent(context, MainActivity_SharingList.class);
-                startActivity(intent);
-            }
-        });
+//        ((LinearLayout)findViewById(R.id.ll_userpoint_dl)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dl.closeDrawers();
+//                Intent intent = new Intent(context, MainActivity_SharingList.class);
+//                startActivity(intent);
+//            }
+//        });
 
         ((LinearLayout)findViewById(R.id.ll_addtalent_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -628,10 +642,10 @@ public class MainActivity extends AppCompatActivity {
         Glide.with(mContext).load(R.drawable.pic_home_student).into((ImageView)findViewById(R.id.iv_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-        if (!isAlaram) {
-            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
-        } else {
+        if (isAlaram) {
             ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
+        } else {
+            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
         }
         ((ImageView)findViewById(R.id.img_arrow_addcate)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         ((ImageView)findViewById(R.id.img_addcate)).setImageResource(R.drawable.icon_addcate_student);
@@ -706,6 +720,7 @@ public class MainActivity extends AppCompatActivity {
 
         drawerlayoutEvent(mContext);
         getCateList();
+        haveNewMessage();
     }
 
     @Override
@@ -742,16 +757,19 @@ public class MainActivity extends AppCompatActivity {
                             // Teacher 등록한게 없는 경우
                             if (talentCnt == 0){
                                 Toast.makeText(mContext, "Teacher 재능을 등록해주세요.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, MainActivity_TalentAdd.class);
+                                startActivity(intent);
                             }
                         }else{
                             // Student 등록한게 없는 경우
                             if (talentCnt == 0){
                                 Toast.makeText(mContext, "Student 재능을 등록해주세요.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, MainActivity_TalentAdd.class);
+                                startActivity(intent);
                             }
                         }
 
-                        Intent intent = new Intent(MainActivity.this, MainActivity_TalentAdd.class);
-                        startActivity(intent);
+
                     }
 
                 }
@@ -804,6 +822,31 @@ public class MainActivity extends AppCompatActivity {
         };
 
         postRequestQueue.add(postJsonRequest);
+    }
+
+    public void haveNewMessage() {
+
+        int newMessageCount = 0;
+        String dbName = "/accepted.db";
+        sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + dbName, null);
+        String selectBasicChat = "SELECT COUNT(ROOM_ID) AS UNREADED_COUNT FROM TB_CHAT_LOG WHERE READED_FLAG = 'N' AND MASTER_ID ='"+ SaveSharedPreference.getUserId(mContext) +"'";
+        Cursor cursor = sqliteDatabase.rawQuery(selectBasicChat, null);
+
+        while(cursor.moveToNext()==true){
+            int aData = cursor.getInt(0);
+            if (aData > 0) {
+                newMessageCount++;
+            }
+        }
+        cursor.close();
+
+        if (newMessageCount > 0) {
+            ((ImageView) findViewById(R.id.img_alarm1)).setVisibility(View.VISIBLE);
+            ((ImageView) findViewById(R.id.img_alarm2)).setVisibility(View.VISIBLE);
+        } else {
+            ((ImageView) findViewById(R.id.img_alarm1)).setVisibility(View.GONE);
+            ((ImageView) findViewById(R.id.img_alarm2)).setVisibility(View.GONE);
+        }
     }
 
 }
