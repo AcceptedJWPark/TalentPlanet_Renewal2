@@ -201,8 +201,13 @@ public class MainActivity_Friend extends AppCompatActivity {
                             oItem.setStrUserGender(obj.getString("GENDER"));
                             oItem.setStrUserInfo(obj.getString("USER_BIRTH"));
                             oItem.setStrIsMentor(isMentor);
-                            oItem.setGP_LAT(obj.getString("GP_LAT"));
-                            oItem.setGP_LNG(obj.getString("GP_LNG"));
+                            if(obj.has("GP_LAT")) {
+                                oItem.setGP_LAT(obj.getString("GP_LAT"));
+                                oItem.setGP_LNG(obj.getString("GP_LNG"));
+                            }else{
+                                oItem.setGP_LAT("0");
+                                oItem.setGP_LNG("0");
+                            }
                             oItem.setS_FILE_PATH(obj.getString("S_FILE_PATH"));
                             oItem.setBIRTH_FLAG(obj.getString("BIRTH_FLAG"));
                             oData.add(oItem);
