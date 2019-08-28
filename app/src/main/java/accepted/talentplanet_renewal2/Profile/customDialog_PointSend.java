@@ -105,6 +105,7 @@ public class customDialog_PointSend extends Dialog {
 
         // User Profile Image
         imgResource = intent.getStringExtra("S_FILE_PATH");
+        imgResource = imgResource.replace("s_","");
         if (imgResource != null && !imgResource.equals("NODATA")) {
             Glide.with(mContext).load(SaveSharedPreference.getImageUri() + imgResource).into(civ_user_profile);
         }

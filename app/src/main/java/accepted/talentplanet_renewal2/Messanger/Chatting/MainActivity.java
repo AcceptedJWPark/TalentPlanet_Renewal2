@@ -201,45 +201,50 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
 
         getPicture();
 
-        lastPushGant = SaveSharedPreference.getMessagePushGrant(mContext);
-        if (lastPushGant) {
-            SaveSharedPreference.setPrefPushGrant(mContext, true, false, false);
-
-            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    SaveSharedPreference.setPrefPushGrant(mContext, false, false, false);
-                    finish();
-                }
-            });
-        } else {
-            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    finish();
-                }
-            });
-        }
+//        lastPushGant = SaveSharedPreference.getMessagePushGrant(mContext);
+//        if (lastPushGant) {
+//            SaveSharedPreference.setPrefPushGrant(mContext, true, false, false);
+//
+//            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View v) {
+//                    SaveSharedPreference.setPrefPushGrant(mContext, false, false, false);
+//                    finish();
+//                }
+//            });
+//        } else {
+//            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View v) {
+//                    finish();
+//                }
+//            });
+//        }
+        ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
 
-        if (lastPushGant) {
-            SaveSharedPreference.setPrefPushGrant(mContext, true, false, false);
-
-            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    SaveSharedPreference.setPrefPushGrant(mContext, false, false, false);
-                    finish();
-                }
-            });
-        } else {
-            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    finish();
-                }
-            });
-        }
+//        if (lastPushGant) {
+//            SaveSharedPreference.setPrefPushGrant(mContext, true, false, false);
+//
+//            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View v) {
+//                    SaveSharedPreference.setPrefPushGrant(mContext, false, false, false);
+//                    finish();
+//                }
+//            });
+//        } else {
+//            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View v) {
+//                    finish();
+//                }
+//            });
+//        }
     }
 
 

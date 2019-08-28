@@ -23,6 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
@@ -141,18 +143,53 @@ public class MainActivity_AddCategory extends AppCompatActivity {
                     return;
                 }
 
-                Toast.makeText(mContext,"신청이 완료되었습니다.",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity_AddCategory.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                requestNewCategory();
             }
         });
-
-
-
-
-
-
     }
 
+    private void requestNewCategory() {
+        RequestQueue postRequestQueue = Volley.newRequestQueue(mContext);
+        StringRequest postJsonRequest = new StringRequest(Request.Method.POST, SaveSharedPreference.getServerIp() + "Customer/requestNewCategory.do", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    if(obj.getString("reuslt").equals("success")){
+                        Toast.makeText(mContext,"신청이 완료되었습니다.",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity_AddCategory.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, SaveSharedPreference.getErrorListener(mContext)) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap();
+
+                String TALENT_FLAG = "";
+                String CATEGORY_NAME = "";
+                String CATEGORY_CONTENT = "";
+                if(isteacher_category) {
+                    TALENT_FLAG = "Y";
+                } else if (isstudent_category) {
+                    TALENT_FLAG = "N";
+                }
+                CATEGORY_NAME = et_addcategory_title.getText().toString();
+                CATEGORY_CONTENT = et_addcategory_content.getText().toString();
+
+                params.put("USER_ID", SaveSharedPreference.getUserId(mContext));
+                params.put("TALENT_FLAG", TALENT_FLAG);
+                params.put("CATEGORY_NAME", CATEGORY_NAME);
+                params.put("CATEGORY_CONTENT", CATEGORY_CONTENT);
+
+                return params;
+            }
+        };
+
+        postRequestQueue.add(postJsonRequest);
+    }
 }

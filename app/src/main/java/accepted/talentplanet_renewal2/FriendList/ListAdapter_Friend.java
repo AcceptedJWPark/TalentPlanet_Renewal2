@@ -114,7 +114,7 @@ public class ListAdapter_Friend extends BaseAdapter {
         final Double aUserGP_LNG = Double.parseDouble(userData.get(position).getGP_LNG());
         Location aUserLocation = new Location("Another point");
 
-        if (aUserGP_LAT != null || aUserGP_LNG != null) {
+        if ((aUserGP_LAT != null && aUserGP_LAT != 0.0) && ( aUserGP_LNG != null && aUserGP_LNG != 0.0)) {
             aUserLocation.setLatitude(aUserGP_LAT);
             aUserLocation.setLongitude(aUserGP_LNG);
             float distance = myLocation.distanceTo(aUserLocation);

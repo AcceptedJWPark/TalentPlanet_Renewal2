@@ -71,9 +71,7 @@ public class customDialog_Profile extends Dialog {
         setContentView(R.layout.profile_edittalent_popup);     //다이얼로그에서 사용할 레이아웃입니다.
 
         rl_editorhead_popup = findViewById(R.id.rl_editorhead_popup);
-        if (flag.equals("N")) {
-            rl_editorhead_popup.setBackgroundColor( mContext.getResources().getColor(R.color.color_mentee));
-        }
+
 
         iv_talent_img_edit = findViewById(R.id.iv_talent_img_edit);
 
@@ -84,6 +82,12 @@ public class customDialog_Profile extends Dialog {
 
         mEditTextHashTagHelper = HashTagHelper.Creator.create(mContext.getResources().getColor(R.color.colorPrimary), null);
         mEditTextHashTagHelper.handle(et_edit_talent);
+
+        if (flag.equals("N")) {
+            rl_editorhead_popup.setBackgroundColor( mContext.getResources().getColor(R.color.color_mentee));
+            et_edit_talent.setHint("이곳에 텍스트를 입력해주세요.\n" +
+                    "Ex) 안녕하세요 #Hashtag1 을 배우고 싶은 사람입니다. #Hashtag2  과 #Hashtag3 알려줄 수 있는 분 연락 부탁드립니다. 감사합니다.\n");
+        }
 
         if (userDescription != null && userDescription.length() != 0) {
             et_edit_talent.setText(userDescription);

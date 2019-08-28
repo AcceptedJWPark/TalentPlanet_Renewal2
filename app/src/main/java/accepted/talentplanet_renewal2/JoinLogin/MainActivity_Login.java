@@ -134,6 +134,7 @@ public class MainActivity_Login extends AppCompatActivity {
                         String userName = obj.getString("userName");
                         SaveSharedPreference.setPrefUsrName(mContext, userName);
                         SaveSharedPreference.setPrefUsrId(mContext, userID);
+                        SaveSharedPreference.setPrefUsrPw(mContext, userPW);
 
                         getMyProfileInfo_new();
 

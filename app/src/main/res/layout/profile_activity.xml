@@ -445,12 +445,12 @@
             android:gravity="center"
             >
 
-            <ImageView
-            android:id="@+id/img_mappointer"
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/icon_mappointer"
-            android:tint="@color/color_mentor" />
+                <ImageView
+                    android:id="@+id/img_mappointer"
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_mappointer"
+                    android:tint="@color/color_mentor" />
 
 
             <TextView
@@ -551,9 +551,9 @@
 
 
         <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/cimg_pic_profile"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:id="@+id/cimg_pic_profile"
             android:scaleType="centerCrop"
             android:src="@drawable/pic_profile"
             app:civ_border_color="#fff"
