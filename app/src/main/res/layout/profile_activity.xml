@@ -551,9 +551,9 @@
 
 
         <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/cimg_pic_profile"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:id="@+id/cimg_pic_profile"
             android:scaleType="centerCrop"
             android:src="@drawable/pic_profile"
             app:civ_border_color="#fff"

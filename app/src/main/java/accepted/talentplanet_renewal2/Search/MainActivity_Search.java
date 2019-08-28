@@ -116,10 +116,16 @@ public class MainActivity_Search extends AppCompatActivity {
         ll_searchbtn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchTalentListByHashtag();
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-            }
+                if(((EditText)findViewById(R.id.et_searchbox_search)).length()==0)
+                {
+                    Toast.makeText(mContext,"hashtag를 입력해주세요.",Toast.LENGTH_SHORT).show();
+                }else
+                {
+                    searchTalentListByHashtag();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+                }
         });
 
         if(getIntent().hasExtra("searchTag")){

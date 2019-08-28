@@ -342,7 +342,8 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
             String imgResource = SaveSharedPreference.getMyThumbPicturePath();
             if (imgResource != null && !imgResource.equals("NODATA")) {
-                Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into(iv_cimg_pic_profile);
+                Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath())
+                        .into(iv_cimg_pic_profile);
             }
 
             // 프로필 사진 관련
