@@ -69,38 +69,30 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
 
         mContext = getApplicationContext();
 
-        if(SaveSharedPreference.getPrefTalentFlag(mContext).equals("Y"))
-        {
-            isTeacher=true;
-        }else
-        {
-            isTeacher=false;
-        }
-
         findViewbyId();
 
         ((ImageView)findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
         ((ImageView)findViewById(R.id.img_back_toolbar)).setVisibility(View.VISIBLE);
-//        ((ImageView)findViewById(R.id.img_search_talentadd)).setVisibility(View.VISIBLE);
-
         ((TextView)findViewById(R.id.tv_toolbar)).setText("재능 등록");
         ((TextView)findViewById(R.id.tv_toolbar)).setVisibility(View.VISIBLE);
         ((Spinner)findViewById(R.id.sp_toolbar)).setVisibility(View.GONE);
-
         ((ImageView)findViewById(R.id.img_rightbtn)).setVisibility(View.GONE);
 
-//        if(SaveSharedPreference.getPrefTalentFlag(mContext).equals("N"))
-//        {
-//            ((Button)findViewById(R.id.btn_student_talentadd)).performClick();
-//        }
-//        else
-//        {
-//            ((Button)findViewById(R.id.btn_teacher_talentadd)).performClick();
-//        }
+
+        if(SaveSharedPreference.getPrefTalentFlag(mContext).equals("Y"))
+        {
+            isTeacher = true;
+            ((Button)findViewById(R.id.btn_student_talentadd)).performClick();
+        }else
+        {
+            isTeacher = false;
+            ((Button)findViewById(R.id.btn_teacher_talentadd)).performClick();
+        }
 
 
         final Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
 
         ((Button)findViewById(R.id.btn_teacher_talentadd)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,12 +139,11 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
             getAllTalent(talentFlag);
 
             if(talentFlag.equals("Y")){
-                ((Button)findViewById(R.id.btn_teacher_talentadd)).performClick();
+                ((Button)findViewById(R.id.btn_teacher_talentadd)).callOnClick();
             }else{
-                ((Button)findViewById(R.id.btn_student_talentadd)).performClick();
+                ((Button)findViewById(R.id.btn_student_talentadd)).callOnClick();
             }
-        }
-        else{
+        }else{
             SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
             getAllTalent("Y");
         }

@@ -532,6 +532,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dl.closeDrawers();
                 Intent intent = new Intent(context, MainActivity_TalentAdd.class);
+                intent.putExtra("TalentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
                 startActivity(intent);
             }
         });
