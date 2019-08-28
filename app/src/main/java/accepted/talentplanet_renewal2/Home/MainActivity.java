@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -32,7 +30,6 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DecodeFormat;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
@@ -229,11 +226,6 @@ public class MainActivity extends AppCompatActivity {
 
         drawerlayoutEvent(mContext);
         isAlaram = SaveSharedPreference.getAnswerPushGrant(mContext);
-        if (isAlaram) {
-            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(Color.GRAY);
-        } else {
-            ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(0);
-        }
 
         makeTestTalentArr();
 
@@ -277,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((ImageView)findViewById(R.id.img_bgr_home)).setOnClickListener(new View.OnClickListener() {
+        ((LinearLayout)findViewById(R.id.ll_bgr_home)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dl.closeDrawers();
@@ -528,14 +520,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((LinearLayout)findViewById(R.id.ll_userpoint_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dl.closeDrawers();
-                Intent intent = new Intent(context, MainActivity_SharingList.class);
-                startActivity(intent);
-            }
-        });
+//        ((LinearLayout)findViewById(R.id.ll_userpoint_dl)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dl.closeDrawers();
+//                Intent intent = new Intent(context, MainActivity_SharingList.class);
+//                startActivity(intent);
+//            }
+//        });
 
         ((LinearLayout)findViewById(R.id.ll_addtalent_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -590,7 +582,7 @@ public class MainActivity extends AppCompatActivity {
     public void selectTeacher()
     {
         talentCateFindView();
-        Glide.with(mContext).load(R.drawable.pic_home_teacher).into((ImageView)findViewById(R.id.img_bgr_home));
+        Glide.with(mContext).load(R.drawable.pic_home_teacher).into((ImageView)findViewById(R.id.iv_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
         if (isAlaram) {
             ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
@@ -634,7 +626,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         talentCateFindView();
-        Glide.with(mContext).load(R.drawable.pic_home_student).into((ImageView)findViewById(R.id.img_bgr_home));
+        Glide.with(mContext).load(R.drawable.pic_home_student).into((ImageView)findViewById(R.id.iv_bgr_home));
         ((ImageView)findViewById(R.id.img_open_dl)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
         if (isAlaram) {
             ((ImageView)findViewById(R.id.img_rightbtn)).setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
@@ -712,7 +704,6 @@ public class MainActivity extends AppCompatActivity {
 
         drawerlayoutEvent(mContext);
         getCateList();
-        haveNewMessage();
     }
 
     @Override
@@ -811,29 +802,5 @@ public class MainActivity extends AppCompatActivity {
         postRequestQueue.add(postJsonRequest);
     }
 
-    public void haveNewMessage() {
-
-        int newMessageCount = 0;
-        String dbName = "/accepted.db";
-        sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + dbName, null);
-        String selectBasicChat = "SELECT COUNT(ROOM_ID) AS UNREADED_COUNT FROM TB_CHAT_LOG WHERE READED_FLAG = 'N' AND MASTER_ID ='"+ SaveSharedPreference.getUserId(mContext) +"'";
-        Cursor cursor = sqliteDatabase.rawQuery(selectBasicChat, null);
-
-        while(cursor.moveToNext()==true){
-            int aData = cursor.getInt(0);
-            if (aData > 0) {
-                newMessageCount++;
-            }
-        }
-        cursor.close();
-
-        if (newMessageCount > 0) {
-            ((ImageView) findViewById(R.id.img_alarm1)).setVisibility(View.VISIBLE);
-            ((ImageView) findViewById(R.id.img_alarm2)).setVisibility(View.VISIBLE);
-        } else {
-            ((ImageView) findViewById(R.id.img_alarm1)).setVisibility(View.GONE);
-            ((ImageView) findViewById(R.id.img_alarm2)).setVisibility(View.GONE);
-        }
-    }
 
 }

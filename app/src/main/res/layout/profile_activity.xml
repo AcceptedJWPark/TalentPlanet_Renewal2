@@ -456,12 +456,16 @@
             <TextView
             android:id="@+id/tv_addr_profile"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/color_mentor"
             android:textSize="14dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
             />
 
 
@@ -480,10 +484,10 @@
                     android:textColor="@color/color_mentor"
                     android:maxLines="1"
                     android:textSize="14dp"
-                    android:paddingTop="3dp"
                         android:layout_marginLeft="30dp"
                         android:layout_marginRight="30dp"
-                    android:paddingBottom="3dp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     />
