@@ -43,6 +43,7 @@ public class customDialog_Description extends Dialog {
     RelativeLayout rl_editorhead_popup;
 
     ImageView iv_talent_img_edit;
+    ImageView iv_planetimage_popup;
 
     TextView tv_edittalent_title_popup;
     TextView tv_cancel_edittalent_popup;
@@ -82,7 +83,7 @@ public class customDialog_Description extends Dialog {
         et_edit_talent = findViewById(R.id.et_edit_talent);
         tv_edittalent_title_popup = findViewById(R.id.tv_edittalent_title_popup);
 
-        if (userDescription != null && userDescription.length() != 0) {
+        if (userDescription != null && userDescription.length() != 0 && !userDescription.equals("터치해서 자기소개를 입력해보세요.")) {
             et_edit_talent.setText(userDescription);
         }
 
@@ -103,10 +104,13 @@ public class customDialog_Description extends Dialog {
         });
 
         if (!inPerson) {
-            tv_cancel_edittalent_popup.setVisibility(View.GONE);
+            iv_planetimage_popup  = (ImageView) findViewById(R.id.iv_planetimage_popup);
+
+            tv_cancel_edittalent_popup.setText("자기소개 보기");
             tv_save_edittalent_popup.setVisibility(View.GONE);
             tv_edittalent_title_popup.setVisibility(View.GONE);
             et_edit_talent.setVisibility(View.GONE);
+            iv_planetimage_popup.setVisibility(View.GONE);
 
             ((ImageView)findViewById(R.id.iv_profileclose_popup)).setVisibility(View.VISIBLE);
             ((ImageView)findViewById(R.id.iv_profileclose_popup)).setColorFilter(Color.WHITE);

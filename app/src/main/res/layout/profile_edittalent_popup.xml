@@ -36,6 +36,7 @@
             >
 
             <ImageView
+                android:id="@+id/iv_planetimage_popup"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/icon_mentor"
@@ -72,8 +73,8 @@
 
             <ImageView
                 android:id="@+id/iv_profileclose_popup"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/icon_close"
                 android:visibility="gone"
             />
@@ -108,6 +109,7 @@
         android:gravity="left|top"
         android:padding="10dp"
         android:textSize="14dp"
+        android:textColor="#000"
         android:visibility="gone"
         />
     <!--<RelativeLayout-->
