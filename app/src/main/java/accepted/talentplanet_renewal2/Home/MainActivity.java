@@ -153,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
-
                     selectTeacher();
 
                     }
@@ -164,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
                     if (nowUserPoint <= 0) {
                         Toast.makeText(mContext,"현재 포인트가 없어 모드를 변경할 수 없습니다.",Toast.LENGTH_LONG).show();
                         spinner.setSelection(0);
-
                         return;
                     }
 

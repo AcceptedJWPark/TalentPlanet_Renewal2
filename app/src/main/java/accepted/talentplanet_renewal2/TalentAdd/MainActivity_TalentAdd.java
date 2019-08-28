@@ -2,25 +2,19 @@ package accepted.talentplanet_renewal2.TalentAdd;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.android.volley.Request;
@@ -35,15 +29,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import accepted.talentplanet_renewal2.Classes.TalentObject_Home;
 import accepted.talentplanet_renewal2.Home.MainActivity;
 import accepted.talentplanet_renewal2.Profile.MainActivity_Profile;
-import accepted.talentplanet_renewal2.Profile.SpinnerAdapter_Talent;
-import accepted.talentplanet_renewal2.Profile.customDialog_Profile;
 import accepted.talentplanet_renewal2.R;
 import accepted.talentplanet_renewal2.SaveSharedPreference;
 
@@ -79,7 +69,13 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
 
         mContext = getApplicationContext();
 
-        isTeacher = true;
+        if(SaveSharedPreference.getPrefTalentFlag(mContext).equals("Y"))
+        {
+            isTeacher=true;
+        }else
+        {
+            isTeacher=false;
+        }
 
         findViewbyId();
 
@@ -93,13 +89,20 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
 
         ((ImageView)findViewById(R.id.img_rightbtn)).setVisibility(View.GONE);
 
+//        if(SaveSharedPreference.getPrefTalentFlag(mContext).equals("N"))
+//        {
+//            ((Button)findViewById(R.id.btn_student_talentadd)).performClick();
+//        }
+//        else
+//        {
+//            ((Button)findViewById(R.id.btn_teacher_talentadd)).performClick();
+//        }
 
 
         final Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
 
-        ((Button)findViewById(R.id.btn_teahcer_talentadd)).setOnClickListener(new View.OnClickListener() {
+        ((Button)findViewById(R.id.btn_teacher_talentadd)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isTeacher = true;
@@ -129,6 +132,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
             }
         });
 
+
         ((ImageView)findViewById(R.id.img_back_toolbar)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,11 +147,12 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
             getAllTalent(talentFlag);
 
             if(talentFlag.equals("Y")){
-                ((Button)findViewById(R.id.btn_teahcer_talentadd)).callOnClick();
+                ((Button)findViewById(R.id.btn_teacher_talentadd)).performClick();
             }else{
-                ((Button)findViewById(R.id.btn_student_talentadd)).callOnClick();
+                ((Button)findViewById(R.id.btn_student_talentadd)).performClick();
             }
-        }else{
+        }
+        else{
             SaveSharedPreference.setPrefTalentFlag(mContext, "Y");
             getAllTalent("Y");
         }
@@ -232,9 +237,9 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
             ((TextView)findViewById(R.id.tv_toolbar)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
             ((ImageView)findViewById(R.id.img_search_talentadd)).setImageResource(R.drawable.icon_search_teacher);
             ((RelativeLayout)findViewById(R.id.rl_talentcate_talentadd)).setBackgroundResource(R.color.color_mentor);
-            ((Button)findViewById(R.id.btn_teahcer_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_clicekd);
+            ((Button)findViewById(R.id.btn_teacher_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_clicekd);
             ((Button)findViewById(R.id.btn_student_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_rightbtn_unclicekd);
-            ((Button)findViewById(R.id.btn_teahcer_talentadd)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+            ((Button)findViewById(R.id.btn_teacher_talentadd)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
             ((Button)findViewById(R.id.btn_student_talentadd)).setTextColor(WHITE);
 
         } else {
@@ -298,9 +303,9 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
             ((TextView)findViewById(R.id.tv_toolbar)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
             ((RelativeLayout)findViewById(R.id.rl_talentcate_talentadd)).setBackgroundResource(R.color.color_mentee);
             ((Button)findViewById(R.id.btn_student_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_rightbtn_clicekd);
-            ((Button)findViewById(R.id.btn_teahcer_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_unclicekd);
+            ((Button)findViewById(R.id.btn_teacher_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_unclicekd);
             ((Button)findViewById(R.id.btn_student_talentadd)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-            ((Button)findViewById(R.id.btn_teahcer_talentadd)).setTextColor(WHITE);
+            ((Button)findViewById(R.id.btn_teacher_talentadd)).setTextColor(WHITE);
 
         }
     }
