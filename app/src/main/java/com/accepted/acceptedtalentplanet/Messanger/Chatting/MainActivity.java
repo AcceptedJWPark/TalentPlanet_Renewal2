@@ -90,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
     private TimeZone time= TimeZone.getTimeZone("Asia/Seoul");
     Activity activity;
 
+    // 푸쉬알람 방지
+    private boolean lastPushGant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,14 +104,6 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
         receiverName = getIntent().getStringExtra("userName");
 
 
-
-        ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener()
-        {
-            @Override public void onClick(View v)
-            {
-                finish();
-            }
-        });
 
         ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText(getIntent().getStringExtra("userName"));
         ((ImageView)findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
@@ -208,6 +203,50 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
 
         getPicture();
 
+//        lastPushGant = SaveSharedPreference.getMessagePushGrant(mContext);
+//        if (lastPushGant) {
+//            SaveSharedPreference.setPrefPushGrant(mContext, true, false, false);
+//
+//            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View v) {
+//                    SaveSharedPreference.setPrefPushGrant(mContext, false, false, false);
+//                    finish();
+//                }
+//            });
+//        } else {
+//            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View v) {
+//                    finish();
+//                }
+//            });
+//        }
+        ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+//        if (lastPushGant) {
+//            SaveSharedPreference.setPrefPushGrant(mContext, true, false, false);
+//
+//            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View v) {
+//                    SaveSharedPreference.setPrefPushGrant(mContext, false, false, false);
+//                    finish();
+//                }
+//            });
+//        } else {
+//            ((ImageView)findViewById(R.id.img_back_toolbar_talentlist)).setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View v) {
+//                    finish();
+//                }
+//            });
+//        }
     }
 
 
@@ -246,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
             if(arrayList.size() == 0){
                 isTimeChanged = true;
                 isDateChanged = true;
-                ListItem item = new ListItem(R.drawable.picure_basic, content, creationDate, messageType, isPicture, isTimeChanged, isDateChanged);
+                ListItem item = new ListItem(R.drawable.pic_profile, content, creationDate, messageType, isPicture, isTimeChanged, isDateChanged);
                 item.setPointSend(isPoint);
                 item.setCompleted(isCompleted);
                 item.setTargetID(receiverID);
@@ -279,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements MyFirebaseMessagi
                     isTimeChanged = true;
                 }
 
-                ListItem item = new ListItem(R.drawable.picure_basic, content, creationDate, messageType, isPicture, isTimeChanged, isDateChanged);
+                ListItem item = new ListItem(R.drawable.pic_profile, content, creationDate, messageType, isPicture, isTimeChanged, isDateChanged);
                 item.setPointSend(isPoint);
                 item.setCompleted(isCompleted);
                 item.setTargetID(receiverID);

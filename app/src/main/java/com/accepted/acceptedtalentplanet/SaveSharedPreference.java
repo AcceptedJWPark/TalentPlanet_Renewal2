@@ -631,5 +631,4 @@ public class SaveSharedPreference{
         mContext.startActivity(i);
 //        ((Activity)mContext).finish();
     }
-
 }

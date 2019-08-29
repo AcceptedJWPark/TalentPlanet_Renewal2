@@ -82,7 +82,9 @@ public class ListAdapter_Friend extends BaseAdapter {
         // 유저의 프로필
         String userThumb = userData.get(position).getS_FILE_PATH();
         if (!userThumb.equals("NODATA")) {
-            Glide.with(context).load(SaveSharedPreference.getImageUri() + userThumb).into(holder.user_profile);
+            Glide.with(context).load(SaveSharedPreference.getImageUri() + userThumb)
+                    .thumbnail(1.0f)
+                    .into(holder.user_profile);
         }
 
         String isMentor = userData.get(position).getStrIsMentor();
@@ -113,7 +115,7 @@ public class ListAdapter_Friend extends BaseAdapter {
         final Double aUserGP_LNG = Double.parseDouble(userData.get(position).getGP_LNG());
         Location aUserLocation = new Location("Another point");
 
-        if (aUserGP_LAT != null || aUserGP_LNG != null) {
+        if ((aUserGP_LAT != null && aUserGP_LAT != 0.0) && ( aUserGP_LNG != null && aUserGP_LNG != 0.0)) {
             aUserLocation.setLatitude(aUserGP_LAT);
             aUserLocation.setLongitude(aUserGP_LNG);
             float distance = myLocation.distanceTo(aUserLocation);

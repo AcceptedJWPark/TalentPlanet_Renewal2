@@ -2,9 +2,14 @@ package com.accepted.acceptedtalentplanet.Home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -54,6 +59,7 @@ import com.accepted.acceptedtalentplanet.FriendList.MainActivity_Friend;
 import com.accepted.acceptedtalentplanet.MySQLiteOpenHelper;
 import com.accepted.acceptedtalentplanet.Profile.MainActivity_Profile;
 import com.accepted.acceptedtalentplanet.R;
+import com.accepted.acceptedtalentplanet.MyFirebaseMessagingService;
 import com.accepted.acceptedtalentplanet.SaveSharedPreference;
 import com.accepted.acceptedtalentplanet.Search.MainActivity_Search;
 import com.accepted.acceptedtalentplanet.SharingList.MainActivity_SharingList;
@@ -63,8 +69,10 @@ import com.accepted.acceptedtalentplanet.VolleySingleton;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyFirebaseMessagingService.MessageReceivedListener {
 
     Context mContext;
 
@@ -222,14 +230,7 @@ public class MainActivity extends AppCompatActivity {
 
         tv_user_dl.setText(userName);
         tv_email_dl.setText(userId);
-
-        int newPoint = SaveSharedPreference.getTalentPoint(mContext);
-        String nowPoint = tv_userpoint_dl.getText().toString();
-        if (newPoint == Integer.parseInt(nowPoint)) {
-            tv_userpoint_dl.setText(String.valueOf(newPoint));
-        } else {
-            tv_userpoint_dl.setText(String.valueOf(userPoint));
-        }
+        tv_userpoint_dl.setText(String.valueOf(userPoint));
 
         drawerlayoutEvent(mContext);
         isAlaram = SaveSharedPreference.getAnswerPushGrant(mContext);
@@ -308,6 +309,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onMessageRecieved(){
+        Message msg = handler.obtainMessage();
+        handler.sendMessage(msg);
+    }
+
+    Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+            haveNewMessage();
+        }
+    };
 
     // 이벤트
     private void addTalentEvent() {
@@ -472,10 +485,13 @@ public class MainActivity extends AppCompatActivity {
     private void drawerlayoutEvent(final Context context)
     {
         String myPicture = SaveSharedPreference.getMyPicturePath();
+        String userPoint = String.valueOf((int) SaveSharedPreference.getTalentPoint(mContext));
 
         if (myPicture != null && !myPicture.equals("NODATA")) {
             Glide.with(mContext).load(SaveSharedPreference.getServerIp()+myPicture).into(((ImageView)findViewById(R.id.cimg_pic_dl)));
         }
+
+        tv_userpoint_dl.setText(userPoint);
 
         ((LinearLayout)findViewById(R.id.ll_myprofile_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -527,20 +543,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((LinearLayout)findViewById(R.id.ll_userpoint_dl)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dl.closeDrawers();
-                Intent intent = new Intent(context, MainActivity_SharingList.class);
-                startActivity(intent);
-            }
-        });
+//        ((LinearLayout)findViewById(R.id.ll_userpoint_dl)).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dl.closeDrawers();
+//                Intent intent = new Intent(context, MainActivity_SharingList.class);
+//                startActivity(intent);
+//            }
+//        });
 
         ((LinearLayout)findViewById(R.id.ll_addtalent_dl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dl.closeDrawers();
                 Intent intent = new Intent(context, MainActivity_TalentAdd.class);
+                intent.putExtra("TalentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
                 startActivity(intent);
             }
         });
@@ -625,7 +642,7 @@ public class MainActivity extends AppCompatActivity {
         tv_talentCate[14].setTextColor(WHITE);
         iv_talentCate[14].setImageResource(R.drawable.icon_search_teacher);
 
-
+        getTalentCount();
     }
 
     public void selectStudent()
@@ -666,6 +683,8 @@ public class MainActivity extends AppCompatActivity {
         }
         tv_talentCate[14].setTextColor(BLACK);
         iv_talentCate[14].setImageResource(R.drawable.icon_search_student);
+
+        getTalentCount();
     }
 
     public void talentCateFindView()
@@ -712,6 +731,8 @@ public class MainActivity extends AppCompatActivity {
 
         drawerlayoutEvent(mContext);
         getCateList();
+        haveNewMessage();
+        MyFirebaseMessagingService.setOnMessageReceivedListener(this);
     }
 
     @Override
@@ -744,16 +765,21 @@ public class MainActivity extends AppCompatActivity {
                         int talentCnt = 0;
                         talentCnt = obj.getInt("TalentCount");
                         Log.d("TalentRegistCount", talentFlag + " : " + talentCnt);
-                        // Y인 경우 Teacher
                         if(talentFlag.equals("Y")){
                             // Teacher 등록한게 없는 경우
                             if (talentCnt == 0){
-
+                                Toast.makeText(mContext, "Teacher 재능을 등록해주세요.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(mContext, MainActivity_TalentAdd.class);
+                                intent.putExtra("TalentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
+                                startActivity(intent);
                             }
                         }else{
                             // Student 등록한게 없는 경우
                             if (talentCnt == 0){
-
+                                Toast.makeText(mContext, "Student 재능을 등록해주세요.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(mContext, MainActivity_TalentAdd.class);
+                                intent.putExtra("TalentFlag", SaveSharedPreference.getPrefTalentFlag(mContext));
+                                startActivity(intent);
                             }
                         }
                     }
@@ -810,5 +836,29 @@ public class MainActivity extends AppCompatActivity {
         postRequestQueue.add(postJsonRequest);
     }
 
+    public void haveNewMessage() {
+
+        int newMessageCount = 0;
+        String dbName = "/accepted.db";
+        sqliteDatabase = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + dbName, null);
+        String selectBasicChat = "SELECT COUNT(ROOM_ID) AS UNREADED_COUNT FROM TB_CHAT_LOG WHERE READED_FLAG = 'N' AND MASTER_ID ='"+ SaveSharedPreference.getUserId(mContext) +"'";
+        Cursor cursor = sqliteDatabase.rawQuery(selectBasicChat, null);
+
+        while(cursor.moveToNext()==true){
+            int aData = cursor.getInt(0);
+            if (aData > 0) {
+                newMessageCount++;
+            }
+        }
+        cursor.close();
+
+        if (newMessageCount > 0) {
+            ((ImageView) findViewById(R.id.img_alarm1)).setVisibility(View.VISIBLE);
+            ((ImageView) findViewById(R.id.img_alarm2)).setVisibility(View.VISIBLE);
+        } else {
+            ((ImageView) findViewById(R.id.img_alarm1)).setVisibility(View.GONE);
+            ((ImageView) findViewById(R.id.img_alarm2)).setVisibility(View.GONE);
+        }
+    }
 
 }

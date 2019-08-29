@@ -73,21 +73,25 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
 
         mContext = getApplicationContext();
 
-        isTeacher = true;
-
         findViewbyId();
 
         ((ImageView)findViewById(R.id.img_open_dl)).setVisibility(View.GONE);
         ((ImageView)findViewById(R.id.img_back_toolbar)).setVisibility(View.VISIBLE);
-//        ((ImageView)findViewById(R.id.img_search_talentadd)).setVisibility(View.VISIBLE);
-
         ((TextView)findViewById(R.id.tv_toolbar)).setText("재능 등록");
         ((TextView)findViewById(R.id.tv_toolbar)).setVisibility(View.VISIBLE);
         ((Spinner)findViewById(R.id.sp_toolbar)).setVisibility(View.GONE);
-
         ((ImageView)findViewById(R.id.img_rightbtn)).setVisibility(View.GONE);
-        ((ImageView)findViewById(R.id.img_alarm)).setVisibility(View.GONE);
 
+
+        if(SaveSharedPreference.getPrefTalentFlag(mContext).equals("Y"))
+        {
+            isTeacher = true;
+            ((Button)findViewById(R.id.btn_student_talentadd)).performClick();
+        }else
+        {
+            isTeacher = false;
+            ((Button)findViewById(R.id.btn_teacher_talentadd)).performClick();
+        }
 
 
         final Window window = getWindow();
@@ -139,7 +143,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
             getAllTalent(talentFlag);
 
             if(talentFlag.equals("Y")){
-                ((Button)findViewById(R.id.btn_teahcer_talentadd)).callOnClick();
+                ((Button)findViewById(R.id.btn_teacher_talentadd)).callOnClick();
             }else{
                 ((Button)findViewById(R.id.btn_student_talentadd)).callOnClick();
             }
@@ -228,9 +232,9 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
             ((TextView)findViewById(R.id.tv_toolbar)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
             ((ImageView)findViewById(R.id.img_search_talentadd)).setImageResource(R.drawable.icon_search_teacher);
             ((RelativeLayout)findViewById(R.id.rl_talentcate_talentadd)).setBackgroundResource(R.color.color_mentor);
-            ((Button)findViewById(R.id.btn_teahcer_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_clicekd);
+            ((Button)findViewById(R.id.btn_teacher_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_clicekd);
             ((Button)findViewById(R.id.btn_student_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_rightbtn_unclicekd);
-            ((Button)findViewById(R.id.btn_teahcer_talentadd)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
+            ((Button)findViewById(R.id.btn_teacher_talentadd)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
             ((Button)findViewById(R.id.btn_student_talentadd)).setTextColor(WHITE);
 
         } else {
@@ -294,9 +298,9 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
             ((TextView)findViewById(R.id.tv_toolbar)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
             ((RelativeLayout)findViewById(R.id.rl_talentcate_talentadd)).setBackgroundResource(R.color.color_mentee);
             ((Button)findViewById(R.id.btn_student_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_rightbtn_clicekd);
-            ((Button)findViewById(R.id.btn_teahcer_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_unclicekd);
+            ((Button)findViewById(R.id.btn_teacher_talentadd)).setBackgroundResource(R.drawable.bgr_addtalent_leftbtn_unclicekd);
             ((Button)findViewById(R.id.btn_student_talentadd)).setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentee));
-            ((Button)findViewById(R.id.btn_teahcer_talentadd)).setTextColor(WHITE);
+            ((Button)findViewById(R.id.btn_teacher_talentadd)).setTextColor(WHITE);
 
         }
     }

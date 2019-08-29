@@ -220,7 +220,7 @@ public class MainActivity_TalentList extends AppCompatActivity {
                         aUser.setHashtag(obj.has("HASHTAG") ? obj.getString("HASHTAG") : "");
                         aUser.setUserAge(Integer.parseInt(sdf.format(new Date())) - Integer.parseInt(obj.getString("USER_BIRTH").split("-")[0]) + 1 + "");
                         aUser.setUserID(obj.getString("UserID"));
-                        aUser.setDescription(obj.getString("PROFILE_DESCRIPTION"));
+                        aUser.setDescription(obj.has("PROFILE_DESCRIPTION") ? obj.getString("PROFILE_DESCRIPTION") : "");
                         aUser.setUserBirth(obj.getString("USER_BIRTH"));
                         aUser.setBirthFlag(obj.getString("BIRTH_FLAG"));
                         aUser.setPicturePath(obj.getString("FILE_PATH"));

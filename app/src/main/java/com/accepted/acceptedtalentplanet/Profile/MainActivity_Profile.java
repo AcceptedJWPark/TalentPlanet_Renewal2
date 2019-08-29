@@ -346,9 +346,10 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
 
             iv_cimg_pic_profile = findViewById(R.id.cimg_pic_profile);
 
-            String imgResource = SaveSharedPreference.getMyThumbPicturePath();
+            String imgResource = SaveSharedPreference.getMyPicturePath();
             if (imgResource != null && !imgResource.equals("NODATA")) {
-                Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyThumbPicturePath()).into(iv_cimg_pic_profile);
+                Glide.with(mContext).load(SaveSharedPreference.getImageUri() + SaveSharedPreference.getMyPicturePath())
+                        .into(iv_cimg_pic_profile);
             }
 
             // 프로필 사진 관련
@@ -645,15 +646,15 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         String userName = (String) profileData.get("USER_NAME");
                         String gender = (String) profileData.get("GENDER");
                         String birthFlag = (String) profileData.get("BIRTH_FLAG");
-                        String imgResource = (String ) profileData.get("S_FILE_PATH");
+                        String imgResource = (String ) profileData.get("FILE_PATH");
                         String userInfo = (String) profileData.get("USER_BIRTH");
-                        String userDescription = (String) profileData.get("PROFILE_DESCRIPTION");
+                        String userDescription = profileData.has("PROFILE_DESCRIPTION") ? (String) profileData.get("PROFILE_DESCRIPTION") : "";
 
                         intent.putExtra("userName", userName);
                         intent.putExtra("userGender", gender);
                         intent.putExtra("BIRTH_FLAG", birthFlag);
                         intent.putExtra("userInfo", userInfo);
-                        intent.putExtra("S_FILE_PATH", imgResource);
+                        intent.putExtra("S_FILE_PATH", (String)profileData.get("S_FILE_PATH"));
                         intent.putExtra("userDescription", userDescription);
 
                         ((TextView)findViewById(R.id.tv_name_profile)).setText(userName);
@@ -689,6 +690,18 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                                 e.printStackTrace();
                                 Log.e("입출력오류", "입출력 오류 - 서버에서 주소변환시 에러발생");
                             }
+
+                            // 타인이 자신의 주소를 볼경우
+                            ((TextView)findViewById(R.id.tv_addr_profile)).setOnClickListener(new View.OnClickListener(){
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(mContext, MapsActivity.class);
+                                    intent.putExtra("GP_LAT", Lat);
+                                    intent.putExtra("GP_LNG", Lng);
+                                    intent.putExtra("isUser", true);
+                                    startActivityForResult(intent, 2030);
+                                }
+                            });
                         } else {
                             ((TextView)findViewById(R.id.tv_addr_profile)).setText("위치 정보 없음");
                         }
@@ -765,16 +778,16 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                         }
 
                         // 타인이 자신의 주소를 볼경우
-                        ((TextView)findViewById(R.id.tv_addr_profile)).setOnClickListener(new View.OnClickListener(){
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(mContext, MapsActivity.class);
-                                intent.putExtra("GP_LAT", Lat);
-                                intent.putExtra("GP_LNG", Lng);
-                                intent.putExtra("isUser", true);
-                                startActivityForResult(intent, 2030);
-                            }
-                        });
+//                        ((TextView)findViewById(R.id.tv_addr_profile)).setOnClickListener(new View.OnClickListener(){
+//                            @Override
+//                            public void onClick(View v) {
+//                                Intent intent = new Intent(mContext, MapsActivity.class);
+//                                intent.putExtra("GP_LAT", Lat);
+//                                intent.putExtra("GP_LNG", Lng);
+//                                intent.putExtra("isUser", true);
+//                                startActivityForResult(intent, 2030);
+//                            }
+//                        });
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1439,7 +1452,7 @@ public class MainActivity_Profile extends AppCompatActivity implements OnMapRead
                             ((TextView)findViewById(R.id.tv_addr_profile)).setText("해당되는 주소 정보는 없습니다");
                         } else {
                             String[] addr = list.get(0).getAddressLine(0).split(" ");
-
+                            ((TextView)findViewById(R.id.tv_addr_profile)).setBackgroundResource(0);
                             ((TextView)findViewById(R.id.tv_addr_profile)).setText(addr[1]+" "+addr[2]+" "+addr[3]);
                         }
                     } catch (IOException e) {

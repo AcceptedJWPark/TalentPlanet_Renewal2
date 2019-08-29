@@ -167,7 +167,7 @@ public class Adapter extends BaseAdapter {
                                         i.putExtra("userName", messanger_Chatting_Arraylist.get(position).getTargetName());
                                         i.putExtra("BIRTH_FLAG", obj.getString("BIRTH_FLAG"));
                                         i.putExtra("MessageID", messanger_Chatting_Arraylist.get(position).getMessageID());
-                                        i.putExtra("userDescription", obj.getString("PROFILE_DESCRIPTION"));
+                                        i.putExtra("userDescription", obj.has("PROFILE_DESCRIPTION") ? obj.getString("PROFILE_DESCRIPTION") : "");
                                         SaveSharedPreference.showCustomDialog(mContext, SaveSharedPreference.getUserId(mContext), messanger_Chatting_Arraylist.get(position).getTargetID(), "N", i);
 
                                     } catch(JSONException e){

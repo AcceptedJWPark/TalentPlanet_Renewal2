@@ -231,11 +231,10 @@ public class Adapter extends BaseAdapter {
             holder.Messanger_List_DeleteList.setVisibility(View.GONE);
         }
 
-        if(messanger_Arraylist.get(position).getFilePath().equals("NODATA")) {
-//            holder.messsanger_Pic.setBackgroundResource(messanger_Arraylist.get(position).getMesssanger_Pic());
-        }
-        else
-        {
+        Log.d("FilePath", messanger_Arraylist.get(position).getFilePath());
+        if(messanger_Arraylist.get(position).getFilePath().equals("null") || messanger_Arraylist.get(position).getFilePath().equals("NODATA")) {
+            holder.messsanger_Pic.setBackgroundResource(messanger_Arraylist.get(position).getMesssanger_Pic());
+        } else {
             Glide.with(mContext).load(SaveSharedPreference.getImageUri() + messanger_Arraylist.get(position).getFilePath()).into(holder.messsanger_Pic);
         }
         holder.messanger_Name.setText(messanger_Arraylist.get(position).getMessanger_Name());

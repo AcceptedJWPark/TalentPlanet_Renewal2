@@ -205,14 +205,24 @@
                     android:orientation="horizontal"
                     android:gravity="center|left"
                     >
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/icon_dl_message"
-                        />
-
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/icon_dl_message"
+                            />
+                        <ImageView
+                            android:id="@+id/img_alarm2"
+                            android:src="@drawable/icon_newalarm"
+                            android:visibility="gone"
+                            android:layout_width="13dp"
+                            android:layout_height="12dp"
+                            android:layout_alignParentTop="true"
+                            />
+                    </RelativeLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

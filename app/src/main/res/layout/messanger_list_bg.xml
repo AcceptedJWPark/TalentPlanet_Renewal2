@@ -26,13 +26,12 @@
             android:id="@+id/iv_pictureContainer_List_Messanger"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="false"
             android:scaleType="centerCrop"
             android:src="@drawable/pic_profile"
             app:civ_border_color="#fff"
-            app:civ_border_width="2dp"
-            android:layout_centerHorizontal="true"
-            android:adjustViewBounds="false"
-            />
+            app:civ_border_width="2dp" />
 
 
     </LinearLayout>

@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         ((Spinner)findViewById(R.id.sp_toolbar)).setVisibility(View.GONE);
 
         ((ImageView)findViewById(R.id.img_rightbtn)).setVisibility(View.GONE);
-        ((ImageView)findViewById(R.id.img_alarm)).setVisibility(View.GONE);
 
         civ_user_claim = findViewById(R.id.civ_user_claim);
 
@@ -151,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        claimChecked = "금품 요구";
+        claimChecked = "";
 
         iv_claimSelect[0] = findViewById(R.id.iv1_claim);
         iv_claimSelect[1] = findViewById(R.id.iv2_claim);
@@ -188,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                         claimChecked="허위 광고";
                     }else
                     {
-                        claimChecked="";
+                        claimChecked="기타";
                     }
 
                     for(int j = 0; j< ll_claimSelect.length; j++)
@@ -237,8 +236,14 @@ public class MainActivity extends AppCompatActivity {
                                              public void onClick(View v) {
 
                                                  AlertDialog.Builder AlarmDeleteDialog = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog));
-                                                 if (et_Claim.getText().length() == 0) {
+                                                 if (claimChecked.equals("")) {
+                                                     Toast.makeText(mContext, "신고 유형을 선택해주세요.", Toast.LENGTH_SHORT).show();
+                                                     return;
+                                                 } else if (et_Claim.getText().length() == 0) {
                                                      Toast.makeText(mContext, "신고 내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                                                     return;
+                                                 } else if (!isConfirm) {
+                                                     Toast.makeText(mContext, "동의하시면 체크해주세요.", Toast.LENGTH_SHORT).show();
                                                      return;
                                                  } else if (isSelect) {
                                                      AlarmDeleteDialog.setMessage("신고하시겠습니까?")
@@ -263,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                                                      alertDialog.getButton((DialogInterface.BUTTON_POSITIVE)).setTextColor(getResources().getColor(R.color.loginPasswordLost));
                                                  } else
                                                      {
-                                                     Toast.makeText(MainActivity.this,"공유 내역을 선택해주세요.",Toast.LENGTH_SHORT).show();
+                                                     Toast.makeText(MainActivity.this,"대상을 선택해주세요.",Toast.LENGTH_SHORT).show();
                                                      return;
                                                  }
                                              }
