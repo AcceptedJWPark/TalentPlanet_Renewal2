@@ -523,15 +523,15 @@
                         />
 
                     <TextView
+                        android:id="@+id/tv_show_service"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center|right"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
-                        android:textColor="#fff"
-                        android:textSize="13dp"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
                         android:text="전체보기"
-                        />
+                        android:textColor="#fff"
+                        android:textSize="13dp" />
 
                 </LinearLayout>
                 <LinearLayout
@@ -553,15 +553,15 @@
                         />
 
                     <TextView
+                        android:id="@+id/tv_show_private"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
                         android:gravity="center|right"
                         android:text="전체보기"
                         android:textColor="#fff"
-                        android:textSize="13dp"
-                        />
+                        android:textSize="13dp" />
 
                 </LinearLayout>
 

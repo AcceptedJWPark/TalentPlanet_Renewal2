@@ -1,16 +1,20 @@
 package com.accepted.acceptedtalentplanet.JoinLogin;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -68,6 +72,8 @@ public class MainActivity_Join extends AppCompatActivity {
     CheckBox cb_hide_birth, cb_hide_gender;
     CheckBox cb_agree_service, cb_agree_privacy;
     Button btn_submit_join, btn_emailcheck_join, btn_sendsms_join, btn_chkcertnum_join;
+
+    TextView tv_show_private, tv_show_service;
     
     // 메일 중복 체크 여부
     boolean isconfirmEmailCheck = false;
@@ -111,6 +117,9 @@ public class MainActivity_Join extends AppCompatActivity {
         btn_emailcheck_join = findViewById(R.id.btn_emailcheck_join);
         btn_sendsms_join = findViewById(R.id.btn_sendsms_join);
         btn_chkcertnum_join = findViewById(R.id.btn_chkcertnum_join);
+
+        tv_show_private = findViewById(R.id.tv_show_private);
+        tv_show_service = findViewById(R.id.tv_show_service);
         
         img_malecheck = findViewById(R.id.img_malecheck_join);
         img_femalecheck = findViewById(R.id.img_femalecheck_join);
@@ -128,7 +137,60 @@ public class MainActivity_Join extends AppCompatActivity {
         ((TextView)findViewById(R.id.tv_toolbar_talentlist)).setText("Join-Us");
         ((ImageView)findViewById(R.id.iv_toolbar_search_talentlist)).setVisibility(View.GONE);
 
+        tv_show_private.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder AlarmDeleteDialog = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity_Join.this, R.style.myDialog));
+                AlarmDeleteDialog.setMessage("개인정보 처리방침 Website로 이동합니다.")
+                        .setPositiveButton("이동하기", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Uri uri = Uri.parse("http://13.209.191.97/Accepted/Privacy");
+                                Intent it  = new Intent(Intent.ACTION_VIEW,uri);
+                                startActivity(it);
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("닫기", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = AlarmDeleteDialog.create();
+                alertDialog.show();
+                alertDialog.getButton((DialogInterface.BUTTON_NEGATIVE)).setTextColor(getResources().getColor(R.color.loginPasswordLost));
+                alertDialog.getButton((DialogInterface.BUTTON_POSITIVE)).setTextColor(getResources().getColor(R.color.loginPasswordLost));
 
+            }
+        });
+
+        tv_show_service.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder AlarmDeleteDialog2 = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity_Join.this, R.style.myDialog));
+                AlarmDeleteDialog2.setMessage("정보 이용동의 Website로 이동합니다.")
+                        .setPositiveButton("이동하기", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Uri uri = Uri.parse("http://13.209.191.97/Accepted/Service");
+                                Intent it  = new Intent(Intent.ACTION_VIEW,uri);
+                                startActivity(it);
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton("닫기", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog2 = AlarmDeleteDialog2.create();
+                alertDialog2.show();
+                alertDialog2.getButton((DialogInterface.BUTTON_NEGATIVE)).setTextColor(getResources().getColor(R.color.loginPasswordLost));
+                alertDialog2.getButton((DialogInterface.BUTTON_POSITIVE)).setTextColor(getResources().getColor(R.color.loginPasswordLost));
+            }
+        });
 
 
         ll_malecheck.setOnClickListener(new View.OnClickListener() {

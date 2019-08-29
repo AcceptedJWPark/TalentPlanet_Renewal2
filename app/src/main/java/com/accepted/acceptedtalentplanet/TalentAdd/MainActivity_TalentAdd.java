@@ -99,7 +99,7 @@ public class MainActivity_TalentAdd extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.color_mentor));
         }
-        ((Button)findViewById(R.id.btn_teahcer_talentadd)).setOnClickListener(new View.OnClickListener() {
+        ((Button)findViewById(R.id.btn_teacher_talentadd)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isTeacher = true;
