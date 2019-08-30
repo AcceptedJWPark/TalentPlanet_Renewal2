@@ -66,7 +66,6 @@ public class customDialog_Description extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);   //다이얼로그의 타이틀바를 없애주는 옵션입니다.
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));  //다이얼로그의 배경을 투명으로 만듭니다.
         setContentView(R.layout.profile_edittalent_popup);     //다이얼로그에서 사용할 레이아웃입니다.
-
     }
 
     public void makeLayout() {
@@ -81,6 +80,7 @@ public class customDialog_Description extends Dialog {
         et_edit_talent = findViewById(R.id.et_edit_talent);
         tv_edittalent_title_popup = findViewById(R.id.tv_edittalent_title_popup);
 
+        et_edit_talent.setHint("");
         if (userDescription != null && userDescription.length() != 0 && !userDescription.equals("터치해서 자기소개를 입력해보세요.")) {
             et_edit_talent.setText(userDescription);
         }
