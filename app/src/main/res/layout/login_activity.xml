@@ -37,13 +37,10 @@
                 android:adjustViewBounds="true"
                 />
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Talent Planet"
-                android:textSize="20dp"
-                android:fontFamily="@font/aspeed"
-                android:textColor="#fff"
+                android:layout_height="20dp"
+                android:src="@drawable/img_login_logo"
                 android:layout_marginBottom="40dp"
                 />
 

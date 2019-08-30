@@ -84,8 +84,7 @@ public class customDialog_Profile extends Dialog {
 
         if (flag.equals("N")) {
             rl_editorhead_popup.setBackgroundColor( mContext.getResources().getColor(R.color.color_mentee));
-            et_edit_talent.setHint("이곳에 텍스트를 입력해주세요.\n" +
-                    "Ex) 안녕하세요 #Hashtag1 을 배우고 싶은 사람입니다. #Hashtag2  과 #Hashtag3 알려줄 수 있는 분 연락 부탁드립니다. 감사합니다.\n");
+            et_edit_talent.setHint("Ex) 안녕하세요 #Hashtag1 을 배우고 싶은 사람입니다. #Hashtag2  과 #Hashtag3 알려줄 수 있는 분 연락 부탁드립니다. 감사합니다.");
         }
 
         if (userDescription != null && userDescription.length() != 0) {
